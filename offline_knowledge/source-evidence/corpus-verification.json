@@ -1,0 +1,69 @@
+[
+  {
+    "id": "banks",
+    "pages": 144,
+    "paragraphs": 3075,
+    "characters": 650205,
+    "version": "2026-08-25"
+  },
+  {
+    "id": "labor",
+    "pages": 125,
+    "paragraphs": 3361,
+    "characters": 471077,
+    "version": "2026-09-06"
+  },
+  {
+    "id": "payments",
+    "pages": 76,
+    "paragraphs": 1780,
+    "characters": 311991,
+    "version": "2026-08-25"
+  },
+  {
+    "id": "nationalbank-law",
+    "pages": 49,
+    "paragraphs": 1531,
+    "characters": 148617,
+    "version": "2026-08-13"
+  },
+  {
+    "id": "legal-aid",
+    "pages": 50,
+    "paragraphs": 1350,
+    "characters": 187137,
+    "version": "2026-09-08"
+  },
+  {
+    "id": "constitution",
+    "pages": 24,
+    "paragraphs": 596,
+    "characters": 84197,
+    "version": "2026-03-15"
+  },
+  {
+    "id": "banks-transition",
+    "pages": 7,
+    "paragraphs": 147,
+    "characters": 20847,
+    "version": "2026-03-19"
+  },
+  {
+    "id": "nb-faq",
+    "pages": 11,
+    "paragraphs": 237,
+    "characters": 45399,
+    "version": "Снимок страницы от 2026-10-05; дата редакции не указана"
+  },
+  {
+    "id": "arrears",
+    "pages": 2,
+    "paragraphs": 10,
+    "characters": 974,
+    "version": "Обновлено 2026-05-28"
+  },
+  {
+    "id": "nb-fraud",
+    "pages": 1
+  }
+]

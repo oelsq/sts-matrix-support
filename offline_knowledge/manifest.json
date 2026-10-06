@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-05",
+  "documents": [
+    {
+      "id": "consumer-law",
+      "domain": "legal",
+      "title": "Закон РК «О защите прав потребителей»",
+      "file": "documents/consumer-law.pdf",
+      "source": "https://adilet.zan.kz/rus/docs/Z100000274_",
+      "reviewed_on": "2026-10-01",
+      "version_date": "2026-08-20",
+      "artifact_kind": "official_text_snapshot",
+      "source_api": "https://adilet.zan.kz/api/documents/423fcea0-5c00-491b-8ae7-c38f8eded8e7",
+      "bank": "",
+      "sha256": "dc845f81b4376a986ce2ed660d58f760fcb8bba86b61633cb90fb197593f7096"
+    },
+    {
+      "id": "personal-law",
+      "domain": "legal",
+      "title": "Закон РК «О персональных данных и их защите»",
+      "file": "documents/personal-law.pdf",
+      "source": "https://adilet.zan.kz/rus/docs/Z1300000094",
+      "reviewed_on": "2026-10-01",
+      "version_date": "2026-09-14",
+      "artifact_kind": "official_text_snapshot",
+      "source_api": "https://adilet.zan.kz/api/documents/1bf9dc8a-9c7f-4da9-a0ff-9b47f847801e",
+      "bank": "",
+      "sha256": "ef157923d0315a950bdaf71aeecd581003c2958d607b16ecdc3e43408077cab6"
+    },
+    {
+      "id": "halyk-superapp",
+      "domain": "finance",
+      "title": "Halyk: тарифы SuperApp",
+      "file": "documents/halyk-superapp.pdf",
+      "source": "https://halykbank.kz/storage/app/media/Tarify/2026/9/RUS_Тарифы_Halyk_SuperApp.pdf",
+      "reviewed_on": "2026-10-01",
+      "version": "Изменения, действующие с 15.09.2026",
+      "artifact_kind": "official_pdf",
+      "catalog_url": "https://halykbank.kz/tariffs",
+      "bank": "halyk",
+      "sha256": "a694476c1a3d6b8e6810b13d97553d103a7fdcbf43cf5e000f73595e6f0a1aba"
+    },
+    {
+      "id": "halyk-debit",
+      "domain": "finance",
+      "title": "Halyk: дебетовые карты - прочие тарифы",
+      "file": "documents/halyk-debit.pdf",
+      "source": "https://halykbank.kz/storage/app/media/Tarify/2026/8/RUS_Приложение_2_Тарифы_ФЛ_ 17.08.2026.pdf",
+      "reviewed_on": "2026-10-01",
+      "version": "Файл 17.08.2026 в текущем каталоге",
+      "artifact_kind": "official_pdf",
+      "catalog_url": "https://halykbank.kz/tariffs",
+      "bank": "halyk",
+      "sha256": "ae3121ede1351590e61db1c4b127defefd4a812f2730b7c717152fdf6f685383"
+    },
+    {
+      "id": "halyk-annual",
+      "domain": "finance",
+      "title": "Halyk: годовое обслуживание дебетовых карт",
+      "file": "documents/halyk-annual.pdf",
+      "source": "https://halykbank.kz/storage/app/media/Tarify/2026/8/RUS_Pril_2_TarifyFL_01.08.2026_ru.pdf",
+      "reviewed_on": "2026-10-01",
+      "version": "Изменения, действующие с 01.08.2026",
+      "artifact_kind": "official_pdf",
+      "catalog_url": "https://halykbank.kz/tariffs",
+      "bank": "halyk",
+      "sha256": "967d64fc893b8d42475349ac5a0917ba0d0940640b25c9a3d1859bdf1d375506"
+    },
+    {
+      "id": "freedom-retail",
+      "domain": "finance",
+      "title": "Freedom Bank: тарифы для физических лиц и платёжных карт",
+      "file": "documents/freedom-retail.pdf",
+      "source": "https://bankffin.kz/storage/docs/oLlzNnWSUlHXkSABXtiCeKxjuhsTihHfzB1Jy3TD.pdf",
+      "reviewed_on": "2026-10-01",
+      "version": "Изменения от 17.09.2026, протокол №218",
+      "artifact_kind": "official_pdf",
+      "catalog_url": "https://bankffin.kz/ru/documents",
+      "bank": "freedom",
+      "sha256": "31e3e77928c77bd89ba6da13baf8805e403381ae31dd6d546337ac82fec4169e"
+    },
+    {
+      "id": "banks",
+      "domain": "finance",
+      "also_domains": [
+        "legal"
+      ],
+      "title": "О банках и банковской деятельности в Республике Казахстан",
+      "file": "documents/banks.pdf",
+      "source": "https://adilet.zan.kz/rus/docs/Z2600000258",
+      "reviewed_on": "2026-10-05",
+      "version": "2026-08-25",
+      "artifact_kind": "official_text_snapshot",
+      "bank": "",
+      "sha256": "76ce2042c829f4d9bd609a00cc521d3723d2ff56061c5aa3e5e2d8baadedc5d7",
+      "applicability_note": "Срез на 05.10.2026. Статья 135: ст.65, пп.15 ст.1, пп.7 и 8 ст.61, п.5 ст.64, п.19 ст.69, п.5 ст.75 вступают в силу 01.01.2027; часть 2 подп.4 п.11 ст.61 - 01.05.2027. Финансовый омбудсман по ст.65 ещё не действует; до 2027 учитывайте банковского омбудсмана и переходные ст.132,135. Условия отдельных частей ст.78,83,84 временно изменены ст.135. Не применяйте будущие редакции и приостановленные формулировки без переходной нормы. На 05.10.2026 коллективное урегулирование ведёт БАНКОВСКИЙ омбудсман с 01.07.2026 (подп.4 п.5 ст.135). Формулировка ст.61 п.9 о финансовом омбудсмане временно не используется в поиске; её нужно читать с переходной нормой ст.135.",
+      "excluded_sections": [
+        "1",
+        "65"
+      ],
+      "excluded_clauses": {
+        "61": [
+          "7",
+          "8",
+          "9"
+        ],
+        "64": [
+          "5"
+        ],
+        "69": [
+          "19"
+        ],
+        "75": [
+          "5"
+        ]
+      },
+      "source_html_sha256": "cc19b559c1e76742daa7f294486e4cc26f4b4e116f156ca16815dc8f9181363b"
+    },
+    {
+      "id": "labor",
+      "domain": "legal",
+      "also_domains": [],
+      "title": "Трудовой кодекс Республики Казахстан",
+      "file": "documents/labor.pdf",
+      "source": "https://adilet.zan.kz/rus/docs/K1500000414",
+      "reviewed_on": "2026-10-05",
+      "version": "2026-09-06",
+      "artifact_kind": "official_text_snapshot",
+      "bank": "",
+      "sha256": "78cbe5d852798afc5470c3f65d2161c1698ca0d67f9e74386bc64b79a9485c83",
+      "applicability_note": "Срез на 05.10.2026. Сноски о будущих изменениях с 01.01.2027 не являются действующими нормами. Ст.127-3, ст.139-1 и абз.2 п.2 ст.146-4 вводятся с 01.01.2027; прочие будущие подпункты проверяйте по сноскам. Не применяйте будущую редакцию.",
+      "excluded_sections": [
+        "127-3",
+        "139-1"
+      ],
+      "source_html_sha256": "9d5b4fe461db9cb7ee87208291cbe10a3374842ce72d62564bb581f41dafadf3"
+    },
+    {
+      "id": "payments",
+      "domain": "finance",
+      "also_domains": [
+        "legal"
+      ],
+      "title": "О платежах и платежных системах",
+      "file": "documents/payments.pdf",
+      "source": "https://adilet.zan.kz/rus/docs/Z1600000011",
+      "reviewed_on": "2026-10-05",
+      "version": "2026-08-25",
+      "artifact_kind": "official_text_snapshot",
+      "bank": "",
+      "sha256": "26520dde5d62e275898949f637cc72f9fe63bccd2a195d9f5b03ca357b762e93",
+      "applicability_note": "Срез официального текста на 05.10.2026; учитывайте сноски, даты вступления изменений в силу и исключения.",
+      "source_html_sha256": "437b8ee85ce8b9a4df2587c2e0d24e8dfb4b7e48f643049d145c1aae37eab98c"
+    },
+    {
+      "id": "nationalbank-law",
+      "domain": "finance",
+      "also_domains": [
+        "legal"
+      ],
+      "title": "О Национальном Банке Республики Казахстан",
+      "file": "documents/nationalbank-law.pdf",
+      "source": "https://adilet.zan.kz/rus/docs/Z950002155_",
+      "reviewed_on": "2026-10-05",
+      "version": "2026-08-13",
+      "artifact_kind": "official_text_snapshot",
+      "bank": "",
+      "sha256": "a00b7d8fab8a57c221994245363590844a5c2b784ac26684feab44819cb07a9e",
+      "applicability_note": "Срез официального текста на 05.10.2026; учитывайте сноски, даты вступления изменений в силу и исключения.",
+      "source_html_sha256": "b86e53d0ccc379791efd12f521501ef272514b5a53efcb00dbb4b49cba65ca3b"
+    },
+    {
+      "id": "legal-aid",
+      "domain": "legal",
+      "also_domains": [],
+      "title": "Об адвокатской деятельности и квалифицированной юридической помощи",
+      "file": "documents/legal-aid.pdf",
+      "source": "https://adilet.zan.kz/rus/docs/Z1800000176",
+      "reviewed_on": "2026-10-05",
+      "version": "2026-09-08",
+      "artifact_kind": "official_text_snapshot",
+      "bank": "",
+      "sha256": "017122cdb8dce129a3b958d0326e61a80d5551267efe756f200e820a83c49c4d",
+      "applicability_note": "Срез официального текста на 05.10.2026; учитывайте сноски, даты вступления изменений в силу и исключения.",
+      "source_html_sha256": "e34014e7a727742f99158d4ce2eda33b47d116ea3c15fa7af7b511a3768faf12"
+    },
+    {
+      "id": "constitution",
+      "domain": "legal",
+      "also_domains": [],
+      "title": "Конституция Республики Казахстан",
+      "file": "documents/constitution.pdf",
+      "source": "https://adilet.zan.kz/rus/docs/K2600000000",
+      "reviewed_on": "2026-10-05",
+      "version": "2026-03-15",
+      "artifact_kind": "official_text_snapshot",
+      "bank": "",
+      "sha256": "1362c21b87cd830d94b21f644e2920013701abe3e839e2a46ff9c1d16b774003",
+      "applicability_note": "Конституция принята 15.03.2026, вступила в силу 01.07.2026 по ст.94. Конституция 1995 года прекратила действие; не смешивайте нумерацию старого и нового текста.",
+      "source_html_sha256": "3d8ab587071e03c010182067c729f7e7389e9e3842eed5a587fe71c028bc4683"
+    },
+    {
+      "id": "banks-transition",
+      "domain": "finance",
+      "also_domains": [
+        "legal"
+      ],
+      "title": "О банках и банковской деятельности в Республике Казахстан - сохранённые переходные положения",
+      "file": "documents/banks-transition.pdf",
+      "source": "https://adilet.zan.kz/rus/docs/Z950002444_",
+      "reviewed_on": "2026-10-05",
+      "version": "2026-03-19",
+      "artifact_kind": "official_text_selection",
+      "bank": "",
+      "sha256": "e5083474612aba13fcbf7d0385f2bcc94f1f101e656f4ef7aa77fe4ce16a140c",
+      "applicability_note": "Только ст.40-1,40-2,40-3,40-4 и п.7-2 ст.50 закона 1995 года: они временно сохраняют действие до 01.01.2027 по п.6 ст.135 закона 16.01.2026 №258-VIII. Прочие нормы старого закона сюда не включены. Срез на 05.10.2026.",
+      "source_html_sha256": "855348a4051460946d4d6e095696557d2da534ec1c2b58e98ca18a019d0ab2d0"
+    },
+    {
+      "id": "nb-faq",
+      "domain": "finance",
+      "also_domains": [
+        "legal"
+      ],
+      "title": "Национальный Банк РК: ответы на часто задаваемые вопросы",
+      "file": "documents/nb-faq.pdf",
+      "source": "https://nationalbank.kz/ru/news/suraqtar",
+      "reviewed_on": "2026-10-05",
+      "version": "Снимок страницы от 2026-10-05; дата редакции не указана",
+      "artifact_kind": "official_text_snapshot",
+      "bank": "",
+      "sha256": "865e387524ff7be1a41f02fcb299a4336bd4e57f212d528fd86720c3e15b1c51",
+      "applicability_note": "Информационные ответы Нацбанка, сохранённые 05.10.2026, не нормативный акт. Условия рынка, курсы и контактные данные могут измениться; справка не гарантирует возврат денег.",
+      "source_html_sha256": "d36affec948a5ff248f2f776c9c33bb38000c31e298b460ccf2fdd0a4ec23c0d"
+    },
+    {
+      "id": "arrears",
+      "domain": "finance",
+      "also_domains": [
+        "legal"
+      ],
+      "title": "Gov.kz: что делать при возникновении просрочки?",
+      "file": "documents/arrears.pdf",
+      "source": "https://www.gov.kz/situations/536/1213?lang=ru",
+      "reviewed_on": "2026-10-05",
+      "version": "Обновлено 2026-05-28",
+      "artifact_kind": "official_text_snapshot",
+      "bank": "",
+      "sha256": "ec995d03208b65b013ea561f803b3473863c1fc0a0ffc9360f0a2b3f243a57b7",
+      "applicability_note": "Инструкция gov.kz, дата обновления страницы 28.05.2026; это справочная памятка, не самостоятельная норма закона. Банковские сроки проверяйте также по ст.61 нового закона о банках; условия МФО требуют своей нормы.",
+      "source_html_sha256": "1ef581c4eb792602922626b5e617d9a3b213c00f5527506f1cc7ae81d00d50cc"
+    },
+    {
+      "id": "nb-fraud",
+      "domain": "finance",
+      "also_domains": [
+        "legal"
+      ],
+      "title": "Национальный Банк: мошенничество с банковскими картами",
+      "file": "documents/nb-fraud.pdf",
+      "source": "https://nationalbank.kz/file/download/120046",
+      "catalog_url": "https://nationalbank.kz/ru/news/informacionnye-soobshcheniya/18679",
+      "reviewed_on": "2026-10-05",
+      "version": "Информационное сообщение 2026-02-17",
+      "artifact_kind": "official_pdf",
+      "bank": "",
+      "sha256": "ecbeb9885f62ab8aaabb450eab3591e1e67837b30c96bd75a11334a985d67a4a",
+      "applicability_note": "Информационное сообщение Нацбанка от 17.02.2026; рекомендации, не закон и не гарантия возврата денег.",
+      "source_html_sha256": "1b4fe1c980c5d6e6f734c4b7f7aff08d3bdf6a30047988bf02cd7b2e7f989563"
+    }
+  ],
+  "review_note": "Новые источники проверены 05.10.2026; сохранённые банковские тарифы проверялись 01.10.2026. Это даты проверки, не обещание текущей полноты законодательства."
+}

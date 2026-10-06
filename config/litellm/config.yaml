@@ -1,0 +1,26 @@
+model_list:
+  - model_name: legal-chat
+    litellm_params:
+      model: openai/astanahub/alemllm
+      api_base: os.environ/LLM_PROVIDER_BASE_URL
+      api_key: os.environ/NITEC_API_KEY
+  - model_name: legal-chat-deepseek
+    litellm_params:
+      model: openai/deepseek-ai/DeepSeek-V4-Pro
+      api_base: os.environ/LLM_PROVIDER_BASE_URL
+      api_key: os.environ/NITEC_API_KEY
+  - model_name: legal-chat-kimi
+    litellm_params:
+      model: openai/moonshotai/Kimi-K3
+      api_base: os.environ/LLM_PROVIDER_BASE_URL
+      api_key: os.environ/NITEC_API_KEY
+  - model_name: legal-chat-gptoss
+    litellm_params:
+      model: openai/openai/gpt-oss-120b
+      api_base: os.environ/LLM_PROVIDER_BASE_URL
+      api_key: os.environ/NITEC_API_KEY
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  database_url: os.environ/DATABASE_URL
+litellm_settings:
+  drop_params: true

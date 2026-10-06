@@ -1,0 +1,17 @@
+{
+  "verified_accounts": [
+    "@jurdep:demo.local",
+    "@jurdep2:demo.local",
+    "@jurdep3:demo.local",
+    "@jurdep4:demo.local",
+    "@jurdep5:demo.local",
+    "@findep:demo.local",
+    "@findep2:demo.local",
+    "@findep3:demo.local",
+    "@findep4:demo.local",
+    "@findep5:demo.local"
+  ],
+  "count": 10,
+  "all_passed": true,
+  "existing_passwords_preserved": true
+}

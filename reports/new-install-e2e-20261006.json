@@ -1,0 +1,20 @@
+{
+  "checked_on": "2026-10-06",
+  "provider": "synthetic local provider; no real provider credential used",
+  "cases": [
+    {
+      "domain": "legal",
+      "rag_citation_and_html_verified": true,
+      "passed": true
+    },
+    {
+      "domain": "finance",
+      "rag_citation_and_html_verified": true,
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "fresh_account_count": 12,
+  "department_accounts": 10,
+  "human_handoff_passed": true
+}

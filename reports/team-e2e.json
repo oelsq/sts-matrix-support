@@ -1,0 +1,51 @@
+{
+  "checked_on": "2026-10-06",
+  "cases": [
+    {
+      "domain": "legal",
+      "test_requester": "@teamtest20261006c:demo.local",
+      "employee": "@jurdep2:demo.local",
+      "private_room": "!kUYLXnDttBBolFyzQs:demo.local",
+      "context_delivered": true,
+      "human_reply_received": true,
+      "other_requester_denied": true,
+      "bot_left": true,
+      "passed": true
+    },
+    {
+      "domain": "finance",
+      "test_requester": "@teamtest20261006c:demo.local",
+      "employee": "@findep:demo.local",
+      "private_room": "!pRSoDPqmUDAMNaiiPG:demo.local",
+      "context_delivered": true,
+      "human_reply_received": true,
+      "other_requester_denied": true,
+      "bot_left": true,
+      "passed": true
+    },
+    {
+      "domain": "legal",
+      "test_requester": "@teamtest20261006d:demo.local",
+      "employee": "@jurdep3:demo.local",
+      "private_room": "!vCiIuWRMHoTutcIxEy:demo.local",
+      "context_delivered": true,
+      "human_reply_received": true,
+      "other_requester_denied": true,
+      "bot_left": true,
+      "passed": true
+    },
+    {
+      "domain": "finance",
+      "test_requester": "@teamtest20261006d:demo.local",
+      "employee": "@findep2:demo.local",
+      "private_room": "!iNfbAPxpMGPIcCyKvZ:demo.local",
+      "context_delivered": true,
+      "human_reply_received": true,
+      "other_requester_denied": true,
+      "bot_left": true,
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "existing_rooms_preserved": 2
+}

@@ -1,0 +1,122 @@
+services:
+  postgres:
+    image: postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81
+    environment:
+      POSTGRES_USER: sts
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run setup.py init first}
+      POSTGRES_DB: support
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./config/postgres/01-databases.sql:/docker-entrypoint-initdb.d/01-databases.sql:ro
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U sts -d support"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+  homeserver:
+    image: matrixdotorg/synapse@sha256:7155ddc4835e5b8afa4e1598d92aa16ff1d03109f7d1cff61d493237d1210b1d
+    environment:
+      SYNAPSE_SERVER_NAME: ${MATRIX_SERVER_NAME:-demo.local}
+      SYNAPSE_REPORT_STATS: "no"
+    volumes:
+      - ./runtime/synapse:/data
+      - ./runtime/secrets/registration_shared_secret:/bootstrap/registration_shared_secret:ro
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:${MATRIX_PORT:-8008}:8008"
+    healthcheck:
+      test: [CMD, curl, -fsS, http://localhost:8008/_matrix/client/versions]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+  element:
+    image: vectorim/element-web@sha256:da32e88c8dafe2c3d4f40ca5e90ab2f43a7c9ac35f0977ec7662dcb4fdcd56d8
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:${ELEMENT_PORT:-8081}:80"
+    volumes:
+      - ./runtime/element-config.json:/app/config.json:ro
+      - ./element/nginx.conf:/etc/nginx/templates/default.conf.template:ro
+    healthcheck:
+      test: [CMD, wget, -q, --spider, http://127.0.0.1:80/]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      homeserver:
+        condition: service_healthy
+    restart: unless-stopped
+  litellm:
+    image: ghcr.io/berriai/litellm@sha256:8386035f69266617cb88f35380a78e81a66e047a52821c73713666247ff2aba0
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
+    environment:
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:?Run setup.py init first}
+      NITEC_API_KEY: ${NITEC_API_KEY:-}
+      LLM_PROVIDER_BASE_URL: ${LLM_PROVIDER_BASE_URL:-https://llm.nitec.kz/v1}
+      DATABASE_URL: postgresql://sts:${POSTGRES_PASSWORD}@postgres:5432/litellm
+    volumes:
+      - ./config/litellm/config.yaml:/app/config.yaml:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+  backend:
+    build: ./matrix_support_bot
+    environment:
+      DATABASE_URL: postgresql://sts:${POSTGRES_PASSWORD}@postgres:5432/support
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:${BACKEND_PORT:-8010}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=4).read()"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+  frontend:
+    build: ./support-frontend
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:${FRONTEND_PORT:-8080}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+  bot:
+    build: ./matrix_support_bot
+    command: [python, /app/bot.py]
+    environment:
+      MATRIX_HOMESERVER: http://homeserver:8008
+      MATRIX_USER: "@bot:${MATRIX_SERVER_NAME:-demo.local}"
+      MATRIX_PASSWORD: ${MATRIX_BOT_PASSWORD:?Run setup.py init first}
+      LLM_ENDPOINT: http://litellm:4000/v1
+      LLM_MODEL: ${GENERAL_LLM_MODEL:-legal-chat}
+      LEGAL_LLM_MODEL: ${LEGAL_LLM_MODEL:-legal-chat}
+      FINANCE_LLM_MODEL: ${FINANCE_LLM_MODEL:-legal-chat}
+      GENERAL_LLM_MODEL: ${GENERAL_LLM_MODEL:-legal-chat}
+      LLM_API_KEY_FILE: /run/secrets/litellm_key
+      KNOWLEDGE_DIR: /app/offline_knowledge
+      MATRIX_ROOM_ROUTES_FILE: /app/state/room_routes.json
+      HANDOFF_DB: /app/state/handoff.sqlite3
+      LEGAL_DEPARTMENT_USERS: "@jurdep:${MATRIX_SERVER_NAME:-demo.local},@jurdep2:${MATRIX_SERVER_NAME:-demo.local},@jurdep3:${MATRIX_SERVER_NAME:-demo.local},@jurdep4:${MATRIX_SERVER_NAME:-demo.local},@jurdep5:${MATRIX_SERVER_NAME:-demo.local}"
+      FINANCE_DEPARTMENT_USERS: "@findep:${MATRIX_SERVER_NAME:-demo.local},@findep2:${MATRIX_SERVER_NAME:-demo.local},@findep3:${MATRIX_SERVER_NAME:-demo.local},@findep4:${MATRIX_SERVER_NAME:-demo.local},@findep5:${MATRIX_SERVER_NAME:-demo.local}"
+      ELEMENT_PUBLIC_URL: ${ELEMENT_PUBLIC_URL:-http://localhost:8081}
+      AGENT_BACKEND: llm
+      OFFLINE_MODE: ${OFFLINE_MODE:-0}
+      LLM_ALLOWED_HOSTS: litellm
+      MATRIX_ALLOWED_HOSTS: homeserver
+    volumes:
+      - ./offline_knowledge:/app/offline_knowledge:ro
+      - ./runtime/bot:/app/state
+      - ./runtime/secrets/litellm_key:/run/secrets/litellm_key:ro
+    depends_on:
+      homeserver:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+      litellm:
+        condition: service_started
+    restart: unless-stopped
+volumes:
+  postgres_data:
