@@ -15,3 +15,7 @@ __pycache__/
 node_modules/
 dist/
 .DS_Store
+
+# Optional locally generated corpus staging/index artifacts
+official-source-staging/
+knowledge-cache/

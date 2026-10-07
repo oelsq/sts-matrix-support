@@ -1,0 +1,465 @@
+[
+  {
+    "id": "family",
+    "code": "K1100000518",
+    "domain": "legal",
+    "expected_title": "браке",
+    "search_terms": [
+      "алимент",
+      "развод",
+      "супруг",
+      "брак",
+      "отцовств",
+      "усынов",
+      "опек",
+      "ребенок",
+      "ребёнок"
+    ]
+  },
+  {
+    "id": "administrative-offences",
+    "code": "K1400000235",
+    "domain": "legal",
+    "expected_title": "административных правонарушениях",
+    "search_terms": [
+      "штраф",
+      "коап",
+      "административное правонарушение",
+      "пдд"
+    ]
+  },
+  {
+    "id": "administrative-procedure",
+    "code": "K2000000350",
+    "domain": "legal",
+    "expected_title": "процедурно-процессуальный",
+    "search_terms": [
+      "акимат",
+      "госорган",
+      "административный иск",
+      "административная процедура",
+      "eotinish",
+      "обращение граждан"
+    ]
+  },
+  {
+    "id": "civil-procedure",
+    "code": "K1500000377",
+    "domain": "legal",
+    "expected_title": "Гражданский процессуальный",
+    "search_terms": [
+      "подать иск",
+      "исковое заявление",
+      "гражданский суд",
+      "судебные расходы",
+      "судебный приказ"
+    ]
+  },
+  {
+    "id": "criminal-procedure",
+    "code": "K1400000231",
+    "domain": "legal",
+    "expected_title": "Уголовно-процессуальный",
+    "search_terms": [
+      "задержан",
+      "задержали",
+      "допрос",
+      "подозреваем",
+      "обыск",
+      "уголовный процесс",
+      "заявление о преступлении"
+    ]
+  },
+  {
+    "id": "criminal-executive",
+    "code": "K1400000234",
+    "domain": "legal",
+    "expected_title": "Уголовно-исполнительный",
+    "search_terms": [
+      "осужден",
+      "осуждён",
+      "отбывание наказания",
+      "пробаци",
+      "колони"
+    ]
+  },
+  {
+    "id": "tax",
+    "code": "K2500000214",
+    "domain": "finance",
+    "expected_title": "Налоговый|налогах",
+    "search_terms": [
+      "налог",
+      "ндс",
+      "ипн",
+      "декларац",
+      "самозанят",
+      "вычет"
+    ]
+  },
+  {
+    "id": "social",
+    "code": "K2300000224",
+    "domain": "legal",
+    "expected_title": "Социальный",
+    "search_terms": [
+      "пенси",
+      "пособ",
+      "декрет",
+      "социальные выплат",
+      "социальное страхован",
+      "социальные отчислен",
+      "безработ",
+      "инвалид"
+    ]
+  },
+  {
+    "id": "health",
+    "code": "K2000000360",
+    "domain": "legal",
+    "expected_title": "здоровье народа",
+    "search_terms": [
+      "пациент",
+      "медицин",
+      "поликлиник",
+      "врач",
+      "лечение",
+      "здоровье"
+    ]
+  },
+  {
+    "id": "land",
+    "code": "K030000442_",
+    "domain": "legal",
+    "expected_title": "Земельный",
+    "search_terms": [
+      "земел",
+      "землю",
+      "земли",
+      "земельный участок"
+    ]
+  },
+  {
+    "id": "entrepreneur",
+    "code": "K1500000375",
+    "domain": "legal",
+    "expected_title": "Предпринимательский",
+    "search_terms": [
+      "предпринимат",
+      "бизнес",
+      "открыть ип",
+      "проверка ип"
+    ]
+  },
+  {
+    "id": "environment",
+    "code": "K2100000400",
+    "domain": "legal",
+    "expected_title": "Экологический",
+    "search_terms": [
+      "эколог",
+      "загрязнен",
+      "загрязнён",
+      "выброс",
+      "отход"
+    ]
+  },
+  {
+    "id": "water",
+    "code": "K2500000178",
+    "domain": "legal",
+    "expected_title": "Водный",
+    "search_terms": [
+      "водопользован",
+      "водный кодекс",
+      "водоохран"
+    ]
+  },
+  {
+    "id": "budget",
+    "code": "K2500000171",
+    "domain": "finance",
+    "expected_title": "Бюджетный",
+    "search_terms": [
+      "бюджет",
+      "государственный кредит"
+    ]
+  },
+  {
+    "id": "customs",
+    "code": "K1700000123",
+    "domain": "finance",
+    "expected_title": "таможенном регулировании",
+    "search_terms": [
+      "тамож",
+      "пошлин",
+      "ввоз",
+      "импорт",
+      "экспорт"
+    ]
+  },
+  {
+    "id": "forest",
+    "code": "K030000477_",
+    "domain": "legal",
+    "expected_title": "Лесной",
+    "search_terms": [
+      "лес",
+      "вырубк"
+    ]
+  },
+  {
+    "id": "education",
+    "code": "Z070000319_",
+    "domain": "legal",
+    "expected_title": "",
+    "search_terms": [
+      "школ",
+      "образован",
+      "ученик",
+      "студент",
+      "университет",
+      "учеб"
+    ]
+  },
+  {
+    "id": "child-rights",
+    "code": "Z020000345_",
+    "domain": "legal",
+    "expected_title": "",
+    "search_terms": [
+      "права ребенка",
+      "права ребёнка",
+      "защита детей",
+      "несовершеннолетн"
+    ]
+  },
+  {
+    "id": "state-services",
+    "code": "Z1300000088",
+    "domain": "legal",
+    "expected_title": "",
+    "search_terms": [
+      "госуслуг",
+      "государственные услуги",
+      "государственных услуг",
+      "отказ в услуге"
+    ]
+  },
+  {
+    "id": "access-information",
+    "code": "Z1500000401",
+    "domain": "legal",
+    "expected_title": "",
+    "search_terms": [
+      "доступ к информации",
+      "запрос информации",
+      "открытые данные"
+    ]
+  },
+  {
+    "id": "legal-acts",
+    "code": "Z1600000480",
+    "domain": "legal",
+    "expected_title": "",
+    "search_terms": [
+      "нормативн",
+      "иерархия",
+      "обратная сила",
+      "вступление в силу"
+    ]
+  },
+  {
+    "id": "state-service",
+    "code": "Z2600000290",
+    "domain": "legal",
+    "expected_title": "государственной службе",
+    "search_terms": [
+      "госслуж",
+      "государственная служба",
+      "государственной службы",
+      "государственный служащий"
+    ]
+  },
+  {
+    "id": "public-procurement",
+    "code": "Z2400000106",
+    "domain": "legal",
+    "expected_title": "государственных закупках",
+    "search_terms": [
+      "госзакуп",
+      "государственные закупки",
+      "государственных закупок",
+      "тендер"
+    ]
+  },
+  {
+    "id": "mediation",
+    "code": "Z1100000401",
+    "domain": "legal",
+    "expected_title": "",
+    "search_terms": [
+      "медиаци",
+      "медиатор"
+    ]
+  },
+  {
+    "id": "notary",
+    "code": "Z970000155_",
+    "domain": "legal",
+    "expected_title": "",
+    "search_terms": [
+      "нотари",
+      "нотариальн"
+    ]
+  },
+  {
+    "id": "insurance",
+    "code": "Z000000126_",
+    "domain": "finance",
+    "expected_title": "страховой деятельности",
+    "search_terms": [
+      "страхов",
+      "страховой случай"
+    ]
+  },
+  {
+    "id": "road-traffic",
+    "code": "Z1400000194",
+    "domain": "legal",
+    "expected_title": "",
+    "search_terms": [
+      "дорожн",
+      "дтп",
+      "водитель",
+      "пдд",
+      "автомобил"
+    ]
+  },
+  {
+    "id": "migration",
+    "code": "Z1100000477",
+    "domain": "legal",
+    "expected_title": "",
+    "search_terms": [
+      "миграц",
+      "иностранец",
+      "иностранный гражданин",
+      "вид на жительство",
+      "внж"
+    ]
+  },
+  {
+    "id": "citizenship",
+    "code": "Z910004800_",
+    "domain": "legal",
+    "expected_title": "",
+    "search_terms": [
+      "гражданств",
+      "паспорт гражданина"
+    ]
+  },
+  {
+    "id": "identity-documents",
+    "code": "Z1300000073",
+    "domain": "legal",
+    "expected_title": "документах",
+    "search_terms": [
+      "удостоверение личности",
+      "паспорт",
+      "документы удостоверяющие"
+    ]
+  },
+  {
+    "id": "real-estate-registration",
+    "code": "Z070000310_",
+    "domain": "legal",
+    "expected_title": "",
+    "search_terms": [
+      "регистраци",
+      "недвижим",
+      "право собственности"
+    ]
+  },
+  {
+    "id": "limited-liability",
+    "code": "Z980000220_",
+    "domain": "legal",
+    "expected_title": "товариществах",
+    "search_terms": [
+      "тоо",
+      "товарищество",
+      "устав",
+      "учредитель"
+    ]
+  },
+  {
+    "id": "court-labor",
+    "code": "P240000001S",
+    "domain": "legal",
+    "document_kind": "supreme_court_resolution",
+    "expected_title": "трудовых споров",
+    "search_terms": [
+      "трудовой спор",
+      "согласительная комиссия",
+      "восстановление на работе",
+      "увольнение"
+    ]
+  },
+  {
+    "id": "court-consumer",
+    "code": "P96000007S_",
+    "domain": "legal",
+    "document_kind": "supreme_court_resolution",
+    "expected_title": "защите прав потребителей",
+    "search_terms": [
+      "защита прав потребителей",
+      "иск к продавцу"
+    ]
+  },
+  {
+    "id": "court-civil-judgment",
+    "code": "P03000005S_",
+    "domain": "legal",
+    "document_kind": "supreme_court_resolution",
+    "expected_title": "судебном решении",
+    "search_terms": [
+      "судебное решение",
+      "судебного решения",
+      "апелляция"
+    ]
+  },
+  {
+    "id": "medical-insurance",
+    "code": "Z1500000405",
+    "domain": "legal",
+    "expected_title": "медицинском страховании",
+    "search_terms": [
+      "осмс",
+      "медицинское страхование",
+      "медицинского страхования"
+    ]
+  },
+  {
+    "id": "anticorruption",
+    "code": "Z1500000410",
+    "domain": "legal",
+    "expected_title": "противодействии коррупции",
+    "search_terms": [
+      "коррупци",
+      "взятк",
+      "конфликт интересов"
+    ]
+  },
+  {
+    "id": "judicial-system",
+    "code": "Z000000132_",
+    "domain": "legal",
+    "expected_title": "судебной системе",
+    "search_terms": [
+      "судебная система",
+      "судья",
+      "статус судей"
+    ]
+  }
+]

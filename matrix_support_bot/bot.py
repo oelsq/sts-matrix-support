@@ -19,6 +19,7 @@ from evidence_scope import scope_evidence
 from response_guidance import retrieval_question, practical_fallback
 from agents import messages, render, route_for_room, review_messages
 from checked_answers import checked_legal_answer
+from knowledge_coverage import coverage_answer
 from offline_knowledge import KnowledgeStore, needs_bank, validate_llm_endpoint, validate_local_endpoint
 from urgent_help import urgent_finance_answer, legal_urgent_notice
 from human_handoff import HumanHandoff, HandoffStore, handoff_command, choose_department, department_roster
@@ -52,7 +53,7 @@ async def main():
         log.info("Offline mode enabled; LLM host %s", host)
     if knowledge_dir:
         knowledge = KnowledgeStore(knowledge_dir)
-        log.info("Local PDF knowledge loaded; passages %d", len(knowledge.passages))
+        log.info("Local document knowledge loaded; passages %d", len(knowledge.passages))
     routes_file = Path(os.getenv("MATRIX_ROOM_ROUTES_FILE", "/app/room_routes.json"))
     fixed_routes = {}
     if routes_file.exists():
@@ -199,6 +200,10 @@ async def main():
 
             key = (room.room_id, event.sender)
             question = event.body[:12000]
+            if question.strip().casefold() in {"!темы", "!база"}:
+                await client.room_send(room_id=room.room_id, message_type="m.room.message",
+                                       content=matrix_content(coverage_answer(knowledge)))
+                return
             command = handoff_command(question)
             if command:
                 requested, note = command

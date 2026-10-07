@@ -107,6 +107,7 @@ class KnowledgeStore:
         if not isinstance(entries, list):
             raise KnowledgeError("documents must be a list")
         self.passages: list[dict[str, str | int]] = []
+        self.document_search_terms = {}
         seen_ids: set[str] = set()
         present_domains: set[str] = set()
         for entry in entries:
@@ -139,10 +140,22 @@ class KnowledgeStore:
                     body = path.read_text(encoding="utf-8")
                 except OSError as exc:
                     raise KnowledgeError(f"Cannot read document: {doc_id}") from exc
+                if entry.get("artifact_kind") == "official_text_snapshot" and not entry.get("sha256"):
+                    raise KnowledgeError(f"Official text requires SHA-256: {doc_id}")
+                expected = entry.get("sha256")
+                if expected is not None and (not isinstance(expected,str) or not SHA256.fullmatch(expected)
+                                             or hashlib.sha256(body.encode("utf-8")).hexdigest() != expected):
+                    raise KnowledgeError(f"Text SHA-256 mismatch: {doc_id}")
                 if not body.strip():
                     raise KnowledgeError(f"Empty document: {doc_id}")
                 pages = [(0, body)]
 
+            if "утрати" in str(entry.get("status", "")).casefold():
+                raise KnowledgeError(f"Repealed document cannot be used as current law: {doc_id}")
+            search_terms = entry.get("search_terms", [])
+            if not isinstance(search_terms,list) or any(not isinstance(t,str) or len(t)>120 for t in search_terms):
+                raise KnowledgeError(f"Invalid document search terms: {doc_id}")
+            self.document_search_terms[doc_id] = search_terms
             seen_ids.add(doc_id)
             present_domains.add(domain)
             also_domains = entry.get("also_domains", [])
@@ -171,11 +184,13 @@ class KnowledgeStore:
                 chunk_section = section
                 chunk_clause = clause
                 for line in lines:
-                    if re.match(r"^\s*(Статья |Глава )", line):
+                    resolution_point = (re.match(r"^\s*(\d+(?:-\d+)?)\.\s",line)
+                                        if entry.get("document_kind") == "supreme_court_resolution" else None)
+                    if re.match(r"^\s*(Статья |Глава )", line) or resolution_point:
                         if current:
                             chunks.append((chunk_section, chunk_clause, "\n".join(current)))
                             current, size = [], 0
-                        section = line.strip()
+                        section = "Пункт " + resolution_point[1] + "." if resolution_point else line.strip()
                         clause = ""
                         chunk_section = section
                         chunk_clause = clause
@@ -207,6 +222,7 @@ class KnowledgeStore:
                         "document_id": doc_id, "domain": domain, "title": title,
                         "domains": applicable_domains,
                         "artifact_kind": str(entry.get("artifact_kind", "")),
+                        "document_kind": str(entry.get("document_kind", "legislation")),
                         "applicability_note": str(entry.get("applicability_note", "")),
                         "excluded_sections": entry.get("excluded_sections", []),
                         "reviewed_on": reviewed_on, "source": source,
@@ -219,8 +235,19 @@ class KnowledgeStore:
                     self.passages.append(passage)
         if present_domains != DOMAINS:
             raise KnowledgeError("Offline mode requires reviewed legal and finance documents")
+        self._by_id = {str(p["id"]): p for p in self.passages}
+        self._document_sizes = Counter(p["document_id"] for p in self.passages)
         self._counters = {str(p["id"]): Counter(_terms(str(p["text"]) + " " + str(p.get("section", ""))))
                           for p in self.passages}
+        # Build postings once. Large text corpora should not scan every passage
+        # and recompute corpus statistics on every user message.
+        self._postings = {}
+        self._lengths = {}
+        self._candidate_cache = {}
+        for identifier, counter in self._counters.items():
+            self._lengths[identifier] = sum(counter.values())
+            for term in counter:
+                self._postings.setdefault(term,set()).add(identifier)
 
     def search(self, domain: str, question: str, limit: int = 6) -> list[dict[str, str | int]]:
         normalized = question
@@ -233,6 +260,13 @@ class KnowledgeStore:
                     "мфо": "микрофинансовая организация микрокредит", "коллектор": "коллекторское агентство взаимодействие должник",
                     "звон": "телефонные переговоры взаимодействие", "угрож": "угрозы насилие",
                     "банкрот": "банкротство граждан внесудебное судебное восстановление платежеспособности",
+                    "алимент": "содержание несовершеннолетних детей", "развел": "расторжение брака супруги родители место жительства ребенка",
+                    "развод": "расторжение брака супруги", "ребенок": "ребенок родители права детей", "ребёнок": "ребенок родители права детей",
+                    "пенси": "пенсионные выплаты возраст назначения", "декрет": "беременность роды уход за ребенком социальные выплаты",
+                    "поликлиник": "пациент медицинская помощь", "ндс": "налог на добавленную стоимость ставка",
+                    "ипн": "индивидуальный подоходный налог", "иск": "исковое заявление суд",
+                    "допрос": "подозреваемый защитник адвокат", "задержали": "задержание подозреваемого права защитник",
+                    "акимат": "административный орган жалоба административный акт",
                     "арми": "призыв срочная воинская служба возраст",
                     "военкомат": "призыв срочная воинская служба",
                     "кнб": "органы национальной безопасности задачи",
@@ -247,16 +281,22 @@ class KnowledgeStore:
                     if any(name in question.casefold() for name in names)}
         if domain == "finance" and needs_bank(question):
             return []
-        candidates = [p for p in self.passages if domain in p.get("domains", [p["domain"]])
-                      and ((p.get("bank") in selected) if is_tariff_question(question)
-                           else (not p.get("bank") or p.get("bank") in selected))
-                      and not any(re.match(r"^Статья " + re.escape(str(section)) + r"(?:\.|\s|$)", str(p.get("section", "")))
-                                  for section in p.get("excluded_sections", []))]
+        key = (domain, tuple(sorted(selected)), is_tariff_question(question))
+        if key not in self._candidate_cache:
+            candidates = [p for p in self.passages if domain in p.get("domains", [p["domain"]])
+                          and ((p.get("bank") in selected) if key[2]
+                               else (not p.get("bank") or p.get("bank") in selected))
+                          and not any(re.match(r"^Статья " + re.escape(str(section)) + r"(?:\.|\s|$)", str(p.get("section", "")))
+                                      for section in p.get("excluded_sections", []))]
+            identifiers = {str(p["id"]) for p in candidates}
+            counts = Counter(term for identifier in identifiers for term in self._counters[identifier])
+            average = sum(self._lengths[i] for i in identifiers) / len(identifiers) if identifiers else 1
+            average = average or 1
+            self._candidate_cache[key] = (candidates,identifiers,counts,average)
+        candidates, identifiers, counts, average = self._candidate_cache[key]
         if not candidates:
             return []
-        counters = [self._counters[str(p["id"])] for p in candidates]
-        counts = Counter(term for counter in counters for term in counter)
-        average = sum(sum(c.values()) for c in counters) / len(candidates) or 1
+        matching = set().union(*(self._postings.get(term,set()) for term in terms)) & identifiers
         scored = []
         # Topic routing only ranks existing passages; it never adds legal facts.
         topics = [
@@ -275,18 +315,21 @@ class KnowledgeStore:
             (r"исков.*давност|доверенност|неустойк", {"civil-general"}),
         ]
         preferred = set().union(*(docs for pattern, docs in topics if re.search(pattern, question, re.I)))
-        for passage, counter in zip(candidates, counters):
+        preferred.update(doc for doc, words in self.document_search_terms.items()
+                         if any(word.casefold() in question.casefold() for word in words))
+        for identifier in matching:
+            passage, counter = self._by_id[identifier], self._counters[identifier]
             score = 0.0
             for term in terms & counter.keys():
                 idf = math.log(1 + (len(candidates) - counts[term] + 0.5) / (counts[term] + 0.5))
                 frequency = counter[term]
-                score += idf * frequency * 2.2 / (frequency + 1.2 * (0.25 + 0.75 * sum(counter.values()) / average))
+                score += idf * frequency * 2.2 / (frequency + 1.2 * (0.25 + 0.75 * self._lengths[identifier] / average))
             if score and len(str(passage["text"]).strip()) > 10:
                 score += 3 * len(terms & counter.keys())
                 score += 5 * len(terms & _terms(str(passage.get("section", ""))))
                 if str(passage["text"]).lstrip().startswith(("Сноска.", "Примечание")):
                     score -= 500
-                if len(str(passage["text"]).strip()) < 120:
+                if len(str(passage["text"]).strip()) < 120 and self._document_sizes[passage["document_id"]] > 1:
                     score -= 500
                 if passage["document_id"] in preferred:
                     score += 100
@@ -297,6 +340,13 @@ class KnowledgeStore:
                 if re.search(r"укра|краж|похит", question, re.I) and passage["document_id"] == "criminal" and section.startswith("Статья 188."):
                     score += 100
                 focused_sections = [
+                    (r"потер[еи].*работ|безработ", "social", ("Статья 113.", "Статья 114.", "Статья 118.")),
+                    (r"ндс|добавленн.*стоимост", "tax", ("Статья 503.",)),
+                    (r"пациент", "health", ("Статья 134.",)),
+                    (r"алимент", "family", ("Статья 138.", "Статья 139.")),
+                    (r"реб[её]нок|дет[ьи]|развел|развод", "family", ("Статья 73.",)),
+                    (r"подать.*иск|исковое заявлен", "civil-procedure", ("Статья 148.", "Статья 149.")),
+                    (r"задержали|задержан|допрос", "criminal-procedure", ("Статья 64.", "Статья 67.")),
                     (r"арми|военкомат|призыв", "military-service", ("Статья 31.",)),
                     (r"\bкнб\b|национальн.*безопасност", "national-security", ("Статья 1.", "Статья 2.")),
                     (r"купил|покуп|неисправ|товар|продав", "consumer-law", ("Статья 15.", "Статья 30.")),
@@ -315,7 +365,8 @@ class KnowledgeStore:
                         and str(passage["section"]).startswith("Статья 135.")
                         and "статьи 65" in " ".join(str(passage["text"]).split()) and "2027" in str(passage["text"])):
                     score += 1000
-                scored.append((score, passage))
+                if score > 0:
+                    scored.append((score, passage))
         scored.sort(key=lambda item: (-item[0], str(item[1]["id"])))
         # Prevent one long article from using the entire evidence budget. Keep
         # three pieces per section, then fill with further pieces if necessary.
@@ -333,6 +384,16 @@ class KnowledgeStore:
         # Retrieve definitions and exceptions even when their wording differs
         # from the user's everyday question. They prevent overbroad conclusions.
         supplements = []
+        leading_docs = {str(p["document_id"]) for p in chosen[:2]}
+        for doc_id in leading_docs:
+            rules = [p for p in candidates if p["document_id"] == doc_id
+                     and re.search(r"^Статья.*(?:введения в действие|введение в действие)",str(p.get("section","")),re.I)
+                     and str(p["text"]).lstrip().startswith("Статья")]
+            if rules:
+                # Keep relevant provisions ahead of the temporal supplement.
+                for rule in rules[:1]:
+                    if rule not in chosen:
+                        chosen.insert(min(5,len(chosen)),rule)
         if re.search(r"купил|покуп|продав|неисправ|товар", question, re.I) and not selected:
             supplements += [p for p in candidates if p["document_id"] == "consumer-law"
                             and "относятся исключительно транспортные средства" in " ".join(str(p["text"]).split())]
@@ -340,6 +401,9 @@ class KnowledgeStore:
             supplements += [p for p in candidates if p["document_id"] == "bankruptcy"
                             and str(p["section"]).startswith("Статья 5.")
                             and any(s in str(p["text"]) for s in ("1600-кратного", "3) кредитором", "2. Несмотря"))]
+        if re.search(r"с кем.*реб|мест.*жительств.*реб|мнени.*реб|реб.*мнени", question, re.I):
+            supplements += [p for p in candidates if p["document_id"] == "family"
+                            and str(p["section"]).startswith("Статья 62.")]
         if supplements:
             existing = {str(p["id"]) for p in supplements}
             chosen = supplements + [p for p in chosen if str(p["id"]) not in existing]

@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-07",
+  "scope": "Expansion of a selected Kazakhstan legal corpus; not complete legislation coverage",
+  "corpus": {
+    "documents": 65,
+    "pdf": 27,
+    "text": 38,
+    "passages": 24814,
+    "load_seconds": 10.0,
+    "added_official_full_texts": 38,
+    "source_catalog": "offline_knowledge/legal-catalog.json"
+  },
+  "validation": {
+    "automated_tests_passed": 119,
+    "existing_dependency_warnings": 11,
+    "database": "Disposable SQLite; production database not used for tests",
+    "live_llm_cases": [
+      {
+        "question": "Как подать на алименты на несовершеннолетнего ребёнка?",
+        "domain": "legal",
+        "retrieved_documents": [
+          "family",
+          "child-rights"
+        ],
+        "citation_and_numeric_guard_passed": true,
+        "attempts": 1,
+        "finish_reason": "stop",
+        "seconds": 6.8
+      },
+      {
+        "question": "Развелись, с кем будет жить ребёнок?",
+        "domain": "legal",
+        "retrieved_documents": [
+          "family"
+        ],
+        "citation_and_numeric_guard_passed": true,
+        "attempts": 1,
+        "finish_reason": "stop",
+        "seconds": 4.4
+      },
+      {
+        "question": "Меня задержали. Могу ли я потребовать адвоката?",
+        "domain": "legal",
+        "retrieved_documents": [
+          "criminal-procedure"
+        ],
+        "citation_and_numeric_guard_passed": true,
+        "attempts": 1,
+        "finish_reason": "stop",
+        "seconds": 5.5
+      },
+      {
+        "question": "Как пожаловаться на отказ акимата?",
+        "domain": "legal",
+        "retrieved_documents": [
+          "administrative-procedure"
+        ],
+        "citation_and_numeric_guard_passed": true,
+        "attempts": 1,
+        "finish_reason": "stop",
+        "seconds": 6.0
+      },
+      {
+        "question": "Какие основные права есть у пациента?",
+        "domain": "legal",
+        "retrieved_documents": [
+          "health"
+        ],
+        "citation_and_numeric_guard_passed": true,
+        "attempts": 1,
+        "finish_reason": "stop",
+        "seconds": 4.3
+      },
+      {
+        "question": "Какая ставка НДС в Казахстане в 2026 году?",
+        "domain": "finance",
+        "retrieved_documents": [
+          "tax"
+        ],
+        "citation_and_numeric_guard_passed": true,
+        "attempts": 1,
+        "finish_reason": "stop",
+        "seconds": 2.8
+      },
+      {
+        "question": "Какие основные обязанности у государственного служащего?",
+        "domain": "legal",
+        "retrieved_documents": [
+          "state-service"
+        ],
+        "citation_and_numeric_guard_passed": true,
+        "attempts": 1,
+        "finish_reason": "stop",
+        "seconds": 5.8
+      },
+      {
+        "question": "Как подать иск в гражданский суд?",
+        "domain": "legal",
+        "retrieved_documents": [
+          "civil-procedure"
+        ],
+        "citation_and_numeric_guard_passed": true,
+        "attempts": 1,
+        "finish_reason": "stop",
+        "seconds": 4.6
+      }
+    ],
+    "live_ui_conversation_tested_this_change": false,
+    "legal_accuracy_certified": false,
+    "manual_review_note": "Generated legal interpretations can still omit exceptions or overstate procedural rights. Passing citation/number checks is not proof that a cited provision supports every inference. Same-model review is not independent legal review.",
+    "regressions_fixed": [
+      "Short single-passage documents retained in retrieval",
+      "Child-residence questions retrieve the right to express an opinion",
+      "Worded zero rate and percentage words handled in numeric guard"
+    ]
+  },
+  "deployment": {
+    "vm": "sts-vm-06",
+    "bot_running": true,
+    "matrix_login_successful": true,
+    "fixed_specialist_rooms": 2,
+    "loaded_passages": 24814,
+    "restart_count": 0,
+    "public_files_installed": 50,
+    "backup": "archives/before-legal-corpus-20261007.tar.gz",
+    "runtime_credentials_modified": false
+  },
+  "limits": [
+    "Не все подзаконные акты министерств и правительства",
+    "Не все акты акиматов и маслихатов",
+    "Не все нормативные постановления судов",
+    "Не все международные договоры и отраслевые технические правила",
+    "Не все исторические редакции",
+    "Не гарантирована юридическая правильность каждой интерпретации"
+  ],
+  "temporal_review": "Selected commencement exclusions for tax and state-service texts; not a full audit of every future/suspended provision.",
+  "user_command": "!темы or !база in Element"
+}
