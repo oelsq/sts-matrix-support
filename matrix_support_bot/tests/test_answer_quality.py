@@ -114,3 +114,44 @@ def test_rental_answer_is_conditional_and_does_not_promise_automatic_refund(know
     assert a and 'Если платёж юридически является гарантийным взносом' in a
     assert 'Возврат гарантирован' not in a and 'Это условное правило' in a
     assert 'Не удалось' not in a and checked_legal_answer(q,[]) is None
+
+@pytest.mark.parametrize('question,doc,section',[
+ ('Со скольки лет могут забирать в армию военкомат?', 'military-service', 'Статья 31.'),
+ ('про КНБ что есть?', 'national-security', 'Статья 2.'),
+])
+def test_military_and_security_everyday_terms(knowledge, question, doc, section):
+    found = knowledge.search('legal', question, 8)
+    assert any(p['document_id'] == doc and str(p['section']).startswith(section) for p in found[:4])
+
+
+def test_missing_reference_is_not_treated_as_a_dispute():
+    answer = practical_fallback('legal', 'Что такое нотариат?')
+    assert 'нотариат' in answer and 'не найден источник' in answer
+    assert 'Сохраните' not in answer and 'Что можно подготовить' not in answer
+    rejected = practical_fallback('legal', 'Что такое нотариат?', validation_failed=True)
+    assert 'не прошёл проверку' in rejected and 'не найден источник' not in rejected
+
+
+def test_age_written_in_words_is_not_rejected_as_invented():
+    from agents import unsupported_quantities
+    ev = [{'id':'military:p1:1:1','text':'от восемнадцати до двадцати семи лет'}]
+    assert not unsupported_quantities('От 18 до 27 лет. [S1]', '', ev, {'military:p1:1:1'})
+    assert unsupported_quantities('До 28 лет. [S1]', '', ev, {'military:p1:1:1'})
+
+
+def test_reference_question_is_not_expanded_into_action_plan():
+    from response_guidance import is_reference_question
+    assert is_reference_question('Со скольки лет могут забирать в армию военкомат?')
+    assert is_reference_question('про КНБ что есть?')
+    assert not is_reference_question('Мне угрожают коллекторы, что делать?')
+    prompt = json.dumps(review_messages('legal','Со скольки лет призывают?', 'Черновик', []),ensure_ascii=False)
+    assert 'до 80 слов без плана действий' in prompt
+
+
+def test_conscription_age_is_short_and_bound_to_actual_clause(knowledge):
+    q='Со скольки лет могут забирать в армию военкомат?'
+    ev=knowledge.search('legal',q,8)
+    answer=checked_legal_answer(q,ev)
+    assert answer and 'с 18 лет' in answer and 'до 27 лет' in answer
+    assert 'Что сделать сейчас' not in answer and 'отсрочк' in answer
+    assert checked_legal_answer(q,[]) is None

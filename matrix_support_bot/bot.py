@@ -112,6 +112,7 @@ async def main():
             if knowledge is not None and domain != "general":
                 local_evidence = scope_evidence(domain, search_question, knowledge.search(domain, search_question, limit=8))
                 if not local_evidence:
+                    log.info("Agent fallback: domain=%s reason=no_evidence", domain)
                     return practical_fallback(domain, search_question)
                 if domain == "legal" and bridge is None:
                     checked = checked_legal_answer(search_question, local_evidence)
@@ -168,7 +169,8 @@ async def main():
                 truncated = data["choices"][0].get("finish_reason") == "length"
                 citation_failure = citation_failure or truncated
                 if citation_failure and attempt:
-                    return practical_fallback(domain, search_question)
+                    log.info("Agent fallback: domain=%s reason=answer_validation", domain)
+                    return practical_fallback(domain, search_question, validation_failed=True)
                 if local_evidence is None or not citation_failure or attempt:
                     return rendered
                 log.info("Retrying agent %s after invalid citation format", domain)

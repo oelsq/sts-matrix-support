@@ -1,0 +1,41 @@
+{
+  "checked_on": "2026-10-07",
+  "tests": {
+    "passed": 100,
+    "failed": 0,
+    "existing_dependency_warnings": 11
+  },
+  "added_documents": [
+    {
+      "id": "military-service",
+      "pages": 59,
+      "text_chars": 266068,
+      "sha256": "279e4f26606b403707b4ca0561c5a829f9a21cffb947e56e6fc5c08cf8df5357"
+    },
+    {
+      "id": "national-security",
+      "pages": 17,
+      "text_chars": 79949,
+      "sha256": "dfee1300e97cfd2691ba33be1ae854045509e8e12e214a7dfae7c98879c61d3a"
+    }
+  ],
+  "total_documents": 27,
+  "total_pages": 1445,
+  "synthetic_live_model_checks": [
+    "Со скольки лет могут забирать в армию военкомат?",
+    "про КНБ что есть?"
+  ],
+  "regressions": [
+    "missing military/security sources and everyday search synonyms",
+    "unsupported number false rejection: 27 vs двадцати семи",
+    "reference question presented as dispute",
+    "review prompt always requested action steps"
+  ],
+  "limitations": [
+    "Two live LLM checks, not a benchmark of all legal topics.",
+    "Conscription-age summary is source-bound and bypasses generation when the exact clause is present.",
+    "Other answers are generated and can still contain interpretation errors or unnecessary detail.",
+    "No internet sources are fetched during an answer; uncovered topics require adding documents.",
+    "Tests were run on temporary SQLite; no production records or secrets exported."
+  ]
+}

@@ -1,4 +1,4 @@
-"""Reviewed explanations for two regressions seen in real model answers.
+"""Source-bound explanations for specific factual and interpretation regressions.
 
 Only use them when the defining source clauses are present. They are summaries
 of the supplied edition, not an assessment of an individual dispute.
@@ -9,6 +9,17 @@ from agents import render
 
 def checked_legal_answer(question, evidence):
     q = question.casefold()
+    if re.search(r"арми|военкомат|призыв|срочн.*служб", q) and re.search(r"скольк[иао].*лет|с какого возраста|призывной возраст", q):
+        rule = next((p for p in evidence if p['document_id']=='military-service'
+                     and str(p['section']).startswith('Статья 31.')
+                     and 'от восемнадцати до двадцати семи лет' in ' '.join(str(p['text']).split())
+                     and 'не имеющие права на отсрочку или освобождение' in ' '.join(str(p['text']).split())), None)
+        if rule:
+            return render('legal',
+                'В Казахстане на **срочную воинскую службу призывают с 18 лет**. Статья 31 устанавливает возраст '
+                'от 18 до 27 лет для граждан, не имеющих права на отсрочку или освобождение от призыва. [S1]\n\n'
+                'Сам по себе возраст ещё не означает, что человека обязательно призовут: основания для отсрочки и освобождения тоже учитываются. [S1]',
+                question, [rule])
     if re.search(r"телефон|смартфон", q) and re.search(r"неисправ|недостат|слома", q):
         definition = next((p for p in evidence if p['document_id']=='consumer-law'
                            and 'относятся исключительно транспортные средства' in ' '.join(str(p['text']).split())), None)
