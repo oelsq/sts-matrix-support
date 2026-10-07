@@ -20,6 +20,9 @@ STOPWORDS = {
     "как", "что", "это", "для", "при", "или", "если", "мне", "меня",
     "мой", "моя", "моего", "вас", "ваша", "ваши", "есть", "нет",
     "the", "and", "with", "from",
+    "какие", "какой", "какая", "какое", "когда", "делать", "можно", "нужно",
+    "хочу", "такое", "помоги", "пожалуйста", "вопрос", "ответ", "предыдущий",
+    "сравнить", "могу", "чтобы", "сейчас", "дальше", "подскажите", "подскажи",
 }
 
 
@@ -47,7 +50,7 @@ def _terms(text: str) -> set[str]:
             for word in words if word not in STOPWORDS}
 
 
-BANK_NAMES = {"halyk": ("halyk", "халык"), "freedom": ("freedom", "фридом")}
+BANK_NAMES = {"halyk": ("halyk", "халык"), "freedom": ("freedom", "фридом"), "kaspi": ("kaspi", "каспи")}
 TARIFF_QUESTION = re.compile(r"комисси|тариф|сколько стоит|стоимость|обслуживан|ставк.*(?:вклад|депозит)|(?:вклад|депозит).*ставк", re.I)
 
 
@@ -216,12 +219,21 @@ class KnowledgeStore:
                     self.passages.append(passage)
         if present_domains != DOMAINS:
             raise KnowledgeError("Offline mode requires reviewed legal and finance documents")
+        self._counters = {str(p["id"]): Counter(_terms(str(p["text"]) + " " + str(p.get("section", ""))))
+                          for p in self.passages}
 
     def search(self, domain: str, question: str, limit: int = 6) -> list[dict[str, str | int]]:
         normalized = question
-        synonyms = {"зарплат": "заработная плата оплата труда", "увольн": "расторжение трудового договора",
+        synonyms = {"зарплат": "заработная плата оплата труда сроки выплаты", "увольн": "расторжение трудового договора",
                     "отпуск": "ежегодный оплачиваемый трудовой отпуск", "реструктур": "изменение условий задолженности заемщика",
-                    "мошенн": "мошенничество скомпрометированная карта", "смс": "SMS", "нацбанк": "Национальный Банк Казахстана"}
+                    "мошенн": "мошенничество скомпрометированная карта", "смс": "SMS", "нацбанк": "Национальный Банк Казахстана",
+                    "купил": "покупатель товар недостаток возврат", "неисправ": "недостаток товара",
+                    "вернуть": "возврат", "залог": "обеспечение обязательств",
+                    "укра": "кража тайное хищение имущества", "похит": "кража хищение имущества",
+                    "мфо": "микрофинансовая организация микрокредит", "коллектор": "коллекторское агентство взаимодействие должник",
+                    "звон": "телефонные переговоры взаимодействие", "угрож": "угрозы насилие",
+                    "банкрот": "банкротство граждан внесудебное судебное восстановление платежеспособности",
+                    "вклад": "депозит гарантирование", "гэсв": "годовая эффективная ставка вознаграждения"}
         for stem, expansion in synonyms.items():
             if stem in question.casefold():
                 normalized += " " + expansion
@@ -239,11 +251,25 @@ class KnowledgeStore:
                                   for section in p.get("excluded_sections", []))]
         if not candidates:
             return []
-        counters = [Counter(_terms(str(p["text"]) + " " + str(p.get("section", ""))))
-                    for p in candidates]
+        counters = [self._counters[str(p["id"])] for p in candidates]
         counts = Counter(term for counter in counters for term in counter)
         average = sum(sum(c.values()) for c in counters) / len(candidates) or 1
         scored = []
+        # Topic routing only ranks existing passages; it never adds legal facts.
+        topics = [
+            (r"зарплат|заработн|работодател|увольн|отпуск|трудов", {"labor"}),
+            (r"купил|покуп|неисправ|товар|продав|гаранти.*товар", {"consumer-law", "civil-special"}),
+            (r"укра|краж|похит", {"criminal"}),
+            (r"коллектор", {"collectors"}),
+            (r"банкрот|платежеспособност", {"bankruptcy"}),
+            (r"(?:гарант|застрах).*(?:вклад|депозит)|(?:вклад|депозит).*гарант", {"deposit-guarantee"}),
+            (r"мфо|микрокредит|микрофинанс", {"microfinance", "arrears"}),
+            (r"аренд|квартир|найм|нанимател", {"housing", "civil-special", "civil-general"}),
+            (r"гэ[сc]в|эффективн.*ставк", {"banks", "microfinance"}),
+            (r"судебн.*исполнител|исполнительн.*производств|арест.*счет", {"enforcement"}),
+            (r"исков.*давност|доверенност|неустойк", {"civil-general"}),
+        ]
+        preferred = set().union(*(docs for pattern, docs in topics if re.search(pattern, question, re.I)))
         for passage, counter in zip(candidates, counters):
             score = 0.0
             for term in terms & counter.keys():
@@ -253,6 +279,28 @@ class KnowledgeStore:
             if score and len(str(passage["text"]).strip()) > 10:
                 score += 3 * len(terms & counter.keys())
                 score += 5 * len(terms & _terms(str(passage.get("section", ""))))
+                if str(passage["text"]).lstrip().startswith(("Сноска.", "Примечание")):
+                    score -= 500
+                if len(str(passage["text"]).strip()) < 120:
+                    score -= 500
+                if passage["document_id"] in preferred:
+                    score += 100
+                section = str(passage.get("section", ""))
+                if (re.search(r"зарплат|заработн", question, re.I) and passage["document_id"] == "labor"
+                        and section.startswith("Статья 113.")):
+                    score += 100
+                if re.search(r"укра|краж|похит", question, re.I) and passage["document_id"] == "criminal" and section.startswith("Статья 188."):
+                    score += 100
+                focused_sections = [
+                    (r"купил|покуп|неисправ|товар|продав", "consumer-law", ("Статья 15.", "Статья 30.")),
+                    (r"коллектор", "collectors", ("Статья 5.",)),
+                    (r"банкрот|платежеспособност", "bankruptcy", ("Статья 5.", "Статья 6.")),
+                    (r"аренд|квартир", "civil-general", ("Статья 338-3.", "Статья 338-4.")),
+                    (r"гэ[сc]в|эффективн.*ставк", "banks", ("Статья 57.",)),
+                ]
+                for pattern, doc, headings in focused_sections:
+                    if passage["document_id"] == doc and section.startswith(headings) and re.search(pattern, question, re.I):
+                        score += 100
                 if ("юриди" in terms and "помощ" in terms and ("прав" in question.casefold() or "кто" in question.casefold())
                         and passage["document_id"] == "legal-aid" and str(passage["section"]).startswith("Статья 26.")):
                     score += 2000
@@ -262,7 +310,33 @@ class KnowledgeStore:
                     score += 1000
                 scored.append((score, passage))
         scored.sort(key=lambda item: (-item[0], str(item[1]["id"])))
-        return [passage for _, passage in scored[:limit]]
+        # Prevent one long article from using the entire evidence budget. Keep
+        # three pieces per section, then fill with further pieces if necessary.
+        chosen, deferred, per_section = [], [], Counter()
+        for _, passage in scored:
+            key = (passage["document_id"], passage.get("section") or passage.get("page"))
+            if per_section[key] >= 3:
+                deferred.append(passage)
+                continue
+            chosen.append(passage); per_section[key] += 1
+            if len(chosen) >= limit:
+                break
+        if len(chosen) < limit:
+            chosen.extend(deferred[:limit - len(chosen)])
+        # Retrieve definitions and exceptions even when their wording differs
+        # from the user's everyday question. They prevent overbroad conclusions.
+        supplements = []
+        if re.search(r"купил|покуп|продав|неисправ|товар", question, re.I) and not selected:
+            supplements += [p for p in candidates if p["document_id"] == "consumer-law"
+                            and "относятся исключительно транспортные средства" in " ".join(str(p["text"]).split())]
+        if re.search(r"банкрот", question, re.I):
+            supplements += [p for p in candidates if p["document_id"] == "bankruptcy"
+                            and str(p["section"]).startswith("Статья 5.")
+                            and any(s in str(p["text"]) for s in ("1600-кратного", "3) кредитором", "2. Несмотря"))]
+        if supplements:
+            existing = {str(p["id"]) for p in supplements}
+            chosen = supplements + [p for p in chosen if str(p["id"]) not in existing]
+        return chosen[:limit]
 
 
 if __name__ == "__main__":

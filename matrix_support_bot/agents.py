@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import re
+from datetime import date
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent / "agents"
@@ -78,7 +79,7 @@ def source_cards(domain: str, question: str = "") -> list[dict[str, str]]:
     return cards
 
 
-def messages(domain: str, question: str, local_evidence: list[dict[str, str | int]] | None = None) -> list[dict[str, str]]:
+def messages(domain: str, question: str, local_evidence: list[dict[str, str | int]] | None = None, previous_question: str = "") -> list[dict[str, str]]:
     if domain == "general":
         return [
             {"role": "system", "content": GENERAL_INSTRUCTIONS},
@@ -90,16 +91,21 @@ def messages(domain: str, question: str, local_evidence: list[dict[str, str | in
             "\nРежим локальной базы знаний. Это правило заменяет просьбу перечислять URL в конце. Не предлагай открыть сайты и не выдумывай URL. "
             "Ссылайся на ID и страницу только тех локальных фрагментов, "
             "которые переданы ниже. Формат только [S1], [S2] и т.д., без пояснений внутри скобок. "
-            "Отвечай максимум 8 предложениями. Учитывай дату редакции, исключения, валюту, продукт, "
+            "Подбирай длину по вопросу: обычно 120–220 слов, для простого факта 2–4 предложения без списка шагов. "
+            "Учитывай дату редакции, исключения, валюту, продукт, "
             "сноски и сроки вступления в силу; не объединяй тарифы разных банков или колонок. "
             "Не называй сохранённую редакцию актуальной на другие даты. "
             "Если вопрос не покрыт документами, скажи это прямо и не добавляй вымышленные факты. "
-            "Текущая дата проверки базы: 2026-10-05. Поле applicability_note имеет приоритет: "
+            f"Сегодня {date.today().isoformat()}; дата проверки каждого документа указана в reviewed_on. Поле applicability_note имеет приоритет: "
             "положения, начинающиеся в 2027 году, пока не действуют. Не применяй будущие нормы и не выводи компетенцию будущего учреждения из его названия. "
             "Сноска с будущим изменением не меняет действующий текст до даты вступления. "
             "Информационная памятка регулятора не равна закону. При коллизии или нехватке "
-            "переходных положений прямо сообщи об ограничении и предложи !человек. "
+            "переходных положений объясни, какой именно факт не подтверждён, и продолжи с тем, что подтверждено. "
             "Не сочиняй и не переписывай дословные цитаты. Сервер сам добавит цитату из PDF. "
+            "Не добавляй суммы, проценты и сроки из памяти. Не переводи МРП в тенге, если в источниках нет значения МРП на нужный год. "
+            "Порог задолженности не означает право на банкротство сам по себе: проверь остальные условия выбранной процедуры. "
+            "Не распространяй тариф на валюты, каналы и категории клиентов, которые в соответствующей строке не названы. "
+            "Перед отправкой проверь: каждый вывод следует из указанного фрагмента, ответ завершён, нет посторонних слов на другом языке и лишнего шаблона. "
         )
     if local_evidence is None:
         pack = json.loads((BASE / "sources.json").read_text(encoding="utf-8"))
@@ -129,16 +135,41 @@ def messages(domain: str, question: str, local_evidence: list[dict[str, str | in
         )
         return [
             {"role": "system", "content": instructions + "\n" + evidence},
-            {"role": "user", "content": question +
-             "\nОтветь только на основании подходящих фрагментов. После каждого утверждения поставь "
+            {"role": "user", "content": (
+             ("Предыдущий вопрос этого пользователя (контекст, не источник права):\n" + previous_question[:3000] + "\n\n" if previous_question else "") + question +
+             "\nПодтверждай конкретные нормы и условия только подходящими фрагментами. После подтверждаемого факта поставь "
              "ссылку вида [S1] или [S2] на фрагмент, который его подтверждает. "
-             "Не пиши слово ID внутри скобок. Не сокращай номер ссылки. Если фактов нет, сообщи об этом."},
+             "Общие организационные советы и уточняющие вопросы не требуют вымышленной ссылки. "
+             "Не пиши слово ID внутри скобок. Не сокращай номер ссылки. "
+             "Если подтверждения нет, обозначь конкретный пробел и дай безопасный план следующих действий. Не подставляй нерелевантный источник.")},
         ]
     return [
         {"role": "system", "content": instructions},
         {"role": "system", "content": "ПРОВЕРЕННЫЕ ИСТОЧНИКИ:\n" + evidence},
         {"role": "user", "content": question},
     ]
+
+
+def review_messages(domain, question, draft, evidence):
+    """Ask for a grounded edit, rather than accepting a plausible first draft."""
+    result = messages(domain, question, evidence)
+    result[0]["content"] += (
+        "\nСейчас ты редактор проверки, а не автор свободного совета. Исправь черновик строго по локальным фрагментам. "
+        "Удаляй неподтверждённые права, сроки, органы, судебную подсудность, формулы и требования к процедуре, даже если они кажутся знакомыми. "
+        "Если документ говорит только «уполномоченный орган», не подставляй название ведомства. "
+        "Условия и исключения важнее уверенного тона: не обещай возврат любого неисправного телефона без проверки специальных правил; "
+        "не называй любой арендный депозит гарантией или залогом — квалификация зависит от договора. "
+        "Не путай исключение (например, для получателей социальной помощи) с обязательным условием для всех. "
+        "Если перечисляешь условия банкротства, назови список предварительным и укажи исключения из статьи 5, включая длительное неисполнение обязательств. "
+        "Не делай договор приоритетным над обязательными нормами закона. "
+        "Не добавляй расчёт неустойки, частоту звонков, комиссии и сроки, о которых пользователь не спрашивал, если они не нужны для первого действия. "
+        "Для простого тарифа оставь один абзац: значение, продукт и дата сохранённых условий, без выдуманных экранов приложения. "
+        "Не выводи переплату умножением ГЭСВ на срок. Не выдумывай значение МРП. "
+        "Сохрани полезные организационные шаги как предложения. Оставь прямой ответ и 3–4 шага, максимум 180 слов. "
+        "У каждого нормативного утверждения должна быть подходящая ссылка [S1]. В ответе только исправленный текст для пользователя, без отчёта о проверке."
+    )
+    result[-1]["content"] = "Вопрос: " + question + "\n\nЧЕРНОВИК ДЛЯ ПРОВЕРКИ (не источник):\n" + draft[:14000]
+    return result
 
 
 def grounded_answer(domain: str, answer: str, question: str) -> str:
@@ -194,6 +225,7 @@ def render(domain: str, answer: str, question: str = "", local_evidence: list[di
     if not label:
         return answer
     if local_evidence is not None:
+        answer = re.sub(r"【(S\d+(?:\s*,\s*S\d+)*)】", r"[\1]", answer)
         allowed = {str(item["id"]) for item in local_evidence}
         aliases = {"S" + str(i): str(item["id"])
                    for i, item in enumerate(local_evidence, 1)}
@@ -205,13 +237,20 @@ def render(domain: str, answer: str, question: str = "", local_evidence: list[di
                 return match.group(0)
             return " ".join("[" + identifier + "]" for identifier in identifiers)
         answer = re.sub(r"\[([^\[\]\n]+)\]", normalize_marker, answer)
-        cited = set(re.findall(r"\[([^\[\]\n]+)\]", answer))
+        # A template can contain [дата] or [имя]. Only source-like markers
+        # participate in citation validation; unknown S numbers/fragment IDs fail.
+        markers = re.findall(r"\[([^\[\]\n]+)\]", answer)
+        cited = {marker for marker in markers if marker in allowed or
+                 re.search(r"\bS\d+\b|^ID\b|:", marker, re.I)}
         if not cited or not cited.issubset(allowed):
             return (
                 f"**{label}**\nНе удалось подготовить ответ с проверяемой "
                 "ссылкой на локальный документ. Уточните вопрос или "
                 "обратитесь к специалисту."
             )
+        if unsupported_quantities(answer, question, local_evidence, cited):
+            return (f"**{label}**\nНе удалось подготовить ответ с проверяемой "
+                    "суммой, ставкой или сроком из локального документа. Уберите неподтверждённые числа.")
         # A generated quotation must retain the conditions in the actual source.
         # In particular, free legal information is not an unconditional right to all forms of aid.
         def normalize_quote(text):
@@ -254,6 +293,43 @@ def render(domain: str, answer: str, question: str = "", local_evidence: list[di
     return f"**{label}**\n{grounded_answer(domain, answer, question)}\n\nМатериалы для самостоятельной проверки:\n{links}"
 
 
+def unsupported_quantities(answer, question, evidence, cited):
+    """Catch newly invented numerical amounts/periods, not all factual errors.
+
+    A numerical example explicitly requested by the user may have a derived
+    result; it must be labelled as an example/calculation. This guard cannot
+    establish that a real source was interpreted correctly.
+    """
+    def normalized(text):
+        # Statutes often spell periods out: «семи лет», «двенадцати месяцев».
+        for pattern, digit in [(r"один|одного|одной|одну", "1"), (r"два|две|двух", "2"),
+                               (r"три|трех|трёх", "3"), (r"четыре|четырех|четырёх", "4"),
+                               (r"пять|пяти", "5"), (r"шесть|шести", "6"),
+                               (r"семь|семи", "7"), (r"восемь|восьми", "8"),
+                               (r"девять|девяти", "9"), (r"десять|десяти", "10"),
+                               (r"одиннадцать|одиннадцати", "11"),
+                               (r"двенадцать|двенадцати", "12"),
+                               (r"пятнадцать|пятнадцати", "15"),
+                               (r"двадцать|двадцати", "20"), (r"тридцать|тридцати", "30")]:
+            text = re.sub(r"\b(?:" + pattern + r")\b", digit, text, flags=re.I)
+        text = re.sub(r"(?<=\d)[ \u00a0\u202f](?=\d{3}(?:\D|$))", "", text)
+        return text.replace(",", ".")
+    proof = normalized("\n".join(str(p["text"]) for p in evidence if str(p["id"]) in cited) + "\n" + question)
+    known = set(re.findall(r"\d+(?:\.\d+)?", proof))
+    calculation_requested = bool(re.search(r"рассчита|посчита|расч[её]т|пример", question, re.I))
+    text = re.sub(r"\[[^\[\]\n]+\]", "", normalized(answer))
+    for paragraph in text.split("\n\n"):
+        if calculation_requested and re.search(r"пример|расч[её]т|допущен", paragraph, re.I):
+            continue
+        quantities = re.findall(
+            r"\b(\d+(?:\.\d+)?)\s*(?:млн\s*тенге|тыс\.?\s*тенге|тенге|теңге|₸|%|МРП\b|"
+            r"(?:рабочих|календарных)\s+дн\w*|дн(?:я|ей|и)\b|месяц\w*|лет\b|год(?:а|ов)?\b)",
+            paragraph, re.I)
+        if any(number not in known for number in quantities):
+            return True
+    return False
+
+
 def legal_aid_eligibility_answer(question, evidence):
     """Use a bounded article-26 summary for general eligibility questions."""
     if not re.search(r'бесплатн|гарантированн', question, re.I) or not re.search(r'юридическ|правов', question, re.I):
@@ -268,14 +344,15 @@ def legal_aid_eligibility_answer(question, evidence):
     selected = [information, representation] if information != representation else [information]
     second = 'S2' if len(selected) == 2 else 'S1'
     answer = (
-        'Статья 26 различает формы бесплатной помощи. Правовое информирование доступно всем физическим и юридическим лицам. [S1] '
-        'Для правового консультирования предусмотрены категории и условия пункта 2: например, вопросы алиментов, пенсий и пособий, '
+        'Статья 26 различает формы бесплатной помощи: право на информацию не означает автоматическое право на бесплатного представителя в любом споре.\n\n'
+        '**Какая помощь доступна**\n'
+        '- Правовое информирование доступно всем физическим и юридическим лицам. [S1]\n'
+        '- Для правового консультирования предусмотрены категории и условия пункта 2: например, вопросы алиментов, пенсий и пособий, '
         'а также отдельные статусы заявителя. Для многодетных семей, перечисленных в пункте 2 ветеранов, военнослужащих, лиц с инвалидностью '
         'и пенсионеров, а также малообеспеченных лиц установлено условие: вопрос не связан с предпринимательской деятельностью; '
-        'для малообеспеченных также указан критерий дохода ниже установленной черты бедности. [S1] [' + second + '] '
-        'Защита и представительство предоставляются по пункту 3 с учётом применимого процессуального законодательства; '
-        'это отдельная форма помощи, а не автоматическое право на бесплатного представителя в любом споре. [' + second + '] '
+        'для малообеспеченных также указан критерий дохода ниже установленной черты бедности. [S1] [' + second + ']\n'
+        '- Защита и представительство предоставляются по пункту 3 с учётом применимого процессуального законодательства. [' + second + ']\n\n'
+        '**Что уточнить**\n'
         'Чтобы проверить ваши основания, уточните вид помощи, предмет обращения и относящийся к вопросу статус, без передачи секретов и документов с личными данными. '
-        'Для проверки сотрудником напишите !юрдеп.'
     )
     return render('legal', answer, question, selected)

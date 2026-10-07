@@ -14,6 +14,8 @@ def safe_link(url, label):
 def inline(text, numbers):
     # Escape first; the only tags come from our own restricted renderer.
     text = html.escape(text)
+    text = re.sub(r'\[([^\[\]\n]+)\]\(([^\s)]+)\)',
+                  lambda m: safe_link(html.unescape(m[2]), html.unescape(m[1])), text)
     text = re.sub(r'`([^`\n]+)`', r'<code>\1</code>', text)
     text = re.sub(r'\*\*([^*\n]+)\*\*', r'<strong>\1</strong>', text)
     for identifier, number in numbers.items():
@@ -27,8 +29,8 @@ def blocks(text, numbers):
             result.append('<p>' + '<br>'.join(paragraph) + '</p>'); paragraph.clear()
         if items:
             result.append('<' + kind + '>' + ''.join('<li>' + x + '</li>' for x in items) + '</' + kind + '>'); items.clear()
-    for line in text.splitlines():
-        line = line.strip()
+    for raw in text.splitlines():
+        line = raw.strip()
         if not line:
             # Blank lines separate paragraphs, but do not restart a list.
             if paragraph: flush()
@@ -38,6 +40,9 @@ def blocks(text, numbers):
             wanted = 'ol' if match[1] else 'ul'
             if paragraph or (items and wanted != kind): flush()
             kind = wanted; items.append(inline(match[2], numbers)); continue
+        if items and raw[:1].isspace():
+            items[-1] += '<br>' + inline(line, numbers)
+            continue
         if items: flush()
         heading = re.match(r'^#{1,6}\s+(.+)$', line)
         if heading:
@@ -51,7 +56,17 @@ def plain(text, numbers):
         text = text.replace('[' + identifier + ']', '[' + str(number) + ']')
     text = re.sub(r'\*\*([^*\n]+)\*\*', r'\1', text)
     text = re.sub(r'`([^`\n]+)`', r'\1', text)
-    return re.sub(r'^#{1,6}\s+', '', text, flags=re.M)
+    text = re.sub(r'^#{1,6}\s+', '', text, flags=re.M)
+    # Plain-text clients should see the same numbering as the HTML <ol>.
+    lines, number = [], 0
+    for raw in text.splitlines():
+        match = re.match(r'^\s*\d+[.)]\s+(.+)$', raw)
+        if match:
+            number += 1; lines.append(str(number) + '. ' + match[1])
+        else:
+            if raw.strip() and not raw[:1].isspace(): number = 0
+            lines.append(raw)
+    return '\n'.join(lines)
 
 def matrix_content(text):
     lines = text.splitlines(); cards = []; remaining = []; i = 0

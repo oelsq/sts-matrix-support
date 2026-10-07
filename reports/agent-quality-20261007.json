@@ -1,0 +1,200 @@
+{
+  "checked_on": "2026-10-07",
+  "automatic_tests": {
+    "passed": 94,
+    "failed": 0,
+    "warnings": 11,
+    "environment": "staged copy inside existing Python 3.12 bot container, disposable SQLite database"
+  },
+  "knowledge": {
+    "documents": 25,
+    "pages": 1369,
+    "added_documents": [
+      {
+        "id": "bankruptcy",
+        "pages": 26,
+        "text_chars": 108006,
+        "sha256": "a7fad343d253a943c574df5149e251317d2fbad8e9a5a98ab80d6ddfbe654320"
+      },
+      {
+        "id": "civil-general",
+        "pages": 110,
+        "text_chars": 476688,
+        "sha256": "5477d527251ed4dd0d50acc5504f2f2cda2e2d6a1461c9c3868f20a480fbefa0"
+      },
+      {
+        "id": "civil-special",
+        "pages": 167,
+        "text_chars": 714015,
+        "sha256": "11ad2a515b34ae13033eafff330393cd2d890ac03bfeb4bd1950813be0e69b1a"
+      },
+      {
+        "id": "collectors",
+        "pages": 30,
+        "text_chars": 138228,
+        "sha256": "65f4f50428fd07a323b448e79ed7ec1852701cb5b701431a5292d89652f730b9"
+      },
+      {
+        "id": "criminal",
+        "pages": 200,
+        "text_chars": 885929,
+        "sha256": "78ee793e566ae13e3b5c7e95c89cbde9723d0035262fae6e29e4804ffe675827"
+      },
+      {
+        "id": "deposit-guarantee",
+        "pages": 15,
+        "text_chars": 69684,
+        "sha256": "e2420c09cfa5e910dabccacc0ad8bad7e8385475a9e58039163d51f3fe9f8e54"
+      },
+      {
+        "id": "enforcement",
+        "pages": 82,
+        "text_chars": 368644,
+        "sha256": "1830bbd4f881a18142cabcf060543bac4a6c524d0998de89617954c5a6638ff4"
+      },
+      {
+        "id": "housing",
+        "pages": 83,
+        "text_chars": 384079,
+        "sha256": "81737051235a2844a5c46cd7f55be2e63e703ab207f57887fd0b38fb5cfc1970"
+      },
+      {
+        "id": "microfinance",
+        "pages": 55,
+        "text_chars": 251304,
+        "sha256": "b20fa26dd447fd3a944fd7d7c8eb0f3712e020887f8c595ac4ba1794e1537b1e"
+      }
+    ],
+    "new_snapshot_date": "2026-10-07",
+    "old_documents_keep_their_own_review_dates": true,
+    "passages": 6081
+  },
+  "deployment": {
+    "specialist_model_alias": "legal-chat-qwen38-int4",
+    "configured_upstream_model": "openai/qwen3.8-int4-lab",
+    "gateway": "existing LiteLLM",
+    "models_independently_configurable": true,
+    "new_install_default": "legal-chat (NITEC); VM-local Qwen service not bundled",
+    "matrix_login": true,
+    "specialist_rooms": 2,
+    "element_http_status": 200,
+    "matrix_proxy_http_status": 200,
+    "backend_health_http_status": 200,
+    "only_bot_recreated": true
+  },
+  "real_model_evaluation": {
+    "questions_are_synthetic": true,
+    "cases": [
+      {
+        "domain": "legal",
+        "question": "Работодатель не платит зарплату уже месяц. Что делать?",
+        "retrieved_documents": [
+          "labor"
+        ],
+        "has_evidence": true,
+        "citation_format_check": true,
+        "attempts": 1
+      },
+      {
+        "domain": "legal",
+        "question": "Купил неисправный телефон, хочу вернуть деньги. Как действовать?",
+        "retrieved_documents": [
+          "consumer-law",
+          "civil-special"
+        ],
+        "has_evidence": true,
+        "citation_format_check": true,
+        "attempts": 1
+      },
+      {
+        "domain": "finance",
+        "question": "Коллекторы звонят родственникам и угрожают. Что мне делать?",
+        "retrieved_documents": [
+          "collectors"
+        ],
+        "has_evidence": true,
+        "citation_format_check": true,
+        "attempts": 1
+      },
+      {
+        "domain": "legal",
+        "question": "Арендодатель не возвращает залог за квартиру. Что проверить?",
+        "retrieved_documents": [
+          "civil-general",
+          "housing"
+        ],
+        "has_evidence": true,
+        "citation_format_check": true,
+        "attempts": 1
+      },
+      {
+        "domain": "finance",
+        "question": "Можно ли оформить банкротство физического лица? Объясни первые шаги и ограничения.",
+        "retrieved_documents": [
+          "bankruptcy"
+        ],
+        "has_evidence": true,
+        "citation_format_check": true,
+        "attempts": 1
+      },
+      {
+        "domain": "finance",
+        "question": "Halyk SuperApp: какая комиссия за оплату коммунальных услуг?",
+        "retrieved_documents": [
+          "halyk-superapp"
+        ],
+        "has_evidence": true,
+        "citation_format_check": true,
+        "attempts": 1
+      },
+      {
+        "domain": "finance",
+        "question": "Какая сейчас комиссия Kaspi за перевод в другой банк?",
+        "retrieved_documents": [],
+        "has_evidence": false,
+        "citation_format_check": true,
+        "attempts": 0
+      },
+      {
+        "domain": "finance",
+        "question": "Что такое ГЭСВ и как сравнить кредиты?",
+        "retrieved_documents": [
+          "banks",
+          "microfinance"
+        ],
+        "has_evidence": true,
+        "citation_format_check": true,
+        "attempts": 1
+      }
+    ],
+    "factual_correctness_certified": false,
+    "notes": [
+      "Initial AlemLLM and GPT-OSS drafts sometimes invented amounts, deadlines or credit formulas.",
+      "DeepSeek was forbidden by upstream model access; Kimi did not return within the test timeout.",
+      "Qwen was selected after comparison. Drafts now receive a second grounding edit using the same evidence.",
+      "Definition of technically complex goods and exceptions in bankruptcy are included in retrieval even when question wording differs.",
+      "Server quantity check catches some unsupported numerical values, but does not establish that legal conditions were interpreted correctly.",
+      "Kaspi transfer tariff is absent: response asks for the exact product/tariff and gives preparatory help, without using Halyk or Freedom prices."
+    ]
+  },
+  "security": {
+    "secrets_committed": false,
+    "existing_credentials_reused_in_original_bot_only": true,
+    "user_data_exported": false
+  },
+  "limits": [
+    "This is retrieval from saved PDF, not training model weights.",
+    "Second model pass is not independent legal review. Incorrect interpretation and omitted conditions remain possible.",
+    "No load test for 100–500 requests/day performed.",
+    "Fully isolated operation requires the LLM itself to be hosted inside the permitted network."
+  ],
+  "source_bound_regressions": {
+    "topics": [
+      "defective mobile phone (closed statutory product definition)",
+      "rental security payment (conditional guarantee-contribution rule)"
+    ],
+    "reason": "Repeated real-model smoke test still misclassified the phone despite the defining clause. These two paths now use reviewed conditional summaries only when the required source clauses are present.",
+    "tests": "Both summaries, source guards and absence of an automatic refund promise are covered by tests.",
+    "claim": "This is a bounded correction for identified cases, not a guarantee of all legal answers."
+  }
+}

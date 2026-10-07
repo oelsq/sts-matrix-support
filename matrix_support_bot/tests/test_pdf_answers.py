@@ -16,7 +16,10 @@ class PdfAnswerTests(unittest.TestCase):
         self.assertIn('Комиссия 0 теңге',answer)
         self.assertNotIn('Unused',answer)
         legal=render('legal','Ответ в течение десяти календарных дней. [bank:p1:1:1]','',evidence)
-        self.assertIn('десяти календарных дней',legal)
+        # A real bank-tariff citation does not prove an unrelated legal period.
+        self.assertIn('Не удалось подготовить ответ',legal)
+        supported=[{**evidence[0],'text':'Ответ в течение десяти календарных дней.'}]
+        self.assertNotIn('Не удалось',render('legal','Ответ в течение 10 календарных дней. [S1]','',supported))
 
     def test_invented_citation_is_rejected_even_with_valid_citation(self):
         evidence=[{'id':'bank:p1:1:1'}]

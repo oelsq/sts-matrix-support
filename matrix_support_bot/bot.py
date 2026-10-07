@@ -16,7 +16,9 @@ from nio import AsyncClient, LoginResponse, InviteMemberEvent, RoomMessageText, 
 from llm_settings import api_key as read_llm_key, model_for_domain
 from message_format import matrix_content
 from evidence_scope import scope_evidence
-from agents import messages, render, route_for_room
+from response_guidance import retrieval_question, practical_fallback
+from agents import messages, render, route_for_room, review_messages
+from checked_answers import checked_legal_answer
 from offline_knowledge import KnowledgeStore, needs_bank, validate_llm_endpoint, validate_local_endpoint
 from urgent_help import urgent_finance_answer, legal_urgent_notice
 from human_handoff import HumanHandoff, HandoffStore, handoff_command, choose_department, department_roster
@@ -105,18 +107,16 @@ async def main():
 
         async def ask_agent(domain, question, room_id, sender, event_id):
             local_evidence = None
+            previous_question = latest_context.get((room_id, sender), ("", ""))[0]
+            search_question = retrieval_question(question, previous_question)
             if knowledge is not None and domain != "general":
-                local_evidence = scope_evidence(domain, question, knowledge.search(domain, question))
+                local_evidence = scope_evidence(domain, search_question, knowledge.search(domain, search_question, limit=8))
                 if not local_evidence:
-                    label = {"legal": "Юридический", "finance": "Финансовый"}[domain]
-                    if domain == "finance" and needs_bank(question):
-                        return "**Финансовый агент**\nУточните банк: Halyk или Freedom, и название продукта. Тарифы разных банков отличаются."
-                    return (
-                        f"**{label} агент**\nВ загруженных локальных документах "
-                        "не найдено материалов по этому вопросу. Я не могу "
-                        "дать проверенный ответ. Уточните вопрос или обратитесь "
-                        "к специалисту."
-                    )
+                    return practical_fallback(domain, search_question)
+                if domain == "legal" and bridge is None:
+                    checked = checked_legal_answer(search_question, local_evidence)
+                    if checked:
+                        return checked
             if bridge is not None and domain in {"legal", "finance"}:
                 raw = await bridge.ask(http, domain, room_id, sender, event_id, question, local_evidence)
                 validated = render(domain, raw, question, local_evidence)
@@ -135,8 +135,9 @@ async def main():
                     return bounded
             payload = {
                 "model": model_for_domain(domain),
-                "messages": messages(domain, question, local_evidence),
-                "max_tokens": 1100,
+                "messages": messages(domain, question, local_evidence,
+                                     previous_question if search_question != question else ""),
+                "max_tokens": 2300,
             }
             for attempt in range(2):
                 async with http.post(
@@ -149,15 +150,32 @@ async def main():
                 answer = data["choices"][0]["message"]["content"]
                 if not isinstance(answer, str) or not answer.strip():
                     raise ValueError("Empty LLM response")
+                if local_evidence:
+                    review = {"model": model_for_domain(domain),
+                              "messages": review_messages(domain, search_question, answer, local_evidence),
+                              "max_tokens": 2300}
+                    async with http.post(
+                        os.environ["LLM_ENDPOINT"].rstrip("/") + "/chat/completions",
+                        json=review, headers={"Authorization": "Bearer " + api_key},
+                    ) as response:
+                        response.raise_for_status()
+                        data = await response.json()
+                    answer = data["choices"][0]["message"]["content"]
+                    if not isinstance(answer, str) or not answer.strip():
+                        raise ValueError("Empty LLM review")
                 rendered = render(domain, answer.strip(), question, local_evidence)
                 citation_failure = "Не удалось подготовить ответ с проверяемой" in rendered
+                truncated = data["choices"][0].get("finish_reason") == "length"
+                citation_failure = citation_failure or truncated
+                if citation_failure and attempt:
+                    return practical_fallback(domain, search_question)
                 if local_evidence is None or not citation_failure or attempt:
                     return rendered
                 log.info("Retrying agent %s after invalid citation format", domain)
                 payload["messages"] += [
                     {"role": "assistant", "content": answer},
                     {"role": "user", "content":
-                     "Ответ отклонён из-за неверных ссылок. Перепиши ответ по переданным фрагментам. "
+                     "Перепиши ответ короче (до 180 слов) по переданным фрагментам. Убери неподтверждённые числа, сроки и условия. "
                      "Разрешены ТОЛЬКО метки " + ", ".join("[S" + str(i) + "]" for i in range(1, len(local_evidence) + 1)) +
                      ". Никаких слов, номеров пунктов, тире или диапазонов внутри скобок. "
                      "Если утверждение не подтверждается фрагментом, убери его; если данных недостаточно, прямо сообщи это."},
@@ -236,7 +254,7 @@ async def main():
             if len(latest_context) > 1000:
                 latest_context.pop(next(iter(latest_context)))
             if handoff and any(domain in departments for domain in domains):
-                answer += "\n\nЕсли ответ не помог, напишите !человек — передать ваш последний вопрос и ответ ИИ живому сотруднику в отдельную комнату. Либо !юрдеп / !финдеп."
+                answer += "\n\nНужна проверка сотрудника? Напишите !человек."
             result = await client.room_send(
                 room_id=room.room_id,
                 message_type="m.room.message",
