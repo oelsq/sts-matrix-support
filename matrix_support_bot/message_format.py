@@ -86,7 +86,6 @@ def matrix_content(text):
     numbers = {card['id']:n for n,card in enumerate(cards,1)}
     core = '\n'.join(remaining).strip()
     # Keep operational attribution unobtrusive and shorten the repetitive handoff footer.
-    core = re.sub(r'Ответ подготовил (ЮрАгент|ФинАгент) в Multica\.', r'Подготовлено: \1 · Multica.', core)
     core = re.sub(r'Если ответ не помог, напишите !человек[^\n]*', 'Нужен сотрудник? Напишите !человек, !юрдеп или !финдеп.', core)
     core = re.sub(r'^\*\*(Финансовый агент|Юридический агент)\*\*\n', r'**\1**\n\n', core)
     body = plain(core, numbers); rich = blocks(core, numbers)

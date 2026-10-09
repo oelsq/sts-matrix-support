@@ -82,13 +82,14 @@ async def main():
     started_ms = int(time.time() * 1000)
     seen = set()
     previous_routes = {}
-    bridge = None
-    if os.getenv("AGENT_BACKEND", "llm") == "multica":
-        if offline:
-            raise RuntimeError("Cloud Multica is unavailable in offline mode")
-        from multica_bridge import MulticaBridge
-        bridge = MulticaBridge(os.environ["MULTICA_CONFIG_FILE"], os.environ["MULTICA_STATE_DB"])
-        log.info("Multica specialist backend enabled")
+    from flowise_client import FlowiseClient
+    flowise = FlowiseClient.from_env(os.environ)
+    if flowise:
+        for room_id, entry in flowise.routes.items():
+            if room_id in fixed_routes and fixed_routes[room_id] != entry["domain"]:
+                raise RuntimeError("Flowise domain conflicts with room route")
+            fixed_routes[room_id] = entry["domain"]
+        log.info("Flowise pilot rooms configured: %d", len(flowise.routes))
     timeout = aiohttp.ClientTimeout(total=90)
 
     async with aiohttp.ClientSession(timeout=timeout) as http:
@@ -115,21 +116,10 @@ async def main():
                 if not local_evidence:
                     log.info("Agent fallback: domain=%s reason=no_evidence", domain)
                     return practical_fallback(domain, search_question)
-                if domain == "legal" and bridge is None:
+                if domain == "legal":
                     checked = checked_legal_answer(search_question, local_evidence)
                     if checked:
                         return checked
-            if bridge is not None and domain in {"legal", "finance"}:
-                raw = await bridge.ask(http, domain, room_id, sender, event_id, question, local_evidence)
-                validated = render(domain, raw, question, local_evidence)
-                if domain == "legal":
-                    from agents import legal_aid_eligibility_answer
-                    bounded = legal_aid_eligibility_answer(question, local_evidence)
-                    if bounded:
-                        validated = bounded + "\n\nУсловия бесплатной помощи дополнительно проверены по памятке статьи 26."
-                if "Не удалось подготовить ответ" in validated:
-                    return validated + "\nОтвет агента Multica не прошёл проверку источников. Напишите !человек для передачи сотруднику."
-                return validated + "\n\nОтвет подготовил " + ("ЮрАгент" if domain == "legal" else "ФинАгент") + " в Multica."
             if domain == "legal" and local_evidence is not None:
                 from agents import legal_aid_eligibility_answer
                 bounded = legal_aid_eligibility_answer(question, local_evidence)
@@ -141,14 +131,21 @@ async def main():
                                      previous_question if search_question != question else ""),
                 "max_tokens": 2300,
             }
-            for attempt in range(2):
+            async def complete(request):
+                if flowise and flowise.selected(room_id, domain):
+                    result = await flowise.predict(http, domain, room_id, sender, event_id, request["messages"])
+                    log.info("Flowise response received; domain=%s", domain)
+                    return {"choices": [{"message": {"content": result}, "finish_reason": None}]}
                 async with http.post(
                     os.environ["LLM_ENDPOINT"].rstrip("/") + "/chat/completions",
-                    json=payload,
+                    json=request,
                     headers={"Authorization": "Bearer " + api_key},
                 ) as response:
                     response.raise_for_status()
-                    data = await response.json()
+                    return await response.json()
+
+            for attempt in range(2):
+                data = await complete(payload)
                 answer = data["choices"][0]["message"]["content"]
                 if not isinstance(answer, str) or not answer.strip():
                     raise ValueError("Empty LLM response")
@@ -156,12 +153,7 @@ async def main():
                     review = {"model": model_for_domain(domain),
                               "messages": review_messages(domain, search_question, answer, local_evidence),
                               "max_tokens": 2300}
-                    async with http.post(
-                        os.environ["LLM_ENDPOINT"].rstrip("/") + "/chat/completions",
-                        json=review, headers={"Authorization": "Bearer " + api_key},
-                    ) as response:
-                        response.raise_for_status()
-                        data = await response.json()
+                    data = await complete(review)
                     answer = data["choices"][0]["message"]["content"]
                     if not isinstance(answer, str) or not answer.strip():
                         raise ValueError("Empty LLM review")
@@ -240,7 +232,7 @@ async def main():
             if notice:
                 await client.room_send(room_id=room.room_id, message_type="m.room.message",
                                        content=matrix_content(notice))
-            if bridge is not None and any(d in {"legal", "finance"} for d in domains):
+            if flowise and room.room_id in flowise.routes:
                 await client.room_send(room_id=room.room_id, message_type="m.room.message",
                                        content={"msgtype":"m.text", "body":"Готовлю ответ по проверенным документам…"})
             replies = []

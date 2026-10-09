@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-09",
+  "status": "pilot_prepared_model_access_pending",
+  "multica": {
+    "active_bridge_removed": true,
+    "production_bot_rebuilt": true,
+    "historical_reports_preserved": true
+  },
+  "automated_tests": {
+    "passed": 128,
+    "failed": 0,
+    "dependency_deprecation_warnings": 11,
+    "execution": "Staged source in the existing bot environment; disposable SQLite database; production corpus read-only",
+    "initial_packaging_error": "First run omitted agents/*.md and agents/sources.json. Added those test assets; rerun passed."
+  },
+  "flowise": {
+    "version": "3.1.4",
+    "image_digest": "sha256:3922767afb52a5777759fd8b28a3c9eee864daea96018a791f2429eae2a76571",
+    "upstream_eol": "2026-08-31",
+    "upstream_notice": "https://github.com/FlowiseAI/Flowise/discussions/6727",
+    "host_binding": "127.0.0.1:13001",
+    "database": "Dedicated PostgreSQL; the official image fails with the SQLite session store",
+    "vm_compose_project": "sts-flowise-pilot",
+    "vm_configuration_directory": "/home/admin_sts/sts-matrix-support/flowise",
+    "existing_shared_flowise_modified": false,
+    "admin_created": true,
+    "real_llm_key_transferred": false,
+    "real_specialist_flows_provisioned": false,
+    "active_matrix_pilot_rooms": 0
+  },
+  "live_transport_check": {
+    "result": "passed",
+    "model": "temporary fake OpenAI-compatible endpoint, not an actual LLM",
+    "actual_flowise_graph": "Prompt Template -> ChatOpenAI -> LLM Chain",
+    "authenticated_prediction": "TRANSPORT_OK [S1]",
+    "unauthenticated_prediction": "Blocked before model invocation; Flowise 3.1.4 wraps Unauthorized as HTTP 500",
+    "temporary_objects_removed": true,
+    "real_model_quality_evaluated": false,
+    "matrix_ui_end_to_end_evaluated": false
+  },
+  "production_bot_after_restart": {
+    "matrix_login": "successful",
+    "loaded_passages": 24814,
+    "dedicated_main_rooms": 2,
+    "routing": "Existing direct LiteLLM; Flowise remains opt-in and disabled"
+  },
+  "remaining": [
+    "Owner authorization for a dedicated restricted LiteLLM virtual key in Flowise",
+    "Provision the legal and finance flows with that key",
+    "Enable a dedicated test Matrix room and verify real-model replies and human handoff"
+  ]
+}

@@ -102,7 +102,10 @@ services:
       LEGAL_DEPARTMENT_USERS: "@jurdep:${MATRIX_SERVER_NAME:-demo.local},@jurdep2:${MATRIX_SERVER_NAME:-demo.local},@jurdep3:${MATRIX_SERVER_NAME:-demo.local},@jurdep4:${MATRIX_SERVER_NAME:-demo.local},@jurdep5:${MATRIX_SERVER_NAME:-demo.local}"
       FINANCE_DEPARTMENT_USERS: "@findep:${MATRIX_SERVER_NAME:-demo.local},@findep2:${MATRIX_SERVER_NAME:-demo.local},@findep3:${MATRIX_SERVER_NAME:-demo.local},@findep4:${MATRIX_SERVER_NAME:-demo.local},@findep5:${MATRIX_SERVER_NAME:-demo.local}"
       ELEMENT_PUBLIC_URL: ${ELEMENT_PUBLIC_URL:-http://localhost:8081}
-      AGENT_BACKEND: llm
+      FLOWISE_URL: ${FLOWISE_URL:-http://flowise:3000}
+      FLOWISE_ALLOWED_HOSTS: flowise
+      FLOWISE_ROOM_ROUTES_FILE: /app/state/flowise_rooms.json
+      FLOWISE_API_KEY_FILE: /app/state/flowise_api_key
       OFFLINE_MODE: ${OFFLINE_MODE:-0}
       LLM_ALLOWED_HOSTS: litellm
       MATRIX_ALLOWED_HOSTS: homeserver

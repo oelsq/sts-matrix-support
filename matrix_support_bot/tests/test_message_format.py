@@ -1,7 +1,7 @@
 from message_format import matrix_content
 
 def test_verified_source_compact_view_preserves_quote_and_metadata():
-    text='**Финансовый агент**\nКомиссия 0 тенге [bank:p1:5:1].\n\nЛокальные материалы для проверки:\n• [bank:p1:5:1] Тарифы Halyk, стр. 1 (проверен 2026-10-01; редакция/версия: 15.09.2026; источник: https://example.org/tariff.pdf)\n  Цитата из документа: «Оплата коммунальных услуг 0 тенге»\n\nОтвет подготовил ФинАгент в Multica.'
+    text='**Финансовый агент**\nКомиссия 0 тенге [bank:p1:5:1].\n\nЛокальные материалы для проверки:\n• [bank:p1:5:1] Тарифы Halyk, стр. 1 (проверен 2026-10-01; редакция/версия: 15.09.2026; источник: https://example.org/tariff.pdf)\n  Цитата из документа: «Оплата коммунальных услуг 0 тенге»'
     c=matrix_content(text)
     assert c['format']=='org.matrix.custom.html'
     assert '<strong>Финансовый агент</strong>' in c['formatted_body']
