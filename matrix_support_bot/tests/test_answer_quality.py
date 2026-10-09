@@ -14,6 +14,7 @@ def knowledge():
 
 @pytest.mark.parametrize('domain,question,doc,section',[
  ('legal','Работодатель не платит зарплату. Что делать?','labor','Статья 113.'),
+ ('legal','Со скольки лет можно заключить брак в Казахстане?','family','Статья 10.'),
  ('legal','Купил неисправный телефон, хочу вернуть деньги','consumer-law','Статья 30.'),
  ('legal','Украли телефон на работе','criminal','Статья 188.'),
  ('legal','Арендодатель не возвращает залог за квартиру','civil-general','Статья 338-4.'),
@@ -26,6 +27,15 @@ def knowledge():
 def test_everyday_question_retrieves_relevant_primary_rule(knowledge,domain,question,doc,section):
     found=knowledge.search(domain,question,8)
     assert any(p['document_id']==doc and str(p['section']).startswith(section) for p in found[:5])
+
+
+def test_explicit_superapp_question_keeps_actual_communal_tariff_row(knowledge):
+    from evidence_scope import scope_evidence
+    question='Какая комиссия в Halyk SuperApp за оплату коммунальных услуг для зарегистрированного пользователя?'
+    found=knowledge.search('finance',question,8)
+    assert found and all(p['document_id']=='halyk-superapp' for p in found)
+    scoped=scope_evidence('finance',question,found)
+    assert scoped and 'оплата коммунальных услуг' in ' '.join(scoped[0]['text'].casefold().split())
 
 
 def test_bank_change_does_not_carry_over_another_bank_tariff():

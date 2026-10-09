@@ -15,3 +15,7 @@ def test_legal_and_general_finance_remain_unrestricted():
     evidence = [{"document_id":"banks","text":"Права заёмщика"}]
     assert scope_evidence("finance", "Права заёмщика", evidence) == evidence
     assert scope_evidence("legal", "Трудовой кодекс", evidence) == evidence
+
+def test_pdf_line_breaks_do_not_remove_the_matching_tariff_row():
+    evidence = [{"document_id":"halyk-superapp","text":"Оплата\n коммунальных   услуг\t0 теңге"}]
+    assert scope_evidence("finance", "Halyk SuperApp коммунальные услуги", evidence) == evidence

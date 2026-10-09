@@ -260,7 +260,9 @@ class KnowledgeStore:
                     "мфо": "микрофинансовая организация микрокредит", "коллектор": "коллекторское агентство взаимодействие должник",
                     "звон": "телефонные переговоры взаимодействие", "угрож": "угрозы насилие",
                     "банкрот": "банкротство граждан внесудебное судебное восстановление платежеспособности",
-                    "алимент": "содержание несовершеннолетних детей", "развел": "расторжение брака супруги родители место жительства ребенка",
+                    "алимент": "содержание несовершеннолетних детей",
+                    "замуж": "брачный супружеский возраст заключение брака", "женить": "брачный супружеский возраст заключение брака",
+                    "развел": "расторжение брака супруги родители место жительства ребенка",
                     "развод": "расторжение брака супруги", "ребенок": "ребенок родители права детей", "ребёнок": "ребенок родители права детей",
                     "пенси": "пенсионные выплаты возраст назначения", "декрет": "беременность роды уход за ребенком социальные выплаты",
                     "поликлиник": "пациент медицинская помощь", "ндс": "налог на добавленную стоимость ставка",
@@ -274,6 +276,8 @@ class KnowledgeStore:
         for stem, expansion in synonyms.items():
             if stem in question.casefold():
                 normalized += " " + expansion
+        if re.search(r"\bбрак\w*", question, re.I):
+            normalized += " брачный супружеский возраст заключение брака"
         terms = _terms(normalized) - _terms("Halyk халык Freedom фридом ФинАгент ЮрАгент")
         if domain not in DOMAINS or not terms:
             return []
@@ -281,11 +285,16 @@ class KnowledgeStore:
                     if any(name in question.casefold() for name in names)}
         if domain == "finance" and needs_bank(question):
             return []
-        key = (domain, tuple(sorted(selected)), is_tariff_question(question))
+        # Scope an explicitly named product before truncating the retrieval
+        # budget, otherwise unrelated tariff tables can crowd out its rows.
+        product = "halyk-superapp" if (domain == "finance" and "halyk" in selected
+            and re.search(r"super\s*app|супер\s*апп", question, re.I)) else None
+        key = (domain, tuple(sorted(selected)), is_tariff_question(question), product)
         if key not in self._candidate_cache:
             candidates = [p for p in self.passages if domain in p.get("domains", [p["domain"]])
                           and ((p.get("bank") in selected) if key[2]
                                else (not p.get("bank") or p.get("bank") in selected))
+                          and (not product or p["document_id"] == product)
                           and not any(re.match(r"^Статья " + re.escape(str(section)) + r"(?:\.|\s|$)", str(p.get("section", "")))
                                       for section in p.get("excluded_sections", []))]
             identifiers = {str(p["id"]) for p in candidates}
@@ -313,6 +322,7 @@ class KnowledgeStore:
             (r"гэ[сc]в|эффективн.*ставк", {"banks", "microfinance"}),
             (r"судебн.*исполнител|исполнительн.*производств|арест.*счет", {"enforcement"}),
             (r"исков.*давност|доверенност|неустойк", {"civil-general"}),
+            (r"\bбрак|замуж|женить", {"family"}),
         ]
         preferred = set().union(*(docs for pattern, docs in topics if re.search(pattern, question, re.I)))
         preferred.update(doc for doc, words in self.document_search_terms.items()
@@ -334,6 +344,9 @@ class KnowledgeStore:
                 if passage["document_id"] in preferred:
                     score += 100
                 section = str(passage.get("section", ""))
+                if (product == "halyk-superapp" and "коммунальн" in question.casefold()
+                        and "оплата коммунальных услуг" in " ".join(str(passage["text"]).casefold().split())):
+                    score += 100
                 if (re.search(r"зарплат|заработн", question, re.I) and passage["document_id"] == "labor"
                         and section.startswith("Статья 113.")):
                     score += 100
@@ -344,6 +357,7 @@ class KnowledgeStore:
                     (r"ндс|добавленн.*стоимост", "tax", ("Статья 503.",)),
                     (r"пациент", "health", ("Статья 134.",)),
                     (r"алимент", "family", ("Статья 138.", "Статья 139.")),
+                    (r"(?:лет|возраст).*(?:брак|замуж|женить)|(?:брак|замуж|женить).*(?:лет|возраст)", "family", ("Статья 10.",)),
                     (r"реб[её]нок|дет[ьи]|развел|развод", "family", ("Статья 73.",)),
                     (r"подать.*иск|исковое заявлен", "civil-procedure", ("Статья 148.", "Статья 149.")),
                     (r"задержали|задержан|допрос", "criminal-procedure", ("Статья 64.", "Статья 67.")),

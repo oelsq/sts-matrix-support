@@ -1,17 +1,18 @@
 {
   "date": "2026-10-09",
-  "status": "pilot_prepared_model_access_pending",
+  "status": "pilot_active_two_rooms_real_model_smoke_tests_passed",
   "multica": {
     "active_bridge_removed": true,
     "production_bot_rebuilt": true,
     "historical_reports_preserved": true
   },
   "automated_tests": {
-    "passed": 128,
+    "passed": 131,
     "failed": 0,
     "dependency_deprecation_warnings": 11,
     "execution": "Staged source in the existing bot environment; disposable SQLite database; production corpus read-only",
-    "initial_packaging_error": "First run omitted agents/*.md and agents/sources.json. Added those test assets; rerun passed."
+    "initial_packaging_error": "First run omitted agents/*.md and agents/sources.json. Added those test assets; rerun passed.",
+    "retrieval_regressions": "Marriage-age question now retrieves Family Code article 10; explicit Halyk SuperApp communal tariff question keeps the matching product row; PDF whitespace normalized."
   },
   "flowise": {
     "version": "3.1.4",
@@ -24,9 +25,25 @@
     "vm_configuration_directory": "/home/admin_sts/sts-matrix-support/flowise",
     "existing_shared_flowise_modified": false,
     "admin_created": true,
-    "real_llm_key_transferred": false,
-    "real_specialist_flows_provisioned": false,
-    "active_matrix_pilot_rooms": 0
+    "real_specialist_flows_provisioned": true,
+    "active_matrix_pilot_rooms": 2,
+    "dedicated_owner_authorized_llm_key_created": true,
+    "dedicated_key": {
+      "models": [
+        "legal-chat-qwen38-int4"
+      ],
+      "rpm_limit": 30,
+      "max_parallel_requests": 2,
+      "allowed_routes": [
+        "/chat/completions",
+        "/v1/chat/completions"
+      ],
+      "expires_utc": "2026-11-08T05:53:58.604869Z",
+      "administrative_api_denied": true,
+      "other_model_denied": true,
+      "existing_bot_provider_master_keys_transferred": false
+    },
+    "dedicated_key_stored_in_flowise": true
   },
   "live_transport_check": {
     "result": "passed",
@@ -42,11 +59,40 @@
     "matrix_login": "successful",
     "loaded_passages": 24814,
     "dedicated_main_rooms": 2,
-    "routing": "Existing direct LiteLLM; Flowise remains opt-in and disabled"
+    "routing": "Two main rooms retain direct LiteLLM; only two new explicitly mapped test rooms use Flowise"
   },
   "remaining": [
-    "Owner authorization for a dedicated restricted LiteLLM virtual key in Flowise",
-    "Provision the legal and finance flows with that key",
-    "Enable a dedicated test Matrix room and verify real-model replies and human handoff"
-  ]
+    "Accept the two test-room invitations in Element and compare with the main rooms",
+    "Evaluate broader answer quality before routing main rooms through Flowise",
+    "Rotate the dedicated key before expiry; keep the archived Flowise version isolated"
+  ],
+  "real_matrix_e2e": {
+    "result": "passed",
+    "model_alias": "legal-chat-qwen38-int4",
+    "path": "Matrix -> bot local retrieval -> Flowise -> LiteLLM -> bot citation validation and HTML -> Matrix",
+    "cases": [
+      {
+        "domain": "legal",
+        "question": "Со скольки лет можно заключить брак в Казахстане?",
+        "source": "family:28:1, family:27:1",
+        "supported_answer_present": true,
+        "seconds": 5.2,
+        "citation_retry_required": true
+      },
+      {
+        "domain": "finance",
+        "question": "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг для зарегистрированного пользователя?",
+        "source": "halyk-superapp:p1:5:1",
+        "supported_answer_present": true,
+        "seconds": 1.2
+      }
+    ],
+    "both_replies_have_html_sources_handoff_hint": true,
+    "flowise_calls_confirmed_in_bot_logs": true,
+    "temporary_tester_deactivated": true,
+    "temporary_credential_files_removed": true,
+    "browser_rendering_evaluated": false,
+    "new_human_handoff_exercised": false,
+    "scope": "Two synthetic smoke checks, not a comprehensive legal/financial quality evaluation"
+  }
 }
