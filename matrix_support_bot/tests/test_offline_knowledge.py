@@ -163,3 +163,25 @@ class OfflineKnowledgeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_only_reviewed_public_legislation_is_shared_across_specialists(tmp_path):
+    entries=[]
+    for identifier, domain, artifact, kind, bank in [
+        ('labor','legal','official_text_snapshot','legislation',''),
+        ('court','legal','official_text_snapshot','supreme_court_resolution',''),
+        ('private','legal','','legislation',''),
+        ('bank','legal','official_text_snapshot','bank_tariff','halyk'),
+        ('finance','finance','','legislation','')]:
+        body='Работодатель выплачивает заработную плату. '+identifier
+        filename=identifier+'.txt'
+        (tmp_path/filename).write_text(body)
+        entries.append({'id':identifier,'domain':domain,'file':filename,'title':identifier,
+                        'source':'https://example.org/'+identifier,'reviewed_on':'2026-10-12',
+                        'artifact_kind':artifact,'document_kind':kind,'bank':bank,
+                        'sha256':hashlib.sha256(body.encode()).hexdigest()})
+    (tmp_path/'manifest.json').write_text(json.dumps({'documents':entries}))
+    store=KnowledgeStore(tmp_path)
+    found={p['document_id'] for p in store.search('finance','Работодатель заработная плата Halyk',20)}
+    assert {'labor','court','finance'} <= found
+    assert not {'private','bank'} & found

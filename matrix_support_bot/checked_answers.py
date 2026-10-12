@@ -8,7 +8,9 @@ from agents import render
 
 
 def checked_legal_answer(question, evidence):
-    q = question.casefold()
+    # Earlier questions explain the subject, not the current user's intent.
+    # Do not repeat a canned age/refund explanation when the user asks what next.
+    q = question.split("\nПредыдущий вопрос:")[0].casefold()
     if re.search(r"арми|военкомат|призыв|срочн.*служб", q) and re.search(r"скольк[иао].*лет|с какого возраста|призывной возраст", q):
         rule = next((p for p in evidence if p['document_id']=='military-service'
                      and str(p['section']).startswith('Статья 31.')
@@ -65,3 +67,49 @@ def checked_legal_answer(question, evidence):
             )
             return render('legal', answer, question, [rule])
     return None
+
+
+def checked_work_payment_answer(domain, question, evidence):
+    """A narrow source-bound guide/draft, never a substitute for all labour advice."""
+    from response_guidance import is_document_request, work_payment_question, work_payment_draft
+    current = question.split("\nПредыдущий вопрос:")[0]
+    if domain not in {'legal', 'finance'} or not work_payment_question(question):
+        return None
+    # A service contract or dismissal requires different analysis. Don't turn
+    # an inherited wage topic into an answer to a different current question.
+    if re.search(r'гпх|гражданск|подряд|оказани.{0,12}услуг|увол|прекращ|расторж', question, re.I):
+        return None
+    drafting = is_document_request(current)
+    if not drafting and (not work_payment_question(current) or
+            re.search(r'рассчит|расч[её]т|посчит|пен[яюи]|неустой|стать|сколько|срок|дней', current, re.I)):
+        return None
+    def normalized(p): return ' '.join(str(p['text']).split()).casefold()
+    payment = next((p for p in evidence if p['document_id']=='labor'
+                    and str(p.get('section','')).startswith('Статья 113.')
+                    and 'дата выплаты заработной платы' in normalized(p)
+                    and 'предусматривается трудовым, коллективным договорами' in normalized(p)), None)
+    arrears = next((p for p in evidence if p['document_id']=='labor'
+                    and str(p.get('section','')).startswith('Статья 113.')
+                    and 'работодатель выплачивает работнику задолженность и пеню' in normalized(p)), None)
+    if not payment or not arrears:
+        return None
+    if drafting:
+        answer = (
+            'Ниже редактируемый черновик **для случая трудовых отношений**. '
+            'При задержке зарплаты сохранённая норма предусматривает выплату работодателем работнику задолженности и пени. [S2]\n\n'
+            + work_payment_draft()
+        )
+    else:
+        answer = (
+            '**Если это зарплата по трудовым отношениям**, начните с фиксации невыплаты и письменного требования работодателю. '
+            'Дата выплаты зарплаты закрепляется в трудовом или коллективном договоре. [S1] '
+            'При задержке норма предусматривает выплату работодателем работнику задолженности и пени. [S2]\n\n'
+            '**Что сделать сейчас**\n'
+            '1. Запишите, за какой период не заплатили, какая сумма ожидается и когда должна была быть выплата.\n'
+            '2. Сохраните договор, расчётные листки, подтверждения выполненной работы, выписку о поступлениях и переписку.\n'
+            '3. Письменно попросите работодателя проверить расчёт, выплатить задолженность и сообщить срок выплаты. '
+            'Сохраните копию обращения и подтверждение передачи.\n\n'
+            'Могу подготовить текст: напишите **А как написать требование?**.\n\n'
+            'У вас трудовой договор или договор на оказание услуг? От этого зависит дальнейший порядок действий.'
+        )
+    return render(domain, answer, question, [payment, arrears])

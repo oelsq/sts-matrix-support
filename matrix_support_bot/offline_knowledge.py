@@ -55,6 +55,8 @@ TARIFF_QUESTION = re.compile(r"комисси|тариф|сколько стои
 
 
 def is_tariff_question(question: str) -> bool:
+    if re.search(r"(?:как (?:понять|сравнить)|что (?:такое|значит)).*(?:стоимост.*кредит|ГЭСВ|эффективн.*ставк)", question, re.I):
+        return False
     rights = re.search(r"незакон|правомер|оспор|закон|обязан|жалоб|имеет.*право", question, re.I)
     return bool(TARIFF_QUESTION.search(question)) and not rights
 
@@ -250,7 +252,22 @@ class KnowledgeStore:
                 self._postings.setdefault(term,set()).add(identifier)
 
     def search(self, domain: str, question: str, limit: int = 6) -> list[dict[str, str | int]]:
+        if limit <= 0:
+            return []
         normalized = question
+        # Colloquial queries often omit the vocabulary used in legislation.
+        # These expansions influence retrieval only; they never assert facts.
+        everyday = [
+            (r"начальник.*(?:ден[ье]г|плат)|ден[ье]г.*за работу", "работодатель заработная плата сроки выплаты"),
+            (r"сломал.*(?:телефон|товар)|магазин.*(?:обратно|принима)", "потребитель недостаток товара возврат денег"),
+            (r"хозяин.*квартир|(?:аренд|квартир).*(?:депозит|удержива)", "арендодатель гарантийный взнос возврат обеспечение обязательств"),
+            (r"чуж(?:ому|ой|ого) дол[ггу]|звон.*долг", "коллекторское агентство взаимодействие третьи лица должник"),
+            (r"настоящ.*стоимост.*кредит|полная.*стоимост.*кредит", "ГЭСВ годовая эффективная ставка вознаграждения"),
+            (r"оплачиваем.*отпуск|не разрешают.*отпуск", "ежегодный оплачиваемый трудовой отпуск работодатель"),
+        ]
+        for pattern, expansion in everyday:
+            if re.search(pattern, question, re.I):
+                normalized += " " + expansion
         synonyms = {"зарплат": "заработная плата оплата труда сроки выплаты", "увольн": "расторжение трудового договора",
                     "отпуск": "ежегодный оплачиваемый трудовой отпуск", "реструктур": "изменение условий задолженности заемщика",
                     "мошенн": "мошенничество скомпрометированная карта", "смс": "SMS", "нацбанк": "Национальный Банк Казахстана",
@@ -291,7 +308,14 @@ class KnowledgeStore:
             and re.search(r"super\s*app|супер\s*апп", question, re.I)) else None
         key = (domain, tuple(sorted(selected)), is_tariff_question(question), product)
         if key not in self._candidate_cache:
-            candidates = [p for p in self.passages if domain in p.get("domains", [p["domain"]])
+            # Specialist labels are not access controls for reviewed public law.
+            # Both rooms need labour, consumer and banking legislation. Private
+            # policies and bank product documents retain their declared domains.
+            candidates = [p for p in self.passages if (
+                              domain in p.get("domains", [p["domain"]]) or
+                              (p.get("artifact_kind") == "official_text_snapshot"
+                               and p.get("document_kind") in {"legislation", "supreme_court_resolution"}
+                               and not p.get("bank")))
                           and ((p.get("bank") in selected) if key[2]
                                else (not p.get("bank") or p.get("bank") in selected))
                           and (not product or p["document_id"] == product)
@@ -323,6 +347,11 @@ class KnowledgeStore:
             (r"судебн.*исполнител|исполнительн.*производств|арест.*счет", {"enforcement"}),
             (r"исков.*давност|доверенност|неустойк", {"civil-general"}),
             (r"\bбрак|замуж|женить", {"family"}),
+            (r"начальник.*(?:ден[ье]г|плат)|ден[ье]г.*за работу", {"labor"}),
+            (r"сломал.*телефон|магазин.*(?:обратно|принима)", {"consumer-law"}),
+            (r"хозяин.*квартир", {"civil-general", "civil-special"}),
+            (r"чуж(?:ому|ой|ого) дол[ггу]|звон.*долг", {"collectors"}),
+            (r"настоящ.*стоимост.*кредит|полная.*стоимост.*кредит", {"banks"}),
         ]
         preferred = set().union(*(docs for pattern, docs in topics if re.search(pattern, question, re.I)))
         preferred.update(doc for doc, words in self.document_search_terms.items()
@@ -347,7 +376,7 @@ class KnowledgeStore:
                 if (product == "halyk-superapp" and "коммунальн" in question.casefold()
                         and "оплата коммунальных услуг" in " ".join(str(passage["text"]).casefold().split())):
                     score += 100
-                if (re.search(r"зарплат|заработн", question, re.I) and passage["document_id"] == "labor"
+                if (re.search(r"зарплат|заработн|начальник.*(?:ден[ье]г|плат)|ден[ье]г.*за работу", question, re.I) and passage["document_id"] == "labor"
                         and section.startswith("Статья 113.")):
                     score += 100
                 if re.search(r"укра|краж|похит", question, re.I) and passage["document_id"] == "criminal" and section.startswith("Статья 188."):
@@ -363,11 +392,11 @@ class KnowledgeStore:
                     (r"задержали|задержан|допрос", "criminal-procedure", ("Статья 64.", "Статья 67.")),
                     (r"арми|военкомат|призыв", "military-service", ("Статья 31.",)),
                     (r"\bкнб\b|национальн.*безопасност", "national-security", ("Статья 1.", "Статья 2.")),
-                    (r"купил|покуп|неисправ|товар|продав", "consumer-law", ("Статья 15.", "Статья 30.")),
-                    (r"коллектор", "collectors", ("Статья 5.",)),
+                    (r"купил|покуп|неисправ|товар|продав|сломал.*телефон|магазин.*обратно", "consumer-law", ("Статья 15.", "Статья 30.")),
+                    (r"коллектор|чуж(?:ому|ой|ого) дол[ггу]|звон.*долг", "collectors", ("Статья 5.",)),
                     (r"банкрот|платежеспособност", "bankruptcy", ("Статья 5.", "Статья 6.")),
-                    (r"аренд|квартир", "civil-general", ("Статья 338-3.", "Статья 338-4.")),
-                    (r"гэ[сc]в|эффективн.*ставк", "banks", ("Статья 57.",)),
+                    (r"аренд|квартир|хозяин.*квартир", "civil-general", ("Статья 338-3.", "Статья 338-4.")),
+                    (r"гэ[сc]в|эффективн.*ставк|настоящ.*стоимост.*кредит|полная.*стоимост.*кредит", "banks", ("Статья 57.",)),
                 ]
                 for pattern, doc, headings in focused_sections:
                     if passage["document_id"] == doc and section.startswith(headings) and re.search(pattern, question, re.I):
@@ -408,7 +437,7 @@ class KnowledgeStore:
                 for rule in rules[:1]:
                     if rule not in chosen:
                         chosen.insert(min(5,len(chosen)),rule)
-        if re.search(r"купил|покуп|продав|неисправ|товар", question, re.I) and not selected:
+        if re.search(r"купил|покуп|продав|неисправ|товар|сломал.*телефон|магазин.*обратно", question, re.I) and not selected:
             supplements += [p for p in candidates if p["document_id"] == "consumer-law"
                             and "относятся исключительно транспортные средства" in " ".join(str(p["text"]).split())]
         if re.search(r"банкрот", question, re.I):

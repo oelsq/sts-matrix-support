@@ -165,3 +165,160 @@ def test_conscription_age_is_short_and_bound_to_actual_clause(knowledge):
     assert answer and 'с 18 лет' in answer and 'до 27 лет' in answer
     assert 'Что сделать сейчас' not in answer and 'отсрочк' in answer
     assert checked_legal_answer(q,[]) is None
+
+
+@pytest.mark.parametrize('effective_date', ['15 сентября 2026 года', '15.09.2026', '2026-09-15'])
+def test_tariff_effective_date_is_supported_by_explicit_version(effective_date):
+    evidence=[{'id':'tariff:1','title':'Halyk: тарифы SuperApp','text':'Оплата коммунальных услуг 0 теңге',
+               'page':1,'reviewed_on':'2026-10-01','version':'Изменения, действующие с 15.09.2026.',
+               'source':'https://example.org/tariff.pdf'}]
+    answer=f'Комиссия Halyk SuperApp составляет 0 тенге. Условия действуют с {effective_date}. [S1]'
+    assert 'Не удалось' not in render('finance',answer,'Какая комиссия в Halyk SuperApp?',evidence)
+
+
+@pytest.mark.parametrize('claim', ['с 16 сентября 2026 года', 'с 01.10.2026', 'с 2026-10-01',
+                                   'с 31 сентября 2026 года', 'комиссия 2026 тенге'])
+def test_effective_date_metadata_cannot_support_wrong_dates_or_fees(claim):
+    evidence=[{'id':'tariff:1','title':'Тариф','text':'Комиссия 0 теңге',
+               'reviewed_on':'2026-10-01','version':'Изменения, действующие с 15.09.2026.'}]
+    assert 'Не удалось' in render('finance',f'Условия {claim}. [S1]','Какая комиссия?',evidence)
+
+
+def test_uncited_version_and_retrieval_date_are_not_effective_date_proof():
+    evidence=[{'id':'tariff:1','title':'Тариф','text':'Комиссия 0 теңге','reviewed_on':'2026-10-01',
+               'version':'Документ получен 2026-10-01'},
+              {'id':'tariff:2','title':'Другой тариф','text':'Другая услуга 0 теңге',
+               'version':'Изменения, действующие с 15.09.2026.'}]
+    for date_text in ['15 сентября 2026 года', '01.10.2026']:
+        assert 'Не удалось' in render('finance',f'Комиссия 0 тенге с {date_text}. [S1]','Какая комиссия?',evidence)
+
+
+def test_tariff_validation_failure_does_not_claim_missing_documents_or_repeat_product_question():
+    answer=practical_fallback('finance','Какая комиссия в Halyk SuperApp?',validation_failed=True)
+    assert 'Документ по вашему вопросу найден' in answer
+    assert 'Что можно подготовить' not in answer and 'Уточните название продукта' not in answer
+
+
+@pytest.mark.parametrize('case', json.loads((Path(__file__).resolve().parents[2] / 'config' / 'answer-evaluation.json').read_text())['cases'], ids=lambda c:c['id'])
+def test_control_question_retrieval(knowledge, case):
+    from evidence_scope import scope_evidence
+    from conversation import ConversationMemory
+    memory = ConversationMemory()
+    for previous in case.get('previous_questions', []):
+        memory.resolve('room', 'user', case['domain'], previous)
+    question, _ = memory.resolve('room', 'user', case['domain'], case['question'])
+    found = scope_evidence(case['domain'], question, knowledge.search(case['domain'], question,8))
+    if case.get('expect_empty'):
+        assert found == []
+    else:
+        assert any(p['document_id'] == case['document'] and
+                   (not case.get('section') or str(p.get('section','')).startswith(case['section']))
+                   for p in found[:case.get('top_k',5)]), case['id']
+
+
+def test_checked_fact_does_not_override_new_followup_intent(knowledge):
+    q = 'Со скольки лет могут забирать в армию военкомат?'
+    evidence = knowledge.search('legal',q,8)
+    assert checked_legal_answer('А как подать жалобу?\nПредыдущий вопрос: '+q,evidence) is None
+    q = 'Купил неисправный телефон, хочу вернуть деньги'
+    evidence = knowledge.search('legal',q,8)
+    assert checked_legal_answer('А составь претензию?\nПредыдущий вопрос: '+q,evidence) is None
+
+
+def test_finance_room_keeps_wage_topic_when_requesting_an_actual_letter(knowledge):
+    from conversation import ConversationMemory
+    from evidence_scope import scope_evidence
+    from response_guidance import is_document_request
+    memory = ConversationMemory()
+    first = 'Начальник не отдаёт деньги за работу'
+    memory.resolve('finance-room', 'worker', 'finance', first)
+    current = 'А как написать требование?'
+    query, context = memory.resolve('finance-room', 'worker', 'finance', current)
+    assert context == first and first in query and is_document_request(current)
+    evidence = scope_evidence('finance', query, knowledge.search('finance', query, 8))
+    assert any(p['document_id']=='labor' and p['section'].startswith('Статья 113.') for p in evidence[:2])
+    prompt = messages('finance', current, evidence, context)
+    assert first in prompt[-1]['content'] and 'готовый редактируемый черновик' in prompt[0]['content']
+
+
+def test_actual_bot_callback_preserves_finance_conversation_and_draft(knowledge, monkeypatch, tmp_path):
+    # Exercise the production callback twice. No Matrix/LLM network requests.
+    import asyncio, time
+    from types import SimpleNamespace
+    import bot
+    from flowise_client import FlowiseClient
+    outgoing, prompts = [], []
+    room_id = '!finance-pilot:demo.local'
+    class Flow:
+        routes = {room_id: {'domain':'finance'}}
+        def selected(self, room, domain):
+            return room == room_id and domain == 'finance'
+        async def predict(self, http, domain, room, sender, event, msgs):
+            prompts.append(msgs)
+            if event == '$letter':
+                return ('При трудовых отношениях зарплата выплачивается работодателем. [S1]\n\n'
+                        '**Черновик**\nРаботодателю [организация]\nОт [имя]\n'
+                        'Прошу выплатить задолженность за [период] в размере [сумма].\nДата: [дата].')
+            return 'При трудовых отношениях зарплата выплачивается работодателем. [S1]'
+    class Login: pass
+    class Client:
+        user = '@bot:demo.local'
+        def __init__(self, *args): self.callback = None
+        async def login(self, *args, **kwargs): return Login()
+        def add_event_callback(self, callback, event_class):
+            if event_class == bot.RoomMessageText: self.callback = callback
+        async def sync_forever(self, **kwargs):
+            for identifier, text in [('$wages','Начальник не отдаёт деньги за работу'),
+                                     ('$letter','А как написать требование?')]:
+                await self.callback(SimpleNamespace(room_id=room_id), SimpleNamespace(
+                    sender='@worker:demo.local',server_timestamp=int(time.time()*1000)+1000,
+                    event_id=identifier,body=text))
+        async def room_send(self, **kwargs): outgoing.append(kwargs['content'])
+        async def close(self): pass
+    monkeypatch.setattr(bot, 'AsyncClient', Client)
+    monkeypatch.setattr(bot, 'LoginResponse', Login)
+    monkeypatch.setattr(bot, 'KnowledgeStore', lambda _: knowledge)
+    monkeypatch.setattr(bot, 'department_roster', lambda _: {})
+    monkeypatch.setattr(bot, 'read_llm_key', lambda: 'synthetic-key')
+    monkeypatch.setattr(FlowiseClient, 'from_env', lambda _: Flow())
+    for name, value in {'MATRIX_HOMESERVER':'http://homeserver:8008','MATRIX_USER':'@bot:demo.local',
+                        'MATRIX_PASSWORD':'synthetic-password','LLM_ENDPOINT':'http://litellm:4000/v1',
+                        'LLM_MODEL':'synthetic-model','KNOWLEDGE_DIR':'synthetic',
+                        'MATRIX_ROOM_ROUTES_FILE':str(tmp_path/'no-routes'),'OFFLINE_MODE':'0'}.items():
+        monkeypatch.setenv(name,value)
+    asyncio.run(bot.main())
+    answers = [p['body'] for p in outgoing if p['body'] != 'Готовлю ответ по проверенным документам…']
+    assert len(answers)==2 and prompts==[]  # These two intents use verified source templates.
+    assert all('Трудовой кодекс' in a for a in answers)
+    assert 'Черновик' in answers[1] and '[сумма]' in answers[1]
+    assert not any('Не удалось' in p or 'временно недоступен' in p for p in answers)
+
+
+@pytest.mark.parametrize('domain', ['legal','finance'])
+def test_wage_guide_and_letter_are_conditional_source_bound_and_useful(knowledge, domain):
+    from checked_answers import checked_work_payment_answer
+    from evidence_scope import scope_evidence
+    q='Начальник не отдаёт деньги за работу'
+    ev=scope_evidence(domain,q,knowledge.search(domain,q,8))
+    first=checked_work_payment_answer(domain,q,ev)
+    assert first and 'Если это зарплата по трудовым отношениям' in first
+    assert 'нет норм' not in first and 'Не удалось' not in first
+    followup='А как написать требование?\nПредыдущий вопрос: '+q
+    letter=checked_work_payment_answer(domain,followup,ev)
+    assert letter and all(t in letter for t in ['Черновик','[сумма]','[период]','Прошу проверить расчёт'])
+    assert all(t not in letter for t in ['если в договоре не указано иное','3 рабочих дня','обратиться в суд'])
+    assert checked_work_payment_answer(domain,followup,[]) is None
+    assert checked_work_payment_answer(domain,'А если ГПХ?\nПредыдущий вопрос: '+q,ev) is None
+    assert checked_work_payment_answer(domain,'А сколько пени?\nПредыдущий вопрос: '+q,ev) is None
+    assert checked_work_payment_answer(domain,'А как написать жалобу на увольнение?\nПредыдущий вопрос: '+q,ev) is None
+    # A document title or mere mention of wages is not evidence of the rules.
+    fake=[{**p,'text':'В документе упоминается заработная плата.'} for p in ev]
+    assert checked_work_payment_answer(domain,q,fake) is None
+
+
+@pytest.mark.parametrize('validation_failed', [False, True])
+def test_letter_request_still_gets_an_editable_example_if_sources_or_validation_fail(validation_failed):
+    question='А как написать требование?\nПредыдущий вопрос: Начальник не отдаёт деньги за работу'
+    answer=practical_fallback('finance',question,validation_failed=validation_failed)
+    assert all(t in answer for t in ['Черновик','[период]','[сумма]','Прошу проверить расчёт'])
+    assert not any(t in answer for t in ['[S1]','нет норм','3 рабочих дня','обратиться в суд'])

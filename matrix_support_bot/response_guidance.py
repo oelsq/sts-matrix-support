@@ -5,13 +5,35 @@ These are organisational suggestions, never substitute legal rules or tariffs.
 import re
 
 
+def is_document_request(question: str) -> bool:
+    """The current turn asks for an actual draft, not another action checklist."""
+    current = question.split("\nПредыдущий вопрос:")[0]
+    return bool(re.search(
+        r"(?:напис|напиш|состав|сформулир|подготов|шаблон|черновик|образец).*"
+        r"(?:требован|заявлен|претензи|обращен|письм|жалоб)|"
+        r"(?:требован|заявлен|претензи|обращен|письм|жалоб).*"
+        r"(?:напис|напиш|состав|сформулир|подготов|шаблон|черновик|образец)", current, re.I))
+
+
 def retrieval_question(question: str, previous_question: str = "") -> str:
     # Short follow-ups need the user's topic, not an earlier generated answer
     # (which could contain a mistake). The current request remains first.
     # A new named bank or product must not inherit the preceding bank's tariff.
-    new_topic = re.search(r"halyk|халык|freedom|фридом|kaspi|каспи|super\s*app", question, re.I)
+    bank_aliases = [("halyk", "халык"), ("freedom", "фридом"), ("kaspi", "каспи")]
+    named = {i for i, names in enumerate(bank_aliases) if any(n in question.casefold() for n in names)}
+    previous_named = {i for i, names in enumerate(bank_aliases) if any(n in previous_question.casefold() for n in names)}
+    new_topic = bool(named and named != previous_named)
+    if re.search(r"super\s*app", question, re.I) and not re.search(r"super\s*app", previous_question, re.I):
+        new_topic = True
+    # Recognise a new problem, while retaining context for the same problem.
+    topics = [r"работодател|увольн|зарплат|заработн|отпуск|начальник", r"коллектор|чуж.*долг",
+              r"банкрот", r"укра|похит|краж", r"арми|военкомат|призыв", r"\bкнб\b",
+              r"алимент|развод|реб[её]нок", r"купил|неисправ|сломал.*телефон|магазин",
+              r"средн.*зарплат|медиан", r"аренд|квартир|найм"]
+    new_problem = any(re.search(pattern, question, re.I) and not re.search(pattern, previous_question, re.I)
+                      for pattern in topics)
     followup = re.match(r"^(а\b|и\b|тогда\b|если\b|это\b|почему\b|какой\b|какие\b|сколько\b|что дальше|поясни|объясни|уточни)", question, re.I)
-    if previous_question and len(question.split()) <= 18 and followup and not new_topic:
+    if previous_question and len(question.split()) <= 18 and (followup or is_document_request(question)) and not new_topic and not new_problem:
         return question + "\nПредыдущий вопрос: " + previous_question[:3000]
     return question
 
@@ -25,9 +47,63 @@ def is_reference_question(question: str) -> bool:
         r"(?:со? )?скольк[иао].*лет|с какого возраста|что такое|кто такой|что (?:есть|знаешь).*про|про .+что есть|чем занимается|какие задачи|какая комиссия", q, re.I))
 
 
+def salary_statistic_question(question: str) -> bool:
+    q = question.split("\nПредыдущий вопрос:")[0]
+    if re.search(r"рассчит|расч[её]т|начисл|среднеднев|среднечас|работник|отпускн|увольн|компенсац|сохранени", q, re.I):
+        return False
+    return bool(re.search(r"(?:средн|медиан).*?(?:зарплат|заработн)|(?:зарплат|заработн).*?(?:средн|медиан)", q, re.I))
+
+
+def work_payment_question(question: str) -> bool:
+    """Payment trouble, including inherited context; not salary statistics/calculation."""
+    q = question.casefold().replace('ё', 'е')
+    current = q.split('\nпредыдущий вопрос:')[0]
+    if re.search(r'гпх|гражданск|подряд|оказани.{0,12}услуг', current):
+        return False
+    wages = re.search(r'зарплат|заработн.{0,16}плат|начальник|ден[ье]г.{0,20}за работу', q)
+    trouble = re.search(r'невыплат|не\s+(?:плат|выда|отда)|задерж|задолж|просроч|долг', q)
+    return bool(wages and trouble) and not salary_statistic_question(question)
+
+
+def work_payment_draft() -> str:
+    """Organisational letter example, without legal deadlines or personal data."""
+    return (
+            '**Черновик**\n'
+            'Кому: [работодатель / руководитель организации]\n'
+            'От: [имя]\n\n'
+            '**Требование о выплате задолженности по заработной плате**\n\n'
+            'По моим данным, мне не выплачена заработная плата за [период]. '
+            'Предварительная сумма задолженности — [сумма] тенге.\n\n'
+            'Прошу проверить расчёт и выплатить причитающуюся мне задолженность. '
+            'Также прошу предоставить расчёт начислений и удержаний, '
+            'а при задержке выплаты — расчёт причитающейся пени.\n\n'
+            'Прошу письменно сообщить размер задолженности и срок её выплаты.\n\n'
+            'Дата: [дата]\nПодпись: [подпись]\n\n'
+            '**Как использовать**\n'
+            'Заполните поля у себя, без отправки персональных данных в чат. Если сумма неизвестна, '
+            'уберите предложение о предварительной сумме — просьба предоставить расчёт уже есть. '
+            'Сохраните копию обращения и подтверждение его передачи работодателю.'
+    )
+
+
 def practical_fallback(domain: str, question: str, *, validation_failed: bool = False) -> str:
     label = "Юридический агент" if domain == "legal" else "Финансовый агент"
     q = question.casefold()
+    if is_document_request(question) and work_payment_question(question):
+        return (f"**{label}**\n\nЕсли речь о зарплате по трудовым отношениям, можно начать с такого обращения. "
+                "Это редактируемый пример без неподтверждённых статей и сроков.\n\n" + work_payment_draft())
+    if salary_statistic_question(question):
+        if validation_failed:
+            return (f"**{label}**\n\nСтатистический материал найден, но итоговая цифра не прошла проверку подтверждений. "
+                    "Не буду выдавать её за проверенное значение. Для ответа нужно сверить показатель, период и регион с таблицей выпуска.")
+        return (f"**{label}**\n\nВ локальной базе пока нет подходящего статистического выпуска о средней или медианной зарплате. "
+                "Это статистический показатель за определённый период; трудовой закон и банковские тарифы его не устанавливают.\n\n"
+                "Для точного ответа нужен выпуск Бюро национальной статистики с периодом и регионом. "
+                "Вас интересует средняя или медианная зарплата, по всей стране или по конкретному региону?")
+    if validation_failed and is_reference_question(question):
+        return (f"**{label}**\n\nДокумент по вашему вопросу найден, но подготовленный ответ не прошёл проверку подтверждений. "
+                "Это ошибка проверки ответа, а не просьба заново назвать уже указанный банк или продукт. "
+                "Непроверенную сумму или условие я не буду выдавать за факт.")
     if re.search(r"увольн|работодател|зарплат|заработн|отпуск|трудов", q):
         intro = "Начните с проверки документов и фиксации того, что произошло на работе."
         steps = ["Соберите трудовой договор, относящиеся к вопросу приказы, расчётные листки и переписку.",

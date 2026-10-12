@@ -16,9 +16,10 @@ from nio import AsyncClient, LoginResponse, InviteMemberEvent, RoomMessageText, 
 from llm_settings import api_key as read_llm_key, model_for_domain
 from message_format import matrix_content
 from evidence_scope import scope_evidence
-from response_guidance import retrieval_question, practical_fallback
+from response_guidance import practical_fallback
+from conversation import ConversationMemory
 from agents import messages, render, route_for_room, review_messages
-from checked_answers import checked_legal_answer
+from checked_answers import checked_legal_answer, checked_work_payment_answer
 from knowledge_coverage import coverage_answer
 from offline_knowledge import KnowledgeStore, needs_bank, validate_llm_endpoint, validate_local_endpoint
 from urgent_help import urgent_finance_answer, legal_urgent_notice
@@ -79,6 +80,7 @@ async def main():
             os.environ["ELEMENT_PUBLIC_URL"],
         )
     latest_context = {}
+    conversations = ConversationMemory()
     started_ms = int(time.time() * 1000)
     seen = set()
     previous_routes = {}
@@ -109,13 +111,19 @@ async def main():
 
         async def ask_agent(domain, question, room_id, sender, event_id):
             local_evidence = None
-            previous_question = latest_context.get((room_id, sender), ("", ""))[0]
-            search_question = retrieval_question(question, previous_question)
+            search_question, previous_question = conversations.resolve(room_id, sender, domain, question)
             if knowledge is not None and domain != "general":
+                retrieval_started = time.monotonic()
                 local_evidence = scope_evidence(domain, search_question, knowledge.search(domain, search_question, limit=8))
+                log.info("Evidence retrieval: domain=%s passages=%d elapsed_ms=%d continuation=%s",
+                         domain, len(local_evidence), int((time.monotonic()-retrieval_started)*1000), bool(previous_question))
                 if not local_evidence:
                     log.info("Agent fallback: domain=%s reason=no_evidence", domain)
                     return practical_fallback(domain, search_question)
+                checked = checked_work_payment_answer(domain, search_question, local_evidence)
+                if checked:
+                    log.info("Source-bound work payment answer; domain=%s", domain)
+                    return checked
                 if domain == "legal":
                     checked = checked_legal_answer(search_question, local_evidence)
                     if checked:
@@ -130,6 +138,7 @@ async def main():
                 "messages": messages(domain, question, local_evidence,
                                      previous_question if search_question != question else ""),
                 "max_tokens": 2300,
+                "temperature": 0.1,
             }
             async def complete(request):
                 if flowise and flowise.selected(room_id, domain):
@@ -152,7 +161,7 @@ async def main():
                 if local_evidence:
                     review = {"model": model_for_domain(domain),
                               "messages": review_messages(domain, search_question, answer, local_evidence),
-                              "max_tokens": 2300}
+                              "max_tokens": 2300, "temperature": 0.1}
                     data = await complete(review)
                     answer = data["choices"][0]["message"]["content"]
                     if not isinstance(answer, str) or not answer.strip():
@@ -192,6 +201,13 @@ async def main():
 
             key = (room.room_id, event.sender)
             question = event.body[:12000]
+            if question.strip().casefold() == "!новый":
+                conversations.clear(room.room_id, event.sender)
+                latest_context.pop(key, None)
+                previous_routes.pop(key, None)
+                await client.room_send(room_id=room.room_id, message_type="m.room.message",
+                                       content=matrix_content("Начинаем новую тему. Контекст ваших предыдущих вопросов сброшен; история комнаты сохранена."))
+                return
             if question.strip().casefold() in {"!темы", "!база"}:
                 await client.room_send(room_id=room.room_id, message_type="m.room.message",
                                        content=matrix_content(coverage_answer(knowledge)))

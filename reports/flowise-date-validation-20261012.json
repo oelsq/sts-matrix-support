@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-12",
+  "issue": "Flowise tariff answer incorrectly replaced by generic fallback",
+  "reproduced_cause": "Date written as 15 сентября 2026 года was treated as an unsupported numeric period; explicit effective date in document version was ignored",
+  "fix": "Validate equivalent calendar-date formats against cited source text or explicitly effective version dates; reject unsupported/invalid dates and do not treat full verified dates as fees or periods",
+  "guards": "reviewed_on and uncited versions cannot establish an effective date; arbitrary fees cannot be inferred from version-year numbers",
+  "tests": {
+    "passed": 141,
+    "failed": 0,
+    "dependency_deprecation_warnings": 11,
+    "database": "Disposable SQLite; production corpus read-only"
+  },
+  "live_flowise": {
+    "passed": 2,
+    "questions": [
+      "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?",
+      "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг для зарегистрированного пользователя?"
+    ],
+    "source": "halyk-superapp:p1:5:1",
+    "model_alias": "legal-chat-qwen38-int4",
+    "draft_review_and_render": "passed",
+    "new_matrix_message_sent": false
+  },
+  "deployment": "Existing bot rebuilt and Matrix login confirmed",
+  "github_push": false
+}

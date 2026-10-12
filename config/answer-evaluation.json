@@ -1,0 +1,260 @@
+{
+  "description": "Synthetic retrieval regressions; not certification of legal advice. Empty cases describe the current corpus, update when evidence is added.",
+  "cases": [
+    {
+      "id": "wages",
+      "domain": "legal",
+      "question": "Работодатель не платит зарплату. Что делать?",
+      "top_k": 5,
+      "document": "labor",
+      "section": "Статья 113."
+    },
+    {
+      "id": "boss-wages",
+      "domain": "legal",
+      "question": "Начальник не отдает деньги за работу",
+      "top_k": 5,
+      "document": "labor",
+      "section": "Статья 113."
+    },
+    {
+      "id": "marriage",
+      "domain": "legal",
+      "question": "Со скольки лет можно заключить брак в Казахстане?",
+      "top_k": 5,
+      "document": "family",
+      "section": "Статья 10."
+    },
+    {
+      "id": "bad-phone",
+      "domain": "legal",
+      "question": "Купил неисправный телефон, хочу вернуть деньги",
+      "top_k": 5,
+      "document": "consumer-law",
+      "section": "Статья 30."
+    },
+    {
+      "id": "broken-phone",
+      "domain": "legal",
+      "question": "Сломался новый телефон, магазин не принимает обратно",
+      "top_k": 5,
+      "document": "consumer-law",
+      "section": "Статья 30."
+    },
+    {
+      "id": "theft",
+      "domain": "legal",
+      "question": "Украли телефон на работе",
+      "top_k": 5,
+      "document": "criminal",
+      "section": "Статья 188."
+    },
+    {
+      "id": "rent",
+      "domain": "legal",
+      "question": "Арендодатель не возвращает залог за квартиру",
+      "top_k": 5,
+      "document": "civil-general",
+      "section": "Статья 338-4."
+    },
+    {
+      "id": "rental-deposit",
+      "domain": "legal",
+      "question": "Хозяин квартиры удерживает депозит",
+      "top_k": 5,
+      "document": "civil-general",
+      "section": "Статья 338-4."
+    },
+    {
+      "id": "collectors",
+      "domain": "finance",
+      "question": "Коллекторы звонят родственникам и угрожают",
+      "top_k": 5,
+      "document": "collectors",
+      "section": "Статья 5."
+    },
+    {
+      "id": "others-debt",
+      "domain": "finance",
+      "question": "Звонят по чужому долгу",
+      "top_k": 5,
+      "document": "collectors",
+      "section": "Статья 5."
+    },
+    {
+      "id": "bankruptcy",
+      "domain": "finance",
+      "question": "Можно ли оформить банкротство физического лица?",
+      "top_k": 5,
+      "document": "bankruptcy",
+      "section": "Статья 5."
+    },
+    {
+      "id": "deposit-guarantee",
+      "domain": "finance",
+      "question": "Какие вклады гарантирует государство?",
+      "top_k": 5,
+      "document": "deposit-guarantee",
+      "section": "Статья 17."
+    },
+    {
+      "id": "mfo",
+      "domain": "finance",
+      "question": "МФО отказывает в реструктуризации микрокредита",
+      "top_k": 5,
+      "document": "microfinance",
+      "section": "Статья 9-2."
+    },
+    {
+      "id": "gesv",
+      "domain": "finance",
+      "question": "Что такое ГЭСВ и как сравнить кредиты?",
+      "top_k": 5,
+      "document": "banks",
+      "section": "Статья 57."
+    },
+    {
+      "id": "credit-cost",
+      "domain": "finance",
+      "question": "Как понять настоящую стоимость кредита?",
+      "top_k": 5,
+      "document": "banks",
+      "section": "Статья 57."
+    },
+    {
+      "id": "conscription",
+      "domain": "legal",
+      "question": "Со скольки лет могут забирать в армию военкомат?",
+      "top_k": 5,
+      "document": "military-service",
+      "section": "Статья 31.",
+      "answer_contains": [
+        "18",
+        "27",
+        "military-service"
+      ]
+    },
+    {
+      "id": "knb",
+      "domain": "legal",
+      "question": "Про КНБ что есть?",
+      "top_k": 5,
+      "document": "national-security",
+      "section": "Статья 2."
+    },
+    {
+      "id": "leave",
+      "domain": "legal",
+      "question": "Не разрешают уйти в оплачиваемый отпуск",
+      "top_k": 5,
+      "document": "labor"
+    },
+    {
+      "id": "halyk",
+      "domain": "finance",
+      "question": "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?",
+      "top_k": 5,
+      "document": "halyk-superapp",
+      "answer_contains": [
+        "0 тенге",
+        "halyk-superapp"
+      ]
+    },
+    {
+      "id": "halyk-registered",
+      "domain": "finance",
+      "question": "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг для зарегистрированного пользователя?",
+      "top_k": 5,
+      "document": "halyk-superapp"
+    },
+    {
+      "id": "salary-gap",
+      "domain": "finance",
+      "question": "Какая средняя зарплата в Казахстане?",
+      "top_k": 5,
+      "expect_empty": true
+    },
+    {
+      "id": "median-gap",
+      "domain": "finance",
+      "question": "Какая медианная зарплата в Казахстане?",
+      "top_k": 5,
+      "expect_empty": true
+    },
+    {
+      "id": "unknown-bank",
+      "domain": "finance",
+      "question": "Какая комиссия за оплату коммунальных услуг?",
+      "top_k": 5,
+      "expect_empty": true
+    },
+    {
+      "id": "unknown-topic",
+      "domain": "legal",
+      "question": "Ксилофон мегазорд",
+      "top_k": 5,
+      "expect_empty": true
+    },
+    {
+      "id": "finance-wages",
+      "domain": "finance",
+      "question": "Начальник не отдаёт деньги за работу",
+      "document": "labor",
+      "section": "Статья 113.",
+      "answer_contains": [
+        "работодател"
+      ],
+      "answer_forbids": [
+        "нет норм",
+        "не представлен",
+        "трудовой кодекс отсутствует"
+      ]
+    },
+    {
+      "id": "finance-wages-letter",
+      "domain": "finance",
+      "question": "А как написать требование?",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "document": "labor",
+      "section": "Статья 113.",
+      "answer_contains": [
+        "Черновик",
+        "[период]",
+        "[сумма]"
+      ],
+      "answer_forbids": [
+        "нет норм",
+        "не представлен",
+        "трудовой кодекс отсутствует"
+      ]
+    },
+    {
+      "id": "legal-wages-letter",
+      "domain": "legal",
+      "question": "Напиши требование работодателю",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "document": "labor",
+      "section": "Статья 113.",
+      "answer_contains": [
+        "Черновик",
+        "[период]",
+        "[сумма]"
+      ],
+      "answer_forbids": [
+        "нет норм",
+        "не представлен"
+      ]
+    },
+    {
+      "id": "finance-consumer",
+      "domain": "finance",
+      "question": "Купил неисправный телефон, хочу вернуть деньги",
+      "document": "consumer-law",
+      "section": "Статья 30."
+    }
+  ]
+}
