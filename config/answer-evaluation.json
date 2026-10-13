@@ -168,18 +168,20 @@
       "document": "halyk-superapp"
     },
     {
-      "id": "salary-gap",
+      "id": "salary-bulletin",
       "domain": "finance",
       "question": "Какая средняя зарплата в Казахстане?",
       "top_k": 5,
-      "expect_empty": true
+      "document": "bns-wages-2026-q2",
+      "section": ""
     },
     {
-      "id": "median-gap",
+      "id": "median-bulletin",
       "domain": "finance",
       "question": "Какая медианная зарплата в Казахстане?",
       "top_k": 5,
-      "expect_empty": true
+      "document": "bns-wages-2026-q2",
+      "section": ""
     },
     {
       "id": "unknown-bank",
@@ -425,6 +427,158 @@
       "question": "Получил уведомление о статусе чужого займа. Где проверить кредитную историю?",
       "document": "nb-phishing-loan",
       "top_k": 5
+    },
+    {
+      "id": "legal-wide-unpaid",
+      "domain": "legal",
+      "question": "Работодатель заставляет написать заявление на отпуск без содержания. Обязан ли я соглашаться?",
+      "document": "labor",
+      "section": "Статья 97.",
+      "top_k": 8
+    },
+    {
+      "id": "legal-wide-resign",
+      "domain": "legal",
+      "question": "Как уволиться по собственному желанию и за сколько предупредить работодателя?",
+      "document": "labor",
+      "section": "Статья 56.",
+      "top_k": 8
+    },
+    {
+      "id": "legal-wide-alimony-share",
+      "domain": "legal",
+      "question": "Какая доля дохода взыскивается на двоих несовершеннолетних детей по общему правилу?",
+      "document": "family",
+      "section": "Статья 139.",
+      "top_k": 8
+    },
+    {
+      "id": "legal-wide-wages-kazakh",
+      "domain": "legal",
+      "question": "Жұмыс беруші жалақымды төлемей отыр. Не істеуім керек?",
+      "document": "labor",
+      "section": "Статья 113.",
+      "top_k": 8
+    },
+    {
+      "id": "legal-wide-child-opinion",
+      "domain": "legal",
+      "question": "Ребенку 12 лет. Может ли он сам решить, с кем жить после развода?",
+      "document": "family",
+      "section": "Статья 62.",
+      "top_k": 8
+    },
+    {
+      "id": "legal-wide-guarantee",
+      "domain": "legal",
+      "question": "Все ли деньги на депозите гарантируются государством, независимо от суммы и валюты?",
+      "document": "deposit-guarantee",
+      "section": "Статья 18.",
+      "top_k": 8
+    },
+    {
+      "id": "legal-salary-q3",
+      "domain": "legal",
+      "question": "Какая средняя зарплата за III квартал 2026 года?",
+      "expect_empty": true,
+      "top_k": 8
+    },
+    {
+      "id": "legal-salary-old-year",
+      "domain": "legal",
+      "question": "Какая средняя зарплата за II квартал 2025 года?",
+      "expect_empty": true,
+      "top_k": 8
+    },
+    {
+      "id": "legal-salary-annual",
+      "domain": "legal",
+      "question": "Какая средняя зарплата за весь 2026 год?",
+      "expect_empty": true,
+      "top_k": 8
+    },
+    {
+      "id": "legal-salary-region",
+      "domain": "legal",
+      "question": "Какая средняя зарплата в Алматы за II квартал 2026 года?",
+      "expect_empty": true,
+      "top_k": 8
+    },
+    {
+      "id": "finance-wide-unpaid",
+      "domain": "finance",
+      "question": "Работодатель заставляет написать заявление на отпуск без содержания. Обязан ли я соглашаться?",
+      "document": "labor",
+      "section": "Статья 97.",
+      "top_k": 8
+    },
+    {
+      "id": "finance-wide-resign",
+      "domain": "finance",
+      "question": "Как уволиться по собственному желанию и за сколько предупредить работодателя?",
+      "document": "labor",
+      "section": "Статья 56.",
+      "top_k": 8
+    },
+    {
+      "id": "finance-wide-alimony-share",
+      "domain": "finance",
+      "question": "Какая доля дохода взыскивается на двоих несовершеннолетних детей по общему правилу?",
+      "document": "family",
+      "section": "Статья 139.",
+      "top_k": 8
+    },
+    {
+      "id": "finance-wide-wages-kazakh",
+      "domain": "finance",
+      "question": "Жұмыс беруші жалақымды төлемей отыр. Не істеуім керек?",
+      "document": "labor",
+      "section": "Статья 113.",
+      "top_k": 8
+    },
+    {
+      "id": "finance-wide-child-opinion",
+      "domain": "finance",
+      "question": "Ребенку 12 лет. Может ли он сам решить, с кем жить после развода?",
+      "document": "family",
+      "section": "Статья 62.",
+      "top_k": 8
+    },
+    {
+      "id": "finance-wide-guarantee",
+      "domain": "finance",
+      "question": "Все ли деньги на депозите гарантируются государством, независимо от суммы и валюты?",
+      "document": "deposit-guarantee",
+      "section": "Статья 18.",
+      "top_k": 8
+    },
+    {
+      "id": "finance-salary-q3",
+      "domain": "finance",
+      "question": "Какая средняя зарплата за III квартал 2026 года?",
+      "expect_empty": true,
+      "top_k": 8
+    },
+    {
+      "id": "finance-salary-old-year",
+      "domain": "finance",
+      "question": "Какая средняя зарплата за II квартал 2025 года?",
+      "expect_empty": true,
+      "top_k": 8
+    },
+    {
+      "id": "finance-salary-annual",
+      "domain": "finance",
+      "question": "Какая средняя зарплата за весь 2026 год?",
+      "expect_empty": true,
+      "top_k": 8
+    },
+    {
+      "id": "finance-salary-region",
+      "domain": "finance",
+      "question": "Какая средняя зарплата в Алматы за II квартал 2026 года?",
+      "expect_empty": true,
+      "top_k": 8
     }
   ]
 }

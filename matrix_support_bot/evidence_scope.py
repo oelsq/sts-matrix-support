@@ -1,6 +1,6 @@
 """Restrict explicit product questions to matching PDF evidence."""
 import re
-from response_guidance import salary_statistic_question, work_payment_question
+from response_guidance import salary_statistic_question, work_payment_question, statistic_period, statistic_territory
 
 def scope_evidence(domain, question, evidence):
     q = question.casefold()
@@ -34,9 +34,17 @@ def scope_evidence(domain, question, evidence):
     # Salary statistics are not established by laws that merely mention wages.
     # Require the requested metric together with a value and reporting period.
     if salary_statistic_question(question):
-        metric = r"медиан\w*" if "медиан" in q else r"средн\w*"
+        current=q.split('\nпредыдущий вопрос:')[0]
+        metric = r"медиан\w*" if "медиан" in current or ('средн' not in current and 'медиан' in q) else r"средн\w*"
+        year, quarter = statistic_period(question)
+        annual=quarter is None and bool(re.search(r'за (?:весь )?20\d{2} год|за весь год|годов\w* показатель',current,re.I))
+        territory = statistic_territory(question)
         evidence = [p for p in evidence
                     if p.get("document_kind") == "statistical_bulletin"
+                    and (year is None or p.get('reporting_year') == year)
+                    and (quarter is None or p.get('reporting_quarter') == quarter)
+                    and (not annual or not p.get('reporting_quarter'))
+                    and (territory is None or p.get('territory') == territory)
                     and re.search(metric + r"(?:\W+\w+){0,5}\W+(?:зарплат\w*|заработн\w*)", p["text"], re.I)
                     and re.search(r"\d[\d\s,.]*\s*(?:тенге|теңге)", p["text"], re.I)
                     and re.search(r"(?:квартал|месяц|полугод|год|20\d{2})", p["text"], re.I)]

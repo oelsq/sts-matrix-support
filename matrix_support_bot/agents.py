@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import re
 from datetime import date
+from decimal import Decimal
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent / "agents"
@@ -215,6 +216,20 @@ def review_messages(domain, question, draft, evidence):
             "Не применяй трудовую норму безусловно к любой оплате услуг. Не включай формулу пени и срок после увольнения, "
             "если о них не спрашивали. Не советуй сразу идти в суд: переданные положения о выплате зарплаты "
             "не устанавливают весь порядок рассмотрения трудового спора. Начни с расчёта, подтверждений и письменного запроса.")
+    if re.search(r'без содержания|без сохранения|неоплачиваем.*отпуск', question, re.I):
+        result[-1]['content'] += ('\nОтветь об отпуске без сохранения заработной платы, а не ежегодном оплачиваемом отпуске. '
+            'Отличай добровольное заявление работника от принуждения. Сохрани специальные исключения статьи 97.')
+    if re.search(r'гпх|подряд|оказани.{0,12}услуг', question, re.I):
+        result[-1]['content'] += ('\nНе делай безусловный вывод только по названию договора: квалификация зависит от реальных признаков отношений. '
+            'Отличай оплату услуг от зарплаты; норму об оплате труда применяй условно при установленных трудовых отношениях.')
+    if re.search(r'реб.*(?:с кем|жить|сам реш)|с кем.*реб', question, re.I):
+        result[-1]['content'] += ('\nНе утверждай, что всегда решает суд: сначала возможно соглашение родителей. '
+            'Учёт мнения ребёнка не равен самостоятельному выбору; сохрани оговорку об интересах ребёнка из статьи 62.')
+    from response_guidance import salary_statistic_question
+    if salary_statistic_question(question) and not re.search(r'метод|формул|как.*счит|рассчит',question,re.I):
+        result[-1]['content'] += ('\nЭто запрос статистического значения, не методики расчёта. Оставь значение запрошенного показателя, '
+            'период, территорию и оговорку об охвате наблюдения. Не добавляй формулу, другой показатель или план действий без просьбы пользователя. '
+            'Медианную оценку называй оценкой, если так указано в источнике.')
     return result
 
 
@@ -370,7 +385,10 @@ def unsupported_quantities(answer, question, evidence, cited):
                                (r"двадцать|двадцати", "20"), (r"тридцать|тридцати", "30")]:
             text = re.sub(r"\b(?:" + pattern + r")\b", digit, text, flags=re.I)
         text = re.sub(r"(?<=\d)[ \u00a0\u202f](?=\d{3}(?:\D|$))", "", text)
-        return text.replace(",", ".")
+        text = text.replace(",", ".")
+        text = re.sub(r'\b(\d+(?:\.\d+)?)\s*(миллион\w*|млн|тысяч\w*|тыс\.?)\s*(?=тенге|теңге|₸)',
+                      lambda m: format((Decimal(m[1]) * (1000000 if m[2].startswith(('миллион','млн')) else 1000)).normalize(), 'f') + ' ', text, flags=re.I)
+        return text
     # A version's explicit effective date is evidence for that date only,
     # not for an arbitrary fee/year. reviewed_on is never an effective date.
     cited_evidence = [p for p in evidence if str(p["id"]) in cited]

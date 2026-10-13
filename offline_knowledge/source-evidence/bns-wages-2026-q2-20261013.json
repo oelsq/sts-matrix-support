@@ -1,0 +1,12 @@
+{
+  "source": "https://stat.gov.kz/ru/industries/labor--income/stat-wags/publications/514625/",
+  "retrieved_on": "2026-10-13",
+  "sha256": "5fa3afccfb7b703ad969e634aa1e94db0905a9e767dfb48ad458ea4f1a561f10",
+  "method": "Reviewed official publication: key figures, reporting period, scope footnote and glossary; normalized excerpt, not a full-page snapshot.",
+  "verified_values": {
+    "mean_nominal_tenge": 486388,
+    "median_estimate_tenge": 348415
+  },
+  "reporting_period": "2026-Q2",
+  "scope": "Without small enterprises engaged in entrepreneurial activity"
+}

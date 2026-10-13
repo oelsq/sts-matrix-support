@@ -1,7 +1,7 @@
 {
   "as_of": "2026-10-13",
   "complete_legal_system": false,
-  "documents_total": 74,
+  "documents_total": 75,
   "pdf_count": 30,
   "full_text_count": 59,
   "added_sources": 38,
@@ -15,5 +15,6 @@
     "Не гарантирована юридическая правильность каждой интерпретации"
   ],
   "source_catalog": "legal-catalog.json",
-  "official_guidance_count": 9
+  "official_guidance_count": 9,
+  "statistical_bulletin_count": 1
 }

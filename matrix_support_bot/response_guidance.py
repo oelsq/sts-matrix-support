@@ -8,6 +8,10 @@ import re
 def is_document_request(question: str) -> bool:
     """The current turn asks for an actual draft, not another action checklist."""
     current = question.split("\nПредыдущий вопрос:")[0]
+    # Describing coercion to sign/write is not a request for our draft.
+    if re.search(r'застав|принужд|требует.{0,25}(?:напис|подпис)', current, re.I) and not re.search(
+            r'помоги.{0,20}(?:напис|состав)|(?:напиши|составь|подготовь)|как (?:мне )?(?:написать|составить)', current, re.I):
+        return False
     return bool(re.search(
         r"(?:напис|напиш|состав|сформулир|подготов|шаблон|черновик|образец).*"
         r"(?:требован|заявлен|претензи|обращен|письм|жалоб)|"
@@ -28,6 +32,15 @@ def request_clarification(domain: str, question: str, previous_question: str = "
         return (f'**{label}**\n\nКому адресовано обращение и что вы хотите получить: оплату за работу, '
                 'возврат денег, исправление сведений или другое действие?\n\n'
                 'Коротко опишите ситуацию без персональных данных — подготовлю текст с заполнителями.')
+    if re.search(r'выдум|придум|сочини', current, re.I) and re.search(r'подтверд|выда[йт]|представ', current, re.I) and re.search(r'действующ|реальн|настоящ', current, re.I):
+        return (f'**{label}**\n\nНе буду выдавать придуманную норму за действующий закон. '
+                'Могу помочь проверить реальное положение или подготовить явно обозначенный учебный пример. '
+                'Какой вопрос нужно решить на практике?')
+    if re.search(r'российск.{0,20}(?:закон|кодекс)|закон.{0,15}(?:России|РФ)|работаю в России', current, re.I) and not re.search(r'Казахстан|РК|сравн', current, re.I):
+        return (f'**{label}**\n\nВаш вопрос относится к России, а проверенная база этого помощника относится к Казахстану. '
+                'Переносить казахстанские сроки на вашу ситуацию нельзя.\n\n'
+                'Сохраните договор, условия оплаты и подтверждения работы. Если пришлёте нужный фрагмент российского '
+                'документа без личных данных, помогу объяснить его содержание, отдельно обозначив пределы проверки.')
     if domain=='finance':
         from offline_knowledge import needs_bank
         if needs_bank(question):
@@ -64,15 +77,60 @@ def is_reference_question(question: str) -> bool:
     q = question.split("\nПредыдущий вопрос:")[0].strip()
     if re.search(r"что (?:мне )?делать|как (?:мне )?(?:поступить|обжаловать|оформить)|помоги|угрож|срочно", q, re.I):
         return False
-    return len(q.split()) <= 24 and bool(re.search(
-        r"(?:со? )?скольк[иао].*лет|с какого возраста|что такое|кто такой|что (?:есть|знаешь).*про|про .+что есть|чем занимается|какие задачи|какая комиссия", q, re.I))
+    return len(q.split()) <= 28 and bool(re.search(
+        r"(?:со? )?скольк[иао].*лет|с какого возраста|что такое|кто такой|что (?:есть|знаешь).*про|про .+что есть|чем занимается|какие задачи|какая комиссия|минимальн.*продолжительност|какая доля|за какой срок|кому.*пеню|за сколько предупредить", q, re.I))
 
 
 def salary_statistic_question(question: str) -> bool:
-    q = question.split("\nПредыдущий вопрос:")[0]
+    q = question
     if re.search(r"рассчит|расч[её]т|начисл|среднеднев|среднечас|работник|отпускн|увольн|компенсац|сохранени", q, re.I):
         return False
     return bool(re.search(r"(?:средн|медиан).*?(?:зарплат|заработн)|(?:зарплат|заработн).*?(?:средн|медиан)", q, re.I))
+
+
+def statistic_period(question: str):
+    """Current turn overrides inherited period; no default to the current year."""
+    current, _, previous = question.partition('\nПредыдущий вопрос:')
+    def parse(text):
+        year = re.search(r'\b(20\d{2})\b', text)
+        quarter = re.search(r'\b(IV|III|II|I|[1-4])(?:[-– ]*(?:й|го|ый|ой))?\s*квартал', text, re.I)
+        if quarter:
+            token = quarter[1].upper()
+            number = {'I':1,'II':2,'III':3,'IV':4}.get(token)
+            number = number or int(token)
+        else:
+            named = re.search(r'\b(перв\w*|втор\w*|трет\w*|четв[её]рт\w*)\s+квартал', text, re.I)
+            number = next((v for stem,v in [('перв',1),('втор',2),('трет',3),('четв',4)] if named and named[1].casefold().startswith(stem)), None)
+        return (int(year[1]) if year else None, number)
+    y,q=parse(current); py,pq=parse(previous)
+    return y or py, q or pq
+
+
+def statistic_territory(question: str):
+    """Reject unmapped city/region requests instead of substituting national data.
+
+    Prefer a location explicitly named this turn to earlier conversation turns.
+    An unknown location is deliberately not mapped to another regional bulletin.
+    """
+    current, _, previous=question.partition('\nПредыдущий вопрос:')
+    country={'казахстане','казахстан','казахстану','рк','стране'}
+    non_locations={'этом','прошлом','следующем','первом','втором','третьем','четвертом',
+                   'среднем','целом','статистике','бюллетене','документе','таблице','тенге','году','месяце','квартале'}
+    def parse(text):
+        country_named=False
+        for m in re.finditer(r'\bв\s+(?:городе\s+)?([а-яё-]+)',text,re.I):
+            place=m[1].casefold()
+            if place in country or (place=='республике' and re.search('казахстан',text,re.I)):
+                country_named=True
+                continue
+            if place not in non_locations:
+                return 'unmapped:'+place
+        if re.search(r'област|регион|район|город',text,re.I):
+            return 'unmapped:regional'
+        if country_named or re.search(r'Казахстан|\bРК\b|по всей стране',text,re.I):
+            return 'KZ'
+        return None
+    return parse(current) or parse(previous)
 
 
 def work_payment_question(question: str) -> bool:
@@ -81,8 +139,8 @@ def work_payment_question(question: str) -> bool:
     current = q.split('\nпредыдущий вопрос:')[0]
     if re.search(r'гпх|гражданск|подряд|оказани.{0,12}услуг', current):
         return False
-    wages = re.search(r'зарплат|заработн.{0,16}плат|начальник|ден[ье]г.{0,20}за работу', q)
-    trouble = re.search(r'невыплат|не\s+(?:плат|выда|отда)|задерж|задолж|просроч|долг', q)
+    wages = re.search(r'жалақ|зарплат|заработн.{0,16}плат|начальник|ден[ье]г.{0,20}за работу', q)
+    trouble = re.search(r'төлемей|төленбей|невыплат|не\s+(?:плат|выда|отда)|задерж|задолж|просроч|долг', q)
     return bool(wages and trouble) and not salary_statistic_question(question)
 
 
@@ -125,8 +183,15 @@ def practical_fallback(domain: str, question: str, *, validation_failed: bool = 
                     "Не буду выдавать её за проверенное значение. Для ответа нужно сверить показатель, период и регион с таблицей выпуска.")
         return (f"**{label}**\n\nВ локальной базе пока нет подходящего статистического выпуска о средней или медианной зарплате. "
                 "Это статистический показатель за определённый период; трудовой закон и банковские тарифы его не устанавливают.\n\n"
-                "Для точного ответа нужен выпуск Бюро национальной статистики с периодом и регионом. "
-                "Вас интересует средняя или медианная зарплата, по всей стране или по конкретному региону?")
+                "Нужен выпуск Бюро национальной статистики именно для запрошенного периода и территории. "
+                "Данные другого квартала или всей страны нельзя подставлять за нужный показатель. "
+                "Если у вас есть подходящая таблица, пришлите её заголовок и строку — помогу разобрать показатель и охват.")
+    if re.search(r'переплат', q) and re.search(r'гэсв', q) and re.search(r'умнож|формул|счит|рассчит', q):
+        return (f'**{label}**\n\nТочную переплату нельзя получить простым умножением суммы кредита на ГЭСВ и число лет. '
+                'ГЭСВ — годовой показатель стоимости, а остаток долга и платежи меняются по графику.\n\n'
+                'Для проверки выпишите все плановые платежи и обязательные расходы, уточнив, какие уже включены в платежи. '
+                'Сравните их общую сумму с полученной суммой кредита, не учитывая один расход дважды. '
+                'Пришлите обезличенный график — помогу проверить арифметику; результат будет расчётом по вашим данным, а не тарифом банка.')
     if domain=='finance' and not validation_failed:
         from offline_knowledge import is_tariff_question,needs_bank
         if is_tariff_question(question) and not needs_bank(question):
