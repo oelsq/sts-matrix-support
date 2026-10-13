@@ -254,6 +254,7 @@ class KnowledgeStore:
     def search(self, domain: str, question: str, limit: int = 6) -> list[dict[str, str | int]]:
         if limit <= 0:
             return []
+        question=re.sub(r'[\u2010-\u2015\u2212]','-',question)
         normalized = question
         # Colloquial queries often omit the vocabulary used in legislation.
         # These expansions influence retrieval only; they never assert facts.
@@ -264,6 +265,15 @@ class KnowledgeStore:
             (r"чуж(?:ому|ой|ого) дол[ггу]|звон.*долг", "коллекторское агентство взаимодействие третьи лица должник"),
             (r"настоящ.*стоимост.*кредит|полная.*стоимост.*кредит", "ГЭСВ годовая эффективная ставка вознаграждения"),
             (r"оплачиваем.*отпуск|не разрешают.*отпуск", "ежегодный оплачиваемый трудовой отпуск работодатель"),
+            (r"нечем.*плат|нет денег.*кредит|снизить.*плат[её]ж|потерял.*работ.*кредит", "реструктуризация займа изменение условий задолженности финансовые трудности"),
+            (r"(?:банк|мфо).*(?:отказ|не соглас)|отказ.*реструктур", "отказ в реструктуризации банковский микрофинансовый омбудсман"),
+        ]
+        everyday += [
+            (r'стоп[ -]*кредит|запрет.*(?:кредит|за[её]м)|отказ.*получени.*за[её]м', 'добровольный отказ банковские займы микрокредиты'),
+            (r'есутд|enbek|не внес.*договор|договор.*(?:нет|отсутств|не зарегистр)', 'единая система учета трудовых договоров работодатель сведения'),
+            (r'без оформлен|без договора|не оформля|не трудоустро', 'трудовой договор фактический допуск к работе трудовые отношения'),
+            (r'цифров.*тенге', 'цифровой тенге инвестиционный инструмент прибыль ложные инвестиции'),
+            (r'статус.*за[её]м|смс.*(?:ссылк|кредит)|уведомлен.*за[её]м', 'статус займа мошенническое сообщение проверка кредитной истории'),
         ]
         for pattern, expansion in everyday:
             if re.search(pattern, question, re.I):
@@ -352,6 +362,18 @@ class KnowledgeStore:
             (r"хозяин.*квартир", {"civil-general", "civil-special"}),
             (r"чуж(?:ому|ой|ого) дол[ггу]|звон.*долг", {"collectors"}),
             (r"настоящ.*стоимост.*кредит|полная.*стоимост.*кредит", {"banks"}),
+            (r"нечем.*плат|нет денег.*кредит|снизить.*плат[её]ж|реструктур", {"regulator-restructure", "arrears", "microfinance"}),
+            (r"(?:банк|мфо).*(?:отказ|не соглас)|отказ.*реструктур", {"regulator-refusal"}),
+            (r"(?:претензи|жалоб).*(?:магазин|продав|товар)|(?:магазин|продав|товар).*претензи", {"consumer-claim-guide"}),
+            (r"(?:куда|инспекц|жалоб).*(?:зарплат|начальник|работодател)|(?:зарплат|начальник|работодател).*(?:куда|инспекц|жалоб)", {"labor-wage-guide"}),
+        ]
+        topics += [
+            (r'стоп[ -]*кредит|запрет.*(?:кредит|за[её]м)|отказ.*получени.*за[её]м', {'stop-credit-guide'}),
+            (r'есутд|enbek|не внес.*договор|договор.*(?:нет|отсутств|не зарегистр)', {'labor-esutd-guide'}),
+            (r'без оформлен|без договора|не оформля|не трудоустро', {'labor'}),
+            (r'цифров.*тенге', {'nb-digital-tenge-fraud'}),
+            (r'статус.*за[её]м|смс.*(?:ссылк|кредит)|уведомлен.*за[её]м', {'nb-phishing-loan'}),
+            (r'безопасн.*сч[её]т|заблокир.*карт|блокировк.*карт', {'nb-card-safe-account'}),
         ]
         preferred = set().union(*(docs for pattern, docs in topics if re.search(pattern, question, re.I)))
         preferred.update(doc for doc, words in self.document_search_terms.items()
@@ -373,6 +395,12 @@ class KnowledgeStore:
                 if passage["document_id"] in preferred:
                     score += 100
                 section = str(passage.get("section", ""))
+                guide_intents = [
+                    ('consumer-claim-guide', r'(?:состав|напиш|напис|подготов).*претензи.*(?:продав|магазин|товар)|претензи.*(?:продав|магазин|товар)'),
+                    ('labor-wage-guide', r'(?:куда|жалоб|жалова|инспекц).*(?:зарплат|работодател|начальник)|(?:зарплат|работодател|начальник).*(?:куда|жалоб|жалова|инспекц)'),
+                ]
+                if any(passage['document_id'] == doc and re.search(pattern, question, re.I) for doc, pattern in guide_intents):
+                    score += 250
                 if (product == "halyk-superapp" and "коммунальн" in question.casefold()
                         and "оплата коммунальных услуг" in " ".join(str(passage["text"]).casefold().split())):
                     score += 100
@@ -381,6 +409,8 @@ class KnowledgeStore:
                     score += 100
                 if re.search(r"укра|краж|похит", question, re.I) and passage["document_id"] == "criminal" and section.startswith("Статья 188."):
                     score += 100
+                if passage['document_id']=='labor' and section.startswith('Статья 33.') and re.search(r'без оформлен|без договора|не оформля|не трудоустро',question,re.I):
+                    score+=250
                 focused_sections = [
                     (r"потер[еи].*работ|безработ", "social", ("Статья 113.", "Статья 114.", "Статья 118.")),
                     (r"ндс|добавленн.*стоимост", "tax", ("Статья 503.",)),

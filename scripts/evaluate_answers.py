@@ -40,7 +40,7 @@ def evaluate_case(store, case):
 async def live_checks(store, cases, route):
     import aiohttp
     from agents import messages, review_messages, render
-    from checked_answers import checked_work_payment_answer
+    from checked_answers import checked_practical_guidance, checked_work_payment_answer, checked_legal_answer
     from flowise_client import FlowiseClient
     from llm_settings import api_key, model_for_domain
     flow = FlowiseClient.from_env(os.environ) if route in {"flowise", "both"} else None
@@ -57,10 +57,10 @@ async def live_checks(store, cases, route):
                 search_question, previous_question = case_context(case)
                 evidence = scope_evidence(domain, search_question, store.search(domain, search_question, 8))
                 start = time.monotonic()
-                async def complete(msgs):
+                async def complete(msgs, stage="draft"):
                     if transport == "flowise":
                         room = next(r for r, entry in flow.routes.items() if entry["domain"] == domain)
-                        return await flow.predict(http, domain, room, "synthetic-evaluation", case["id"], msgs)
+                        return await flow.predict(http, domain, room, "synthetic-evaluation", case["id"], msgs, stage=stage)
                     async with http.post(os.environ["LLM_ENDPOINT"].rstrip("/") + "/chat/completions",
                                          headers={"Authorization": "Bearer " + api_key()},
                                          json={"model": model_for_domain(domain), "messages": msgs, "max_tokens": 2300, "temperature": 0.1},
@@ -73,11 +73,20 @@ async def live_checks(store, cases, route):
                 try:
                     if not evidence:
                         raise ValueError("No scoped evidence")
-                    answer = checked_work_payment_answer(domain, search_question, evidence)
+                    answer = (checked_practical_guidance(domain, search_question, evidence)
+                              or checked_work_payment_answer(domain, search_question, evidence)
+                              or checked_legal_answer(search_question, evidence, domain=domain))
                     generation = "checked_source_template" if answer else "model"
                     if answer is None:
-                        draft = await complete(messages(domain, question, evidence, previous_question))
-                        reviewed = await complete(review_messages(domain, search_question, draft, evidence))
+                        room = next((r for r,entry in flow.routes.items() if entry['domain']==domain),None) if flow else None
+                        if transport == 'flowise' and flow.is_workflow(room,domain):
+                            from agentflow_graphs import MARKER
+                            reviewed = await flow.run_workflow(http,domain,room,'synthetic-evaluation',case['id'],
+                                  messages(domain,question,evidence,previous_question),review_messages(domain,search_question,MARKER,evidence))
+                            generation = 'agentflow_v2'
+                        else:
+                            draft = await complete(messages(domain, question, evidence, previous_question))
+                            reviewed = await complete(review_messages(domain, search_question, draft, evidence), stage="review")
                         answer = render(domain, reviewed, question, evidence)
                     passed = "Не удалось подготовить ответ с проверяемой" not in answer
                     required = case.get("answer_contains", [])

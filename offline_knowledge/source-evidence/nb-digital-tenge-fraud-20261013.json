@@ -1,0 +1,11 @@
+{
+  "source": "https://nationalbank.kz/file/download/122828",
+  "retrieved_on": "2026-10-13",
+  "publication_date": "2026-03-30",
+  "sha256": "b89e333f839601aa983e87949483401f94d6b746b104b246444f3776c3c40907",
+  "pages_reviewed": [
+    1
+  ],
+  "text_extraction": "pypdf layout; single-page original inspected visually",
+  "artifact_kind": "official_pdf"
+}

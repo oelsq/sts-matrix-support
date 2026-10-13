@@ -29,7 +29,10 @@ class FlowiseClient:
         for room, entry in routes.items():
             if (not isinstance(room, str) or not room.startswith('!') or ':' not in room
                     or not isinstance(entry, dict) or entry.get('domain') not in {'legal', 'finance'}
-                    or not _valid_id(entry.get('flow_id'))):
+                    or not _valid_id(entry.get('flow_id'))
+                    or ('review_flow_id' in entry and not _valid_id(entry['review_flow_id']))
+                    or entry.get('engine','chatflow') not in {'chatflow','agentflow_v2'}
+                    or (entry.get('engine')=='agentflow_v2' and 'review_flow_id' in entry)):
                 raise FlowiseError('Invalid Flowise room route')
         if not api_key.strip():
             raise FlowiseError('A Flowise API key is required')
@@ -53,17 +56,37 @@ class FlowiseClient:
     def selected(self, room, domain):
         return room in self.routes and self.routes[room]['domain'] == domain
 
-    async def predict(self, http, domain, room, sender, event_id, messages):
+    def is_workflow(self, room, domain):
+        return self.selected(room,domain) and self.routes[room].get('engine') == 'agentflow_v2'
+
+    async def run_workflow(self, http, domain, room, sender, event_id, draft_messages, review_messages):
+        if not self.is_workflow(room,domain):
+            raise FlowiseError('Room/domain not enabled for Agentflows V2')
+        from agentflow_graphs import workflow_packet
+        packet=workflow_packet(domain,draft_messages,review_messages)
+        session=hashlib.sha256(('\0'.join([room,sender,event_id,'agentflow_v2'])).encode()).hexdigest()
+        return await self._prediction(http,self.routes[room]['flow_id'],json.dumps(packet,ensure_ascii=False),session,150)
+
+    async def predict(self, http, domain, room, sender, event_id, messages, *, stage="draft"):
+        if stage not in {'draft', 'review'}:
+            raise FlowiseError('Invalid Flowise processing stage')
         if not self.selected(room, domain):
             raise FlowiseError('Room/domain not enabled for Flowise')
+        if self.is_workflow(room,domain):
+            raise FlowiseError('Use the complete Agentflow workflow instead of separate stages')
         # No Matrix identifiers or other users' history are sent to Flowise.
         # The flow has no memory node; the bot supplies its scoped context.
-        session = hashlib.sha256(('\0'.join([room, sender, event_id])).encode()).hexdigest()
+        session = hashlib.sha256(('\0'.join([room, sender, event_id, stage])).encode()).hexdigest()
         prompt = '\n\n'.join(m['role'].upper() + ':\n' + m['content'] for m in messages)
+        route = self.routes[room]
+        flow_id = route.get('review_flow_id', route['flow_id']) if stage == 'review' else route['flow_id']
+        return await self._prediction(http,flow_id,prompt,session,self.timeout)
+
+    async def _prediction(self,http,flow_id,prompt,session,timeout):
         body = {'question': prompt, 'streaming': False, 'overrideConfig': {'sessionId': session}}
-        async with http.post(self.url + '/api/v1/prediction/' + self.routes[room]['flow_id'],
+        async with http.post(self.url + '/api/v1/prediction/' + flow_id,
                              json=body, headers={'Authorization': 'Bearer ' + self.api_key},
-                             allow_redirects=False, timeout=self.timeout) as response:
+                             allow_redirects=False, timeout=timeout) as response:
             if response.status != 200:
                 raise FlowiseError('Flowise prediction failed (HTTP ' + str(response.status) + ')')
             data = bytearray()

@@ -79,6 +79,7 @@ def main():
         parser.error('Only http://flowise:3000 is supported')
     sys.path.insert(0, '/app')
     from llm_settings import model_for_domain
+    from flowise_profiles import load_profiles, stage_graph
     state = Path(args.state_dir)
     admin_path = state / 'flowise_admin.json'
     if admin_path.exists():
@@ -111,8 +112,9 @@ def main():
     if args.prepare_only:
         print('Flowise admin ready. No LLM key read or transferred.')
         return
-    progress = json.loads(marker.read_text()) if marker.exists() else {'flows': {}, 'version': '3.1.4'}
-    if all(domain in progress['flows'] for domain in ('legal', 'finance')):
+    progress = json.loads(marker.read_text()) if marker.exists() else {'flows': {}, 'review_flows': {}, 'version': '3.1.4'}
+    if (all(domain in progress['flows'] for domain in ('legal', 'finance'))
+            and ('review_flows' not in progress or all(d in progress['review_flows'] for d in ('legal', 'finance')))):
         print('Flowise already provisioned; existing flows preserved.')
         return
     if not args.llm_key_file or 'litellm' not in os.environ.get('LLM_ENDPOINT', ''):
@@ -138,15 +140,19 @@ def main():
         progress['credential_id'] = credential['id']
         private_json(marker, progress)
     definitions = {name: api('GET', '/nodes/' + name) for name in ('promptTemplate', 'chatOpenAI', 'llmChain')}
+    profiles = load_profiles()['domains']
     for domain, label in [('legal', 'ЮрАгент'), ('finance', 'ФинАгент')]:
-        if domain in progress['flows']:
-            continue
-        flow = build_flow(definitions, progress['credential_id'], model_for_domain(domain), os.environ['LLM_ENDPOINT'], domain)
-        created = api('POST', '/chatflows', {'name': 'STS Flowise — ' + label, 'flowData': json.dumps(flow),
-                                            'type': 'CHATFLOW', 'deployed': True, 'isPublic': False,
-                                            'apikeyid': progress['prediction_key_id']})
-        progress['flows'][domain] = created['id']
-        private_json(marker, progress)
+        graph = build_flow(definitions, progress['credential_id'], model_for_domain(domain), os.environ['LLM_ENDPOINT'], domain)
+        for stage, mapping in [('draft', 'flows'), ('review', 'review_flows')]:
+            if mapping not in progress or domain in progress[mapping]:
+                continue
+            flow = stage_graph(graph, profiles[domain][stage])
+            suffix = ' — проверка' if stage == 'review' else ''
+            created = api('POST', '/chatflows', {'name': 'STS Flowise — ' + label + suffix, 'flowData': json.dumps(flow),
+                                                'type': 'CHATFLOW', 'deployed': True, 'isPublic': False,
+                                                'apikeyid': progress['prediction_key_id']})
+            progress[mapping][domain] = created['id']
+            private_json(marker, progress)
     print('Flowise provisioned: legal and finance flows. No Matrix rooms enabled yet.')
 
 

@@ -255,6 +255,176 @@
       "question": "Купил неисправный телефон, хочу вернуть деньги",
       "document": "consumer-law",
       "section": "Статья 30."
+    },
+    {
+      "id": "legal-restructure-guide",
+      "domain": "legal",
+      "question": "Нечем платить кредит. Можно снизить платеж?",
+      "document": "regulator-restructure",
+      "top_k": 5
+    },
+    {
+      "id": "legal-refusal-guide",
+      "domain": "legal",
+      "question": "Банк отказал в реструктуризации. Куда обращаться?",
+      "document": "regulator-refusal",
+      "top_k": 5
+    },
+    {
+      "id": "legal-consumer-claim-guide",
+      "domain": "legal",
+      "question": "Как составить претензию продавцу?",
+      "document": "consumer-claim-guide",
+      "top_k": 5
+    },
+    {
+      "id": "legal-wage-inspection-guide",
+      "domain": "legal",
+      "question": "Не платят зарплату. Куда жаловаться?",
+      "document": "labor-wage-guide",
+      "top_k": 5
+    },
+    {
+      "id": "finance-restructure-guide",
+      "domain": "finance",
+      "question": "Нечем платить кредит. Можно снизить платеж?",
+      "document": "regulator-restructure",
+      "top_k": 5
+    },
+    {
+      "id": "finance-refusal-guide",
+      "domain": "finance",
+      "question": "Банк отказал в реструктуризации. Куда обращаться?",
+      "document": "regulator-refusal",
+      "top_k": 5
+    },
+    {
+      "id": "finance-consumer-claim-guide",
+      "domain": "finance",
+      "question": "Как составить претензию продавцу?",
+      "document": "consumer-claim-guide",
+      "top_k": 5
+    },
+    {
+      "id": "finance-wage-inspection-guide",
+      "domain": "finance",
+      "question": "Не платят зарплату. Куда жаловаться?",
+      "document": "labor-wage-guide",
+      "top_k": 5
+    },
+    {
+      "id": "legal-digital-tenge",
+      "domain": "legal",
+      "question": "Предлагают заработать на цифровом тенге с поддержкой Нацбанка. Это инвестиционный инструмент?",
+      "document": "nb-digital-tenge-fraud",
+      "top_k": 5
+    },
+    {
+      "id": "legal-loan-status",
+      "domain": "legal",
+      "question": "Пришла СМС: статус вашего займа был обновлен, со ссылкой. Как проверить?",
+      "document": "nb-phishing-loan",
+      "top_k": 5
+    },
+    {
+      "id": "legal-safe-account",
+      "domain": "legal",
+      "question": "Карту заблокировали и просят перевести деньги на безопасный счет. Куда обращаться?",
+      "document": "nb-card-safe-account",
+      "top_k": 5
+    },
+    {
+      "id": "legal-stop-credit",
+      "domain": "legal",
+      "question": "Как поставить запрет на кредиты через Стоп-кредит?",
+      "document": "stop-credit-guide",
+      "top_k": 5
+    },
+    {
+      "id": "legal-esutd",
+      "domain": "legal",
+      "question": "Работодатель не внес договор в ЕСУТД. Договор недействителен?",
+      "document": "labor-esutd-guide",
+      "top_k": 5
+    },
+    {
+      "id": "legal-informal-work",
+      "domain": "legal",
+      "question": "Работаю без оформления. Когда возникают трудовые отношения?",
+      "document": "labor",
+      "top_k": 5,
+      "section": "Статья 33."
+    },
+    {
+      "id": "legal-esutd-letter",
+      "domain": "legal",
+      "question": "Напиши работодателю просьбу внести трудовой договор в ЕСУТД",
+      "document": "labor-esutd-guide",
+      "top_k": 5
+    },
+    {
+      "id": "legal-credit-history-check",
+      "domain": "legal",
+      "question": "Получил уведомление о статусе чужого займа. Где проверить кредитную историю?",
+      "document": "nb-phishing-loan",
+      "top_k": 5
+    },
+    {
+      "id": "finance-digital-tenge",
+      "domain": "finance",
+      "question": "Предлагают заработать на цифровом тенге с поддержкой Нацбанка. Это инвестиционный инструмент?",
+      "document": "nb-digital-tenge-fraud",
+      "top_k": 5
+    },
+    {
+      "id": "finance-loan-status",
+      "domain": "finance",
+      "question": "Пришла СМС: статус вашего займа был обновлен, со ссылкой. Как проверить?",
+      "document": "nb-phishing-loan",
+      "top_k": 5
+    },
+    {
+      "id": "finance-safe-account",
+      "domain": "finance",
+      "question": "Карту заблокировали и просят перевести деньги на безопасный счет. Куда обращаться?",
+      "document": "nb-card-safe-account",
+      "top_k": 5
+    },
+    {
+      "id": "finance-stop-credit",
+      "domain": "finance",
+      "question": "Как поставить запрет на кредиты через Стоп-кредит?",
+      "document": "stop-credit-guide",
+      "top_k": 5
+    },
+    {
+      "id": "finance-esutd",
+      "domain": "finance",
+      "question": "Работодатель не внес договор в ЕСУТД. Договор недействителен?",
+      "document": "labor-esutd-guide",
+      "top_k": 5
+    },
+    {
+      "id": "finance-informal-work",
+      "domain": "finance",
+      "question": "Работаю без оформления. Когда возникают трудовые отношения?",
+      "document": "labor",
+      "top_k": 5,
+      "section": "Статья 33."
+    },
+    {
+      "id": "finance-esutd-letter",
+      "domain": "finance",
+      "question": "Напиши работодателю просьбу внести трудовой договор в ЕСУТД",
+      "document": "labor-esutd-guide",
+      "top_k": 5
+    },
+    {
+      "id": "finance-credit-history-check",
+      "domain": "finance",
+      "question": "Получил уведомление о статусе чужого займа. Где проверить кредитную историю?",
+      "document": "nb-phishing-loan",
+      "top_k": 5
     }
   ]
 }

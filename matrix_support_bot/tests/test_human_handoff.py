@@ -188,3 +188,130 @@ class RosterTest(unittest.TestCase):
                 self.assertEqual(store.assignee('@alice:demo.local', 'legal'), '@jurdep:demo.local')
             finally:
                 store.db.close()
+
+class EmployeeChangesTest(unittest.IsolatedAsyncioTestCase):
+    setUp = TeamsTest.setUp
+    tearDown = TeamsTest.tearDown
+
+    async def test_choose_second_employee_then_switch_to_third_and_keep_old_room(self):
+        first = await self.team.open('@alice:demo.local', 'legal', ('Вопрос', 'Ответ'), employee_number=2, request_id='$a')
+        self.assertEqual(self.store.assignee('@alice:demo.local', 'legal'), self.legal[1])
+        await self.team.member_joined('!room0:demo.local', '@alice:demo.local')
+        second = await self.team.open('@alice:demo.local', 'legal', change=True, request_id='$b')
+        self.assertEqual(self.store.assignee('@alice:demo.local', 'legal'), self.legal[2])
+        self.assertTrue(self.store.contains_room('!room0:demo.local'))
+        self.assertEqual(self.store.room_record('!room0:demo.local')['assignee'], self.legal[1])
+        self.assertIn('Вопрос', self.client.room_send.call_args.kwargs['content']['body'])
+        self.assertNotEqual(first['body'], second['body'])
+        self.assertEqual(self.client.room_create.call_args.kwargs['invite'], ['@alice:demo.local', self.legal[2]])
+        self.client.join.assert_not_awaited()
+
+    async def test_same_selection_is_reused_but_other_domain_is_independent(self):
+        await self.team.open('@alice:demo.local', 'legal', employee_number=2)
+        await self.team.open('@alice:demo.local', 'legal', employee_number=2)
+        await self.team.open('@alice:demo.local', 'finance', employee_number=5)
+        self.assertEqual(self.client.room_create.await_count, 2)
+        self.assertEqual(self.store.assignee('@alice:demo.local', 'legal'), self.legal[1])
+        self.assertEqual(self.store.assignee('@alice:demo.local', 'finance'), self.finance[4])
+
+    async def test_duplicate_switch_event_after_restart_does_not_switch_twice(self):
+        await self.team.open('@alice:demo.local', 'finance', employee_number=2)
+        await self.team.open('@alice:demo.local', 'finance', change=True, request_id='$switch')
+        other = HandoffStore(self.path)
+        try:
+            team = HumanHandoff(self.client, other, self.team.departments, 'http://localhost:18081')
+            await team.open('@alice:demo.local', 'finance', change=True, request_id='$switch')
+            self.assertEqual(other.assignee('@alice:demo.local', 'finance'), self.finance[2])
+            self.assertEqual(self.client.room_create.await_count, 2)
+        finally:
+            other.db.close()
+
+    async def test_replayed_archived_event_never_replaces_current_assignment(self):
+        await self.team.open('@alice:demo.local', 'legal', request_id='$first')
+        await self.team.open('@alice:demo.local', 'legal', change=True, request_id='$second')
+        result = await self.team.open('@alice:demo.local', 'legal', request_id='$first')
+        self.assertIn('!room0:demo.local', result['body'])
+        self.assertEqual(self.store.assignee('@alice:demo.local', 'legal'), self.legal[1])
+        self.assertEqual(self.client.room_create.await_count, 2)
+
+    async def test_late_old_room_join_marks_old_room_only(self):
+        await self.team.open('@alice:demo.local', 'legal')
+        await self.team.open('@alice:demo.local', 'legal', change=True)
+        await self.team.member_joined('!room0:demo.local', self.legal[0])
+        self.assertEqual(self.store.room_record('!room0:demo.local')['departed'], 1)
+        self.assertEqual(self.store.get('@alice:demo.local', 'legal')[2], 0)
+        await self.team.member_joined('!room1:demo.local', self.legal[0])
+        self.assertEqual(self.client.room_leave.await_count, 1)
+
+    async def test_failed_switch_preserves_previous_assignment(self):
+        await self.team.open('@alice:demo.local', 'finance', employee_number=2)
+        self.client.room_create.side_effect = [object()]
+        with self.assertRaises(RuntimeError):
+            await self.team.open('@alice:demo.local', 'finance', change=True)
+        self.assertEqual(self.store.assignee('@alice:demo.local', 'finance'), self.finance[1])
+        self.assertEqual(self.store.db.execute('SELECT COUNT(*) FROM handoff_archive').fetchone()[0], 0)
+
+    async def test_context_send_retry_keeps_selected_employee_and_original_context(self):
+        await self.team.open('@alice:demo.local', 'legal', ('Исходный вопрос', 'Исходный ответ'))
+        self.client.room_send.return_value = object()
+        with self.assertRaises(RuntimeError):
+            await self.team.open('@alice:demo.local', 'legal', employee_number=4, note='Проверьте расчёт', request_id='$transfer')
+        self.client.room_send.return_value = RoomSendResponse('$ok', '!room1:demo.local')
+        await self.team.open('@alice:demo.local', 'legal', employee_number=4, request_id='$transfer')
+        self.assertEqual(self.client.room_create.await_count, 2)
+        body = self.client.room_send.call_args.kwargs['content']['body']
+        self.assertIn('Исходный вопрос', body)
+        self.assertIn('Проверьте расчёт', body)
+        self.assertEqual(self.store.assignee('@alice:demo.local', 'legal'), self.legal[3])
+
+    async def test_invalid_selection_and_single_employee_never_create_extra_room(self):
+        from human_handoff import HandoffChoiceError
+        for number in (0, 6, -1):
+            with self.assertRaises(HandoffChoiceError):
+                await self.team.open('@alice:demo.local', 'legal', employee_number=number)
+        self.client.room_create.assert_not_awaited()
+        await self.handoff.open('@alice:demo.local', 'legal')
+        with self.assertRaises(HandoffChoiceError):
+            await self.handoff.open('@alice:demo.local', 'legal', change=True)
+        self.assertEqual(self.client.room_create.await_count, 1)
+
+    async def test_user_cannot_replay_someone_elses_event_or_receive_context(self):
+        await self.team.open('@alice:demo.local', 'legal', ('PRIVATE-ALICE', 'Answer'), request_id='$alice')
+        with self.assertRaises(ValueError):
+            await self.team.open('@bob:demo.local', 'legal', request_id='$alice')
+        await self.team.open('@bob:demo.local', 'legal', employee_number=4)
+        self.assertNotIn('PRIVATE-ALICE', self.client.room_send.call_args.kwargs['content']['body'])
+
+    async def test_directory_does_not_create_room_or_claim_online_status(self):
+        await self.team.open('@alice:demo.local', 'finance', employee_number=2)
+        text = self.team.directory('@alice:demo.local', 'finance')
+        self.assertIn('!финдеп5', text)
+        self.assertIn('ваша текущая переписка', text)
+        self.assertIn('не присутствие', text)
+        self.assertEqual(self.client.room_create.await_count, 1)
+
+    async def test_duplicate_concurrent_switch_event_creates_one_new_room(self):
+        await self.team.open('@alice:demo.local', 'legal')
+        await asyncio.gather(*(self.team.open('@alice:demo.local', 'legal', change=True, request_id='$same') for _ in range(3)))
+        self.assertEqual(self.client.room_create.await_count, 2)
+        self.assertEqual(self.store.assignee('@alice:demo.local', 'legal'), self.legal[1])
+
+    async def test_five_employees_share_500_initial_requests_per_department(self):
+        from collections import Counter
+        self.client.room_create.side_effect = (RoomCreateResponse(f'!volume{i}:demo.local') for i in range(1000))
+        for domain in ('legal','finance'):
+            await asyncio.gather(*(self.team.open(f'@worker{i}:demo.local',domain,request_id=f'${domain}{i}') for i in range(500)))
+            rows=self.store.db.execute('SELECT assignee,COUNT(*) FROM handoffs WHERE domain=? GROUP BY assignee',(domain,)).fetchall()
+            self.assertEqual(Counter(dict(rows)),Counter({employee:100 for employee in self.team.departments[domain]}))
+        self.assertEqual(self.store.db.execute('SELECT COUNT(DISTINCT room) FROM handoffs').fetchone()[0],1000)
+        self.assertEqual(self.client.room_create.await_count,1000)
+
+
+def test_numbered_commands_and_change_are_explicit():
+    from human_handoff import handoff_selection
+    assert handoff_command('!юрдеп3 Хочу другую оценку') == ('legal', 'Хочу другую оценку')
+    assert handoff_command('!финдеп5') == ('finance', '')
+    assert handoff_selection('!финдеп5') == (5, False)
+    assert handoff_selection('!другой Пожалуйста') == (None, True)
+    assert handoff_command('Дайте !финдеп5') is None
+    assert handoff_command('!финдеп5x') is None

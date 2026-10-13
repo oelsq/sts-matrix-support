@@ -16,14 +16,14 @@ from nio import AsyncClient, LoginResponse, InviteMemberEvent, RoomMessageText, 
 from llm_settings import api_key as read_llm_key, model_for_domain
 from message_format import matrix_content
 from evidence_scope import scope_evidence
-from response_guidance import practical_fallback
+from response_guidance import practical_fallback, request_clarification
 from conversation import ConversationMemory
 from agents import messages, render, route_for_room, review_messages
-from checked_answers import checked_legal_answer, checked_work_payment_answer
+from checked_answers import checked_legal_answer, checked_work_payment_answer, checked_practical_guidance
 from knowledge_coverage import coverage_answer
 from offline_knowledge import KnowledgeStore, needs_bank, validate_llm_endpoint, validate_local_endpoint
 from urgent_help import urgent_finance_answer, legal_urgent_notice
-from human_handoff import HumanHandoff, HandoffStore, handoff_command, choose_department, department_roster
+from human_handoff import HumanHandoff, HandoffStore, handoff_command, choose_department, department_roster, handoff_selection, HandoffChoiceError
 
 log = logging.getLogger("support_bot")
 
@@ -112,6 +112,10 @@ async def main():
         async def ask_agent(domain, question, room_id, sender, event_id):
             local_evidence = None
             search_question, previous_question = conversations.resolve(room_id, sender, domain, question)
+            clarification = request_clarification(domain, search_question, previous_question)
+            if clarification:
+                log.info("Clarification before retrieval; domain=%s", domain)
+                return clarification
             if knowledge is not None and domain != "general":
                 retrieval_started = time.monotonic()
                 local_evidence = scope_evidence(domain, search_question, knowledge.search(domain, search_question, limit=8))
@@ -120,14 +124,17 @@ async def main():
                 if not local_evidence:
                     log.info("Agent fallback: domain=%s reason=no_evidence", domain)
                     return practical_fallback(domain, search_question)
+                checked = checked_practical_guidance(domain, search_question, local_evidence)
+                if checked:
+                    log.info("Source-bound practical guidance; domain=%s", domain)
+                    return checked
                 checked = checked_work_payment_answer(domain, search_question, local_evidence)
                 if checked:
                     log.info("Source-bound work payment answer; domain=%s", domain)
                     return checked
-                if domain == "legal":
-                    checked = checked_legal_answer(search_question, local_evidence)
-                    if checked:
-                        return checked
+                checked = checked_legal_answer(search_question, local_evidence, domain=domain)
+                if checked:
+                    return checked
             if domain == "legal" and local_evidence is not None:
                 from agents import legal_aid_eligibility_answer
                 bounded = legal_aid_eligibility_answer(question, local_evidence)
@@ -140,10 +147,17 @@ async def main():
                 "max_tokens": 2300,
                 "temperature": 0.1,
             }
-            async def complete(request):
+            workflow = bool(flowise and getattr(flowise,'is_workflow',lambda *_:False)(room_id,domain))
+            async def complete(request, stage="draft"):
+                if workflow:
+                    from agentflow_graphs import MARKER
+                    result = await flowise.run_workflow(http,domain,room_id,sender,event_id,request['messages'],
+                                review_messages(domain,search_question,MARKER,local_evidence))
+                    log.info('Agentflows V2 workflow completed; domain=%s',domain)
+                    return {'choices':[{'message':{'content':result},'finish_reason':None}]}
                 if flowise and flowise.selected(room_id, domain):
-                    result = await flowise.predict(http, domain, room_id, sender, event_id, request["messages"])
-                    log.info("Flowise response received; domain=%s", domain)
+                    result = await flowise.predict(http, domain, room_id, sender, event_id, request["messages"], stage=stage)
+                    log.info("Flowise response received; domain=%s stage=%s", domain, stage)
                     return {"choices": [{"message": {"content": result}, "finish_reason": None}]}
                 async with http.post(
                     os.environ["LLM_ENDPOINT"].rstrip("/") + "/chat/completions",
@@ -158,11 +172,11 @@ async def main():
                 answer = data["choices"][0]["message"]["content"]
                 if not isinstance(answer, str) or not answer.strip():
                     raise ValueError("Empty LLM response")
-                if local_evidence:
+                if local_evidence and not workflow:
                     review = {"model": model_for_domain(domain),
                               "messages": review_messages(domain, search_question, answer, local_evidence),
                               "max_tokens": 2300, "temperature": 0.1}
-                    data = await complete(review)
+                    data = await complete(review, stage="review")
                     answer = data["choices"][0]["message"]["content"]
                     if not isinstance(answer, str) or not answer.strip():
                         raise ValueError("Empty LLM review")
@@ -201,6 +215,16 @@ async def main():
 
             key = (room.room_id, event.sender)
             question = event.body[:12000]
+            if question.strip().casefold() == "!помощь":
+                await client.room_send(room_id=room.room_id, message_type="m.room.message", content=matrix_content(
+                    "**Как пользоваться**\n\nЗадайте вопрос обычными словами. Для продолжения напишите уточнение в этом же чате.\n\n"
+                    "- `!человек` — обратиться к сотруднику выбранного департамента.\n"
+                    "- `!сотрудники` — список сотрудников и команды выбора.\n"
+                    "- `!юрдеп2` или `!финдеп3` — выбрать конкретного сотрудника.\n"
+                    "- `!другой` — сменить сотрудника; используйте команду здесь, в чате ИИ.\n"
+                    "- `!новый` — начать новую тему.\n"
+                    "- `!база` — посмотреть доступные темы знаний."))
+                return
             if question.strip().casefold() == "!новый":
                 conversations.clear(room.room_id, event.sender)
                 latest_context.pop(key, None)
@@ -224,8 +248,16 @@ async def main():
                     content = {"msgtype": "m.text", "body": "Передача в этот департамент пока не настроена. Сообщение сотруднику не отправлено."}
                 else:
                     try:
-                        content = await handoff.open(event.sender, domain, latest_context.get(key), note)
-                        log.info("Human handoff completed; domain %s", domain)
+                        if question.strip().split(maxsplit=1)[0].casefold() == '!сотрудники':
+                            content = matrix_content(handoff.directory(event.sender, domain))
+                        else:
+                            employee_number, change = handoff_selection(question)
+                            content = await handoff.open(event.sender, domain, latest_context.get(key), note,
+                                                         employee_number=employee_number, change=change,
+                                                         request_id=event.event_id)
+                            log.info("Human handoff completed; domain %s", domain)
+                    except HandoffChoiceError as exc:
+                        content = matrix_content(str(exc))
                     except Exception as exc:
                         log.error("Human handoff failed (%s)", type(exc).__name__)
                         content = {"msgtype": "m.text", "body": "Не удалось завершить передачу сотруднику. Попробуйте команду ещё раз. Приглашение в комнату могло уже появиться."}

@@ -12,12 +12,13 @@ from urllib.request import HTTPCookieProcessor, Request, build_opener
 import aiohttp
 from aiohttp import web
 
-sys.path.insert(0, '/app')
+sys.path.append('/app')
 from flowise_client import FlowiseClient
 from setup_flowise import build_flow
+from flowise_profiles import load_profiles, stage_graph
 
 
-async def check_prediction(base, flow_id, prediction_key):
+async def check_prediction(base, flow_id, review_id, prediction_key):
     observed = []
 
     async def completion(request):
@@ -44,14 +45,18 @@ async def check_prediction(base, flow_id, prediction_key):
                 assert response.status >= 400 and not observed, response.status
                 print('UNAUTHENTICATED_BLOCKED', response.status)
             client = FlowiseClient('http://flowise:3000', {'flowise'},
-                                   {'!pilot:demo.local': {'domain': 'legal', 'flow_id': flow_id}}, prediction_key)
-            result = await client.predict(http, 'legal', '!pilot:demo.local', '@tester:demo.local', '$event',
-                                          [{'role': 'user', 'content': 'Retain this citation [S1]'}])
-            assert result == 'TRANSPORT_OK [S1]', repr(result)
-            assert len(observed) == 1
-            assert observed[0]['model'] == 'transport-test-model'
-            assert '[S1]' in json.dumps(observed[0]['messages'])
-            print('FLOWISE_TRANSPORT_PASS (mock model, real Flowise API and graph)')
+                                   {'!pilot:demo.local': {'domain': 'legal', 'flow_id': flow_id, 'review_flow_id': review_id}}, prediction_key)
+            for stage in ('draft', 'review'):
+                result = await client.predict(http, 'legal', '!pilot:demo.local', '@tester:demo.local', '$event',
+                                              [{'role': 'user', 'content': 'Retain this citation [S1]'}], stage=stage)
+                assert result == 'TRANSPORT_OK [S1]', repr(result)
+            assert len(observed) == 2
+            assert all(body['model'] == 'transport-test-model' for body in observed)
+            assert all('[S1]' in json.dumps(body['messages']) for body in observed)
+            prompts=[json.dumps(body['messages'],ensure_ascii=False) for body in observed]
+            assert 'Сначала дай прямой ответ' in prompts[0]
+            assert 'Ты редактор и проверяющий' in prompts[1]
+            print('FLOWISE_DRAFT_REVIEW_TRANSPORT_PASS (mock model, real Flowise API and graphs)')
     finally:
         await runner.cleanup()
 
@@ -77,7 +82,7 @@ def main():
     api('POST', '/auth/login', admin)
     definitions = {name: api('GET', '/nodes/' + name) for name in ('promptTemplate', 'chatOpenAI', 'llmChain')}
     name = 'STS temporary transport test ' + secrets.token_hex(4)
-    key = credential = flow = None
+    key = credential = flow = review = None
     try:
         keys = api('POST', '/apikey', {'keyName': name, 'permissions': ['chatflows:execute']})
         if isinstance(keys, dict):
@@ -86,13 +91,16 @@ def main():
         credential = api('POST', '/credentials', {'name': name, 'credentialName': 'openAIApi',
                                                  'plainDataObj': {'openAIApiKey': 'not-a-real-key'}})
         graph = build_flow(definitions, credential['id'], 'transport-test-model', 'http://bot:18089/v1', 'legal')
-        flow = api('POST', '/chatflows', {'name': name, 'flowData': json.dumps(graph), 'type': 'CHATFLOW',
+        flow = api('POST', '/chatflows', {'name': name, 'flowData': json.dumps(stage_graph(graph, load_profiles()['domains']['legal']['draft'])), 'type': 'CHATFLOW',
                                          'deployed': True, 'isPublic': False, 'apikeyid': key['id']})
-        asyncio.run(check_prediction(base, flow['id'], key['apiKey']))
+        review = api('POST', '/chatflows', {'name': name + ' review',
+                     'flowData': json.dumps(stage_graph(graph, load_profiles()['domains']['legal']['review'])),
+                     'type': 'CHATFLOW', 'deployed': True, 'isPublic': False, 'apikeyid': key['id']})
+        asyncio.run(check_prediction(base, flow['id'], review['id'], key['apiKey']))
     finally:
         # Attempt every cleanup even if a previous deletion fails.
         errors = []
-        for resource, value in [('chatflows', flow), ('credentials', credential), ('apikey', key)]:
+        for resource, value in [('chatflows', review), ('chatflows', flow), ('credentials', credential), ('apikey', key)]:
             if value:
                 try:
                     api('DELETE', '/' + resource + '/' + value['id'])
@@ -100,7 +108,7 @@ def main():
                     errors.append(str(error))
         if errors:
             raise RuntimeError('Temporary object cleanup incomplete: ' + '; '.join(errors))
-        print('Temporary flow, dummy credential and prediction key removed.')
+        print('Temporary flows, dummy credential and prediction key removed.')
 
 
 if __name__ == '__main__':

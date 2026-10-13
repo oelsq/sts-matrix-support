@@ -8,6 +8,27 @@ FRAUD = re.compile(r"мошенни|безопасн\w* сч[её]т|перед�
 def urgent_finance_answer(question, knowledge):
     if not FRAUD.search(question) or knowledge is None:
         return None
+    if re.search(r"безопасн\w* сч[её]т", question, re.I):
+        sources = [p for p in knowledge.search('finance', 'безопасный счет блокировка карты неизвестным лицам',20)
+                   if p['document_id']=='nb-card-safe-account']
+        warning = next((p for p in sources if 'безопасный счет' in ' '.join(p['text'].split())
+                        and 'никогда не запрашивают' in ' '.join(p['text'].split())), None)
+        caution = next((p for p in sources if 'не переводить денежные средства неизвестным лицам' in ' '.join(p['text'].split())), None)
+        if warning and caution:
+            evidence = [warning] if warning['id']==caution['id'] else [warning,caution]
+            ref='[S1]' if len(evidence)==1 else '[S2]'
+            return render('finance',
+                '**Не переводите деньги на предложенный «безопасный счёт».** Нацбанк предупреждает о схеме, '
+                'в которой под предлогом разблокировки карты или такого перевода пытаются получить доступ к счетам. [S1]\n\n'
+                '**Что сделать сейчас**\n'
+                '1. Прекратите разговор; не сообщайте SMS-коды, пароли и CVV/CVC. Сотрудники финансовых организаций '
+                'не запрашивают пароли и SMS-коды и не просят установить приложение удалённого доступа. [S1]\n'
+                '2. Самостоятельно свяжитесь с банком по номеру на карте или в официальном приложении. '
+                'Не переводите деньги неизвестным лицам. '+ref+'\n'
+                '3. Если уже раскрыли данные или отправили деньги, сразу сообщите об этом банку; '
+                'не ждите ответа ИИ или сотрудника в чате.\n\n'
+                'Вы пока только получили предложение или уже передали данные/сделали перевод? '
+                'Коды и реквизиты сюда присылать не нужно.', question,evidence)
     evidence = [p for p in knowledge.search("finance", "Что делать если предоставил свои данные мошенникам блокировку скомпрометированных банковских карт", 20)
                 if p["document_id"] == "nb-faq" and "блокировку" in p["text"] and "скомпрометированных" in p["text"]][:1]
     if not evidence:

@@ -1,0 +1,72 @@
+{
+  "verified_on": "2026-10-13",
+  "change": "Existing primary legal and finance rooms now use their Flowise draft and review flows.",
+  "room_ids_memberships_and_history_modified": false,
+  "total_flowise_rooms": 4,
+  "primary_rooms": 2,
+  "additional_rooms": 2,
+  "additional_rooms_share_same_flows": true,
+  "verification": {
+    "new_configuration_unit_tests_passed": 4,
+    "actual_bot_callback_checks_passed": 8,
+    "real_model_answer_checks": 2,
+    "employee_directory_checks": 2,
+    "employee_selection_and_2_to_3_switch_checks": 4,
+    "matrix_io_for_callback_tests": "mocked; no real employee invitations or messages",
+    "existing_live_human_assignments_preserved": 7,
+    "installed_file_hashes_verified": 4,
+    "matrix_login": "successful"
+  },
+  "rollback_routes_on_vm": "/home/admin_sts/sts-matrix-support/project/.human-handoff-state/flowise-main-before-20261013.json",
+  "portable_setup": "scripts/enable_flowise.py",
+  "github_pushed": false,
+  "synthetic_model_answers": [
+    {
+      "route": "flowise",
+      "domain": "finance",
+      "question": "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?",
+      "answer": "Финансовый агент\n\nКомиссия за оплату коммунальных услуг в Halyk SuperApp составляет 0 тенге [1].\n\nУказанные тарифы действуют с 15.09.2026 [1].\n\n\nНужна проверка сотрудника? Напишите !человек.\n\nИсточники\n\n1. Halyk: тарифы SuperApp — стр. 1\nhttps://halykbank.kz/storage/app/media/Tarify/2026/9/RUS_Тарифы_Halyk_SuperApp.pdf\nПроверено: 2026-10-01. Редакция/версия: Изменения, действующие с 15.09.2026. Фрагмент: halyk-superapp:p1:5:1.\nЦитата из документа: «7 Оплата коммунальных услуг 0 теңге 0 теңге 8 Университеты, школы, колледжи, детские сады (кроме универсальных 0 теңге 0 теңге платежей с текущего счета/карточки)»",
+      "automated_passed": true,
+      "guidance_template": false,
+      "elapsed_ms": 1430,
+      "flowise_calls": [
+        {
+          "domain": "finance",
+          "stage": "draft",
+          "flow_id": "862f4ebe-4e31-4792-a582-cb0c02bd9be5"
+        },
+        {
+          "domain": "finance",
+          "stage": "review",
+          "flow_id": "a1e2df41-c6cd-4a9c-ad9b-3bf7af13ae37"
+        }
+      ]
+    },
+    {
+      "route": "flowise",
+      "domain": "legal",
+      "question": "Со скольки лет можно заключить брак в Казахстане?",
+      "answer": "Юридический агент\n\nБрачный возраст в Казахстане составляет 18 лет для мужчин и женщин [1].\n\nРегистрирующие органы могут снизить этот возраст не более чем на два года, но только при наличии уважительных причин: беременности или рождении общего ребенка [1]. Для этого необходимо подать ходатайство, и снижение допускается исключительно с согласия самих лиц, вступающих в брак [1].\n\nЕсли один из партнеров не достиг 18 лет, для регистрации брака требуется письменное согласие его родителей или попечителей [1].\n\n\nНужна проверка сотрудника? Напишите !человек.\n\nИсточники\n\n1. О браке (супружестве) и семье, Статья 10\nhttps://old.adilet.zan.kz/rus/docs/K1100000518\nПроверено: 2026-10-07. Редакция/версия: Официальный текст получен 2026-10-07; точная дата редакции отдельно не установлена. Фрагмент: family:28:1.\nЦитата из документа: «2. Регистрирующие органы по месту государственной регистрации заключения брака (супружества) снижают брачный (супружеский) возраст на срок не более двух лет при наличии следующих уважительных причин: 1) беременности; 2) рождении общего ребенка.»",
+      "automated_passed": true,
+      "guidance_template": false,
+      "elapsed_ms": 3563,
+      "flowise_calls": [
+        {
+          "domain": "legal",
+          "stage": "draft",
+          "flow_id": "2975f481-51fa-4c28-9272-43c0efc6a3d5"
+        },
+        {
+          "domain": "legal",
+          "stage": "review",
+          "flow_id": "65caf989-e19c-4223-986c-6990788aa76b"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Additional former test rooms share graphs with primary rooms; they are not an isolated experiment environment.",
+    "Some source-bound responses bypass model generation.",
+    "This is a targeted routing check, not proof of general legal correctness or high-load capacity."
+  ]
+}

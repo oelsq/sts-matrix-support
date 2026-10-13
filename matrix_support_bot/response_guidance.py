@@ -15,6 +15,27 @@ def is_document_request(question: str) -> bool:
         r"(?:напис|напиш|состав|сформулир|подготов|шаблон|черновик|образец)", current, re.I))
 
 
+def request_clarification(domain: str, question: str, previous_question: str = "") -> str | None:
+    """Clarify genuinely missing subject; preserve scoped follow-ups and known bank names."""
+    if domain not in {'legal','finance'}:
+        return None
+    label='Юридический агент' if domain=='legal' else 'Финансовый агент'
+    current=question.split("\nПредыдущий вопрос:")[0].strip()
+    generic_letter=re.fullmatch(
+        r"(?:а\s+)?(?:как\s+(?:мне\s+)?(?:написать|составить|оформить)|(?:напиши|составь|подготовь))"
+        r"\s+(?:мне\s+)?(?:требование|заявление|жалобу|претензию|письмо)[?!.\s]*",current,re.I)
+    if generic_letter and not previous_question and '\nПредыдущий вопрос:' not in question:
+        return (f'**{label}**\n\nКому адресовано обращение и что вы хотите получить: оплату за работу, '
+                'возврат денег, исправление сведений или другое действие?\n\n'
+                'Коротко опишите ситуацию без персональных данных — подготовлю текст с заполнителями.')
+    if domain=='finance':
+        from offline_knowledge import needs_bank
+        if needs_bank(question):
+            return (f'**{label}**\n\nУточните банк и продукт или приложение, через которое хотите провести операцию. '
+                    'Например, Halyk SuperApp или карта Freedom. Комиссию нужно проверять по тарифу выбранного продукта.')
+    return None
+
+
 def retrieval_question(question: str, previous_question: str = "") -> str:
     # Short follow-ups need the user's topic, not an earlier generated answer
     # (which could contain a mistake). The current request remains first.
@@ -89,7 +110,13 @@ def work_payment_draft() -> str:
 def practical_fallback(domain: str, question: str, *, validation_failed: bool = False) -> str:
     label = "Юридический агент" if domain == "legal" else "Финансовый агент"
     q = question.casefold()
-    if is_document_request(question) and work_payment_question(question):
+    from document_drafts import credit_payment_problem, credit_request_draft, consumer_refund_draft
+    if is_document_request(question) and credit_payment_problem(question) and not re.search(r'жалоб|иск|суд|омбуд|прокурат', question.split('\nПредыдущий вопрос:')[0], re.I):
+        return (f"**{label}**\n\nНиже пример обращения с предложением пересмотреть платежи. "
+                "Это редактируемый текст без неподтверждённых статей и сроков, а не обещание одобрения.\n\n"+credit_request_draft())
+    if is_document_request(question) and re.search(r'телефон|смартфон',q) and re.search(r'неисправ|недостат|слома',q) and re.search(r'возврат|вернут|вернуть',q) and not re.search(r'ремонт|замен|жалоб|иск|суд|министр|омбуд',question.split('\nПредыдущий вопрос:')[0],re.I):
+        return (f"**{label}**\n\nМожно подготовить такой пример претензии; конкретные права зависят от обстоятельств покупки.\n\n"+consumer_refund_draft())
+    if is_document_request(question) and work_payment_question(question) and not re.search(r'жалоб|иск|суд|инспекц|прокурат',question.split('\nПредыдущий вопрос:')[0],re.I):
         return (f"**{label}**\n\nЕсли речь о зарплате по трудовым отношениям, можно начать с такого обращения. "
                 "Это редактируемый пример без неподтверждённых статей и сроков.\n\n" + work_payment_draft())
     if salary_statistic_question(question):
@@ -100,6 +127,16 @@ def practical_fallback(domain: str, question: str, *, validation_failed: bool = 
                 "Это статистический показатель за определённый период; трудовой закон и банковские тарифы его не устанавливают.\n\n"
                 "Для точного ответа нужен выпуск Бюро национальной статистики с периодом и регионом. "
                 "Вас интересует средняя или медианная зарплата, по всей стране или по конкретному региону?")
+    if domain=='finance' and not validation_failed:
+        from offline_knowledge import is_tariff_question,needs_bank
+        if is_tariff_question(question) and not needs_bank(question):
+            topic=question.split("\nПредыдущий вопрос:")[0].strip()[:240]
+            supplied_details=bool(re.search(r'gold|red|super\s*app|за\s|перевод|оплат|карт|вклад|депозит',question,re.I))
+            followup=('В какой валюте, на какую сумму и через какой канал планируется операция?' if supplied_details
+                      else 'Уточните название продукта и операцию, для которой нужно узнать комиссию.')
+            return (f'**{label}**\n\nПо запросу «{topic}» в локальной базе пока нет проверенного тарифа для этой операции.\n\n'
+                    'Пришлите соответствующую строку тарифа без реквизитов и персональных данных — помогу разобрать '
+                    'комиссию, ограничения и сноски.\n\n'+followup)
     if validation_failed and is_reference_question(question):
         return (f"**{label}**\n\nДокумент по вашему вопросу найден, но подготовленный ответ не прошёл проверку подтверждений. "
                 "Это ошибка проверки ответа, а не просьба заново назвать уже указанный банк или продукт. "

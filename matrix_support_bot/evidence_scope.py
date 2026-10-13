@@ -4,6 +4,14 @@ from response_guidance import salary_statistic_question, work_payment_question
 
 def scope_evidence(domain, question, evidence):
     q = question.casefold()
+    # Bank and microcredit legislation have different subjects. Do not feed a
+    # single-creditor question the other institution's special procedure.
+    bank = bool(re.search(r'\bбанк(?:а|е|у|ом|и|ов|ах)?\b|банковск', q))
+    mfo = bool(re.search(r'\bмфо\b|микрокредит|микрофинанс', q))
+    if bank and not mfo:
+        evidence = [p for p in evidence if p['document_id'] != 'microfinance']
+    elif mfo and not bank:
+        evidence = [p for p in evidence if p['document_id'] != 'banks']
     # Keep a wage non-payment answer focused on the payment rule. Other
     # articles mentioning wages do not establish a dispute procedure. Within
     # article 113, termination is a different case; don't feed its deadline to
@@ -12,6 +20,9 @@ def scope_evidence(domain, question, evidence):
             p['document_id'] == 'labor' and str(p.get('section', '')).startswith('Статья 113.') for p in evidence):
         relevant = []
         for p in evidence:
+            if p['document_id'] == 'labor-wage-guide' and re.search(r'куда|жалоб|жалова|инспекц|что дальше|не ответ', q):
+                relevant.append(p)
+                continue
             if p['document_id'] != 'labor' or not str(p.get('section', '')).startswith('Статья 113.'):
                 continue
             text = p['text']
