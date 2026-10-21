@@ -269,7 +269,7 @@ async def main():
             previous_routes[key] = domains
             log.info("Routing request to: %s", ",".join(domains))
 
-            urgent = urgent_finance_answer(question, knowledge) if "finance" in domains else None
+            urgent = urgent_finance_answer(question, knowledge) if set(domains) & {"legal", "finance"} else None
             if urgent:
                 answer = urgent
                 latest_context[key] = (question, answer)

@@ -8,9 +8,10 @@ export default defineConfig({
     // Proxy API calls to backend (adjust target as needed)
     proxy: {
       '/api': {
-        target: process.env.VITE_BACKEND_URL || 'http://localhost:3000',
+        target: process.env.VITE_BACKEND_URL || 'http://localhost:8010',
         changeOrigin: true,
         secure: false,
+        rewrite: (path) => path.replace(/^\/api(?=\/|$)/, ''),
       },
     },
   },

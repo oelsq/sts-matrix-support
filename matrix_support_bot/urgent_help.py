@@ -2,13 +2,14 @@
 import re
 from agents import render
 
+CODE_REQUEST = re.compile(r"(?:просит|просят|запрашива)\w*.*(?:смс|sms|cvv|cvc|парол)|(?:смс|sms)[ -]*код.*(?:просит|просят)", re.I)
 FRAUD = re.compile(r"мошенни|безопасн\w* сч[её]т|передал\w*.*(?:код|cvv|cvc|парол)|сообщил\w*.*(?:код|cvv|cvc|парол)|(?:списал|украл|снял)\w*.*(?:деньг|карт)|(?:деньг|карт).*без моего", re.I)
 
 
 def urgent_finance_answer(question, knowledge):
-    if not FRAUD.search(question) or knowledge is None:
+    if not (FRAUD.search(question) or CODE_REQUEST.search(question)) or knowledge is None:
         return None
-    if re.search(r"безопасн\w* сч[её]т", question, re.I):
+    if re.search(r"безопасн\w* сч[её]т", question, re.I) or CODE_REQUEST.search(question):
         sources = [p for p in knowledge.search('finance', 'безопасный счет блокировка карты неизвестным лицам',20)
                    if p['document_id']=='nb-card-safe-account']
         warning = next((p for p in sources if 'безопасный счет' in ' '.join(p['text'].split())
@@ -17,8 +18,10 @@ def urgent_finance_answer(question, knowledge):
         if warning and caution:
             evidence = [warning] if warning['id']==caution['id'] else [warning,caution]
             ref='[S1]' if len(evidence)==1 else '[S2]'
+            introduction = ('**Не сообщайте SMS-коды, пароли и CVV/CVC звонящему.** Нацбанк предупреждает: сотрудники финансовых организаций не запрашивают такие данные. [S1]\n\n'
+                            if CODE_REQUEST.search(question) else '')
             return render('finance',
-                '**Не переводите деньги на предложенный «безопасный счёт».** Нацбанк предупреждает о схеме, '
+                introduction + '**Не переводите деньги на предложенный «безопасный счёт».** Нацбанк предупреждает о схеме, '
                 'в которой под предлогом разблокировки карты или такого перевода пытаются получить доступ к счетам. [S1]\n\n'
                 '**Что сделать сейчас**\n'
                 '1. Прекратите разговор; не сообщайте SMS-коды, пароли и CVV/CVC. Сотрудники финансовых организаций '

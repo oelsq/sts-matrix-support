@@ -1,0 +1,14 @@
+# Combine after docker-compose.yml. Images/dependencies/weights must exist first.
+# Attach your preloaded inference container, with network alias local-model, to
+# this project's default network. Do not expose a remote model through that alias.
+services:
+  litellm:
+    environment:
+      LOCAL_LLM_MODEL: ${LOCAL_LLM_MODEL:?Set the actual local served model ID with openai/ prefix}
+      LOCAL_LLM_BASE_URL: ${LOCAL_LLM_BASE_URL:-http://local-model:8000/v1}
+      LOCAL_LLM_API_KEY: ${LOCAL_LLM_API_KEY:-not-required}
+    volumes:
+      - ./config/litellm/offline.yaml:/app/config.yaml:ro
+networks:
+  default:
+    internal: true

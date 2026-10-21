@@ -1,0 +1,20 @@
+# Local OpenAI-compatible inference server, provisioned separately.
+# LOCAL_LLM_MODEL includes the openai/ adapter prefix and the served model ID.
+model_list:
+  - model_name: legal-chat
+    litellm_params: &local_model
+      model: os.environ/LOCAL_LLM_MODEL
+      api_base: os.environ/LOCAL_LLM_BASE_URL
+      api_key: os.environ/LOCAL_LLM_API_KEY
+  - model_name: legal-chat-deepseek
+    litellm_params: *local_model
+  - model_name: legal-chat-kimi
+    litellm_params: *local_model
+  - model_name: legal-chat-gptoss
+    litellm_params: *local_model
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  database_url: os.environ/DATABASE_URL
+litellm_settings:
+  drop_params: true
+  telemetry: false

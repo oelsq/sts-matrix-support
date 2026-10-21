@@ -18,7 +18,16 @@ def settings():
     return result
 
 def compose(*args):
-    subprocess.run(['docker','compose',*args],cwd=ROOT,check=True)
+    env = settings() if ENV.exists() else {}
+    command = ['docker', 'compose', '-f', 'docker-compose.yml']
+    if env.get('OFFLINE_MODE') == '1':
+        command += ['-f', 'compose.offline.yml']
+        # Avoid an implicit registry pull during account provisioning/init.
+        if args and args[0] == 'up' and '--no-build' not in args:
+            args = ('up', '--pull', 'never', '--no-build', *args[1:])
+        if args and args[0] == 'run':
+            args = ('run', '--pull', 'never', *args[1:])
+    subprocess.run([*command, *args], cwd=ROOT, check=True)
 
 def api(base,method,path,data=None,token=None):
     headers={'Content-Type':'application/json'}
@@ -62,7 +71,7 @@ p.write_text(yaml.safe_dump(d,allow_unicode=True,sort_keys=False))
 print('Synapse configuration prepared')
 '''
     compose('run','--rm','--no-deps','--entrypoint','python','homeserver','-c',source)
-    print('Initialized. Fill NITEC_API_KEY in .env, then run: python3 scripts/setup.py start')
+    print('Initialized. Configure the provider in .env (see docs/OFFLINE.md), then run: python3 scripts/setup.py start')
 
 def wait_for(base,path,token=None):
     end=time.monotonic()+240
@@ -140,9 +149,18 @@ else:raise RuntimeError('LiteLLM virtual-key provisioning failed; inspect gatewa
 
 def start():
     env=settings()
-    if not env.get('NITEC_API_KEY'):
-        raise RuntimeError('Fill your own NITEC_API_KEY in .env before starting. For another/local provider edit config/litellm/config.yaml.')
-    compose('up','-d','--build','postgres','homeserver','element','litellm','backend','frontend')
+    services = ('postgres','homeserver','element','litellm','backend','frontend')
+    if env.get('OFFLINE_MODE') == '1':
+        from offline_preflight import validate
+        import yaml
+        errors = validate(yaml.safe_load((ROOT/'config/litellm/offline.yaml').read_text()), env)
+        if errors:
+            raise RuntimeError('Offline preflight failed: ' + '; '.join(errors))
+        compose('up','-d','--pull','never','--no-build',*services)
+    else:
+        if not env.get('NITEC_API_KEY'):
+            raise RuntimeError('Fill NITEC_API_KEY in .env or configure OFFLINE_MODE=1; see docs/OFFLINE.md.')
+        compose('up','-d','--build',*services)
     provision()
 
 def main():

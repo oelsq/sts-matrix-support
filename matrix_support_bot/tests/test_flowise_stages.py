@@ -171,7 +171,7 @@ def test_bot_uses_review_flow_and_does_not_send_unreviewed_draft(monkeypatch,tmp
     monkeypatch.setattr(bot,'department_roster',lambda _: {})
     monkeypatch.setattr(FlowiseClient,'from_env',lambda _:Flow())
     env={'MATRIX_HOMESERVER':'http://homeserver:8008','MATRIX_USER':'@bot:demo.local','MATRIX_PASSWORD':'dummy',
-         'LLM_ENDPOINT':'http://litellm:4000/v1','OFFLINE_MODE':'0','KNOWLEDGE_DIR':'synthetic',
+         'LLM_ENDPOINT':'http://litellm:4000/v1','LLM_MODEL':'test-model','OFFLINE_MODE':'0','KNOWLEDGE_DIR':'synthetic',
          'MATRIX_ROOM_ROUTES_FILE':str(tmp_path/'absent')}
     for name,value in env.items():monkeypatch.setenv(name,value)
     asyncio.run(bot.main())

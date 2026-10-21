@@ -19,3 +19,6 @@ dist/
 # Optional locally generated corpus staging/index artifacts
 official-source-staging/
 knowledge-cache/
+
+# Local Python development environment
+.venv/

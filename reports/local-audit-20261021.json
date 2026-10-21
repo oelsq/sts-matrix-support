@@ -1,0 +1,162 @@
+{
+  "checked_at": "2026-10-21T07:45:32.768144+00:00",
+  "mode": "local_without_vm_or_real_inference",
+  "baseline_commit": "a81fab2",
+  "autotests": {
+    "passed": 570,
+    "failed": 0,
+    "warnings": 20,
+    "seconds": 118.71
+  },
+  "retrieval": {
+    "passed": 234,
+    "total": 234,
+    "is_legal_accuracy_score": false
+  },
+  "controlled_retrieval_comparison": {
+    "before": {
+      "passed": 80,
+      "total": 104
+    },
+    "after": {
+      "passed": 104,
+      "total": 104
+    },
+    "note": "Same natural-language questions and expected documents; not semantic correctness of generated answers."
+  },
+  "extra_rephrasings": {
+    "first_pass": 40,
+    "total": 48,
+    "final_pass": 48,
+    "note": "Failures became regression cases; final result is not a held-out generalization estimate."
+  },
+  "knowledge": {
+    "documents": 78,
+    "pdf": 30,
+    "txt": 48,
+    "passages": 24831,
+    "added_summaries": [
+      "family-budget-guide",
+      "deposit-choice-guide",
+      "collective-debt-guide"
+    ],
+    "all_sha256_verified": true,
+    "new_pdfs_added": 0,
+    "all_legacy_sources_revalidated_online": false
+  },
+  "http": {
+    "checks": [
+      {
+        "name": "frontend HTML is served",
+        "passed": true
+      },
+      {
+        "name": "Vite /api prefix stripped and reaches API",
+        "passed": true
+      },
+      {
+        "name": "ticket created through proxy",
+        "passed": true
+      },
+      {
+        "name": "ticket read through proxy",
+        "passed": true
+      },
+      {
+        "name": "demo Echo is explicitly confirmed",
+        "passed": true
+      },
+      {
+        "name": "status updated",
+        "passed": true
+      },
+      {
+        "name": "message history retained",
+        "passed": true
+      },
+      {
+        "name": "ticket appears in list",
+        "passed": true
+      },
+      {
+        "name": "negative pagination rejected",
+        "passed": true
+      },
+      {
+        "name": "unknown status rejected",
+        "passed": true
+      },
+      {
+        "name": "blank message rejected",
+        "passed": true
+      },
+      {
+        "name": "missing ticket returns 404",
+        "passed": true
+      }
+    ],
+    "actual_http": true,
+    "inference": "ticket_demo_echo",
+    "real_model_tested": false,
+    "production_nginx_tested": false
+  },
+  "compose": {
+    "checks": [
+      {
+        "name": "base",
+        "valid": true,
+        "services": 7,
+        "internal_network": false
+      },
+      {
+        "name": "offline",
+        "valid": true,
+        "services": 7,
+        "internal_network": true
+      },
+      {
+        "name": "offline_with_flowise",
+        "valid": true,
+        "services": 10,
+        "internal_network": true
+      }
+    ],
+    "daemon_or_containers_tested": false,
+    "env_files_resolved": false
+  },
+  "frontend": {
+    "version": "vite 6.4.5 / plugin-react 4.7.0",
+    "npm_ci_passed": true,
+    "production_build_passed": true,
+    "npm_audit_before": {
+      "info": 0,
+      "low": 0,
+      "moderate": 1,
+      "high": 1,
+      "critical": 0,
+      "total": 2
+    },
+    "npm_audit_after": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "docker_build_ran": false
+  },
+  "real_llm_calls": 0,
+  "matrix_messages_sent": false,
+  "flowise_runtime_tested": false,
+  "vm_deployed": false,
+  "github_pushed": false,
+  "limitations": [
+    "No actual model quality/parity assessment or model upgrade without the inference server.",
+    "Flowise/Matrix behavior covered by unit and mocked contract tests, not real services in this run.",
+    "No Docker daemon available: compose was validated statically, no containers/nginx/PostgreSQL started.",
+    "Source and numerical checks cannot prove all legal interpretations; dates and exceptions still need expert review.",
+    "Offline network profile has not passed an actual disconnected-network acceptance test.",
+    "No concurrency/load validation for 100–500 daily requests."
+  ]
+}

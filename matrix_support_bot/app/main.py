@@ -5,22 +5,23 @@ communicating with a (stubbed) Matrix bot as well as a local LLM.
 """
 
 import os
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Query
+from contextlib import asynccontextmanager
 from sqlalchemy.orm import Session
 
 from . import models, schemas, crud, database
 
-app = FastAPI(title="Matrix Support Bot")
+@asynccontextmanager
+async def lifespan(app):
+    models.Base.metadata.create_all(bind=database.engine)
+    yield
+
+app = FastAPI(title="Matrix Support Bot", lifespan=lifespan)
 
 # Health check endpoint
 @app.get("/health")
 def health():
     return {"status": "ok"}
-
-# Create DB tables on startup
-@app.on_event("startup")
-def on_startup():
-    models.Base.metadata.create_all(bind=database.engine)
 
 # Dependency to get DB session
 def get_db():
@@ -43,7 +44,7 @@ def read_ticket(ticket_id: int, db: Session = Depends(get_db)):
     return ticket
 
 @app.get("/tickets/", response_model=list[schemas.TicketOut])
-def list_tickets(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def list_tickets(skip: int = Query(0, ge=0), limit: int = Query(100, ge=1, le=500), db: Session = Depends(get_db)):
     return crud.get_tickets(db, skip=skip, limit=limit)
 
 # ---------- Message endpoint ----------
@@ -61,7 +62,7 @@ def add_message(
     user_msg = crud.create_message(db, ticket_id=ticket_id, msg_in=message_in, role="user")
     # Generate bot reply via stub LLM (echo back for MVP)
     bot_reply_text = f"Echo: {message_in.content}" if not llm_endpoint else _call_llm(llm_endpoint, message_in.content)
-    bot_msg = crud.create_message(db, ticket_id=ticket_id, msg_in=schemas.MessageCreate(content=bot_reply_text), role="assistant")
+    bot_msg = crud.create_message(db, ticket_id=ticket_id, msg_in=schemas.MessageBase(content=bot_reply_text), role="assistant")
     return bot_msg
 
 def _call_llm(endpoint: str, prompt: str) -> str:

@@ -579,6 +579,1148 @@
       "question": "Какая средняя зарплата в Алматы за II квартал 2026 года?",
       "expect_empty": true,
       "top_k": 8
+    },
+    {
+      "id": "natural-legal-overtime",
+      "domain": "legal",
+      "question": "Можно заставлять работать по вечерам без доплаты?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-probation",
+      "domain": "legal",
+      "question": "Меня взяли на испытательный срок. Когда он заканчивается?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-reduction",
+      "domain": "legal",
+      "question": "Меня сокращают, какую компенсацию должны дать?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-vacation-money",
+      "domain": "legal",
+      "question": "Увольняюсь, а отпуск не использовал. Его оплатят?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-deductions",
+      "domain": "legal",
+      "question": "Начальник вычел деньги из зарплаты без моего согласия. Можно так?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-hours",
+      "domain": "legal",
+      "question": "Сколько часов в неделю можно работать по закону?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-no-pay",
+      "domain": "legal",
+      "question": "Мне не выплатили деньги после увольнения. Когда обязаны рассчитаться?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-sick",
+      "domain": "legal",
+      "question": "Кто должен оплачивать больничный лист?",
+      "document": "labor",
+      "top_k": 8,
+      "section": "Статья 133."
+    },
+    {
+      "id": "natural-legal-gph",
+      "domain": "legal",
+      "question": "Чем трудовой договор отличается от договора ГПХ?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-work-refusal",
+      "domain": "legal",
+      "question": "Мне отказали в работе из-за возраста. Это законно?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-power",
+      "domain": "legal",
+      "question": "Как оформить доверенность, чтобы родственник представлял мои интересы?",
+      "document": "civil-general",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-limitation",
+      "domain": "legal",
+      "question": "Что такое срок исковой давности и можно ли его восстановить?",
+      "document": "civil-general",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-deposit",
+      "domain": "legal",
+      "question": "Чем аванс отличается от задатка?",
+      "document": "civil-general",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-surety",
+      "domain": "legal",
+      "question": "Я поручитель по кредиту друга. За что отвечаю?",
+      "document": "civil-general",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-inheritance",
+      "domain": "legal",
+      "question": "Нотариус сказал, что я пропустил срок принятия наследства. Что можно сделать?",
+      "document": "civil-special",
+      "top_k": 8,
+      "section": "Статья 1072-3."
+    },
+    {
+      "id": "natural-legal-inherit-no-will",
+      "domain": "legal",
+      "question": "Умер родитель без завещания. Кто наследует первым?",
+      "document": "civil-special",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-divorce",
+      "domain": "legal",
+      "question": "Можно развестись, если супруг не согласен?",
+      "document": "family",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-joint-assets",
+      "domain": "legal",
+      "question": "Квартира куплена в браке. Как делить при разводе?",
+      "document": "family",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-alimony",
+      "domain": "legal",
+      "question": "Бывший муж не платит алименты. Как взыскать долг?",
+      "document": "family",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-data",
+      "domain": "legal",
+      "question": "Компания передала мой номер телефона рекламщикам. Какие у меня права?",
+      "document": "personal-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-data-consent",
+      "domain": "legal",
+      "question": "Как отозвать согласие на обработку персональных данных?",
+      "document": "personal-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-online-return",
+      "domain": "legal",
+      "question": "Купил вещь через интернет, хочу вернуть. Какие правила?",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-receipt",
+      "domain": "legal",
+      "question": "Потерял чек, а товар сломался. Могу обратиться к продавцу?",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-claim-deadline",
+      "domain": "legal",
+      "question": "Магазин игнорирует претензию. За сколько дней должен ответить?",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-refund-choice",
+      "domain": "legal",
+      "question": "Телефон сломался на гарантии. Обязан соглашаться только на ремонт?",
+      "document": "consumer-law",
+      "top_k": 8,
+      "section": "Статья 15."
+    },
+    {
+      "id": "natural-legal-landlord",
+      "domain": "legal",
+      "question": "Хозяин сдаваемой квартиры хочет поднять плату завтра. Что проверить?",
+      "document": "civil-special",
+      "top_k": 8,
+      "section": "Статья 546."
+    },
+    {
+      "id": "natural-legal-patient",
+      "domain": "legal",
+      "question": "Отказываются дать копию медицинских документов. Какие права у пациента?",
+      "document": "health",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-insurance",
+      "domain": "legal",
+      "question": "Как проверить свой статус ОСМС?",
+      "document": "medical-insurance",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-school",
+      "domain": "legal",
+      "question": "Ребенка не берут в школу. Куда обращаться?",
+      "document": "education",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-government",
+      "domain": "legal",
+      "question": "Госорган не отвечает на обращение. Как обжаловать бездействие?",
+      "document": "administrative-procedure",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-mediation",
+      "domain": "legal",
+      "question": "Можно ли решить спор через медиатора без суда?",
+      "document": "mediation",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-evidence",
+      "domain": "legal",
+      "question": "Какие доказательства приложить к иску?",
+      "document": "civil-procedure",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-legal-help",
+      "domain": "legal",
+      "question": "Кому положена бесплатная юридическая помощь?",
+      "document": "legal-aid",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-search-phone",
+      "domain": "legal",
+      "question": "У меня хотят осмотреть телефон без объяснений. Что уточнить?",
+      "document": "criminal-procedure",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-arrest",
+      "domain": "legal",
+      "question": "Меня задержала полиция. Какие основные права?",
+      "document": "criminal-procedure",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-fine",
+      "domain": "legal",
+      "question": "Не согласен со штрафом. Как обжаловать постановление?",
+      "document": "administrative-offences",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-lease-registration",
+      "domain": "legal",
+      "question": "Купил квартиру. Зачем регистрировать право собственности?",
+      "document": "real-estate-registration",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-id-lost",
+      "domain": "legal",
+      "question": "Потерял удостоверение личности. Что делать?",
+      "document": "identity-documents",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-debt-bailiff",
+      "domain": "legal",
+      "question": "Судебный исполнитель арестовал счет. Как получить постановление?",
+      "document": "enforcement",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-budget",
+      "domain": "legal",
+      "question": "Как составить семейный бюджет и перестать тратить всю зарплату?",
+      "document": "family-budget-guide",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-emergency",
+      "domain": "legal",
+      "question": "Как сформировать финансовую подушку?",
+      "document": "family-budget-guide",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-nominal-apr",
+      "domain": "legal",
+      "question": "Чем ГЭСВ отличается от номинальной ставки?",
+      "document": "banks",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-early-repay",
+      "domain": "legal",
+      "question": "Хочу погасить кредит раньше срока. Что нужно уточнить в банке?",
+      "document": "banks",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-restructure",
+      "domain": "legal",
+      "question": "Упал доход, не тяну кредит. Как договориться с банком?",
+      "document": "regulator-restructure",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-debt-foreign",
+      "domain": "legal",
+      "question": "У меня кредиты в трех банках. Можно объединить платежи?",
+      "document": "collective-debt-guide",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-loan-refusal",
+      "domain": "legal",
+      "question": "МФО не хочет менять график. Куда обратиться?",
+      "document": "regulator-refusal",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-stolen-card",
+      "domain": "legal",
+      "question": "Потерял банковскую карту, что сделать первым?",
+      "document": "nb-fraud",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-scam-call",
+      "domain": "legal",
+      "question": "Мне звонит сотрудник банка и просит СМС-код. Что делать?",
+      "document": "nb-fraud",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-deposit-risks",
+      "domain": "legal",
+      "question": "Как выбрать вклад и сравнить условия банков?",
+      "document": "deposit-choice-guide",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-pension",
+      "domain": "legal",
+      "question": "Что такое добровольные пенсионные взносы?",
+      "document": "social",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-insurance-car",
+      "domain": "legal",
+      "question": "Страховая отказала в выплате. Как проверить основания?",
+      "document": "insurance",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-tax-person",
+      "domain": "legal",
+      "question": "Как оспорить налоговое уведомление?",
+      "document": "tax",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-ip",
+      "domain": "legal",
+      "question": "Как открыть ИП и какие обязанности появятся?",
+      "document": "entrepreneur",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-employment-kz",
+      "domain": "legal",
+      "question": "Жұмыс беруші жалақы төлемеді. Не істеу керек?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-finance-kz",
+      "domain": "legal",
+      "question": "Отбасылық бюджетті қалай жоспарлауға болады?",
+      "document": "family-budget-guide",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-consumer-kz",
+      "domain": "legal",
+      "question": "Дүкен ақаулы тауарды қайтарып алмайды. Не істеу керек?",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-legal-alimony-kz",
+      "domain": "legal",
+      "question": "Балаларға алимент қалай өндіріп алуға болады?",
+      "document": "family",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-overtime",
+      "domain": "finance",
+      "question": "Можно заставлять работать по вечерам без доплаты?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-probation",
+      "domain": "finance",
+      "question": "Меня взяли на испытательный срок. Когда он заканчивается?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-reduction",
+      "domain": "finance",
+      "question": "Меня сокращают, какую компенсацию должны дать?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-vacation-money",
+      "domain": "finance",
+      "question": "Увольняюсь, а отпуск не использовал. Его оплатят?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-deductions",
+      "domain": "finance",
+      "question": "Начальник вычел деньги из зарплаты без моего согласия. Можно так?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-hours",
+      "domain": "finance",
+      "question": "Сколько часов в неделю можно работать по закону?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-no-pay",
+      "domain": "finance",
+      "question": "Мне не выплатили деньги после увольнения. Когда обязаны рассчитаться?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-sick",
+      "domain": "finance",
+      "question": "Кто должен оплачивать больничный лист?",
+      "document": "labor",
+      "top_k": 8,
+      "section": "Статья 133."
+    },
+    {
+      "id": "natural-finance-gph",
+      "domain": "finance",
+      "question": "Чем трудовой договор отличается от договора ГПХ?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-work-refusal",
+      "domain": "finance",
+      "question": "Мне отказали в работе из-за возраста. Это законно?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-power",
+      "domain": "finance",
+      "question": "Как оформить доверенность, чтобы родственник представлял мои интересы?",
+      "document": "civil-general",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-limitation",
+      "domain": "finance",
+      "question": "Что такое срок исковой давности и можно ли его восстановить?",
+      "document": "civil-general",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-deposit",
+      "domain": "finance",
+      "question": "Чем аванс отличается от задатка?",
+      "document": "civil-general",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-surety",
+      "domain": "finance",
+      "question": "Я поручитель по кредиту друга. За что отвечаю?",
+      "document": "civil-general",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-inheritance",
+      "domain": "finance",
+      "question": "Нотариус сказал, что я пропустил срок принятия наследства. Что можно сделать?",
+      "document": "civil-special",
+      "top_k": 8,
+      "section": "Статья 1072-3."
+    },
+    {
+      "id": "natural-finance-inherit-no-will",
+      "domain": "finance",
+      "question": "Умер родитель без завещания. Кто наследует первым?",
+      "document": "civil-special",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-divorce",
+      "domain": "finance",
+      "question": "Можно развестись, если супруг не согласен?",
+      "document": "family",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-joint-assets",
+      "domain": "finance",
+      "question": "Квартира куплена в браке. Как делить при разводе?",
+      "document": "family",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-alimony",
+      "domain": "finance",
+      "question": "Бывший муж не платит алименты. Как взыскать долг?",
+      "document": "family",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-data",
+      "domain": "finance",
+      "question": "Компания передала мой номер телефона рекламщикам. Какие у меня права?",
+      "document": "personal-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-data-consent",
+      "domain": "finance",
+      "question": "Как отозвать согласие на обработку персональных данных?",
+      "document": "personal-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-online-return",
+      "domain": "finance",
+      "question": "Купил вещь через интернет, хочу вернуть. Какие правила?",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-receipt",
+      "domain": "finance",
+      "question": "Потерял чек, а товар сломался. Могу обратиться к продавцу?",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-claim-deadline",
+      "domain": "finance",
+      "question": "Магазин игнорирует претензию. За сколько дней должен ответить?",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-refund-choice",
+      "domain": "finance",
+      "question": "Телефон сломался на гарантии. Обязан соглашаться только на ремонт?",
+      "document": "consumer-law",
+      "top_k": 8,
+      "section": "Статья 15."
+    },
+    {
+      "id": "natural-finance-landlord",
+      "domain": "finance",
+      "question": "Хозяин сдаваемой квартиры хочет поднять плату завтра. Что проверить?",
+      "document": "civil-special",
+      "top_k": 8,
+      "section": "Статья 546."
+    },
+    {
+      "id": "natural-finance-patient",
+      "domain": "finance",
+      "question": "Отказываются дать копию медицинских документов. Какие права у пациента?",
+      "document": "health",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-insurance",
+      "domain": "finance",
+      "question": "Как проверить свой статус ОСМС?",
+      "document": "medical-insurance",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-school",
+      "domain": "finance",
+      "question": "Ребенка не берут в школу. Куда обращаться?",
+      "document": "education",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-government",
+      "domain": "finance",
+      "question": "Госорган не отвечает на обращение. Как обжаловать бездействие?",
+      "document": "administrative-procedure",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-mediation",
+      "domain": "finance",
+      "question": "Можно ли решить спор через медиатора без суда?",
+      "document": "mediation",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-evidence",
+      "domain": "finance",
+      "question": "Какие доказательства приложить к иску?",
+      "document": "civil-procedure",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-legal-help",
+      "domain": "finance",
+      "question": "Кому положена бесплатная юридическая помощь?",
+      "document": "legal-aid",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-search-phone",
+      "domain": "finance",
+      "question": "У меня хотят осмотреть телефон без объяснений. Что уточнить?",
+      "document": "criminal-procedure",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-arrest",
+      "domain": "finance",
+      "question": "Меня задержала полиция. Какие основные права?",
+      "document": "criminal-procedure",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-fine",
+      "domain": "finance",
+      "question": "Не согласен со штрафом. Как обжаловать постановление?",
+      "document": "administrative-offences",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-lease-registration",
+      "domain": "finance",
+      "question": "Купил квартиру. Зачем регистрировать право собственности?",
+      "document": "real-estate-registration",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-id-lost",
+      "domain": "finance",
+      "question": "Потерял удостоверение личности. Что делать?",
+      "document": "identity-documents",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-debt-bailiff",
+      "domain": "finance",
+      "question": "Судебный исполнитель арестовал счет. Как получить постановление?",
+      "document": "enforcement",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-budget",
+      "domain": "finance",
+      "question": "Как составить семейный бюджет и перестать тратить всю зарплату?",
+      "document": "family-budget-guide",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-emergency",
+      "domain": "finance",
+      "question": "Как сформировать финансовую подушку?",
+      "document": "family-budget-guide",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-nominal-apr",
+      "domain": "finance",
+      "question": "Чем ГЭСВ отличается от номинальной ставки?",
+      "document": "banks",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-early-repay",
+      "domain": "finance",
+      "question": "Хочу погасить кредит раньше срока. Что нужно уточнить в банке?",
+      "document": "banks",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-restructure",
+      "domain": "finance",
+      "question": "Упал доход, не тяну кредит. Как договориться с банком?",
+      "document": "regulator-restructure",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-debt-foreign",
+      "domain": "finance",
+      "question": "У меня кредиты в трех банках. Можно объединить платежи?",
+      "document": "collective-debt-guide",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-loan-refusal",
+      "domain": "finance",
+      "question": "МФО не хочет менять график. Куда обратиться?",
+      "document": "regulator-refusal",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-stolen-card",
+      "domain": "finance",
+      "question": "Потерял банковскую карту, что сделать первым?",
+      "document": "nb-fraud",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-scam-call",
+      "domain": "finance",
+      "question": "Мне звонит сотрудник банка и просит СМС-код. Что делать?",
+      "document": "nb-fraud",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-deposit-risks",
+      "domain": "finance",
+      "question": "Как выбрать вклад и сравнить условия банков?",
+      "document": "deposit-choice-guide",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-pension",
+      "domain": "finance",
+      "question": "Что такое добровольные пенсионные взносы?",
+      "document": "social",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-insurance-car",
+      "domain": "finance",
+      "question": "Страховая отказала в выплате. Как проверить основания?",
+      "document": "insurance",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-tax-person",
+      "domain": "finance",
+      "question": "Как оспорить налоговое уведомление?",
+      "document": "tax",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-ip",
+      "domain": "finance",
+      "question": "Как открыть ИП и какие обязанности появятся?",
+      "document": "entrepreneur",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-employment-kz",
+      "domain": "finance",
+      "question": "Жұмыс беруші жалақы төлемеді. Не істеу керек?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-finance-kz",
+      "domain": "finance",
+      "question": "Отбасылық бюджетті қалай жоспарлауға болады?",
+      "document": "family-budget-guide",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-consumer-kz",
+      "domain": "finance",
+      "question": "Дүкен ақаулы тауарды қайтарып алмайды. Не істеу керек?",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "natural-finance-alimony-kz",
+      "domain": "finance",
+      "question": "Балаларға алимент қалай өндіріп алуға болады?",
+      "document": "family",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-1",
+      "domain": "legal",
+      "question": "Задержали оплату по трудовому договору. Как действовать?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-2",
+      "domain": "legal",
+      "question": "Кто выплатит пособие, если я ушёл на больничный?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-3",
+      "domain": "legal",
+      "question": "Уволилась, остались дни неиспользованного отпуска. Что с ними?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-4",
+      "domain": "legal",
+      "question": "Болел неделю, работодатель говорит, что ничего не должен",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-5",
+      "domain": "legal",
+      "question": "Вступление в наследство: пропущен срок, можно восстановить?",
+      "document": "civil-special",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-6",
+      "domain": "legal",
+      "question": "Нужно ли согласие для передачи личных данных третьим лицам?",
+      "document": "personal-law",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-7",
+      "domain": "legal",
+      "question": "Ноутбук вышел из строя в гарантийный период, продавец хочет только чинить",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-8",
+      "domain": "legal",
+      "question": "Магазин не возвращает деньги за сломанный смартфон",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-9",
+      "domain": "legal",
+      "question": "Наниматель и собственник спорят о повышении арендной платы",
+      "document": "civil-special",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-10",
+      "domain": "legal",
+      "question": "Подписал договор купли квартиры. Как зарегистрировать право?",
+      "document": "real-estate-registration",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-11",
+      "domain": "legal",
+      "question": "Доход снизился и платить заём стало трудно. Можно изменить условия?",
+      "document": "regulator-restructure",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-12",
+      "domain": "legal",
+      "question": "Не хватает денег на кредитные платежи, что написать кредитору?",
+      "document": "regulator-restructure",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-13",
+      "domain": "legal",
+      "question": "В реструктуризации отказано, как обратиться к омбудсману?",
+      "document": "regulator-refusal",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-14",
+      "domain": "legal",
+      "question": "По телефону требуют пароль интернет-банка для проверки счёта",
+      "document": "nb-card-safe-account",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-15",
+      "domain": "legal",
+      "question": "Банк якобы заблокировал карту и требует SMS для разблокировки",
+      "document": "nb-card-safe-account",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-16",
+      "domain": "legal",
+      "question": "Как планировать личный бюджет при нестабильном доходе?",
+      "document": "family-budget-guide",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-17",
+      "domain": "legal",
+      "question": "Нужен резерв на непредвиденные семейные расходы. С чего начать?",
+      "document": "family-budget-guide",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-18",
+      "domain": "legal",
+      "question": "Накопления понадобятся через месяц. Как выбирать депозит?",
+      "document": "deposit-choice-guide",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-19",
+      "domain": "legal",
+      "question": "Стоит сравнивать вклады только по процентам?",
+      "document": "deposit-choice-guide",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-20",
+      "domain": "legal",
+      "question": "Как согласовать единый график при нескольких кредиторах?",
+      "document": "collective-debt-guide",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-21",
+      "domain": "legal",
+      "question": "Досрочно закрыть заём: что уточнить?",
+      "document": "banks",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-22",
+      "domain": "legal",
+      "question": "Можно ли доверить представительство родственнику по доверенности?",
+      "document": "civil-general",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-23",
+      "domain": "legal",
+      "question": "Меня заставляют написать увольнение по собственному желанию",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-24",
+      "domain": "legal",
+      "question": "Қызметкерге жалақыны уақытында төлемесе не істеу керек?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-25",
+      "domain": "finance",
+      "question": "Задержали оплату по трудовому договору. Как действовать?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-26",
+      "domain": "finance",
+      "question": "Кто выплатит пособие, если я ушёл на больничный?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-27",
+      "domain": "finance",
+      "question": "Уволилась, остались дни неиспользованного отпуска. Что с ними?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-28",
+      "domain": "finance",
+      "question": "Болел неделю, работодатель говорит, что ничего не должен",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-29",
+      "domain": "finance",
+      "question": "Вступление в наследство: пропущен срок, можно восстановить?",
+      "document": "civil-special",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-30",
+      "domain": "finance",
+      "question": "Нужно ли согласие для передачи личных данных третьим лицам?",
+      "document": "personal-law",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-31",
+      "domain": "finance",
+      "question": "Ноутбук вышел из строя в гарантийный период, продавец хочет только чинить",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-32",
+      "domain": "finance",
+      "question": "Магазин не возвращает деньги за сломанный смартфон",
+      "document": "consumer-law",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-33",
+      "domain": "finance",
+      "question": "Наниматель и собственник спорят о повышении арендной платы",
+      "document": "civil-special",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-34",
+      "domain": "finance",
+      "question": "Подписал договор купли квартиры. Как зарегистрировать право?",
+      "document": "real-estate-registration",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-35",
+      "domain": "finance",
+      "question": "Доход снизился и платить заём стало трудно. Можно изменить условия?",
+      "document": "regulator-restructure",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-36",
+      "domain": "finance",
+      "question": "Не хватает денег на кредитные платежи, что написать кредитору?",
+      "document": "regulator-restructure",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-37",
+      "domain": "finance",
+      "question": "В реструктуризации отказано, как обратиться к омбудсману?",
+      "document": "regulator-refusal",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-38",
+      "domain": "finance",
+      "question": "По телефону требуют пароль интернет-банка для проверки счёта",
+      "document": "nb-card-safe-account",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-39",
+      "domain": "finance",
+      "question": "Банк якобы заблокировал карту и требует SMS для разблокировки",
+      "document": "nb-card-safe-account",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-40",
+      "domain": "finance",
+      "question": "Как планировать личный бюджет при нестабильном доходе?",
+      "document": "family-budget-guide",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-41",
+      "domain": "finance",
+      "question": "Нужен резерв на непредвиденные семейные расходы. С чего начать?",
+      "document": "family-budget-guide",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-42",
+      "domain": "finance",
+      "question": "Накопления понадобятся через месяц. Как выбирать депозит?",
+      "document": "deposit-choice-guide",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-43",
+      "domain": "finance",
+      "question": "Стоит сравнивать вклады только по процентам?",
+      "document": "deposit-choice-guide",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-44",
+      "domain": "finance",
+      "question": "Как согласовать единый график при нескольких кредиторах?",
+      "document": "collective-debt-guide",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-45",
+      "domain": "finance",
+      "question": "Досрочно закрыть заём: что уточнить?",
+      "document": "banks",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-46",
+      "domain": "finance",
+      "question": "Можно ли доверить представительство родственнику по доверенности?",
+      "document": "civil-general",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-47",
+      "domain": "finance",
+      "question": "Меня заставляют написать увольнение по собственному желанию",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "paraphrase-48",
+      "domain": "finance",
+      "question": "Қызметкерге жалақыны уақытында төлемесе не істеу керек?",
+      "document": "labor",
+      "top_k": 8
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-10-07",
+  "as_of": "2026-10-21",
   "documents": [
     {
       "id": "consumer-law",
@@ -1601,6 +1601,78 @@
         "статистика заработной платы"
       ],
       "applicability_note": "Проверенное краткое изложение показателей и методологии официального выпуска БНС. Без учета малых предприятий, занимающихся предпринимательской деятельностью. Не является полной страницей, законом о минимальной зарплате или данными за иной квартал."
+    },
+    {
+      "id": "family-budget-guide",
+      "domain": "finance",
+      "also_domains": [
+        "legal"
+      ],
+      "title": "Fingramota: семейный бюджет и резерв — редакционный конспект",
+      "file": "documents/family-budget-guide.txt",
+      "source": "https://live.fingramota.kz/ru/news/post/semya-i-dengi-kak-vystroit-obshchij-finansovyj-plan",
+      "reviewed_on": "2026-10-21",
+      "version_date": "2026-09-18",
+      "version": "Конспект публикации от 2026-09-18; проверен 2026-10-21",
+      "sha256": "88b476357c745cb11fb7154aa30d2ea846e36d28971176ab5d453444e3dec9c2",
+      "artifact_kind": "reviewed_guidance_summary",
+      "document_kind": "educational_summary",
+      "search_terms": [
+        "семейный бюджет",
+        "личный бюджет",
+        "финансовая подушка",
+        "отбасылық бюджет"
+      ],
+      "applicability_note": "Смысловой редакционный конспект открытого официального материала Fingramota. Не оригинальная дословная цитата, не нормативный акт и не полная процедура. Для конкретных сумм, сроков и продуктов нужны применимые первичные документы. Не выводить актуальные ставки и курсы из этого конспекта. Конспект проверен по индексированному тексту официальной публикации; прямое получение страницы в текущей среде было недоступно.",
+      "review_method": "Indexed text of the official publisher page; editorial paraphrase, not a live full-page or PDF download."
+    },
+    {
+      "id": "deposit-choice-guide",
+      "domain": "finance",
+      "also_domains": [
+        "legal"
+      ],
+      "title": "Fingramota: выбор депозита — редакционный конспект",
+      "file": "documents/deposit-choice-guide.txt",
+      "source": "https://fingramota.kz/ru/post/depozit-kak-vybrat-vklad-zashchitit-nakopleniya-i-ne-poteryat-dohod",
+      "reviewed_on": "2026-10-21",
+      "version_date": "2026-09-04",
+      "version": "Конспект публикации от 2026-09-04; проверен 2026-10-21",
+      "sha256": "9301ebfad48a970c6325dd199b22e876ba814e3c43013d41efdf2009bd3bf84e",
+      "artifact_kind": "reviewed_guidance_summary",
+      "document_kind": "educational_summary",
+      "search_terms": [
+        "выбрать вклад",
+        "выбрать депозит",
+        "сравнить вклады",
+        "ликвидность депозита"
+      ],
+      "applicability_note": "Смысловой редакционный конспект открытого официального материала Fingramota. Не оригинальная дословная цитата, не нормативный акт и не полная процедура. Для конкретных сумм, сроков и продуктов нужны применимые первичные документы. Не выводить актуальные ставки и курсы из этого конспекта. Конспект проверен по индексированному тексту официальной публикации; прямое получение страницы в текущей среде было недоступно.",
+      "review_method": "Indexed text of the official publisher page; editorial paraphrase, not a live full-page or PDF download."
+    },
+    {
+      "id": "collective-debt-guide",
+      "domain": "finance",
+      "also_domains": [
+        "legal"
+      ],
+      "title": "Fingramota: коллективное урегулирование — редакционный конспект",
+      "file": "documents/collective-debt-guide.txt",
+      "source": "https://fingramota.kz/ru/post/neskolko-kreditov-odin-grafik-kak-rabotaet-kollektivnoe-uregulirovanie-zadolzhennosti",
+      "reviewed_on": "2026-10-21",
+      "version_date": "2026-09-23",
+      "version": "Конспект публикации от 2026-09-23; проверен 2026-10-21",
+      "sha256": "f1353505c2fe9a1ac3eada2dcb1ae525bd8fbdce54600e3e77b417e0e7bdfe9c",
+      "artifact_kind": "reviewed_guidance_summary",
+      "document_kind": "educational_summary",
+      "search_terms": [
+        "несколько кредитов",
+        "коллективное урегулирование",
+        "единый график",
+        "finkelisim"
+      ],
+      "applicability_note": "Смысловой редакционный конспект открытого официального материала Fingramota. Не оригинальная дословная цитата, не нормативный акт и не полная процедура. Для конкретных сумм, сроков и продуктов нужны применимые первичные документы. Не выводить актуальные ставки и курсы из этого конспекта. Конспект проверен по индексированному тексту официальной публикации; прямое получение страницы в текущей среде было недоступно.",
+      "review_method": "Indexed text of the official publisher page; editorial paraphrase, not a live full-page or PDF download."
     }
   ],
   "review_note": "Сохранённые источники и их техническая проверка указаны отдельно. Это расширяемая выборка основных кодексов и законов, а не полный реестр НПА или заключение о применимости всех статей. Ранее сохранённые документы сохраняют собственные даты проверки."

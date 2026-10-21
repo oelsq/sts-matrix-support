@@ -122,7 +122,7 @@ def messages(domain: str, question: str, local_evidence: list[dict[str, str | in
             f"Сегодня {date.today().isoformat()}; дата проверки каждого документа указана в reviewed_on. Поле applicability_note имеет приоритет: "
             "положения, начинающиеся в 2027 году, пока не действуют. Не применяй будущие нормы и не выводи компетенцию будущего учреждения из его названия. "
             "Сноска с будущим изменением не меняет действующий текст до даты вступления. "
-            "Нормативное постановление Верховного Суда — судебное разъяснение: учитывай его предмет и применимую редакцию кодекса, не смешивай его с индивидуальным судебным решением. Информационная памятка регулятора не равна закону. При коллизии или нехватке "
+            "Нормативное постановление Верховного Суда — судебное разъяснение: учитывай его предмет и применимую редакцию кодекса, не смешивай его с индивидуальным судебным решением. Информационная памятка регулятора не равна закону. educational_summary — редакционный учебный конспект, не оригинальная цитата или действующая норма. По нему можно объяснить принцип и предложить практический шаг, но нельзя устанавливать новые права, обязательные сроки или актуальные ставки. При коллизии или нехватке "
             "переходных положений объясни, какой именно факт не подтверждён, и продолжи с тем, что подтверждено. "
             "Не сочиняй и не переписывай дословные цитаты. Сервер сам добавит цитату из документа. "
             "Возрастной порог даже в уточняющем вопросе подтверждай ссылкой; если его нет в источниках, спроси возраст без вымышленного порога. "
@@ -363,6 +363,8 @@ def unsupported_quantities(answer, question, evidence, cited):
     establish that a real source was interpreted correctly.
     """
     def normalized(text):
+        # «По нулевой ставке» is a percentage rate, not an untyped zero.
+        text = re.sub(r"\bнулев(?:ая|ой|ую|ое|ые|ых|ым|ыми|ом)\s+(?:налогов\w+\s+)?ставк\w*", "0 процентов", text, flags=re.I)
         text = re.sub(r"\b(?:ноль|нуль|нулев(?:ая|ой|ую|ое|ые|ых|ым|ыми|ом))\b", "0", text, flags=re.I)
         # Statutes often spell periods out: «семи лет», «двенадцати месяцев».
         # Normalize compound ages before individual words ("двадцати семи"
@@ -423,18 +425,44 @@ def unsupported_quantities(answer, question, evidence, cited):
         return True
     # Full, verified calendar dates must not be treated as fees or periods.
     answer = date_pattern.sub('', answer)
-    proof = normalized(source_text + "\n" + question)
-    known = set(re.findall(r"\d+(?:\.\d+)?", proof))
+    # An equal number in a different unit is not evidence: five years cannot
+    # support five percent. Preserve working/calendar-day distinctions too.
+    unit_pattern = (r"тенге|теңге|₸|%|МРП\b|процент\w*|"
+                    r"(?:рабоч\w*|календарн\w*)\s+дн\w*|дн(?:я|ей|и)\b|"
+                    r"месяц\w*|лет\b|год(?:а|ов)?\b|доллар\w*|евро")
+    quantity_pattern = re.compile(r"(?<![\w.])(\d+(?:\.\d+)?)\s*(" + unit_pattern + r")", re.I)
+    range_pattern = re.compile(r"(?<![\w.])(\d+(?:\.\d+)?)\s*(?:-|–|—|до)\s*"
+                               r"(\d+(?:\.\d+)?)\s*(" + unit_pattern + r")", re.I)
+    def unit_key(unit):
+        unit = unit.casefold()
+        if unit in {"тенге", "теңге", "₸"}: return "KZT"
+        if unit == "%" or unit.startswith("процент"): return "percent"
+        if unit.startswith("мрп"): return "MRP"
+        if unit.startswith("рабоч"): return "working-day"
+        if unit.startswith("календарн"): return "calendar-day"
+        if unit.startswith("дн"): return "day"
+        if unit.startswith("месяц"): return "month"
+        if unit.startswith("доллар"): return "USD"
+        if unit == "евро": return "EUR"
+        return "year"
+    def quantities(text):
+        text = normalized(text)
+        result = {(Decimal(m[1]), unit_key(m[2])) for m in quantity_pattern.finditer(text)}
+        for match in range_pattern.finditer(text):
+            result.add((Decimal(match[1]), unit_key(match[3])))
+            result.add((Decimal(match[2]), unit_key(match[3])))
+        return result
+    proof = date_pattern.sub("", source_text + "\n" + question)
+    known = quantities(proof)
+    # A less specific paraphrase ('дней') may retain a verified day count;
+    # a more specific deadline must explicitly be supported by that unit.
+    known |= {(number, "day") for number, unit in known if unit in {"working-day", "calendar-day"}}
     calculation_requested = bool(re.search(r"рассчита|посчита|расч[её]т|пример", question, re.I))
-    text = re.sub(r"\[[^\[\]\n]+\]", "", normalized(answer))
+    text = re.sub(r"\[[^\[\]\n]+\]", "", answer)
     for paragraph in text.split("\n\n"):
         if calculation_requested and re.search(r"пример|расч[её]т|допущен", paragraph, re.I):
             continue
-        quantities = re.findall(
-            r"\b(\d+(?:\.\d+)?)\s*(?:млн\s*тенге|тыс\.?\s*тенге|тенге|теңге|₸|%|МРП\b|"
-            r"процент\w*|(?:рабочих|календарных)\s+дн\w*|дн(?:я|ей|и)\b|месяц\w*|лет\b|год(?:а|ов)?\b)",
-            paragraph, re.I)
-        if any(number not in known for number in quantities):
+        if quantities(paragraph) - known:
             return True
     return False
 

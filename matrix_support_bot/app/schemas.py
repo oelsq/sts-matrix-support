@@ -2,14 +2,15 @@
 """
 
 from datetime import datetime
-from typing import List, Optional
-from pydantic import BaseModel, Field
+from typing import List, Optional, Literal
+from pydantic import BaseModel, Field, ConfigDict
 
 class MessageBase(BaseModel):
-    content: str = Field(..., min_length=1)
+    model_config = ConfigDict(str_strip_whitespace=True)
+    content: str = Field(..., min_length=1, max_length=24000)
 
 class MessageCreate(MessageBase):
-    pass
+    content: str = Field(..., min_length=1, max_length=12000)
 
 class MessageOut(MessageBase):
     id: int
@@ -17,25 +18,24 @@ class MessageOut(MessageBase):
     role: str
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class TicketBase(BaseModel):
-    title: str = Field(..., min_length=1)
-    description: Optional[str] = None
+    model_config = ConfigDict(str_strip_whitespace=True)
+    title: str = Field(..., min_length=1, max_length=200)
+    description: Optional[str] = Field(None, max_length=20000)
 
 class TicketCreate(TicketBase):
     pass
 
 class TicketOut(TicketBase):
     id: int
-    status: str
+    status: Literal["open", "pending", "closed"]
     created_at: datetime
     updated_at: datetime
     messages: List[MessageOut] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class StatusUpdate(BaseModel):
-    status: str
+    status: Literal["open", "pending", "closed"]

@@ -31,7 +31,7 @@ def update_ticket_status(db: Session, ticket: models.Ticket, new_status: str) ->
     return ticket
 
 
-def create_message(db: Session, ticket_id: int, msg_in: schemas.MessageCreate, role: str) -> models.Message:
+def create_message(db: Session, ticket_id: int, msg_in: schemas.MessageBase, role: str) -> models.Message:
     db_msg = models.Message(ticket_id=ticket_id, content=msg_in.content, role=role)
     db.add(db_msg)
     db.commit()

@@ -10,6 +10,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from pypdf import PdfReader
+from retrieval_intents import query_hints, explicit_article
 
 DOMAINS = {"legal", "finance"}
 TOKEN = re.compile(r"[\w-]{3,}", re.UNICODE)
@@ -54,11 +55,14 @@ BANK_NAMES = {"halyk": ("halyk", "халык"), "freedom": ("freedom", "фрид
 TARIFF_QUESTION = re.compile(r"комисси|тариф|сколько стоит|стоимость|обслуживан|ставк.*(?:вклад|депозит)|(?:вклад|депозит).*ставк", re.I)
 
 
+def is_rights_question(question: str) -> bool:
+    return bool(re.search(r"незакон|правомер|оспор|закон|обязан|жалоб|имеет.*право", question, re.I))
+
+
 def is_tariff_question(question: str) -> bool:
     if re.search(r"(?:как (?:понять|сравнить)|что (?:такое|значит)).*(?:стоимост.*кредит|ГЭСВ|эффективн.*ставк)", question, re.I):
         return False
-    rights = re.search(r"незакон|правомер|оспор|закон|обязан|жалоб|имеет.*право", question, re.I)
-    return bool(TARIFF_QUESTION.search(question)) and not rights
+    return bool(TARIFF_QUESTION.search(question)) and not is_rights_question(question)
 
 
 def needs_bank(question: str) -> bool:
@@ -258,13 +262,14 @@ class KnowledgeStore:
         if limit <= 0:
             return []
         question=re.sub(r'[\u2010-\u2015\u2212]','-',question)
-        normalized = question
+        expansion, intent_docs, intent_sections = query_hints(question)
+        normalized = question + " " + expansion
         # Colloquial queries often omit the vocabulary used in legislation.
         # These expansions influence retrieval only; they never assert facts.
         everyday = [
             (r"начальник.*(?:ден[ье]г|плат)|ден[ье]г.*за работу", "работодатель заработная плата сроки выплаты"),
             (r"сломал.*(?:телефон|товар)|магазин.*(?:обратно|принима)", "потребитель недостаток товара возврат денег"),
-            (r"хозяин.*квартир|(?:аренд|квартир).*(?:депозит|удержива)", "арендодатель гарантийный взнос возврат обеспечение обязательств"),
+            (r"(?:хозяин|аренд|квартир).*(?:депозит|удержива|залог|взнос)", "арендодатель гарантийный взнос возврат обеспечение обязательств"),
             (r"чуж(?:ому|ой|ого) дол[ггу]|звон.*долг", "коллекторское агентство взаимодействие третьи лица должник"),
             (r"настоящ.*стоимост.*кредит|полная.*стоимост.*кредит", "ГЭСВ годовая эффективная ставка вознаграждения"),
             (r"оплачиваем.*отпуск|не разрешают.*отпуск", "ежегодный оплачиваемый трудовой отпуск работодатель"),
@@ -290,7 +295,7 @@ class KnowledgeStore:
         synonyms = {"зарплат": "заработная плата оплата труда сроки выплаты", "увольн": "расторжение трудового договора",
                     "отпуск": "ежегодный оплачиваемый трудовой отпуск", "реструктур": "изменение условий задолженности заемщика",
                     "мошенн": "мошенничество скомпрометированная карта", "смс": "SMS", "нацбанк": "Национальный Банк Казахстана",
-                    "купил": "покупатель товар недостаток возврат", "неисправ": "недостаток товара",
+                    "неисправ": "недостаток товара",
                     "вернуть": "возврат", "залог": "обеспечение обязательств",
                     "укра": "кража тайное хищение имущества", "похит": "кража хищение имущества",
                     "мфо": "микрофинансовая организация микрокредит", "коллектор": "коллекторское агентство взаимодействие должник",
@@ -324,7 +329,8 @@ class KnowledgeStore:
         # Scope an explicitly named product before truncating the retrieval
         # budget, otherwise unrelated tariff tables can crowd out its rows.
         product = "halyk-superapp" if (domain == "finance" and "halyk" in selected
-            and re.search(r"super\s*app|супер\s*апп", question, re.I)) else None
+            and re.search(r"super\s*app|супер\s*апп", question, re.I)
+            and not is_rights_question(question)) else None
         key = (domain, tuple(sorted(selected)), is_tariff_question(question), product)
         if key not in self._candidate_cache:
             # Specialist labels are not access controls for reviewed public law.
@@ -355,7 +361,7 @@ class KnowledgeStore:
             (r"арми|военкомат|призыв|воинск", {"military-service"}),
             (r"\bкнб\b|национальн.*безопасност", {"national-security"}),
             (r"зарплат|заработн|работодател|увольн|отпуск|трудов", {"labor"}),
-            (r"купил|покуп|неисправ|товар|продав|гаранти.*товар", {"consumer-law", "civil-special"}),
+            (r"неисправ|товар|продав|гаранти.*товар", {"consumer-law", "civil-special"}),
             (r"укра|краж|похит", {"criminal"}),
             (r"коллектор", {"collectors"}),
             (r"банкрот|платежеспособност", {"bankruptcy"}),
@@ -389,8 +395,41 @@ class KnowledgeStore:
             (r'безопасн.*сч[её]т|заблокир.*карт|блокировк.*карт', {'nb-card-safe-account'}),
         ]
         preferred = set().union(*(docs for pattern, docs in topics if re.search(pattern, question, re.I)))
+        preferred.update(intent_docs)
         preferred.update(doc for doc, words in self.document_search_terms.items()
                          if any(word.casefold() in question.casefold() for word in words))
+        focused_sections = [
+            (r'что такое нотариат|чем занимается нотариус', 'notary', ('Статья 1.', 'Статья 34.')),
+            (r'без содержания|без сохранения.*(?:зарплат|заработн)|неоплачиваем.*отпуск', 'labor', ('Статья 97.',)),
+            (r'увол(?:иться|юсь)|по собственному желани', 'labor', ('Статья 56.',)),
+            (r'(?:доля|взыск|содержан).*(?:детей|ребен|ребён)|(?:детей|ребен|ребён).*(?:доля|взыск)', 'family', ('Статья 139.',)),
+            (r'жалақ|жұмыс беруш', 'labor', ('Статья 113.',)),
+            (r'(?:вклад|депозит).*гарант|гарант.*(?:вклад|депозит)', 'deposit-guarantee', ('Статья 18.',)),
+            (r"потер[еи].*работ|безработ", "social", ("Статья 113.", "Статья 114.", "Статья 118.")),
+            (r"ндс|добавленн.*стоимост", "tax", ("Статья 503.",)),
+            (r"пациент", "health", ("Статья 134.",)),
+            (r"алимент", "family", ("Статья 138.", "Статья 139.")),
+            (r"(?:лет|возраст).*(?:брак|замуж|женить)|(?:брак|замуж|женить).*(?:лет|возраст)", "family", ("Статья 10.",)),
+            (r"реб[её]нок|дет[ьи]|развел|развод", "family", ("Статья 73.",)),
+            (r"подать.*иск|исковое заявлен", "civil-procedure", ("Статья 148.", "Статья 149.")),
+            (r"задержали|задержан|допрос", "criminal-procedure", ("Статья 64.", "Статья 67.")),
+            (r"арми|военкомат|призыв", "military-service", ("Статья 31.",)),
+            (r"\bкнб\b|национальн.*безопасност", "national-security", ("Статья 1.", "Статья 2.")),
+            (r"неисправ|товар|продав|сломал.*телефон|магазин.*обратно|купил(?!.*(?:квартир|дом|недвижим))", "consumer-law", ("Статья 15.", "Статья 30.")),
+            (r"коллектор|чуж(?:ому|ой|ого) дол[ггу]|звон.*долг", "collectors", ("Статья 5.",)),
+            (r"банкрот|платежеспособност", "bankruptcy", ("Статья 5.", "Статья 6.")),
+            (r"(?:аренд|квартир|хозяин).*(?:депозит|залог|взнос|удержива)", "civil-general", ("Статья 338-3.", "Статья 338-4.")),
+            (r"гэ[сc]в|эффективн.*ставк|настоящ.*стоимост.*кредит|полная.*стоимост.*кредит", "banks", ("Статья 57.",)),
+        ]
+        matched_sections = [(doc, headings) for pattern, doc, headings in focused_sections
+                            if re.search(pattern, question, re.I)]
+        requested_article = explicit_article(question)
+        if requested_article:
+            doc, heading = requested_article
+            # Do not fill a missing article with an unrelated article from another act.
+            matching = {identifier for identifier in identifiers
+                        if self._by_id[identifier]["document_id"] == doc
+                        and str(self._by_id[identifier].get("section", "")).startswith(heading)}
         for identifier in matching:
             passage, counter = self._by_id[identifier], self._counters[identifier]
             score = 0.0
@@ -398,6 +437,8 @@ class KnowledgeStore:
                 idf = math.log(1 + (len(candidates) - counts[term] + 0.5) / (counts[term] + 0.5))
                 frequency = counter[term]
                 score += idf * frequency * 2.2 / (frequency + 1.2 * (0.25 + 0.75 * self._lengths[identifier] / average))
+            if requested_article:
+                score += 1000
             if score and len(str(passage["text"]).strip()) > 10:
                 score += 3 * len(terms & counter.keys())
                 score += 5 * len(terms & _terms(str(passage.get("section", ""))))
@@ -407,6 +448,10 @@ class KnowledgeStore:
                     score -= 500
                 if passage["document_id"] in preferred:
                     score += 100
+                # A family-budget question may mention salary without asking
+                # about wage non-payment. Prefer its selected educational guide.
+                if passage["document_id"] in intent_docs & {"family-budget-guide", "deposit-choice-guide", "collective-debt-guide"}:
+                    score += 400
                 section = str(passage.get("section", ""))
                 guide_intents = [
                     ('consumer-claim-guide', r'(?:состав|напиш|напис|подготов).*претензи.*(?:продав|магазин|товар)|претензи.*(?:продав|магазин|товар)'),
@@ -424,32 +469,11 @@ class KnowledgeStore:
                     score += 100
                 if passage['document_id']=='labor' and section.startswith('Статья 33.') and re.search(r'без оформлен|без договора|не оформля|не трудоустро',question,re.I):
                     score+=250
-                focused_sections = [
-                    (r'что такое нотариат|чем занимается нотариус', 'notary', ('Статья 1.', 'Статья 34.')),
-                    (r'без содержания|без сохранения.*(?:зарплат|заработн)|неоплачиваем.*отпуск', 'labor', ('Статья 97.',)),
-                    (r'увол(?:иться|юсь)|по собственному желани', 'labor', ('Статья 56.',)),
-                    (r'(?:доля|взыск|содержан).*(?:детей|ребен|ребён)|(?:детей|ребен|ребён).*(?:доля|взыск)', 'family', ('Статья 139.',)),
-                    (r'жалақ|жұмыс беруш', 'labor', ('Статья 113.',)),
-                    (r'(?:вклад|депозит).*гарант|гарант.*(?:вклад|депозит)', 'deposit-guarantee', ('Статья 18.',)),
-                    (r"потер[еи].*работ|безработ", "social", ("Статья 113.", "Статья 114.", "Статья 118.")),
-                    (r"ндс|добавленн.*стоимост", "tax", ("Статья 503.",)),
-                    (r"пациент", "health", ("Статья 134.",)),
-                    (r"алимент", "family", ("Статья 138.", "Статья 139.")),
-                    (r"(?:лет|возраст).*(?:брак|замуж|женить)|(?:брак|замуж|женить).*(?:лет|возраст)", "family", ("Статья 10.",)),
-                    (r"реб[её]нок|дет[ьи]|развел|развод", "family", ("Статья 73.",)),
-                    (r"подать.*иск|исковое заявлен", "civil-procedure", ("Статья 148.", "Статья 149.")),
-                    (r"задержали|задержан|допрос", "criminal-procedure", ("Статья 64.", "Статья 67.")),
-                    (r"арми|военкомат|призыв", "military-service", ("Статья 31.",)),
-                    (r"\bкнб\b|национальн.*безопасност", "national-security", ("Статья 1.", "Статья 2.")),
-                    (r"купил|покуп|неисправ|товар|продав|сломал.*телефон|магазин.*обратно", "consumer-law", ("Статья 15.", "Статья 30.")),
-                    (r"коллектор|чуж(?:ому|ой|ого) дол[ггу]|звон.*долг", "collectors", ("Статья 5.",)),
-                    (r"банкрот|платежеспособност", "bankruptcy", ("Статья 5.", "Статья 6.")),
-                    (r"аренд|квартир|хозяин.*квартир", "civil-general", ("Статья 338-3.", "Статья 338-4.")),
-                    (r"гэ[сc]в|эффективн.*ставк|настоящ.*стоимост.*кредит|полная.*стоимост.*кредит", "banks", ("Статья 57.",)),
-                ]
-                for pattern, doc, headings in focused_sections:
-                    if passage["document_id"] == doc and section.startswith(headings) and re.search(pattern, question, re.I):
-                        score += 250
+                if any(passage["document_id"] == doc and section.startswith(headings)
+                       for doc, headings in matched_sections):
+                    score += 250
+                if passage["document_id"] in intent_sections and section.startswith(tuple(intent_sections[passage["document_id"]])):
+                    score += 400
                 if ("юриди" in terms and "помощ" in terms and ("прав" in question.casefold() or "кто" in question.casefold())
                         and passage["document_id"] == "legal-aid" and str(passage["section"]).startswith("Статья 26.")):
                     score += 2000
@@ -473,6 +497,8 @@ class KnowledgeStore:
                 break
         if len(chosen) < limit:
             chosen.extend(deferred[:limit - len(chosen)])
+        if requested_article:
+            return chosen[:limit]
         # Retrieve definitions and exceptions even when their wording differs
         # from the user's everyday question. They prevent overbroad conclusions.
         supplements = []
