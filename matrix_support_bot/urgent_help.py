@@ -51,7 +51,8 @@ def urgent_finance_answer(question, knowledge):
 
 
 def legal_urgent_notice(question):
-    if not re.search(r"срочн|сегодня.*(?:суд|срок)|завтра.*(?:суд|срок)|(?:суд|срок).*завтра|задержал|угрожают", question, re.I):
+    from answer_usefulness import SERIOUS_RISK
+    if not SERIOUS_RISK.search(question):
         return None
     return (
         "Если вопрос срочный, напишите !юрдеп для связи с сотрудником. "

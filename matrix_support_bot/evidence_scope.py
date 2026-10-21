@@ -49,7 +49,7 @@ def scope_evidence(domain, question, evidence):
                     and re.search(metric + r"(?:\W+\w+){0,5}\W+(?:зарплат\w*|заработн\w*)", p["text"], re.I)
                     and re.search(r"\d[\d\s,.]*\s*(?:тенге|теңге)", p["text"], re.I)
                     and re.search(r"(?:квартал|месяц|полугод|год|20\d{2})", p["text"], re.I)]
-    if domain == "finance" and not is_rights_question(question) and re.search(r"halyk|халык", q) and re.search(r"super\s*app|супер\s*апп", q):
+    if domain in {"legal", "finance"} and not is_rights_question(question) and re.search(r"halyk|халык", q) and re.search(r"super\s*app|супер\s*апп", q):
         evidence = [p for p in evidence if p["document_id"] == "halyk-superapp"]
         if "коммунальн" in q:
             evidence = [p for p in evidence if "оплата коммунальных услуг" in " ".join(p["text"].casefold().split())]

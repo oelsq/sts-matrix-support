@@ -15,13 +15,13 @@ from nio import AsyncClient, LoginResponse, InviteMemberEvent, RoomMessageText, 
 
 from llm_settings import api_key as read_llm_key, model_for_domain
 from message_format import matrix_content
-from evidence_scope import scope_evidence
-from response_guidance import practical_fallback, request_clarification
+from response_guidance import practical_fallback, is_document_request
+from answer_usefulness import usefulness_issues, department_note
 from conversation import ConversationMemory
 from agents import messages, render, route_for_room, review_messages
-from checked_answers import checked_legal_answer, checked_work_payment_answer, checked_practical_guidance
+from local_reply import prepare_local_reply
 from knowledge_coverage import coverage_answer
-from offline_knowledge import KnowledgeStore, needs_bank, validate_llm_endpoint, validate_local_endpoint
+from offline_knowledge import KnowledgeStore, validate_llm_endpoint, validate_local_endpoint
 from urgent_help import urgent_finance_answer, legal_urgent_notice
 from human_handoff import HumanHandoff, HandoffStore, handoff_command, choose_department, department_roster, handoff_selection, HandoffChoiceError
 
@@ -112,34 +112,15 @@ async def main():
         async def ask_agent(domain, question, room_id, sender, event_id):
             local_evidence = None
             search_question, previous_question = conversations.resolve(room_id, sender, domain, question)
-            clarification = request_clarification(domain, search_question, previous_question)
-            if clarification:
-                log.info("Clarification before retrieval; domain=%s", domain)
-                return clarification
-            if knowledge is not None and domain != "general":
-                retrieval_started = time.monotonic()
-                local_evidence = scope_evidence(domain, search_question, knowledge.search(domain, search_question, limit=8))
-                log.info("Evidence retrieval: domain=%s passages=%d elapsed_ms=%d continuation=%s",
-                         domain, len(local_evidence), int((time.monotonic()-retrieval_started)*1000), bool(previous_question))
-                if not local_evidence:
-                    log.info("Agent fallback: domain=%s reason=no_evidence", domain)
-                    return practical_fallback(domain, search_question)
-                checked = checked_practical_guidance(domain, search_question, local_evidence)
-                if checked:
-                    log.info("Source-bound practical guidance; domain=%s", domain)
-                    return checked
-                checked = checked_work_payment_answer(domain, search_question, local_evidence)
-                if checked:
-                    log.info("Source-bound work payment answer; domain=%s", domain)
-                    return checked
-                checked = checked_legal_answer(search_question, local_evidence, domain=domain)
-                if checked:
-                    return checked
-            if domain == "legal" and local_evidence is not None:
-                from agents import legal_aid_eligibility_answer
-                bounded = legal_aid_eligibility_answer(question, local_evidence)
-                if bounded:
-                    return bounded
+            retrieval_started = time.monotonic()
+            prepared = prepare_local_reply(domain, question, knowledge,
+                                           search_question=search_question, previous_question=previous_question)
+            local_evidence = prepared.evidence
+            log.info("Reply preparation: domain=%s mechanism=%s passages=%d elapsed_ms=%d continuation=%s",
+                     domain, prepared.mechanism, len(local_evidence or []),
+                     int((time.monotonic()-retrieval_started)*1000), bool(previous_question))
+            if prepared.answer is not None:
+                return prepared.answer
             payload = {
                 "model": model_for_domain(domain),
                 "messages": messages(domain, question, local_evidence,
@@ -183,20 +164,25 @@ async def main():
                 rendered = render(domain, answer.strip(), question, local_evidence)
                 citation_failure = "Не удалось подготовить ответ с проверяемой" in rendered
                 truncated = data["choices"][0].get("finish_reason") == "length"
-                citation_failure = citation_failure or truncated
+                quality_issues = [] if citation_failure or domain == "general" else usefulness_issues(question, rendered)
+                citation_failure = citation_failure or truncated or bool(quality_issues)
                 if citation_failure and attempt:
                     log.info("Agent fallback: domain=%s reason=answer_validation", domain)
                     return practical_fallback(domain, search_question, validation_failed=True)
-                if local_evidence is None or not citation_failure or attempt:
+                if not citation_failure:
                     return rendered
-                log.info("Retrying agent %s after invalid citation format", domain)
+                if local_evidence is None:
+                    return practical_fallback(domain, search_question, validation_failed=True)
+                log.info("Retrying agent %s after response checks: %s", domain, quality_issues or ["citation_or_length"])
                 payload["messages"] += [
                     {"role": "assistant", "content": answer},
                     {"role": "user", "content":
-                     "Перепиши ответ короче (до 180 слов) по переданным фрагментам. Убери неподтверждённые числа, сроки и условия. "
+                     f"Перепиши ответ короче (до {320 if is_document_request(question) else 180} слов) по переданным фрагментам. Убери неподтверждённые числа, сроки и условия. "
                      "Разрешены ТОЛЬКО метки " + ", ".join("[S" + str(i) + "]" for i in range(1, len(local_evidence) + 1)) +
                      ". Никаких слов, номеров пунктов, тире или диапазонов внутри скобок. "
-                     "Если утверждение не подтверждается фрагментом, убери его; если данных недостаточно, прямо сообщи это."},
+                     "Если утверждение не подтверждается фрагментом, убери его; если данных недостаточно, прямо сообщи это. "
+                     "Сохрани полезный ответ по существу и конкретное действие. Не перенаправляй к сотруднику вместо ответа. "
+                     "Если просили письмо, напиши сам черновик с заполнителями. Ошибки предыдущей попытки: " + ", ".join(quality_issues)},
                 ]
 
         async def message(room, event):
@@ -295,13 +281,14 @@ async def main():
                         "finance": "Финансовый агент",
                         "general": "Помощник",
                     }[domain]
-                    replies.append(f"{name} временно недоступен. Попробуйте позже.")
+                    replies.append(practical_fallback(domain, question) +
+                                   "\n\nСервис генерации временно недоступен; выше — ограниченная помощь без нового ответа модели.")
             answer = "\n\n".join(replies)
             latest_context[key] = (question, answer)
             if len(latest_context) > 1000:
                 latest_context.pop(next(iter(latest_context)))
             if handoff and any(domain in departments for domain in domains):
-                answer += "\n\nНужна проверка сотрудника? Напишите !человек."
+                answer += department_note(question, answer)
             result = await client.room_send(
                 room_id=room.room_id,
                 message_type="m.room.message",

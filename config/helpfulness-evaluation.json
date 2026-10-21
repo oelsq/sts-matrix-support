@@ -1,0 +1,660 @@
+{
+  "version": 1,
+  "purpose": "Content checks on current production local replies; actual model runs require --live. Regex checks do not certify semantic/legal correctness.",
+  "cases": [
+    {
+      "id": "help-legal-wages",
+      "domain": "legal",
+      "question": "Начальник не отдаёт деньги за работу",
+      "previous_questions": [],
+      "required_patterns": [
+        "работодател|трудов",
+        "сохран|выпиш|период"
+      ]
+    },
+    {
+      "id": "help-legal-wage-letter",
+      "domain": "legal",
+      "question": "А как написать требование?",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "required_patterns": [
+        "Кому:",
+        "Прошу",
+        "\\[период\\]"
+      ]
+    },
+    {
+      "id": "help-legal-wage-complaint",
+      "domain": "legal",
+      "question": "Не платят зарплату. Куда жаловаться?",
+      "previous_questions": [],
+      "required_patterns": [
+        "инспекци",
+        "сохран|подтвержден"
+      ]
+    },
+    {
+      "id": "help-legal-wage-unofficial",
+      "domain": "legal",
+      "question": "Я работал без оформления. Работодатель не платит. С чего начать?",
+      "previous_questions": [],
+      "required_patterns": [
+        "работ",
+        "подтвержд|переписк|договор"
+      ]
+    },
+    {
+      "id": "help-legal-forced-leave",
+      "domain": "legal",
+      "question": "Работодатель заставляет написать заявление на отпуск без содержания. Обязан соглашаться?",
+      "previous_questions": [],
+      "required_patterns": [
+        "соглашени",
+        "заявлен"
+      ]
+    },
+    {
+      "id": "help-legal-phone",
+      "domain": "legal",
+      "question": "Купил неисправный телефон, хочу вернуть деньги",
+      "previous_questions": [],
+      "required_patterns": [
+        "возврат|вернуть",
+        "покуп|продав"
+      ]
+    },
+    {
+      "id": "help-legal-phone-letter",
+      "domain": "legal",
+      "question": "А напиши претензию продавцу.",
+      "previous_questions": [
+        "Купил неисправный телефон, хочу вернуть деньги"
+      ],
+      "required_patterns": [
+        "Кому:",
+        "Прошу",
+        "\\[описание неисправности\\]"
+      ]
+    },
+    {
+      "id": "help-legal-rent",
+      "domain": "legal",
+      "question": "Арендодатель не возвращает залог за квартиру",
+      "previous_questions": [],
+      "required_patterns": [
+        "договор",
+        "если|зависит"
+      ]
+    },
+    {
+      "id": "help-legal-loan",
+      "domain": "legal",
+      "question": "Нечем платить кредит. Можно снизить платеж?",
+      "previous_questions": [],
+      "required_patterns": [
+        "реструктуризац",
+        "доход|расход",
+        "не.*гарант|не.*обещан"
+      ]
+    },
+    {
+      "id": "help-legal-loan-letter",
+      "domain": "legal",
+      "question": "А напиши заявление в банк.",
+      "previous_questions": [
+        "Нечем платить кредит. Можно снизить платеж?"
+      ],
+      "required_patterns": [
+        "Кому:",
+        "Прошу",
+        "\\[причина"
+      ]
+    },
+    {
+      "id": "help-legal-loan-refused",
+      "domain": "legal",
+      "question": "Банк отказал в реструктуризации. Куда обращаться?",
+      "previous_questions": [],
+      "required_patterns": [
+        "омбудсман",
+        "сохран"
+      ]
+    },
+    {
+      "id": "help-legal-fraud-code",
+      "domain": "legal",
+      "question": "Сотрудник банка по телефону просит сообщить SMS-код. Что делать?",
+      "previous_questions": [],
+      "required_patterns": [
+        "не сообщайте|не сообщать",
+        "банк",
+        "официальн"
+      ]
+    },
+    {
+      "id": "help-legal-fraud-transfer",
+      "domain": "legal",
+      "question": "Меня просят перевести деньги на безопасный счет. Я пока не переводил.",
+      "previous_questions": [],
+      "required_patterns": [
+        "Не переводите",
+        "Самостоятельно|свяжитесь"
+      ]
+    },
+    {
+      "id": "help-legal-fraud-after",
+      "domain": "legal",
+      "question": "Я сообщил мошенникам SMS-код от карты. Что делать срочно?",
+      "previous_questions": [],
+      "required_patterns": [
+        "банк",
+        "заблокир",
+        "не ждите"
+      ]
+    },
+    {
+      "id": "help-legal-collector-threat",
+      "domain": "legal",
+      "question": "Коллектор угрожает моим родственникам. Как зафиксировать это и что делать?",
+      "previous_questions": [],
+      "required_patterns": [
+        "сохран",
+        "угроз"
+      ]
+    },
+    {
+      "id": "help-legal-collector-third",
+      "domain": "legal",
+      "question": "Коллектор требует оплатить чужой долг. Нужно платить?",
+      "previous_questions": [],
+      "required_patterns": [
+        "поручител|созаем|созаём",
+        "основан"
+      ]
+    },
+    {
+      "id": "help-legal-theft",
+      "domain": "legal",
+      "question": "Украли телефон на работе. Как действовать и какие сведения сохранить?",
+      "previous_questions": [],
+      "required_patterns": [
+        "время",
+        "оператор|банк",
+        "полици"
+      ]
+    },
+    {
+      "id": "help-legal-child",
+      "domain": "legal",
+      "question": "Ребенку 12 лет. Может ли он сам решить, с кем жить после развода?",
+      "previous_questions": [],
+      "required_patterns": [
+        "интерес",
+        "мнени"
+      ]
+    },
+    {
+      "id": "help-legal-bankruptcy",
+      "domain": "legal",
+      "question": "Если не плачу долг больше пяти лет, все обычные условия внесудебного банкротства остаются обязательными?",
+      "previous_questions": [],
+      "required_patterns": [
+        "исключени",
+        "не означает автоматическ"
+      ]
+    },
+    {
+      "id": "help-legal-military",
+      "domain": "legal",
+      "question": "Со скольки лет могут забирать в армию военкомат?",
+      "previous_questions": [],
+      "required_patterns": [
+        "18",
+        "27",
+        "отсроч"
+      ]
+    },
+    {
+      "id": "help-legal-digital-tenge",
+      "domain": "legal",
+      "question": "Мне обещают доход от государственного инвестиционного проекта цифрового тенге. Это надежно?",
+      "previous_questions": [],
+      "required_patterns": [
+        "не инвестиционным|а не инвестиционным",
+        "Не переводите"
+      ]
+    },
+    {
+      "id": "help-legal-budget",
+      "domain": "legal",
+      "question": "Как составить семейный бюджет и не тратить всю зарплату?",
+      "previous_questions": [],
+      "required_patterns": [
+        "доход",
+        "расход"
+      ]
+    },
+    {
+      "id": "help-legal-reserve",
+      "domain": "legal",
+      "question": "Как сформировать финансовую подушку при нестабильном доходе?",
+      "previous_questions": [],
+      "required_patterns": [
+        "расход|резерв",
+        "доступ|накоплен"
+      ]
+    },
+    {
+      "id": "help-legal-deposit-choice",
+      "domain": "legal",
+      "question": "Как выбрать вклад и сравнить условия банков?",
+      "previous_questions": [],
+      "required_patterns": [
+        "срок",
+        "снят|доступ|расторжен"
+      ]
+    },
+    {
+      "id": "help-legal-halyk",
+      "domain": "legal",
+      "question": "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?",
+      "previous_questions": [],
+      "required_patterns": [
+        "0",
+        "тенге|теңге"
+      ]
+    },
+    {
+      "id": "help-legal-inheritance",
+      "domain": "legal",
+      "question": "Нотариус сказал, что я пропустил срок принятия наследства. Что можно сделать?",
+      "previous_questions": [],
+      "required_patterns": [
+        "срок",
+        "наслед"
+      ]
+    },
+    {
+      "id": "help-legal-sick-pay",
+      "domain": "legal",
+      "question": "Кто должен оплачивать больничный лист?",
+      "previous_questions": [],
+      "required_patterns": [
+        "работодател",
+        "нетрудоспособ|больничн"
+      ]
+    },
+    {
+      "id": "help-legal-private-data",
+      "domain": "legal",
+      "question": "Компания передала мой номер телефона рекламщикам. Какие у меня права?",
+      "previous_questions": [],
+      "required_patterns": [
+        "данн",
+        "согласи"
+      ]
+    },
+    {
+      "id": "help-legal-gph",
+      "domain": "legal",
+      "question": "Заказчик не платит по договору ГПХ за услуги. Это тоже задержка зарплаты?",
+      "previous_questions": [],
+      "required_patterns": [
+        "договор",
+        "трудов|услуг"
+      ]
+    },
+    {
+      "id": "help-legal-bankruptcy-draft",
+      "domain": "legal",
+      "question": "Напиши заявление в суд о моём банкротстве",
+      "previous_questions": [],
+      "required_patterns": [
+        "заявлен|уточн|документ"
+      ]
+    },
+    {
+      "id": "help-finance-wages",
+      "domain": "finance",
+      "question": "Начальник не отдаёт деньги за работу",
+      "previous_questions": [],
+      "required_patterns": [
+        "работодател|трудов",
+        "сохран|выпиш|период"
+      ]
+    },
+    {
+      "id": "help-finance-wage-letter",
+      "domain": "finance",
+      "question": "А как написать требование?",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "required_patterns": [
+        "Кому:",
+        "Прошу",
+        "\\[период\\]"
+      ]
+    },
+    {
+      "id": "help-finance-wage-complaint",
+      "domain": "finance",
+      "question": "Не платят зарплату. Куда жаловаться?",
+      "previous_questions": [],
+      "required_patterns": [
+        "инспекци",
+        "сохран|подтвержден"
+      ]
+    },
+    {
+      "id": "help-finance-wage-unofficial",
+      "domain": "finance",
+      "question": "Я работал без оформления. Работодатель не платит. С чего начать?",
+      "previous_questions": [],
+      "required_patterns": [
+        "работ",
+        "подтвержд|переписк|договор"
+      ]
+    },
+    {
+      "id": "help-finance-forced-leave",
+      "domain": "finance",
+      "question": "Работодатель заставляет написать заявление на отпуск без содержания. Обязан соглашаться?",
+      "previous_questions": [],
+      "required_patterns": [
+        "соглашени",
+        "заявлен"
+      ]
+    },
+    {
+      "id": "help-finance-phone",
+      "domain": "finance",
+      "question": "Купил неисправный телефон, хочу вернуть деньги",
+      "previous_questions": [],
+      "required_patterns": [
+        "возврат|вернуть",
+        "покуп|продав"
+      ]
+    },
+    {
+      "id": "help-finance-phone-letter",
+      "domain": "finance",
+      "question": "А напиши претензию продавцу.",
+      "previous_questions": [
+        "Купил неисправный телефон, хочу вернуть деньги"
+      ],
+      "required_patterns": [
+        "Кому:",
+        "Прошу",
+        "\\[описание неисправности\\]"
+      ]
+    },
+    {
+      "id": "help-finance-rent",
+      "domain": "finance",
+      "question": "Арендодатель не возвращает залог за квартиру",
+      "previous_questions": [],
+      "required_patterns": [
+        "договор",
+        "если|зависит"
+      ]
+    },
+    {
+      "id": "help-finance-loan",
+      "domain": "finance",
+      "question": "Нечем платить кредит. Можно снизить платеж?",
+      "previous_questions": [],
+      "required_patterns": [
+        "реструктуризац",
+        "доход|расход",
+        "не.*гарант|не.*обещан"
+      ]
+    },
+    {
+      "id": "help-finance-loan-letter",
+      "domain": "finance",
+      "question": "А напиши заявление в банк.",
+      "previous_questions": [
+        "Нечем платить кредит. Можно снизить платеж?"
+      ],
+      "required_patterns": [
+        "Кому:",
+        "Прошу",
+        "\\[причина"
+      ]
+    },
+    {
+      "id": "help-finance-loan-refused",
+      "domain": "finance",
+      "question": "Банк отказал в реструктуризации. Куда обращаться?",
+      "previous_questions": [],
+      "required_patterns": [
+        "омбудсман",
+        "сохран"
+      ]
+    },
+    {
+      "id": "help-finance-fraud-code",
+      "domain": "finance",
+      "question": "Сотрудник банка по телефону просит сообщить SMS-код. Что делать?",
+      "previous_questions": [],
+      "required_patterns": [
+        "не сообщайте|не сообщать",
+        "банк",
+        "официальн"
+      ]
+    },
+    {
+      "id": "help-finance-fraud-transfer",
+      "domain": "finance",
+      "question": "Меня просят перевести деньги на безопасный счет. Я пока не переводил.",
+      "previous_questions": [],
+      "required_patterns": [
+        "Не переводите",
+        "Самостоятельно|свяжитесь"
+      ]
+    },
+    {
+      "id": "help-finance-fraud-after",
+      "domain": "finance",
+      "question": "Я сообщил мошенникам SMS-код от карты. Что делать срочно?",
+      "previous_questions": [],
+      "required_patterns": [
+        "банк",
+        "заблокир",
+        "не ждите"
+      ]
+    },
+    {
+      "id": "help-finance-collector-threat",
+      "domain": "finance",
+      "question": "Коллектор угрожает моим родственникам. Как зафиксировать это и что делать?",
+      "previous_questions": [],
+      "required_patterns": [
+        "сохран",
+        "угроз"
+      ]
+    },
+    {
+      "id": "help-finance-collector-third",
+      "domain": "finance",
+      "question": "Коллектор требует оплатить чужой долг. Нужно платить?",
+      "previous_questions": [],
+      "required_patterns": [
+        "поручител|созаем|созаём",
+        "основан"
+      ]
+    },
+    {
+      "id": "help-finance-theft",
+      "domain": "finance",
+      "question": "Украли телефон на работе. Как действовать и какие сведения сохранить?",
+      "previous_questions": [],
+      "required_patterns": [
+        "время",
+        "оператор|банк",
+        "полици"
+      ]
+    },
+    {
+      "id": "help-finance-child",
+      "domain": "finance",
+      "question": "Ребенку 12 лет. Может ли он сам решить, с кем жить после развода?",
+      "previous_questions": [],
+      "required_patterns": [
+        "интерес",
+        "мнени"
+      ]
+    },
+    {
+      "id": "help-finance-bankruptcy",
+      "domain": "finance",
+      "question": "Если не плачу долг больше пяти лет, все обычные условия внесудебного банкротства остаются обязательными?",
+      "previous_questions": [],
+      "required_patterns": [
+        "исключени",
+        "не означает автоматическ"
+      ]
+    },
+    {
+      "id": "help-finance-military",
+      "domain": "finance",
+      "question": "Со скольки лет могут забирать в армию военкомат?",
+      "previous_questions": [],
+      "required_patterns": [
+        "18",
+        "27",
+        "отсроч"
+      ]
+    },
+    {
+      "id": "help-finance-digital-tenge",
+      "domain": "finance",
+      "question": "Мне обещают доход от государственного инвестиционного проекта цифрового тенге. Это надежно?",
+      "previous_questions": [],
+      "required_patterns": [
+        "не инвестиционным|а не инвестиционным",
+        "Не переводите"
+      ]
+    },
+    {
+      "id": "help-finance-budget",
+      "domain": "finance",
+      "question": "Как составить семейный бюджет и не тратить всю зарплату?",
+      "previous_questions": [],
+      "required_patterns": [
+        "доход",
+        "расход"
+      ]
+    },
+    {
+      "id": "help-finance-reserve",
+      "domain": "finance",
+      "question": "Как сформировать финансовую подушку при нестабильном доходе?",
+      "previous_questions": [],
+      "required_patterns": [
+        "расход|резерв",
+        "доступ|накоплен"
+      ]
+    },
+    {
+      "id": "help-finance-deposit-choice",
+      "domain": "finance",
+      "question": "Как выбрать вклад и сравнить условия банков?",
+      "previous_questions": [],
+      "required_patterns": [
+        "срок",
+        "снят|доступ|расторжен"
+      ]
+    },
+    {
+      "id": "help-finance-halyk",
+      "domain": "finance",
+      "question": "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?",
+      "previous_questions": [],
+      "required_patterns": [
+        "0",
+        "тенге|теңге"
+      ]
+    },
+    {
+      "id": "help-finance-inheritance",
+      "domain": "finance",
+      "question": "Нотариус сказал, что я пропустил срок принятия наследства. Что можно сделать?",
+      "previous_questions": [],
+      "required_patterns": [
+        "срок",
+        "наслед"
+      ]
+    },
+    {
+      "id": "help-finance-sick-pay",
+      "domain": "finance",
+      "question": "Кто должен оплачивать больничный лист?",
+      "previous_questions": [],
+      "required_patterns": [
+        "работодател",
+        "нетрудоспособ|больничн"
+      ]
+    },
+    {
+      "id": "help-finance-private-data",
+      "domain": "finance",
+      "question": "Компания передала мой номер телефона рекламщикам. Какие у меня права?",
+      "previous_questions": [],
+      "required_patterns": [
+        "данн",
+        "согласи"
+      ]
+    },
+    {
+      "id": "help-finance-gph",
+      "domain": "finance",
+      "question": "Заказчик не платит по договору ГПХ за услуги. Это тоже задержка зарплаты?",
+      "previous_questions": [],
+      "required_patterns": [
+        "договор",
+        "трудов|услуг"
+      ]
+    },
+    {
+      "id": "help-finance-bankruptcy-draft",
+      "domain": "finance",
+      "question": "Напиши заявление в суд о моём банкротстве",
+      "previous_questions": [],
+      "required_patterns": [
+        "заявлен|уточн|документ"
+      ]
+    },
+    {
+      "id": "help-legal-rental-letter",
+      "domain": "legal",
+      "question": "А напиши требование арендодателю.",
+      "previous_questions": [
+        "Арендодатель не возвращает залог за квартиру"
+      ],
+      "required_patterns": [
+        "Кому:",
+        "Прошу",
+        "удержан",
+        "\\[сумма\\]"
+      ]
+    },
+    {
+      "id": "help-finance-rental-letter",
+      "domain": "finance",
+      "question": "А напиши требование арендодателю.",
+      "previous_questions": [
+        "Арендодатель не возвращает залог за квартиру"
+      ],
+      "required_patterns": [
+        "Кому:",
+        "Прошу",
+        "удержан",
+        "\\[сумма\\]"
+      ]
+    }
+  ]
+}

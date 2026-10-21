@@ -62,7 +62,12 @@ def is_rights_question(question: str) -> bool:
 def is_tariff_question(question: str) -> bool:
     if re.search(r"(?:как (?:понять|сравнить)|что (?:такое|значит)).*(?:стоимост.*кредит|ГЭСВ|эффективн.*ставк)", question, re.I):
         return False
-    return bool(TARIFF_QUESTION.search(question)) and not is_rights_question(question)
+    # A purchase price mentioned in a dispute is not a request for bank fees.
+    financial = re.search(r"банк|карт|сч[её]т|перевод|плат[её]ж|вклад|депозит|кредит|за[её]м|halyk|халык|freedom|фридом|kaspi|каспи|super\s*app", question, re.I)
+    fee_or_rate = re.search(r"комисси|тариф|ставк.*(?:вклад|депозит)|(?:вклад|депозит).*ставк", question, re.I)
+    price_request = re.search(r"сколько (?:стоит|будет стоить)|какова.*стоимость|какая.*стоимость|стоимость (?:открытия|обслуживания)", question, re.I)
+    service = re.search(r"обслуживан", question, re.I)
+    return bool(fee_or_rate or financial and (price_request or service)) and not is_rights_question(question)
 
 
 def needs_bank(question: str) -> bool:
@@ -324,11 +329,11 @@ class KnowledgeStore:
             return []
         selected = {bank for bank, names in BANK_NAMES.items()
                     if any(name in question.casefold() for name in names)}
-        if domain == "finance" and needs_bank(question):
+        if domain in DOMAINS and needs_bank(question):
             return []
         # Scope an explicitly named product before truncating the retrieval
         # budget, otherwise unrelated tariff tables can crowd out its rows.
-        product = "halyk-superapp" if (domain == "finance" and "halyk" in selected
+        product = "halyk-superapp" if (domain in DOMAINS and "halyk" in selected
             and re.search(r"super\s*app|супер\s*апп", question, re.I)
             and not is_rights_question(question)) else None
         key = (domain, tuple(sorted(selected)), is_tariff_question(question), product)

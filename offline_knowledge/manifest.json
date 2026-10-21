@@ -39,7 +39,10 @@
       "artifact_kind": "official_pdf",
       "catalog_url": "https://halykbank.kz/tariffs",
       "bank": "halyk",
-      "sha256": "a694476c1a3d6b8e6810b13d97553d103a7fdcbf43cf5e000f73595e6f0a1aba"
+      "sha256": "a694476c1a3d6b8e6810b13d97553d103a7fdcbf43cf5e000f73595e6f0a1aba",
+      "also_domains": [
+        "legal"
+      ]
     },
     {
       "id": "halyk-debit",
@@ -52,7 +55,10 @@
       "artifact_kind": "official_pdf",
       "catalog_url": "https://halykbank.kz/tariffs",
       "bank": "halyk",
-      "sha256": "ae3121ede1351590e61db1c4b127defefd4a812f2730b7c717152fdf6f685383"
+      "sha256": "ae3121ede1351590e61db1c4b127defefd4a812f2730b7c717152fdf6f685383",
+      "also_domains": [
+        "legal"
+      ]
     },
     {
       "id": "halyk-annual",
@@ -78,7 +84,10 @@
       "artifact_kind": "official_pdf",
       "catalog_url": "https://bankffin.kz/ru/documents",
       "bank": "freedom",
-      "sha256": "31e3e77928c77bd89ba6da13baf8805e403381ae31dd6d546337ac82fec4169e"
+      "sha256": "31e3e77928c77bd89ba6da13baf8805e403381ae31dd6d546337ac82fec4169e",
+      "also_domains": [
+        "legal"
+      ]
     },
     {
       "id": "banks",

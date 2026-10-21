@@ -41,7 +41,7 @@ def request_clarification(domain: str, question: str, previous_question: str = "
                 'Переносить казахстанские сроки на вашу ситуацию нельзя.\n\n'
                 'Сохраните договор, условия оплаты и подтверждения работы. Если пришлёте нужный фрагмент российского '
                 'документа без личных данных, помогу объяснить его содержание, отдельно обозначив пределы проверки.')
-    if domain=='finance':
+    if domain in {'legal','finance'}:
         from offline_knowledge import needs_bank
         if needs_bank(question):
             return (f'**{label}**\n\nУточните банк и продукт или приложение, через которое хотите провести операцию. '
@@ -169,6 +169,10 @@ def practical_fallback(domain: str, question: str, *, validation_failed: bool = 
     label = "Юридический агент" if domain == "legal" else "Финансовый агент"
     q = question.casefold()
     from document_drafts import credit_payment_problem, credit_request_draft, consumer_refund_draft
+    from document_drafts import rental_refund_request, is_rental_refund_draft
+    if is_rental_refund_draft(question):
+        return (f"**{label}**\n\nНиже редактируемый пример обращения о возврате платежа. "
+                "Это предложение урегулировать вопрос по договору, а не вывод о том, что вся сумма подлежит возврату.\n\n" + rental_refund_request())
     if is_document_request(question) and credit_payment_problem(question) and not re.search(r'жалоб|иск|суд|омбуд|прокурат', question.split('\nПредыдущий вопрос:')[0], re.I):
         return (f"**{label}**\n\nНиже пример обращения с предложением пересмотреть платежи. "
                 "Это редактируемый текст без неподтверждённых статей и сроков, а не обещание одобрения.\n\n"+credit_request_draft())
