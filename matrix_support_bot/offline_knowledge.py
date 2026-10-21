@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from pypdf import PdfReader
-from retrieval_intents import query_hints, explicit_article
+from retrieval_intents import query_hints, explicit_article, loan_status_notification
 
 DOMAINS = {"legal", "finance"}
 TOKEN = re.compile(r"[\w-]{3,}", re.UNICODE)
@@ -457,6 +457,11 @@ class KnowledgeStore:
                 # about wage non-payment. Prefer its selected educational guide.
                 if passage["document_id"] in intent_docs & {"family-budget-guide", "deposit-choice-guide", "collective-debt-guide"}:
                     score += 400
+                # A suspicious loan-status notification is first a phishing
+                # warning; a generic credit-history article must not crowd it out.
+                if (passage["document_id"] == "nb-phishing-loan"
+                        and loan_status_notification(question)):
+                    score += 700
                 section = str(passage.get("section", ""))
                 guide_intents = [
                     ('consumer-claim-guide', r'(?:состав|напиш|напис|подготов).*претензи.*(?:продав|магазин|товар)|претензи.*(?:продав|магазин|товар)'),
@@ -479,7 +484,7 @@ class KnowledgeStore:
                     score += 250
                 if passage["document_id"] in intent_sections and section.startswith(tuple(intent_sections[passage["document_id"]])):
                     score += 400
-                if ("юриди" in terms and "помощ" in terms and ("прав" in question.casefold() or "кто" in question.casefold())
+                if ("юриди" in terms and "помощ" in terms and ("прав" in question.casefold() or re.search(r"кто|кому|положен", question, re.I))
                         and passage["document_id"] == "legal-aid" and str(passage["section"]).startswith("Статья 26.")):
                     score += 2000
                 if ("омбуд" in question.casefold() and passage["document_id"] == "banks"

@@ -1,0 +1,25 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z050000030_",
+  "source_html_sha256": "edf11e4370f0d45d0f71a751a99b26d62ba11f1639b8fa5ce07c4ad4951af845",
+  "text_sha256": "a44edba7e457e7501974b763c4ec6dd01fbdc8770b93b14e804530952da5b674",
+  "title": "Об обязательном страховании работника от несчастных случаев при исполнении им трудовых (служебных) обязанностей",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [
+    {
+      "line": 7,
+      "section": "",
+      "text": "В Закон предусматриваются изменения Законом РК от 16.01.2026 № 259-VIII (вводится в действие с 01.01.2027)."
+    },
+    {
+      "line": 36,
+      "section": "Статья 2. Отношения, регулируемые настоящим Законом",
+      "text": "В пункт 1 предусматривается изменение Законом РК от 26.06.2025 № 198-VIII (вводится в действие с 01.01.2027)."
+    }
+  ],
+  "excluded_sections": [
+    "2"
+  ]
+}

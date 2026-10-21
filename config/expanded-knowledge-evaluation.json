@@ -1,0 +1,697 @@
+{
+  "description": "Natural-language access checks for 24 new full statutes in both specialist rooms. Retrieval is not answer correctness.",
+  "cases": [
+    {
+      "id": "expanded-legal-credit-history-1",
+      "domain": "legal",
+      "question": "В кредитной истории висит уже закрытый кредит. Как исправить ошибку?",
+      "document": "credit-history",
+      "top_k": 5,
+      "section": "Статья 22."
+    },
+    {
+      "id": "expanded-legal-credit-history-2",
+      "domain": "legal",
+      "question": "Напиши заявление об исправлении неверной информации в кредитном отчете.",
+      "document": "credit-history",
+      "top_k": 5,
+      "section": "Статья 31."
+    },
+    {
+      "id": "expanded-legal-currency-control-1",
+      "domain": "legal",
+      "question": "Что считается валютной операцией по закону?",
+      "document": "currency-control",
+      "top_k": 5,
+      "section": "Статья 1."
+    },
+    {
+      "id": "expanded-legal-currency-control-2",
+      "domain": "legal",
+      "question": "Какие полномочия у органов валютного контроля?",
+      "document": "currency-control",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-securities-market-1",
+      "domain": "legal",
+      "question": "Брокер предлагает покупать ценные бумаги. Нужна ли ему лицензия?",
+      "document": "securities-market",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-securities-market-2",
+      "domain": "legal",
+      "question": "Какие сведения относятся к коммерческой тайне на рынке ценных бумаг?",
+      "document": "securities-market",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-aml-1",
+      "domain": "legal",
+      "question": "Банк просит объяснить происхождение денег. Что означает финансовый мониторинг?",
+      "document": "aml",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-aml-2",
+      "domain": "legal",
+      "question": "Когда финансовая организация должна изучать своего клиента по правилам финансового мониторинга?",
+      "document": "aml",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-accounting-1",
+      "domain": "legal",
+      "question": "Какие требования к первичным бухгалтерским документам?",
+      "document": "accounting",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-accounting-2",
+      "domain": "legal",
+      "question": "Кто отвечает за организацию бухгалтерского учета в компании?",
+      "document": "accounting",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-audit-1",
+      "domain": "legal",
+      "question": "Каким организациям требуется обязательный аудит?",
+      "document": "audit",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-audit-2",
+      "domain": "legal",
+      "question": "Что такое аудиторская тайна?",
+      "document": "audit",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-joint-stock-1",
+      "domain": "legal",
+      "question": "Какие права есть у акционера общества?",
+      "document": "joint-stock",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-joint-stock-2",
+      "domain": "legal",
+      "question": "Как принимается решение о выплате дивидендов по акциям?",
+      "document": "joint-stock",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-investment-funds-1",
+      "domain": "legal",
+      "question": "Чем пай инвестиционного фонда отличается от акции?",
+      "document": "investment-funds",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-investment-funds-2",
+      "domain": "legal",
+      "question": "Какие сведения об инвестиционном фонде должны предоставлять инвестору?",
+      "document": "investment-funds",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-mortgage-1",
+      "domain": "legal",
+      "question": "Что должно быть указано в ипотечном договоре?",
+      "document": "mortgage",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-mortgage-2",
+      "domain": "legal",
+      "question": "Можно ли обратиться в суд при внесудебной реализации ипотеки?",
+      "document": "mortgage",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-leasing-1",
+      "domain": "legal",
+      "question": "Кто несет риски повреждения имущества в лизинге?",
+      "document": "leasing",
+      "top_k": 5,
+      "section": "Статья 20."
+    },
+    {
+      "id": "expanded-legal-leasing-2",
+      "domain": "legal",
+      "question": "Какие существенные условия должны быть в договоре лизинга?",
+      "document": "leasing",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-housing-savings-1",
+      "domain": "legal",
+      "question": "При каких условиях начисляется государственная премия по жилищным строительным сбережениям?",
+      "document": "housing-savings",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-housing-savings-2",
+      "domain": "legal",
+      "question": "Какие права у вкладчика жилищных строительных сбережений?",
+      "document": "housing-savings",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-auto-insurance-1",
+      "domain": "legal",
+      "question": "После ДТП страховщик удержал из выплаты расходы на оценку ущерба. Это допустимо?",
+      "document": "auto-insurance",
+      "top_k": 5,
+      "section": "Статья 22."
+    },
+    {
+      "id": "expanded-legal-auto-insurance-2",
+      "domain": "legal",
+      "question": "Как определяется страховой случай по обязательному автострахованию?",
+      "document": "auto-insurance",
+      "top_k": 5,
+      "section": "Статья 22."
+    },
+    {
+      "id": "expanded-legal-employee-accident-insurance-1",
+      "domain": "legal",
+      "question": "Кто обязан заключить договор страхования работника от несчастных случаев?",
+      "document": "employee-accident-insurance",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-employee-accident-insurance-2",
+      "domain": "legal",
+      "question": "Какие обязанности у страховщика при производственной травме работника?",
+      "document": "employee-accident-insurance",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-digital-assets-1",
+      "domain": "legal",
+      "question": "Чем обеспеченные цифровые активы отличаются от необеспеченных?",
+      "document": "digital-assets",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-digital-assets-2",
+      "domain": "legal",
+      "question": "Какие требования к деятельности цифрового майнера в Казахстане?",
+      "document": "digital-assets",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-trade-unions-1",
+      "domain": "legal",
+      "question": "Начальник требует выйти из профсоюза. Можно ли ограничивать права из-за членства?",
+      "document": "trade-unions",
+      "top_k": 5,
+      "section": "Статья 7."
+    },
+    {
+      "id": "expanded-legal-trade-unions-2",
+      "domain": "legal",
+      "question": "Как создается профессиональный союз?",
+      "document": "trade-unions",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-shared-construction-1",
+      "domain": "legal",
+      "question": "Хочу купить квартиру в новостройке. Какие документы запросить у компании перед долевым участием?",
+      "document": "shared-construction",
+      "top_k": 5,
+      "section": "Статья 22."
+    },
+    {
+      "id": "expanded-legal-shared-construction-2",
+      "domain": "legal",
+      "question": "Какими способами застройщик вправе привлекать деньги дольщиков?",
+      "document": "shared-construction",
+      "top_k": 5,
+      "section": "Статья 7."
+    },
+    {
+      "id": "expanded-legal-permissions-1",
+      "domain": "legal",
+      "question": "В чем разница между разрешением и уведомлением о начале деятельности?",
+      "document": "permissions",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-permissions-2",
+      "domain": "legal",
+      "question": "Когда прекращается действие лицензии на деятельность?",
+      "document": "permissions",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-copyright-1",
+      "domain": "legal",
+      "question": "Чужую фотографию используют в рекламе. Какие имущественные авторские права защищаются?",
+      "document": "copyright",
+      "top_k": 5,
+      "section": "Статья 16."
+    },
+    {
+      "id": "expanded-legal-copyright-2",
+      "domain": "legal",
+      "question": "Какие особенности авторских прав на служебное произведение?",
+      "document": "copyright",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-communications-1",
+      "domain": "legal",
+      "question": "Какие обязанности у оператора связи перед абонентом?",
+      "document": "communications",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-communications-2",
+      "domain": "legal",
+      "question": "Что регулируется договором оказания услуг связи?",
+      "document": "communications",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-trade-regulation-1",
+      "domain": "legal",
+      "question": "Какие требования к участникам электронной торговли?",
+      "document": "trade-regulation",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-trade-regulation-2",
+      "domain": "legal",
+      "question": "Что относится к внутренней торговле по закону?",
+      "document": "trade-regulation",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-advertising-1",
+      "domain": "legal",
+      "question": "Что считается недостоверной рекламой?",
+      "document": "advertising",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-advertising-2",
+      "domain": "legal",
+      "question": "Какие ограничения действуют для рекламы финансовых услуг?",
+      "document": "advertising",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-online-platforms-1",
+      "domain": "legal",
+      "question": "Нужно ли обозначать спонсорский контент как онлайн-рекламу?",
+      "document": "online-platforms",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-online-platforms-2",
+      "domain": "legal",
+      "question": "Какие требования к таргетированной онлайн-рекламе?",
+      "document": "online-platforms",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-nonprofit-1",
+      "domain": "legal",
+      "question": "Может ли некоммерческая организация заниматься предпринимательской деятельностью?",
+      "document": "nonprofit",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-nonprofit-2",
+      "domain": "legal",
+      "question": "Что такое общественный фонд как форма некоммерческой организации?",
+      "document": "nonprofit",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-civil-protection-1",
+      "domain": "legal",
+      "question": "Какие права и обязанности у граждан в сфере гражданской защиты?",
+      "document": "civil-protection",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-legal-civil-protection-2",
+      "domain": "legal",
+      "question": "Что входит в требования пожарной безопасности?",
+      "document": "civil-protection",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-credit-history-1",
+      "domain": "finance",
+      "question": "В кредитной истории висит уже закрытый кредит. Как исправить ошибку?",
+      "document": "credit-history",
+      "top_k": 5,
+      "section": "Статья 22."
+    },
+    {
+      "id": "expanded-finance-credit-history-2",
+      "domain": "finance",
+      "question": "Напиши заявление об исправлении неверной информации в кредитном отчете.",
+      "document": "credit-history",
+      "top_k": 5,
+      "section": "Статья 31."
+    },
+    {
+      "id": "expanded-finance-currency-control-1",
+      "domain": "finance",
+      "question": "Что считается валютной операцией по закону?",
+      "document": "currency-control",
+      "top_k": 5,
+      "section": "Статья 1."
+    },
+    {
+      "id": "expanded-finance-currency-control-2",
+      "domain": "finance",
+      "question": "Какие полномочия у органов валютного контроля?",
+      "document": "currency-control",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-securities-market-1",
+      "domain": "finance",
+      "question": "Брокер предлагает покупать ценные бумаги. Нужна ли ему лицензия?",
+      "document": "securities-market",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-securities-market-2",
+      "domain": "finance",
+      "question": "Какие сведения относятся к коммерческой тайне на рынке ценных бумаг?",
+      "document": "securities-market",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-aml-1",
+      "domain": "finance",
+      "question": "Банк просит объяснить происхождение денег. Что означает финансовый мониторинг?",
+      "document": "aml",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-aml-2",
+      "domain": "finance",
+      "question": "Когда финансовая организация должна изучать своего клиента по правилам финансового мониторинга?",
+      "document": "aml",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-accounting-1",
+      "domain": "finance",
+      "question": "Какие требования к первичным бухгалтерским документам?",
+      "document": "accounting",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-accounting-2",
+      "domain": "finance",
+      "question": "Кто отвечает за организацию бухгалтерского учета в компании?",
+      "document": "accounting",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-audit-1",
+      "domain": "finance",
+      "question": "Каким организациям требуется обязательный аудит?",
+      "document": "audit",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-audit-2",
+      "domain": "finance",
+      "question": "Что такое аудиторская тайна?",
+      "document": "audit",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-joint-stock-1",
+      "domain": "finance",
+      "question": "Какие права есть у акционера общества?",
+      "document": "joint-stock",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-joint-stock-2",
+      "domain": "finance",
+      "question": "Как принимается решение о выплате дивидендов по акциям?",
+      "document": "joint-stock",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-investment-funds-1",
+      "domain": "finance",
+      "question": "Чем пай инвестиционного фонда отличается от акции?",
+      "document": "investment-funds",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-investment-funds-2",
+      "domain": "finance",
+      "question": "Какие сведения об инвестиционном фонде должны предоставлять инвестору?",
+      "document": "investment-funds",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-mortgage-1",
+      "domain": "finance",
+      "question": "Что должно быть указано в ипотечном договоре?",
+      "document": "mortgage",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-mortgage-2",
+      "domain": "finance",
+      "question": "Можно ли обратиться в суд при внесудебной реализации ипотеки?",
+      "document": "mortgage",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-leasing-1",
+      "domain": "finance",
+      "question": "Кто несет риски повреждения имущества в лизинге?",
+      "document": "leasing",
+      "top_k": 5,
+      "section": "Статья 20."
+    },
+    {
+      "id": "expanded-finance-leasing-2",
+      "domain": "finance",
+      "question": "Какие существенные условия должны быть в договоре лизинга?",
+      "document": "leasing",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-housing-savings-1",
+      "domain": "finance",
+      "question": "При каких условиях начисляется государственная премия по жилищным строительным сбережениям?",
+      "document": "housing-savings",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-housing-savings-2",
+      "domain": "finance",
+      "question": "Какие права у вкладчика жилищных строительных сбережений?",
+      "document": "housing-savings",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-auto-insurance-1",
+      "domain": "finance",
+      "question": "После ДТП страховщик удержал из выплаты расходы на оценку ущерба. Это допустимо?",
+      "document": "auto-insurance",
+      "top_k": 5,
+      "section": "Статья 22."
+    },
+    {
+      "id": "expanded-finance-auto-insurance-2",
+      "domain": "finance",
+      "question": "Как определяется страховой случай по обязательному автострахованию?",
+      "document": "auto-insurance",
+      "top_k": 5,
+      "section": "Статья 22."
+    },
+    {
+      "id": "expanded-finance-employee-accident-insurance-1",
+      "domain": "finance",
+      "question": "Кто обязан заключить договор страхования работника от несчастных случаев?",
+      "document": "employee-accident-insurance",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-employee-accident-insurance-2",
+      "domain": "finance",
+      "question": "Какие обязанности у страховщика при производственной травме работника?",
+      "document": "employee-accident-insurance",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-digital-assets-1",
+      "domain": "finance",
+      "question": "Чем обеспеченные цифровые активы отличаются от необеспеченных?",
+      "document": "digital-assets",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-digital-assets-2",
+      "domain": "finance",
+      "question": "Какие требования к деятельности цифрового майнера в Казахстане?",
+      "document": "digital-assets",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-trade-unions-1",
+      "domain": "finance",
+      "question": "Начальник требует выйти из профсоюза. Можно ли ограничивать права из-за членства?",
+      "document": "trade-unions",
+      "top_k": 5,
+      "section": "Статья 7."
+    },
+    {
+      "id": "expanded-finance-trade-unions-2",
+      "domain": "finance",
+      "question": "Как создается профессиональный союз?",
+      "document": "trade-unions",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-shared-construction-1",
+      "domain": "finance",
+      "question": "Хочу купить квартиру в новостройке. Какие документы запросить у компании перед долевым участием?",
+      "document": "shared-construction",
+      "top_k": 5,
+      "section": "Статья 22."
+    },
+    {
+      "id": "expanded-finance-shared-construction-2",
+      "domain": "finance",
+      "question": "Какими способами застройщик вправе привлекать деньги дольщиков?",
+      "document": "shared-construction",
+      "top_k": 5,
+      "section": "Статья 7."
+    },
+    {
+      "id": "expanded-finance-permissions-1",
+      "domain": "finance",
+      "question": "В чем разница между разрешением и уведомлением о начале деятельности?",
+      "document": "permissions",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-permissions-2",
+      "domain": "finance",
+      "question": "Когда прекращается действие лицензии на деятельность?",
+      "document": "permissions",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-copyright-1",
+      "domain": "finance",
+      "question": "Чужую фотографию используют в рекламе. Какие имущественные авторские права защищаются?",
+      "document": "copyright",
+      "top_k": 5,
+      "section": "Статья 16."
+    },
+    {
+      "id": "expanded-finance-copyright-2",
+      "domain": "finance",
+      "question": "Какие особенности авторских прав на служебное произведение?",
+      "document": "copyright",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-communications-1",
+      "domain": "finance",
+      "question": "Какие обязанности у оператора связи перед абонентом?",
+      "document": "communications",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-communications-2",
+      "domain": "finance",
+      "question": "Что регулируется договором оказания услуг связи?",
+      "document": "communications",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-trade-regulation-1",
+      "domain": "finance",
+      "question": "Какие требования к участникам электронной торговли?",
+      "document": "trade-regulation",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-trade-regulation-2",
+      "domain": "finance",
+      "question": "Что относится к внутренней торговле по закону?",
+      "document": "trade-regulation",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-advertising-1",
+      "domain": "finance",
+      "question": "Что считается недостоверной рекламой?",
+      "document": "advertising",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-advertising-2",
+      "domain": "finance",
+      "question": "Какие ограничения действуют для рекламы финансовых услуг?",
+      "document": "advertising",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-online-platforms-1",
+      "domain": "finance",
+      "question": "Нужно ли обозначать спонсорский контент как онлайн-рекламу?",
+      "document": "online-platforms",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-online-platforms-2",
+      "domain": "finance",
+      "question": "Какие требования к таргетированной онлайн-рекламе?",
+      "document": "online-platforms",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-nonprofit-1",
+      "domain": "finance",
+      "question": "Может ли некоммерческая организация заниматься предпринимательской деятельностью?",
+      "document": "nonprofit",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-nonprofit-2",
+      "domain": "finance",
+      "question": "Что такое общественный фонд как форма некоммерческой организации?",
+      "document": "nonprofit",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-civil-protection-1",
+      "domain": "finance",
+      "question": "Какие права и обязанности у граждан в сфере гражданской защиты?",
+      "document": "civil-protection",
+      "top_k": 5
+    },
+    {
+      "id": "expanded-finance-civil-protection-2",
+      "domain": "finance",
+      "question": "Что входит в требования пожарной безопасности?",
+      "document": "civil-protection",
+      "top_k": 5
+    }
+  ]
+}

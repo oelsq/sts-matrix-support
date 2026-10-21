@@ -1,0 +1,163 @@
+{
+  "description": "Current source-bound explanation/draft checks; not LLM quality scores.",
+  "cases": [
+    {
+      "id": "expanded-help-legal-credit-fix",
+      "domain": "legal",
+      "question": "В кредитной истории висит уже закрытый кредит. Как исправить ошибку?",
+      "previous_questions": [],
+      "required_patterns": [
+        "оспорить",
+        "поставщик",
+        "письменный отказ"
+      ]
+    },
+    {
+      "id": "expanded-help-legal-credit-report",
+      "domain": "legal",
+      "question": "Как получить свой кредитный отчет?",
+      "previous_questions": [],
+      "required_patterns": [
+        "отч[её]т о себе",
+        "официальный канал",
+        "конкретной записью"
+      ]
+    },
+    {
+      "id": "expanded-help-legal-credit-letter",
+      "domain": "legal",
+      "question": "А напиши заявление об исправлении ошибки.",
+      "previous_questions": [
+        "В кредитной истории указан закрытый кредит как действующий."
+      ],
+      "required_patterns": [
+        "Кому:",
+        "Прошу проверить",
+        "Подпись:"
+      ]
+    },
+    {
+      "id": "expanded-help-legal-union",
+      "domain": "legal",
+      "question": "Начальник требует выйти из профсоюза. Можно ли ограничивать права из-за членства?",
+      "previous_questions": [],
+      "required_patterns": [
+        "дискриминац",
+        "Сохраните",
+        "письменн"
+      ]
+    },
+    {
+      "id": "expanded-help-legal-construction",
+      "domain": "legal",
+      "question": "Хочу купить квартиру в новостройке. Какие документы запросить у компании перед долевым участием?",
+      "previous_questions": [],
+      "required_patterns": [
+        "разные способы",
+        "гаранти",
+        "разрешение"
+      ]
+    },
+    {
+      "id": "expanded-help-legal-auto-costs",
+      "domain": "legal",
+      "question": "После ДТП страховщик удержал из выплаты расходы на оценку ущерба. Это допустимо?",
+      "previous_questions": [],
+      "required_patterns": [
+        "удерживать.*нельзя",
+        "расч[её]т",
+        "расходах самого страховщика"
+      ]
+    },
+    {
+      "id": "expanded-help-finance-credit-fix",
+      "domain": "finance",
+      "question": "В кредитной истории висит уже закрытый кредит. Как исправить ошибку?",
+      "previous_questions": [],
+      "required_patterns": [
+        "оспорить",
+        "поставщик",
+        "письменный отказ"
+      ]
+    },
+    {
+      "id": "expanded-help-finance-credit-report",
+      "domain": "finance",
+      "question": "Как получить свой кредитный отчет?",
+      "previous_questions": [],
+      "required_patterns": [
+        "отч[её]т о себе",
+        "официальный канал",
+        "конкретной записью"
+      ]
+    },
+    {
+      "id": "expanded-help-finance-credit-letter",
+      "domain": "finance",
+      "question": "А напиши заявление об исправлении ошибки.",
+      "previous_questions": [
+        "В кредитной истории указан закрытый кредит как действующий."
+      ],
+      "required_patterns": [
+        "Кому:",
+        "Прошу проверить",
+        "Подпись:"
+      ]
+    },
+    {
+      "id": "expanded-help-finance-union",
+      "domain": "finance",
+      "question": "Начальник требует выйти из профсоюза. Можно ли ограничивать права из-за членства?",
+      "previous_questions": [],
+      "required_patterns": [
+        "дискриминац",
+        "Сохраните",
+        "письменн"
+      ]
+    },
+    {
+      "id": "expanded-help-finance-construction",
+      "domain": "finance",
+      "question": "Хочу купить квартиру в новостройке. Какие документы запросить у компании перед долевым участием?",
+      "previous_questions": [],
+      "required_patterns": [
+        "разные способы",
+        "гаранти",
+        "разрешение"
+      ]
+    },
+    {
+      "id": "expanded-help-finance-auto-costs",
+      "domain": "finance",
+      "question": "После ДТП страховщик удержал из выплаты расходы на оценку ущерба. Это допустимо?",
+      "previous_questions": [],
+      "required_patterns": [
+        "удерживать.*нельзя",
+        "расч[её]т",
+        "расходах самого страховщика"
+      ]
+    },
+    {
+      "id": "expanded-help-legal-loan-notification",
+      "domain": "legal",
+      "question": "Получил уведомление о статусе чужого займа. Где проверить кредитную историю?",
+      "previous_questions": [],
+      "required_patterns": [
+        "Не переходите по ссылке",
+        "Государственного кредитного бюро",
+        "электронного правительства"
+      ]
+    },
+    {
+      "id": "expanded-help-finance-loan-notification",
+      "domain": "finance",
+      "question": "Получил уведомление о статусе чужого займа. Где проверить кредитную историю?",
+      "previous_questions": [],
+      "required_patterns": [
+        "Не переходите по ссылке",
+        "Государственного кредитного бюро",
+        "электронного правительства"
+      ]
+    }
+  ]
+}

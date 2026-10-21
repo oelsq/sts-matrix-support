@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z1600000486",
+  "source_html_sha256": "5ba19719d1976f7926788e1bd7b5dc252a9d73f1bc05bd4fbe9b370cfd51319b",
+  "text_sha256": "d2424a59aa3db2251d393dd8cb06b3a1203d3bd9394f48f2c94699298efa4c74",
+  "title": "О долевом участии в жилищном строительстве",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

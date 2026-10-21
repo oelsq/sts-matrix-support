@@ -1,11 +1,11 @@
 {
   "as_of": "2026-10-21",
   "complete_legal_system": false,
-  "documents_total": 78,
+  "documents_total": 102,
   "pdf_count": 30,
-  "full_text_count": 59,
-  "added_sources": 38,
-  "review_level": "Source/status/title/integrity and selected commencement checks; not a legal audit of all provisions.",
+  "full_text_count": 83,
+  "added_sources": 62,
+  "review_level": "Source/status/title/integrity and selected commencement checks, including conservative exclusions in 24 new statutes; not a legal audit of every provision.",
   "gaps": [
     "Не все подзаконные акты министерств и правительства",
     "Не все акты акиматов и маслихатов",
@@ -19,6 +19,17 @@
   "source_catalog": "legal-catalog.json",
   "official_guidance_count": 9,
   "statistical_bulletin_count": 1,
-  "txt_count": 48,
-  "educational_summary_count": 3
+  "txt_count": 72,
+  "educational_summary_count": 3,
+  "source_catalogs": [
+    "legal-catalog.json",
+    "extended-catalog-20261021.json"
+  ],
+  "latest_expansion": {
+    "as_of": "2026-10-21",
+    "new_statutes": 24,
+    "conservatively_excluded_article_entries": 41,
+    "source_evidence_directory": "source-evidence",
+    "originals_preserved": true
+  }
 }

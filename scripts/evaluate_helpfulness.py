@@ -147,12 +147,15 @@ async def evaluate(cases, knowledge, live):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--cases',type=Path,default=ROOT/'config/helpfulness-evaluation.json')
+    parser.add_argument('--extra-cases',type=Path,action='append',default=[],help='Additional case banks; duplicate questions/contexts are removed')
     parser.add_argument('--include-retrieval-cases',action='store_true')
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--live',choices=['direct','flowise'])
     parser.add_argument('--archive',action='store_true')
     args=parser.parse_args()
     cases=json.loads(args.cases.read_text())['cases']
+    for extra in args.extra_cases:
+        cases += json.loads(extra.read_text())['cases']
     if args.include_retrieval_cases:
         cases += json.loads((ROOT/'config/answer-evaluation.json').read_text())['cases']
     seen=set();unique=[]

@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z040000576_",
+  "source_html_sha256": "97620aa70544eab8c8a271a99cb30c07cd9fd398f13475c28783ee8555eba8a8",
+  "text_sha256": "76ab06aa8faee8f2baf2ff707da401f29176698f8670d4b89cf19dc341efdad9",
+  "title": "Об инвестиционных и венчурных фондах",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

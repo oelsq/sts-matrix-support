@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z010000142_",
+  "source_html_sha256": "d6cf40e2767d3e0e60e7cd79f5aea212c3b4ed67c3d377e6cf5a6561f76677aa",
+  "text_sha256": "9ea48e502698813ba65ac43ed1ed7798a8c74dad965574d37397d1b509a17f4b",
+  "title": "О некоммерческих организациях",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

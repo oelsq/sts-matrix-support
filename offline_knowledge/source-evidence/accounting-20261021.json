@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z070000234_",
+  "source_html_sha256": "cbda6e6018c8ff8afee0a7a150b68523c5b398c8f7876ad1202ac7d8fb3c727b",
+  "text_sha256": "d72e81281466f5c8fffd9ca37149dac510d817e992f8864b4adb9d30687fe70f",
+  "title": "О бухгалтерском учете и финансовой отчетности",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

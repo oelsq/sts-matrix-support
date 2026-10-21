@@ -1,0 +1,32 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z030000461_",
+  "source_html_sha256": "9e3cdbaeaf132b6070b022afdf872d11d5831e2dd438d0952b9ee61514951cd4",
+  "text_sha256": "f34a8149ae0a03d25521086a8db95cb2c69531676d0b547f13a101edaa82f15f",
+  "title": "О рынке ценных бумаг",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [
+    {
+      "line": 268,
+      "section": "Статья 3-3. Меры надзорного реагирования",
+      "text": "Пункт 2 предусматривается дополнить подпунктами 12) и 13) в соответствии с Законом РК от 16.01.2026 № 259-VIII (вводится в действие с 01.01.2027)."
+    },
+    {
+      "line": 1078,
+      "section": "Статья 43. Раскрытие коммерческой тайны на рынке ценных бумаг",
+      "text": "Пункт 3 предусматривается дополнить подпунктом 14-1 в соответствии с Законом РК от 23.07.2026 № 352-VIII (вводится в действие с 01.01.2027)."
+    },
+    {
+      "line": 1557,
+      "section": "Статья 64-1. Рассмотрение обращений заявителей",
+      "text": "Пункт 5 вводится в действие с 01.01.2027 Законом РК от 16.01.2026 № 259-VIII (текст исключен)."
+    }
+  ],
+  "excluded_sections": [
+    "3-3",
+    "43",
+    "64-1"
+  ]
+}

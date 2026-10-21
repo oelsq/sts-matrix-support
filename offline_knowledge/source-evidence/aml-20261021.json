@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z090000191_",
+  "source_html_sha256": "cb721bfb6c4e6136d52e6e99c2c668120655c4cfc15b77e2cf43966ef040cfb3",
+  "text_sha256": "478ce469e66ff3b62e7dca5fc8ea36a008ca6f1374b61640daae0c2c596ac960",
+  "title": "О противодействии легализации (отмыванию) доходов, полученных преступным путем, финансированию терроризма и финансированию распространения оружия массового уничтожения",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

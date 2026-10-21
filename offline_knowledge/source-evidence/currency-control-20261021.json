@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z1800000167",
+  "source_html_sha256": "beb71207d3a176cbb9970e084d4d174f51e820f1a6d3dd93c2276acb2cc131b8",
+  "text_sha256": "9e8e46574767e8b97d24d2b8a775e2734aa885444f6bb1e29ecc58449e646c83",
+  "title": "О валютном регулировании и валютном контроле",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

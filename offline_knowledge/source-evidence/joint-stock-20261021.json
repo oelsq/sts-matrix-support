@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z030000415_",
+  "source_html_sha256": "a6e8de898a01d67973030f0eca76ebd17a2c45bd81ca265e360fa71cc9517b2a",
+  "text_sha256": "fa541046409e5f2cf1108c678c8123ce2710237c3c087ff42b99c87ce483acf6",
+  "title": "Об акционерных обществах",
+  "status": "Исправление ошибки",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

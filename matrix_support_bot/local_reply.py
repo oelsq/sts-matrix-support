@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from agents import legal_aid_eligibility_answer
 from checked_answers import checked_legal_answer, checked_work_payment_answer, checked_practical_guidance
 from evidence_scope import scope_evidence
+from checked_public_rights import checked_public_rights_answer
 from response_guidance import practical_fallback, request_clarification
 
 
@@ -27,6 +28,7 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
         if not evidence:
             return PreparedReply(evidence, practical_fallback(domain, search_question), "no_evidence_fallback")
         builders = [
+            ("source_bound_public_rights", lambda: checked_public_rights_answer(domain, search_question, evidence)),
             ("source_bound_guidance", lambda: checked_practical_guidance(domain, search_question, evidence)),
             ("source_bound_work", lambda: checked_work_payment_answer(domain, search_question, evidence)),
             ("source_bound_legal", lambda: checked_legal_answer(search_question, evidence, domain=domain)),

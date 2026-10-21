@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z030000508_",
+  "source_html_sha256": "55c14d79393b54786850adbc135d587d9282aed5ebb7ef9818d232f887c5b550",
+  "text_sha256": "8fb2ba2194a8e31b71be607b9cc5ee62fa4f3111f8199ca9627535047eb4cecf",
+  "title": "О рекламе",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

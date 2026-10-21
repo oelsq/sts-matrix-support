@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/U950002723_",
+  "source_html_sha256": "f20dad705b1821fc2e56fba4a0b2206fd3d08a338673a20e506c60d2a48db1c9",
+  "text_sha256": "8a180880729c4fb7f63b9d4399dc5c336479a7111011fb5a2e17b4dc958660e4",
+  "title": "Об ипотеке недвижимого имущества",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

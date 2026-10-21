@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z2300000193",
+  "source_html_sha256": "8a6638eb6dbdc71915b98a9bc1ffe24312267946284638c5edb8121912e84fe9",
+  "text_sha256": "944e1339995a16a2c144630e7824087787f8a4ddde8c0997de6864da41bf5896",
+  "title": "О цифровых активах в Республике Казахстан",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

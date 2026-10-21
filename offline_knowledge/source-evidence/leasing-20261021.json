@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z000000078_",
+  "source_html_sha256": "4de2bdb8001dd59ed1eb95db5d537e5deb1781c661c8a6b7729d8f63cdfafe87",
+  "text_sha256": "689c91b8b307e1ae44ac340e6da50d4d6a30aad6b8811327c8af866f182b693d",
+  "title": "О финансовом лизинге",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

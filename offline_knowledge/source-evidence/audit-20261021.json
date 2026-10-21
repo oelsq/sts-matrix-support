@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z980000304_",
+  "source_html_sha256": "23fb5504b6474002d52a4daab063f02549a63bf749826ae650893123b85cb13b",
+  "text_sha256": "c001d9ef30175cefb32cb39c5493ad561548cb76aa974cef6f89eb81b76b1ffa",
+  "title": "Об аудиторской деятельности",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

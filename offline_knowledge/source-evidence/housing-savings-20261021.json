@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z000000110_",
+  "source_html_sha256": "1edb28cbf70d338253b837f22084318aad80a8f51cf04e1f38a3e5f06fe910ce",
+  "text_sha256": "9d9494c92f814acb9651b8f2e260637f98f1443f1a9d82423cf09c251c47e5ff",
+  "title": "О жилищных строительных сбережениях в Республике Казахстан",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

@@ -1,0 +1,26 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z040000567_",
+  "source_html_sha256": "d505283e4942f7b0d833c1dde86fb581de52c211ef401c9ecddcfc707fbce5b4",
+  "text_sha256": "5dcb1027502aef892c6bae922b71ed903e932da1f1be4e4617e25a1ac13f334d",
+  "title": "О связи",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [
+    {
+      "line": 309,
+      "section": "Статья 9-1. Государственная монополия в области связи",
+      "text": "Пункт 1 предусматривается дополнить подпунктом 5-1) в соответствии с Законом РК от 19.06.2026 № 320-VIII (вводится в действие с 01.07.2027)."
+    },
+    {
+      "line": 589,
+      "section": "Статья 23-1. Служебная информация об абонентах сетей связи",
+      "text": "3. Подпункт 2) пункта 2 настоящей статьи действует исключительно в целях реализации пилотного проекта до 31 декабря 2027 года."
+    }
+  ],
+  "excluded_sections": [
+    "9-1",
+    "23-1"
+  ]
+}

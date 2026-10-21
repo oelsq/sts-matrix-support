@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z1400000211",
+  "source_html_sha256": "42bc0d70ed63bc6b678bc56aa70fd405a116f9b3a1477b83d27409537afda558",
+  "text_sha256": "f997fab4b4c25ccbe7f4e606adc534fd08650c5fbcebc0c93e913ffb05e30d9e",
+  "title": "О профессиональных союзах",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}

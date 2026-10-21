@@ -1,0 +1,12 @@
+{
+  "checked_on": "2026-10-21",
+  "source": "https://old.adilet.zan.kz/rus/docs/Z040000544_",
+  "source_html_sha256": "7b99e41315affda7b95fd629f68af143e03bfee3ab219b68ca296d71ba175d11",
+  "text_sha256": "06205a2863ee058df61d9f7017e28fe130ca26cc19c03099eaab2ba873e8d5dd",
+  "title": "О регулировании торговой деятельности",
+  "status": "Обновленный",
+  "method": "Full official article extracted by official_sources.parse_official_page; no editorial rewrite of statutory text.",
+  "review_level": "Source/title/status/integrity plus conservative future-note exclusion; not an audit of every provision.",
+  "future_note_review": [],
+  "excluded_sections": []
+}
