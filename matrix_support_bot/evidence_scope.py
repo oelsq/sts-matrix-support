@@ -32,6 +32,23 @@ def scope_evidence(domain, question, evidence):
             if text.strip():
                 relevant.append({**p, 'text': text})
         evidence = relevant
+    # A definition of liability insurance needs its subject, not procedures
+    # for inspecting a damaged vehicle or exclusions for particular victims.
+    if (re.search(r'автострах|огпо|осаго', q)
+            and re.search(r'что страхуется|что покрывает|объект.*страхован', q)
+            and not re.search(r'что делать|как получить|ремонт|оценщик|удерж|выплат|отказ|дтп', q)):
+        definitions = []
+        for item in evidence:
+            if item['document_id'] != 'auto-insurance':
+                continue
+            section = str(item.get('section', ''))
+            if section.startswith('Статья 3.'):
+                definitions.append(item)
+            elif section.startswith('Статья 22.') and '1. Страховым случаем признается' in item['text']:
+                text = re.split(r'\n\s*2\.\s', item['text'], maxsplit=1)[0]
+                definitions.append({**item, 'text': text})
+        if definitions:
+            evidence = definitions
     # Salary statistics are not established by laws that merely mention wages.
     # Require the requested metric together with a value and reporting period.
     if salary_statistic_question(question):

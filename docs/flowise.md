@@ -201,3 +201,16 @@ docker compose exec bot python /tmp/check_agentflow_transport.py
 ```
 
 Она временно создаёт граф, тестовый ключ и credential-заглушку, проверяет два этапа, роли, источники, разделение сеансов и запрет вызова без ключа, затем удаляет тестовые объекты. Проверка не отправляет Matrix-сообщения и не заменяет оценку реальной модели.
+
+### Обновление инструкций существующих Agentflows V2
+
+Для двух уже работающих V2-потоков используйте `scripts/update_agentflow_profiles.py`. Скрипт читает публичные инструкции из `matrix_support_bot/agents/flowise_profiles.json`; проверяет известные пять узлов, связи и отключённую память. Модели, credentials, API-ключи, идентификаторы потоков и маршруты комнат сохраняются. Независимые изменения графа после подготовки плана останавливают применение.
+
+На текущей VM скрипт находится в контейнере бота по пути `/app/update_agentflow_profiles.py`. Пример команд внутри контейнера; для нового обновления выберите новое имя плана:
+
+```bash
+python /app/update_agentflow_profiles.py --state-dir /app/handoff_state --plan-file /app/handoff_state/profile-update.json
+python /app/update_agentflow_profiles.py --state-dir /app/handoff_state --plan-file /app/handoff_state/profile-update.json --apply
+```
+
+Первый вызов сохраняет закрытый план с прежними и новыми настройками. Для возврата инструкций используйте тот же файл с `--rollback`. Планы и файлы авторизации остаются на VM вне Git. Обновление графа само по себе не требует перезапуска Flowise; изменение Python-кода бота требует пересборки и перезапуска бота.

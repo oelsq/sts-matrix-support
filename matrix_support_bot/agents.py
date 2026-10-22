@@ -133,6 +133,14 @@ def messages(domain: str, question: str, local_evidence: list[dict[str, str | in
             "Не распространяй тариф на валюты, каналы и категории клиентов, которые в соответствующей строке не названы. "
             "Перед отправкой проверь: каждый вывод следует из указанного фрагмента, ответ завершён, нет посторонних слов на другом языке и лишнего шаблона. "
         )
+    if local_evidence and re.search(r'телефон|смартфон', question, re.I):
+        definition = next((item for item in local_evidence if item.get('document_id') == 'consumer-law'
+                           and 'относятся исключительно транспортные средства' in ' '.join(item['text'].split())), None)
+        if definition:
+            instructions += (
+                "\nПроверка категории по переданному определению: телефон не входит в закрытый перечень технически сложных товаров. "
+                "Не требуй существенного недостатка только из-за этой категории и не ставь возврат денег в зависимость "
+                "от предварительного ремонта без подтверждения такой обязанности. Отдели выбор требования от доказанности недостатка.")
     if local_evidence is None:
         pack = json.loads((BASE / "sources.json").read_text(encoding="utf-8"))
         sources = source_cards(domain, question)
