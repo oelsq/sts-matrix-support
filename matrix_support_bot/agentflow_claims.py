@@ -7,13 +7,15 @@ import json
 import re
 from pathlib import Path
 from agentflow_graphs import workflow_packet
+from numeric_grounding import numeric_relation_errors
+from review_result import ReviewDetails, ReviewedAnswer, source_text
 from response_guidance import is_document_request, is_reference_question
 
 CONTRACT = 'sts.claims.v1'
 TYPES = {'definition', 'situation', 'calculation', 'document'}
 HEADINGS = {'коротко','что сделать сейчас','что можно сделать','важно','черновик','уточните','расчёт','расчет','необходимые данные','вывод','как использовать','юридический агент','финансовый агент'}
 ADVICE = r'^(?:не умножайте|не передавайте|не сообщайте|не переводите|пришлите|расскажите|поясните|определите|зафиксируйте|уточните|убедитесь|сохраните|запишите|опишите|уточните|попросите|запросите|сравните|проверьте|подготовьте|напишите|приложите|составьте|укажите|сообщите|заполните|направьте|отправьте|обратитесь|прошу|кому:|адресат:|отправитель:|от:|дата:|подпись:|тема:|требование|заявление|претензия|\[)'
-FACT = r'\d|(?:^|[^а-яёa-z])(?:обязан|вправе|запрещ|неусто|пен[яию]|процент|должен|гарантир)|не позднее|в течение|рабочих дней|так как|поскольку|согласно|в соответствии'
+FACT = r'\d|(?:^|[^а-яёa-z])(?:обязан|вправе|запрещ|неусто|пен[яию]|процент|должен|гарантир)|не позднее|в течение|рабочих дней|так как|поскольку|согласно|в соответствии|не мо(?:жет|гут)|не допуска|ограничива|регулирует|устанавливает|влеч[её]т|призна[её]тся|имеет право|подлежит'
 
 
 def question_type(question):
@@ -81,8 +83,7 @@ def make_quality_packet(domain, draft_messages, review_messages, context):
     for i,p in enumerate(evidence,1):
         if not isinstance(p.get('text'),str) or not p['text'].strip() or len(p['text'])>20000:
             raise ValueError('Invalid source text')
-        metadata='\n'.join(label+': '+str(p[key]) for key,label in [('title','Название документа'),('section','Раздел документа'),('version','Редакция или версия документа')] if p.get(key))
-        sources.append({'id':'S'+str(i),'text':p['text']+('\nМетаданные проверенной карточки документа:\n'+metadata if metadata else ''),
+        sources.append({'id':'S'+str(i),'text':source_text(p),
                         'source_kind':p.get('document_kind','legislation'),'applicability_note':p.get('applicability_note','')})
     for source in sources:source['excerpts']=source_excerpts(source['text'])
     constraints=[]
@@ -140,6 +141,7 @@ def validate_audit(answer, audit, sources, question='', previous_question='', *,
                     errors.append(unit['id']+':invalid_quote')
                 else:
                     proven.add(ident);proof_texts.append(quote)
+            errors.extend(unit['id']+':'+error for error in numeric_relation_errors(unit['text'],proof_texts))
             if not quantities(unit['text']).issubset(quantities(' '.join(proof_texts))):
                 errors.append(unit['id']+':unproven_quantity')
             if not refs or not refs.issubset(proven) or not proven.issubset(refs):
@@ -171,4 +173,8 @@ def accept_quality_response(text, packet):
     for constraint in quality.get('constraints',[]):
         if any(not re.search(pattern,answer,re.I) for pattern in constraint['patterns']):errors.append('missing_qualification:'+constraint['id'])
     if errors:raise ValueError('Claim evidence validation failed: '+','.join(errors[:4]))
-    return answer
+    partial=value.get('partial',False)
+    if not isinstance(partial,bool):raise ValueError('Invalid partial status')
+    quotes=tuple(dict.fromkeys((proof['source_id'],proof['quote']) for row in audit['checks']
+                              if row['status']=='supported' for proof in row['proofs']))
+    return ReviewedAnswer(answer,ReviewDetails(quotes,partial,quality['question_type']))

@@ -1,0 +1,355 @@
+{
+  "source_checks": [
+    {
+      "file": "README.md",
+      "host_matches": true
+    },
+    {
+      "file": "docs/flowise.md",
+      "host_matches": true
+    },
+    {
+      "file": "docs/reliability.md",
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/agentflow_claims.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/agentflow_quality_graph.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/agentflow_quality_refresh.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/agents.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/agents/quality/claim_gate.js",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/agents/quality/numeric_metrics.json",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/bot.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/conversation.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/matrix_delivery.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/matrix_inbox.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/numeric_grounding.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/offline_knowledge.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/response_guidance.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/review_result.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/tests/test_gesv_rules.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/tests/test_matrix_delivery.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/tests/test_numeric_review.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/tests/test_quality_refresh.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "scripts/upgrade_agentflow_quality.py",
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/checked_answers.py",
+      "runtime_matches": true,
+      "host_matches": true
+    },
+    {
+      "file": "matrix_support_bot/tests/test_marriage_contract.py",
+      "runtime_matches": true,
+      "host_matches": true
+    }
+  ],
+  "flows": [
+    {
+      "domain": "legal",
+      "matches_release": true,
+      "protected": true,
+      "nodes": 13
+    },
+    {
+      "domain": "finance",
+      "matches_release": true,
+      "protected": true,
+      "nodes": 13
+    }
+  ],
+  "routes_unchanged": true,
+  "queue": {
+    "pending": 0,
+    "done": 13,
+    "completed_bodies_erased": true,
+    "completed_outbox_erased": true,
+    "cursor_saved": true,
+    "session_saved": true,
+    "mode": "0o600"
+  },
+  "matrix": [
+    {
+      "case": 1,
+      "domain": "finance",
+      "seconds": 1.27,
+      "automated_issues": [],
+      "verified_quotes_present": null,
+      "partial_status_present": null,
+      "verified_quote_count": null,
+      "step_counts": [],
+      "contains_generation_error": false,
+      "answer_length": 846
+    },
+    {
+      "case": 2,
+      "domain": "finance",
+      "seconds": 1.23,
+      "automated_issues": [],
+      "verified_quotes_present": null,
+      "partial_status_present": null,
+      "verified_quote_count": null,
+      "step_counts": [],
+      "contains_generation_error": false,
+      "answer_length": 1158
+    },
+    {
+      "case": 3,
+      "domain": "legal",
+      "seconds": 1.13,
+      "automated_issues": [],
+      "verified_quotes_present": null,
+      "partial_status_present": null,
+      "verified_quote_count": null,
+      "step_counts": [],
+      "contains_generation_error": false,
+      "answer_length": 847
+    },
+    {
+      "case": 4,
+      "domain": "legal",
+      "seconds": 0.78,
+      "automated_issues": [],
+      "verified_quotes_present": null,
+      "partial_status_present": null,
+      "verified_quote_count": null,
+      "step_counts": [],
+      "contains_generation_error": false,
+      "answer_length": 967
+    },
+    {
+      "case": 5,
+      "domain": "legal",
+      "seconds": 12.03,
+      "automated_issues": [],
+      "verified_quotes_present": true,
+      "partial_status_present": true,
+      "verified_quote_count": 7,
+      "step_counts": [
+        12
+      ],
+      "contains_generation_error": false,
+      "answer_length": 807
+    },
+    {
+      "case": 6,
+      "domain": "finance",
+      "seconds": 8.44,
+      "automated_issues": [],
+      "verified_quotes_present": true,
+      "partial_status_present": true,
+      "verified_quote_count": 3,
+      "step_counts": [
+        12
+      ],
+      "contains_generation_error": false,
+      "answer_length": 431
+    },
+    {
+      "case": 7,
+      "domain": "finance",
+      "seconds": 6.69,
+      "automated_issues": [],
+      "verified_quotes_present": true,
+      "partial_status_present": true,
+      "verified_quote_count": 7,
+      "step_counts": [
+        8
+      ],
+      "contains_generation_error": false,
+      "answer_length": 500
+    },
+    {
+      "case": 8,
+      "domain": "finance",
+      "seconds": 8.81,
+      "automated_issues": [],
+      "verified_quotes_present": true,
+      "partial_status_present": true,
+      "verified_quote_count": 2,
+      "step_counts": [
+        12
+      ],
+      "contains_generation_error": false,
+      "answer_length": 169
+    },
+    {
+      "case": 9,
+      "domain": "legal",
+      "seconds": 8.59,
+      "automated_issues": [],
+      "verified_quotes_present": true,
+      "partial_status_present": true,
+      "verified_quote_count": 5,
+      "step_counts": [
+        8
+      ],
+      "contains_generation_error": false,
+      "answer_length": 554
+    }
+  ],
+  "recovery": {
+    "offline_questions_answered": 2,
+    "reply_counts_after_restart": [
+      1,
+      1
+    ],
+    "no_duplicates": true,
+    "normal_reply_counts": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "cleanup": {
+    "synthetic_user_deactivated": true,
+    "temporary_bot_session_logged_out": true
+  },
+  "candidate": [
+    {
+      "domain": "finance",
+      "accepted": true,
+      "partial": true,
+      "quotes": 7
+    },
+    {
+      "domain": "finance",
+      "accepted": true,
+      "partial": false,
+      "quotes": null
+    },
+    {
+      "domain": "legal",
+      "accepted": true,
+      "partial": false,
+      "quotes": 9
+    },
+    {
+      "domain": "legal",
+      "accepted": true,
+      "partial": false,
+      "quotes": 4
+    }
+  ],
+  "family": [
+    {
+      "domain": "legal",
+      "qualification_preserved": true,
+      "automated_issues": [],
+      "seconds": 1.13
+    },
+    {
+      "domain": "finance",
+      "qualification_preserved": true,
+      "automated_issues": [],
+      "seconds": 1.08
+    }
+  ],
+  "family_cleanup": {
+    "synthetic_user_deactivated": true,
+    "temporary_bot_session_logged_out": true
+  },
+  "local_tests": {
+    "passed": 767,
+    "warnings": 20,
+    "seconds": 296.84,
+    "date": "2026-10-23",
+    "final_run": "passed"
+  },
+  "manual_review": {
+    "case_9_original_semantic_error": true,
+    "correction": "Source-bound definition distinguishes child property from spouses rights and obligations in relation to children. Required source clauses and exact quotes are checked.",
+    "retests_passed": 2,
+    "universal_legal_correctness_claimed": false
+  },
+  "health": {
+    "synapse": 200,
+    "element": 200,
+    "flowise": 200,
+    "department_roster_sizes": {
+      "legal": 5,
+      "finance": 5
+    },
+    "bot_running": true,
+    "bot_image": "sha256:55342ae3b7e0f563fd4de6c707bd7bb2dfffb9def3bcbdaf30aca4c533152206"
+  }
+}

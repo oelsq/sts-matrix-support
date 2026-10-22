@@ -6,12 +6,14 @@ They work only in unencrypted demonstration rooms.
 import asyncio
 import json
 import logging
+import contextlib
+import hashlib
 import os
 import time
 from pathlib import Path
 
 import aiohttp
-from nio import AsyncClient, LoginResponse, InviteMemberEvent, RoomMessageText, RoomMemberEvent
+from nio import AsyncClient, LoginResponse, InviteMemberEvent, RoomMessageText, RoomMemberEvent, SyncResponse
 
 from llm_settings import api_key as read_llm_key, model_for_domain
 from message_format import matrix_content
@@ -24,6 +26,9 @@ from knowledge_coverage import coverage_answer
 from offline_knowledge import KnowledgeStore, validate_llm_endpoint, validate_local_endpoint
 from urgent_help import urgent_finance_answer, legal_urgent_notice
 from human_handoff import HumanHandoff, HandoffStore, handoff_command, choose_department, department_roster, handoff_selection, HandoffChoiceError
+
+from matrix_inbox import InboxStore
+from matrix_delivery import RequestDispatcher, sync_batch
 
 log = logging.getLogger("support_bot")
 
@@ -80,9 +85,10 @@ async def main():
             os.environ["ELEMENT_PUBLIC_URL"],
         )
     latest_context = {}
-    conversations = ConversationMemory()
-    started_ms = int(time.time() * 1000)
-    seen = set()
+    state_path=Path(os.getenv('HANDOFF_DB') or os.getenv('MATRIX_ROOM_ROUTES_FILE','/app/handoff_state/room_routes.json')).parent
+    identity=hashlib.sha256((os.environ['MATRIX_HOMESERVER'].rstrip('/')+'\0'+os.environ['MATRIX_USER']).encode()).hexdigest()
+    inbox=InboxStore(os.getenv('MATRIX_INBOX_DB',str(state_path/'matrix_inbox.sqlite3')),identity)
+    conversations = ConversationMemory(persistent_store=inbox)
     previous_routes = {}
     from flowise_client import FlowiseClient, FlowiseReviewRejected
     flowise = FlowiseClient.from_env(os.environ)
@@ -111,7 +117,7 @@ async def main():
 
         async def ask_agent(domain, question, room_id, sender, event_id):
             local_evidence = None
-            search_question, previous_question = conversations.resolve(room_id, sender, domain, question)
+            search_question, previous_question = conversations.resolve(room_id, sender, domain, question, request_id=event_id)
             retrieval_started = time.monotonic()
             prepared = prepare_local_reply(domain, question, knowledge,
                                            search_question=search_question, previous_question=previous_question)
@@ -168,7 +174,7 @@ async def main():
                     answer = data["choices"][0]["message"]["content"]
                     if not isinstance(answer, str) or not answer.strip():
                         raise ValueError("Empty LLM review")
-                rendered = render(domain, answer.strip(), question, local_evidence)
+                rendered = render(domain, answer.strip(), question, local_evidence, review=getattr(answer,"review",None))
                 citation_failure = "Не удалось подготовить ответ с проверяемой" in rendered
                 truncated = data["choices"][0].get("finish_reason") == "length"
                 quality_issues = [] if citation_failure or domain == "general" else usefulness_issues(question, rendered)
@@ -192,24 +198,17 @@ async def main():
                      "Если просили письмо, напиши сам черновик с заполнителями. Ошибки предыдущей попытки: " + ", ".join(quality_issues)},
                 ]
 
-        async def message(room, event):
+        async def process_event(room, event):
             if (
                 event.sender == client.user
                 or event.sender in department_users
                 or (handoff and handoff.store.contains_room(room.room_id))
-                or event.server_timestamp < started_ms
-                or event.event_id in seen
             ):
                 return
-            seen.add(event.event_id)
-            if len(seen) > 10000:
-                seen.clear()
-                seen.add(event.event_id)
-
             key = (room.room_id, event.sender)
             question = event.body[:12000]
             if question.strip().casefold() == "!помощь":
-                await client.room_send(room_id=room.room_id, message_type="m.room.message", content=matrix_content(
+                await dispatcher.send(room_id=room.room_id, message_type="m.room.message", content=matrix_content(
                     "**Как пользоваться**\n\nЗадайте вопрос обычными словами. Для продолжения напишите уточнение в этом же чате.\n\n"
                     "- `!человек` — обратиться к сотруднику выбранного департамента.\n"
                     "- `!сотрудники` — список сотрудников и команды выбора.\n"
@@ -222,11 +221,11 @@ async def main():
                 conversations.clear(room.room_id, event.sender)
                 latest_context.pop(key, None)
                 previous_routes.pop(key, None)
-                await client.room_send(room_id=room.room_id, message_type="m.room.message",
+                await dispatcher.send(room_id=room.room_id, message_type="m.room.message",
                                        content=matrix_content("Начинаем новую тему. Контекст ваших предыдущих вопросов сброшен; история комнаты сохранена."))
                 return
             if question.strip().casefold() in {"!темы", "!база"}:
-                await client.room_send(room_id=room.room_id, message_type="m.room.message",
+                await dispatcher.send(room_id=room.room_id, message_type="m.room.message",
                                        content=matrix_content(coverage_answer(knowledge)))
                 return
             command = handoff_command(question)
@@ -254,7 +253,7 @@ async def main():
                     except Exception as exc:
                         log.error("Human handoff failed (%s)", type(exc).__name__)
                         content = {"msgtype": "m.text", "body": "Не удалось завершить передачу сотруднику. Попробуйте команду ещё раз. Приглашение в комнату могло уже появиться."}
-                await client.room_send(room_id=room.room_id, message_type="m.room.message", content=content)
+                await dispatcher.send(room_id=room.room_id, message_type="m.room.message", content=content)
                 return
             domains = route_for_room(
                 room.room_id, question, previous_routes.get(key, ()), fixed_routes
@@ -266,16 +265,16 @@ async def main():
             if urgent:
                 answer = urgent
                 latest_context[key] = (question, answer)
-                await client.room_send(room_id=room.room_id, message_type="m.room.message",
+                await dispatcher.send(room_id=room.room_id, message_type="m.room.message",
                                        content=matrix_content(answer))
                 return
             notice = legal_urgent_notice(question) if "legal" in domains else None
             if notice:
-                await client.room_send(room_id=room.room_id, message_type="m.room.message",
-                                       content=matrix_content(notice))
+                await dispatcher.send(room_id=room.room_id, message_type="m.room.message",
+                                       content=matrix_content(notice),kind='urgent',final=False)
             if flowise and room.room_id in flowise.routes:
-                await client.room_send(room_id=room.room_id, message_type="m.room.message",
-                                       content={"msgtype":"m.text", "body":"Готовлю ответ по проверенным документам…"})
+                await dispatcher.send(room_id=room.room_id, message_type="m.room.message",
+                                       content={"msgtype":"m.text", "body":"Готовлю ответ по проверенным документам…"},kind='progress',final=False)
             replies = []
             for domain in domains:
                 try:
@@ -296,26 +295,70 @@ async def main():
                 latest_context.pop(next(iter(latest_context)))
             if handoff and any(domain in departments for domain in domains):
                 answer += department_note(question, answer)
-            result = await client.room_send(
+            result = await dispatcher.send(
                 room_id=room.room_id,
                 message_type="m.room.message",
                 content=matrix_content(answer),
             )
             log.info("Send result: %s", type(result).__name__)
 
+        durable_sync=hasattr(client,'add_response_callback')
+        dispatcher=RequestDispatcher(inbox,client,process_event,allow_unconfirmed=not durable_sync)
+        ready=asyncio.Event()
+        worker=None
+
+        def eligible_room(room_id):
+            return not (handoff and handoff.store.contains_room(room_id))
+
+        def eligible_event(room_id,event):
+            return event.sender!=client.user and event.sender not in department_users and eligible_room(room_id)
+
+        async def message(room,event):
+            # A real SyncResponse provides the entire atomic batch, including gap metadata.
+            if durable_sync:return
+            if not eligible_event(room.room_id,event):return
+            with inbox.db:inbox.enqueue(room.room_id,event)
+            while await dispatcher.process_next():pass
+
+        async def checkpoint(response):
+            await sync_batch(client,response,inbox,eligible_room,eligible_event)
+            ready.set();dispatcher.wake.set()
+
         try:
-            response = await client.login(
-                os.environ["MATRIX_PASSWORD"], device_name="STS Support Bot"
-            )
-            if not isinstance(response, LoginResponse):
-                raise RuntimeError("Matrix login failed: " + type(response).__name__)
-            log.info("Matrix login successful")
+            session=inbox.meta('matrix_session')
+            restored=False
+            if session and hasattr(client,'restore_login'):
+                saved=json.loads(session)
+                client.restore_login(saved['user_id'],saved['device_id'],saved['access_token'])
+                who=await client.whoami()
+                if getattr(who,'user_id',None)==os.environ['MATRIX_USER']:
+                    restored=True
+                elif getattr(who,'status_code',None) not in {'M_UNKNOWN_TOKEN','M_MISSING_TOKEN'}:
+                    raise RuntimeError('Could not validate stored Matrix session')
+            if not restored:
+                response = await client.login(os.environ["MATRIX_PASSWORD"],device_name="STS Support Bot")
+                if not isinstance(response, LoginResponse):
+                    raise RuntimeError("Matrix login failed: " + type(response).__name__)
+                if all(getattr(response,k,None) for k in ['user_id','device_id','access_token']):
+                    with inbox.db:inbox.set_meta('matrix_session',json.dumps({k:getattr(response,k) for k in ['user_id','device_id','access_token']}))
+            log.info("Matrix session ready; durable cursor=%s pending=%d",bool(inbox.cursor),inbox.pending())
             client.add_event_callback(invite, InviteMemberEvent)
             client.add_event_callback(human_member, RoomMemberEvent)
             client.add_event_callback(message, RoomMessageText)
-            await client.sync_forever(timeout=30000)
+            if durable_sync:
+                client.add_response_callback(checkpoint,SyncResponse)
+                worker=asyncio.create_task(dispatcher.run(ready))
+                await client.sync_forever(timeout=30000,since=inbox.cursor,full_state=True,
+                                          sync_filter={'room':{'timeline':{'limit':100}}})
+            else:
+                while await dispatcher.process_next():pass
+                await client.sync_forever(timeout=30000)
         finally:
+            if worker:
+                worker.cancel()
+                with contextlib.suppress(asyncio.CancelledError):await worker
             await client.close()
+            inbox.close()
 
 
 if __name__ == "__main__":

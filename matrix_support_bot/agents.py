@@ -292,7 +292,11 @@ def grounded_answer(domain: str, answer: str, question: str) -> str:
     return answer
 
 
-def render(domain: str, answer: str, question: str = "", local_evidence: list[dict[str, str | int]] | None = None) -> str:
+def render(domain: str, answer: str, question: str = "", local_evidence: list[dict[str, str | int]] | None = None, *, review=None) -> str:
+    from review_result import ReviewDetails, source_text
+    review = review if review is not None else getattr(answer,"review",None)
+    if review is not None and not isinstance(review,ReviewDetails):
+        raise ValueError("Invalid review metadata")
     label = {"legal": "Юридический агент", "finance": "Финансовый агент"}.get(domain)
     if not label:
         return answer
@@ -314,6 +318,14 @@ def render(domain: str, answer: str, question: str = "", local_evidence: list[di
         markers = re.findall(r"\[([^\[\]\n]+)\]", answer)
         cited = {marker for marker in markers if marker in allowed or
                  re.search(r"\bS\d+\b|^ID\b|:", marker, re.I)}
+        if review is not None and review.question_type == 'calculation' and not cited and not review.quotes:
+            # A checked request for missing inputs contains no factual claim to cite.
+            from agentflow_claims import units, safe_advice
+            if not all(safe_advice(unit['text']) for unit in units(answer)):
+                raise ValueError("Uncited reviewed calculation contains a factual assertion")
+            completeness = ("**Ответ подтверждён частично**\n"
+                            "Часть выводов не прошла проверку. Ниже сохранены только подтверждённые сведения.\n\n") if review.partial else ""
+            return f"**{label}**\n{completeness}{answer}"
         if not cited or not cited.issubset(allowed):
             return (
                 f"**{label}**\nНе удалось подготовить ответ с проверяемой "
@@ -335,7 +347,23 @@ def render(domain: str, answer: str, question: str = "", local_evidence: list[di
             return (f"**{label}**\nНе удалось подготовить ответ с проверяемой "
                     "ссылкой и дословной цитатой из локального документа. Уточните вопрос или обратитесь к специалисту.")
 
+        verified_quotes={}
+        if review is not None:
+            evidence_by_id={str(item['id']):item for item in local_evidence}
+            for alias,quote in review.quotes:
+                ident=aliases.get(alias)
+                if ident not in evidence_by_id or not isinstance(quote,str) or not quote.strip():
+                    raise ValueError("Unrecognized verified quotation")
+                if normalize_quote(quote) not in normalize_quote(source_text(evidence_by_id[ident])):
+                    raise ValueError("Verified quotation no longer matches its source")
+                verified_quotes.setdefault(ident,[])
+                if quote not in verified_quotes[ident]:verified_quotes[ident].append(quote)
+            if any(ident not in verified_quotes for ident in cited):
+                raise ValueError("Missing verified quotation for cited source")
+
         def source_quote(item):
+            if review is not None:
+                return '»; «'.join(verified_quotes[str(item['id'])])
             lines = [line.strip() for line in str(item["text"]).splitlines() if line.strip()]
             words = {word[:5] for word in re.findall(r"[а-яёa-z]{4,}", question.casefold())}
             words -= {"какая", "какой", "сколь", "стоит", "финаг", "юраге", "halyk", "freed", "банк", "срок"}
@@ -357,8 +385,10 @@ def render(domain: str, answer: str, question: str = "", local_evidence: list[di
             f"\n  Цитата из документа: «{source_quote(item)}»"
             for item in local_evidence if str(item["id"]) in cited
         )
+        completeness = ("**Ответ подтверждён частично**\n"
+                        "Часть выводов не прошла проверку. Ниже сохранены только подтверждённые сведения.\n\n") if review is not None and review.partial else ""
         return (
-            f"**{label}**\n{answer}"
+            f"**{label}**\n{completeness}{answer}"
             f"\n\nЛокальные материалы для проверки:\n{references}"
         )
     sources = source_cards(domain, question)

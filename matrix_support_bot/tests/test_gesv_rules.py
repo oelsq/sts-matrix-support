@@ -36,3 +36,23 @@ def test_bank_fee_source_is_an_explicit_dated_excerpt_not_repealed_list(knowledg
 def test_importer_rejects_repealed_regulations_before_activation():
     html='<h1>Правила</h1>Утративший силу Постановление Правления<article>'+('1. Действие нормы.\n'*10)+'</article>'
     with pytest.raises(SourceError,match='Repealed'):parse_official_page(html,document_kind='regulatory_rules')
+
+
+@pytest.mark.parametrize('question',[
+    'Какие комиссии и страховки включаются в ГЭСВ?',
+    'Учитываются ли комиссии при расчёте ГЭСВ?',
+    'Что входит в состав ГЭСВ кроме процентов?',
+])
+def test_apr_cost_inclusion_question_is_not_blocked_as_an_unspecified_bank_tariff(knowledge,question):
+    from offline_knowledge import needs_bank
+    from response_guidance import request_clarification
+    assert not needs_bank(question)
+    assert request_clarification('finance',question) is None
+    prepared=prepare_local_reply('finance',question,knowledge)
+    assert prepared.evidence and prepared.mechanism=='source_bound_gesv'
+    assert prepared.answer and 'Уточните банк и продукт' not in prepared.answer
+
+
+def test_product_fee_still_requires_identifying_the_bank():
+    from offline_knowledge import needs_bank
+    assert needs_bank('Какая комиссия за перевод с карты?')

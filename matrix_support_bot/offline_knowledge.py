@@ -60,6 +60,11 @@ def is_rights_question(question: str) -> bool:
 
 
 def is_tariff_question(question: str) -> bool:
+    # Which costs the APR calculation includes is a method/rules question,
+    # not a request for the price of an unspecified bank product.
+    if (re.search(r'гэ[сc]в|эффективн.*ставк', question, re.I)
+            and re.search(r'включ|учитыв|исключ|из чего|состав|расч[её]т|рассчит|формир|отлич|разниц|что входит|какие платежи', question, re.I)):
+        return False
     if re.search(r"(?:как (?:понять|сравнить)|что (?:такое|значит)).*(?:стоимост.*кредит|ГЭСВ|эффективн.*ставк)", question, re.I):
         return False
     # A purchase price mentioned in a dispute is not a request for bank fees.

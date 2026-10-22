@@ -14,11 +14,55 @@ const quantities = input => {
  return new Set((text.match(/\d+(?:[.]\d+)?/g)||[]).map(v=>String(Number(v))));
 };
 const advicePattern = /^(?:не умножайте|не передавайте|не сообщайте|не переводите|пришлите|расскажите|поясните|определите|зафиксируйте|убедитесь|сохраните|запишите|опишите|уточните|попросите|запросите|сравните|проверьте|подготовьте|напишите|приложите|составьте|укажите|сообщите|заполните|направьте|отправьте|обратитесь|прошу|кому:|адресат:|отправитель:|от:|дата:|подпись:|тема:|требование|заявление|претензия|\[)/i;
-const fact = /\d|(?:^|[^а-яёa-z])(?:обязан|вправе|запрещ|неусто|пен[яию]|процент|должен|гарантир)|не позднее|в течение|рабочих дней|так как|поскольку|согласно|в соответствии/i;
+const fact = /\d|(?:^|[^а-яёa-z])(?:обязан|вправе|запрещ|неусто|пен[яию]|процент|должен|гарантир)|не позднее|в течение|рабочих дней|так как|поскольку|согласно|в соответствии|не мо(?:жет|гут)|не допуска|ограничива|регулирует|устанавливает|влеч[её]т|призна[её]тся|имеет право|подлежит/i;
 const safeAdvice = (input,document=false) => {
  const text=input.replace(/^\s*(?:\d+[.)]|[-*])\s+/,'').replace(/\*\*/g,'').trim();
  const template=document && (/\[[^\]\n]{2,100}\]/.test(text) && /^(?:я,?\s|за период|работодателем допущена|сумма задолженности)/i.test(text) || text.toLowerCase()==='на основании изложенного, прошу:');
  return (template||advicePattern.test(text)||(text.endsWith('?')&&text.length<=240)) && !fact.test(text.replace(/\[S\d+\]/gi,''));
+};
+// Metric/unit relation guards complement semantic review; unrecognized prose is not certified.
+const NUMERIC_METRICS=[["effective_rate", "гэ[сc]в|эффективн[а-яё ]{0,18}ставк"], ["fee", "комисси[а-яё]*|тариф[а-яё]*|сбор[а-яё]*"], ["limit", "лимит[а-яё]*"], ["penalty", "пен[яию]|пени|неустойк[а-яё]*|штраф[а-яё]*"], ["debt", "задолженност[а-яё]*|долг[а-яё]*"], ["salary", "зарплат[а-яё]*|заработн[а-яё ]{0,15}плат[а-яё]*"], ["interest_rate", "процентн[а-яё ]{0,15}ставк[а-яё]*|номинальн[а-яё ]{0,15}ставк[а-яё]*"], ["appeal_term", "обжалов[а-яё]*|жалоб[а-яё]*|апелляц[а-яё]*"], ["response_term", "рассмотр[а-яё]*|рассматр[а-яё]*|ответ[а-яё]*"]];
+const canonicalNumber = value => {const [a,b='']=value.replace(',','.').split('.');const f=b.replace(/0+$/,'');return (a.replace(/^0+/,'')||'0')+(f?'.'+f:'');};
+const numericNormalize = input => {
+ let text=input.toLowerCase().replace(/\[S\d+\]/gi,'').replace(/(?<!\d)\d{1,2}[.]\d{1,2}[.]\d{4}(?!\d)/g,' DATE ').replace(/(?:статья|статьи|пункт|подпункт|ст[.])\s+\d+(?:[-.]\d+)*/g,' REFERENCE ');
+ const months=new Set(['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']);
+ const tens=Object.keys(NUMBER_WORDS).filter(k=>[20,30,40,50,60,70,80,90].includes(NUMBER_WORDS[k])).join('|');
+ const ones=Object.keys(NUMBER_WORDS).filter(k=>NUMBER_WORDS[k]>=1&&NUMBER_WORDS[k]<=9&&!months.has(k)).join('|');
+ text=text.replace(new RegExp('(?<![а-яё])('+tens+')\\s+('+ones+')(?![а-яё])','g'),(_,a,b)=>String(NUMBER_WORDS[a]+NUMBER_WORDS[b]));
+ text=text.replace(/[а-яё]+/g,w=>Object.prototype.hasOwnProperty.call(NUMBER_WORDS,w)&&!months.has(w)?String(NUMBER_WORDS[w]):w);
+ return text.replace(/(?<=\d)[ \u00a0\u202f](?=\d{3}(?:\D|$))/g,'');
+};
+const numericUnit = t => {
+ if(/^(%|процент)/.test(t))return 'percent';if(t.includes('крат'))return 'multiplier';
+ if(/^(тенге|теңге|тг|₸|kzt)/.test(t))return 'KZT';if(/^(доллар|usd|\$)/.test(t))return 'USD';if(/^(евро|eur|€)/.test(t))return 'EUR';if(/^(рубл|rub)/.test(t))return 'RUB';
+ if(t.startsWith('рабоч'))return 'workday';if(t.startsWith('календар'))return 'calendar_day';if(/^(дн|день)/.test(t))return 'day';if(t.startsWith('месяц'))return 'month';return 'year';
+};
+const numericFacts = input => {
+ const result=[];
+ for(const clause of numericNormalize(input).split(/[;\n]|(?<!\d)[.!?]|[.!?](?!\d)|,(?!\d)/)) {
+  const labels=[];
+  for(const [metric,pattern] of NUMERIC_METRICS) for(const m of clause.matchAll(new RegExp(pattern,'gi'))) labels.push([m.index,m.index+m[0].length,metric]);
+  for(const n of clause.matchAll(/(?<![a-zа-яё0-9_])\d+(?:[.,]\d+)?/g)) {
+   const end=n.index+n[0].length;
+   const u=clause.slice(end).match(/^\s*(%|процент[а-яё]*|[-–]?крат[а-яё]*|тенге|теңге|тг(?![а-яёa-z])|₸|kzt\b|доллар[а-яё]*|usd\b|\$|евро|eur\b|€|рубл[а-яё]*|rub\b|рабочи[а-яё]*\s+дн[а-яё]*|календарн[а-яё]*\s+дн[а-яё]*|дн[а-яё]*|день|месяц[а-яё]*|год[а-яё]*|лет(?![а-яёa-z]))/i);
+   if(!u)continue;
+   const before=labels.filter(x=>x[1]<=n.index&&n.index-x[1]<=100).sort((a,b)=>b[1]-a[1]);
+   const after=labels.filter(x=>x[0]>=end&&x[0]-end<=65).sort((a,b)=>a[0]-b[0]);
+   const label=before[0]||after[0];if(!label)continue;
+   const prefix=clause.slice(Math.max(0,n.index-35),n.index);
+   const bound=/не более|не превыш[а-яё]*|до\s*$|максимальн|предельн/.test(prefix)?'max':(/не менее|от\s*$|минимальн/.test(prefix)?'min':'exact');
+   result.push([label[2],canonicalNumber(n[0]),numericUnit(u[1]),bound]);
+  }
+ }
+ return result;
+};
+const numericRelationErrors = (answer,proofs) => {
+ const supported=proofs.flatMap(numericFacts), keys=new Set(supported.map(x=>JSON.stringify(x))), errors=[];
+ for(const [m,v,u,b] of numericFacts(answer)) {
+  const exact=keys.has(JSON.stringify([m,v,u,b]))||(b!=='exact'&&keys.has(JSON.stringify([m,v,u,'exact'])));
+  if(supported.some(x=>x[0]===m||x[1]===v)&&!exact)errors.push('unproven_numeric_relation:'+m+':'+v+':'+u+':'+b);
+ }
+ return errors;
 };
 const answer = $flow.state.draft;
 const quality = JSON.parse($flow.state.quality_json);
@@ -52,6 +96,7 @@ for (const unit of units) {
       if (!p || !sources.has(p.source_id) || typeof p.quote!=='string' || p.quote.length<16 || p.quote.length>650 || !norm(sources.get(p.source_id)).includes(norm(p.quote))) errors.push(unit.id+':invalid_quote');
       else { proven.add(p.source_id); proofTexts.push(p.quote); }
     }
+    errors.push(...numericRelationErrors(unit.text,proofTexts).map(e=>unit.id+':'+e));
     const provenNumbers=quantities(proofTexts.join(' '));
     if ([...quantities(unit.text)].some(n=>!provenNumbers.has(n))) errors.push(unit.id+':unproven_quantity');
     if (!refs.length || refs.some(id=>!proven.has(id)) || [...proven].some(id=>!refs.includes(id))) errors.push(unit.id+':citation_mismatch');

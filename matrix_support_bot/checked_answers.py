@@ -14,6 +14,34 @@ def checked_legal_answer(question, evidence, *, domain="legal"):
     if is_document_request(question):
         return None
     q = question.split("\nПредыдущий вопрос:")[0].casefold()
+    if re.search(r'брачн[а-яё]*.*договор',q) and re.search(r'что такое|что регулирует|содержание',q):
+        def family_clause(*phrases):
+            return next((p for p in evidence if p['document_id']=='family'
+                and all(phrase in ' '.join(p['text'].split()) for phrase in phrases)),None)
+        definition=family_clause('Брачным договором признается соглашение','имущественные права и обязанности супругов')
+        property_rule=family_clause('режим общей совместной собственности','права и обязанности по взаимному содержанию',
+            'имущественное положение детей, рожденных или усыновленных в этом браке')
+        restriction=family_clause('правоспособность или дееспособность супругов','право на обращение в суд',
+            'права и обязанности супругов в отношении детей','нетрудоспособного нуждающегося супруга на получение содержания')
+        if definition and property_rule and restriction:
+            from review_result import ReviewDetails
+            sources=[]
+            for item in [definition,property_rule,restriction]:
+                if not any(p['id']==item['id'] for p in sources):sources.append(item)
+            alias=lambda item:'S'+str(next(i for i,p in enumerate(sources,1) if p['id']==item['id']))
+            quotes=[]
+            for item,start in [(definition,'Брачным договором признается'),
+                    (property_rule,'Брачным договором супруги вправе изменить'),
+                    (property_rule,'В брачном договоре супруги вправе определить'),
+                    (restriction,'Брачный договор не может ограничивать')]:
+                text=' '.join(item['text'].split());begin=text.find(start);end=text.find('.',begin)
+                if begin<0 or end<begin:return None
+                quotes.append((alias(item),text[begin:end+1]))
+            text=(f'Брачный договор определяет имущественные права и обязанности супругов в браке и при его расторжении. [{alias(definition)}]\n\n'
+                f'Можно определить режим имущества, взаимное содержание и семейные расходы; также допускаются условия об имущественном положении детей, рожденных или усыновленных в этом браке. [{alias(property_rule)}]\n\n'
+                f'Договор не может регулировать личные неимущественные отношения супругов или их права и обязанности в отношении детей. '
+                f'Он также не может ограничивать правоспособность, дееспособность, обращение в суд и право нетрудоспособного нуждающегося супруга на содержание. [{alias(restriction)}]')
+            return render(domain,text,question,sources,review=ReviewDetails(tuple(quotes),False,'definition'))
     if re.search(r'вклад|депозит',q) and re.search(r'гарант',q) and re.search(r'все ли|любая|независимо|лимит|максимальн',q):
         rule=next((p for p in evidence if p['document_id']=='deposit-guarantee' and str(p.get('section','')).startswith('Статья 18.')
             and all(t in ' '.join(p['text'].split()) for t in ['двадцати миллионов тенге','десяти миллионов тенге','пяти миллионов тенге','банка-участника'])),None)
