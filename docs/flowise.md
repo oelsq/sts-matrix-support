@@ -29,7 +29,7 @@ docker compose exec bot python /tmp/setup_flowise.py --prepare-only
 Администратор создаётся автоматически; данные входа — в `runtime/bot/flowise_admin.json`, не в Git. Flowise открывается на http://localhost:13001. При работе с VM нужен отдельный туннель с Mac:
 
 ```bash
-tsh ssh -N -L 13001:127.0.0.1:13001 admin_sts@sts-vm-06
+tsh ssh --proxy=ztna.nitec.kz -N -L 127.0.0.1:13001:127.0.0.1:13001 admin_sts@sts-vm-06
 ```
 
 Новый сервис не подключается к уже существующей установке Flowise других проектов. Если LiteLLM расположен во внешней Docker-сети, подключите только новый сервис Flowise к этой сети, сохранив имя `litellm` и разрешённый модельный псевдоним.
