@@ -1,0 +1,650 @@
+{
+  "date": "2026-10-22",
+  "source_commit": "7565f8ea84245f9a2267d978105228a25ee53dbe",
+  "changes": [
+    "Four request formats",
+    "Per-claim source/excerpt IDs with exact quote resolution",
+    "One visible repair branch and re-audit",
+    "Current bank GESV rules and fee-list excerpt"
+  ],
+  "tests": {
+    "pytest_passed": 712,
+    "warnings": 20,
+    "warnings_note": "Existing Starlette/httpx and SQLAlchemy datetime deprecations.",
+    "final_forced_model_cases": 8,
+    "final_forced_model_accepted": 7,
+    "fault_injection_passed": true,
+    "matrix_answers": 8,
+    "matrix_source_bound": 4,
+    "matrix_agentflow": 4,
+    "matrix_automated_issues": []
+  },
+  "deployment": {
+    "status": "installed",
+    "commit": "7565f8ea84245f9a2267d978105228a25ee53dbe",
+    "before_image": "sha256:146d09a8d1fe72c710e5d65bac3c07c424bf1251e2667d780406a5151579985a",
+    "after_image": "sha256:5c1588fd23323609a936e88fddba38a7a7dbee065f964581d1e79c31bada20db",
+    "changed_count": 32,
+    "environment_preserved": true
+  },
+  "runtime": {
+    "release_label": "7565f8ea84245f9a2267d978105228a25ee53dbe",
+    "code_files": {
+      "matrix_support_bot/.dockerignore": true,
+      "matrix_support_bot/Dockerfile": true,
+      "matrix_support_bot/README.md": true,
+      "matrix_support_bot/__init__.py": true,
+      "matrix_support_bot/agentflow_claims.py": true,
+      "matrix_support_bot/agentflow_graphs.py": true,
+      "matrix_support_bot/agentflow_quality_graph.py": true,
+      "matrix_support_bot/agentflow_release.py": true,
+      "matrix_support_bot/agentflow_upgrade.py": true,
+      "matrix_support_bot/agents.py": true,
+      "matrix_support_bot/agents/finance.md": true,
+      "matrix_support_bot/agents/flowise_profiles.json": true,
+      "matrix_support_bot/agents/legal.md": true,
+      "matrix_support_bot/agents/quality/claim_gate.js": true,
+      "matrix_support_bot/agents/quality/number_words.json": true,
+      "matrix_support_bot/agents/sources.json": true,
+      "matrix_support_bot/answer_usefulness.py": true,
+      "matrix_support_bot/app/__init__.py": true,
+      "matrix_support_bot/app/crud.py": true,
+      "matrix_support_bot/app/database.py": true,
+      "matrix_support_bot/app/main.py": true,
+      "matrix_support_bot/app/models.py": true,
+      "matrix_support_bot/app/schemas.py": true,
+      "matrix_support_bot/bot.py": true,
+      "matrix_support_bot/checked_answers.py": true,
+      "matrix_support_bot/checked_finance_terms.py": true,
+      "matrix_support_bot/checked_public_rights.py": true,
+      "matrix_support_bot/conversation.py": true,
+      "matrix_support_bot/document_drafts.py": true,
+      "matrix_support_bot/evidence_scope.py": true,
+      "matrix_support_bot/flowise_client.py": true,
+      "matrix_support_bot/flowise_profiles.py": true,
+      "matrix_support_bot/human_handoff.py": true,
+      "matrix_support_bot/knowledge_coverage.py": true,
+      "matrix_support_bot/llm_settings.py": true,
+      "matrix_support_bot/local_reply.py": true,
+      "matrix_support_bot/message_format.py": true,
+      "matrix_support_bot/official_sources.py": true,
+      "matrix_support_bot/offline_knowledge.py": true,
+      "matrix_support_bot/requirements.lock.txt": true,
+      "matrix_support_bot/requirements.txt": true,
+      "matrix_support_bot/response_guidance.py": true,
+      "matrix_support_bot/retrieval_intents.py": true,
+      "matrix_support_bot/room_routes.json": true,
+      "matrix_support_bot/tests/test_agentflow_knowledge.py": true,
+      "matrix_support_bot/tests/test_agentflow_upgrade.py": true,
+      "matrix_support_bot/tests/test_agentflow_v2.py": true,
+      "matrix_support_bot/tests/test_agents.py": true,
+      "matrix_support_bot/tests/test_answer_quality.py": true,
+      "matrix_support_bot/tests/test_api.py": true,
+      "matrix_support_bot/tests/test_bot_agentflow.py": true,
+      "matrix_support_bot/tests/test_bot_handoff.py": true,
+      "matrix_support_bot/tests/test_claim_contract.py": true,
+      "matrix_support_bot/tests/test_claim_release.py": true,
+      "matrix_support_bot/tests/test_conversation.py": true,
+      "matrix_support_bot/tests/test_definition_scope.py": true,
+      "matrix_support_bot/tests/test_enable_flowise.py": true,
+      "matrix_support_bot/tests/test_evidence_scope.py": true,
+      "matrix_support_bot/tests/test_expanded_knowledge.py": true,
+      "matrix_support_bot/tests/test_flowise_client.py": true,
+      "matrix_support_bot/tests/test_flowise_schema_adapter.py": true,
+      "matrix_support_bot/tests/test_flowise_stages.py": true,
+      "matrix_support_bot/tests/test_gesv_rules.py": true,
+      "matrix_support_bot/tests/test_helpfulness.py": true,
+      "matrix_support_bot/tests/test_human_handoff.py": true,
+      "matrix_support_bot/tests/test_legal_corpus.py": true,
+      "matrix_support_bot/tests/test_llm_settings.py": true,
+      "matrix_support_bot/tests/test_local_audit.py": true,
+      "matrix_support_bot/tests/test_message_format.py": true,
+      "matrix_support_bot/tests/test_offline_knowledge.py": true,
+      "matrix_support_bot/tests/test_pdf_answers.py": true,
+      "matrix_support_bot/tests/test_practical_guidance.py": true,
+      "matrix_support_bot/tests/test_public_rights_expansion.py": true,
+      "matrix_support_bot/tests/test_request_clarification.py": true,
+      "matrix_support_bot/tests/test_wide_quality.py": true,
+      "matrix_support_bot/urgent_help.py": true
+    },
+    "sts-team-demo-bot-1": {
+      "running": true,
+      "health": "not_configured"
+    },
+    "sts-team-demo-backend-1": {
+      "running": true,
+      "health": "healthy"
+    },
+    "sts-team-demo-element-1": {
+      "running": true,
+      "health": "healthy"
+    },
+    "sts-team-demo-homeserver-1": {
+      "running": true,
+      "health": "healthy"
+    },
+    "sts-team-demo-postgres-1": {
+      "running": true,
+      "health": "healthy"
+    },
+    "sts-flowise-pilot-flowise-1": {
+      "running": true,
+      "health": "not_configured"
+    },
+    "sts-flowise-pilot-flowise-postgres-1": {
+      "running": true,
+      "health": "healthy"
+    }
+  },
+  "http": {
+    "http://127.0.0.1:8081/": 200,
+    "http://127.0.0.1:13001/": 200,
+    "http://127.0.0.1:8010/health": 200
+  },
+  "ticket_count_preserved": 4,
+  "corpus": {
+    "documents": 104,
+    "pdf": 30,
+    "txt": 74,
+    "passages": 28176,
+    "new_sources": [
+      "https://old.adilet.zan.kz/rus/docs/V2600038333",
+      "https://old.adilet.zan.kz/rus/docs/V2600038748"
+    ],
+    "limitations": "Official site snapshot status 2026-10-19; downloaded 2026-10-22. Graphic equations are not present in extracted text. Fee list is appendix 1 only."
+  },
+  "graphs": {
+    "phase": "active",
+    "routes": 4,
+    "nodes": {
+      "legal": 13,
+      "finance": 13
+    },
+    "protected_graphs_verified": true,
+    "model_aliases": {
+      "LEGAL_LLM_MODEL": "legal-chat-qwen38-int4",
+      "FINANCE_LLM_MODEL": "legal-chat-qwen38-int4"
+    }
+  },
+  "final_forced_model_cases": [
+    {
+      "domain": "finance",
+      "question": "Что такое ГЭСВ и чем она отличается от номинальной ставки?",
+      "question_type": "definition",
+      "normal_preparation": "source_bound_gesv",
+      "accepted": true,
+      "citations_valid": true,
+      "elapsed_s": 15.32,
+      "repair_executed": true,
+      "automated_issues": [],
+      "error": null,
+      "answer": "**Финансовый агент**\nВ расчет не включаются штрафы, неустойки и некоторые платежи третьим лицам [gesv-rules-2026:24:1].\n\nДля кредитных карт дополнительно исключаются комиссии за выпуск карты, снятие наличных и операции в другой валюте [gesv-rules-2026:25:1].",
+      "partial": true
+    },
+    {
+      "domain": "finance",
+      "question": "Включаются ли штрафы и страховка в ГЭСВ?",
+      "question_type": "definition",
+      "normal_preparation": "source_bound_gesv",
+      "accepted": true,
+      "citations_valid": true,
+      "elapsed_s": 8.78,
+      "repair_executed": false,
+      "automated_issues": [],
+      "error": null,
+      "answer": "**Финансовый агент**\n**Коротко**\nШтрафы и неустойки не включаются в расчет годовой эффективной ставки вознаграждения по займу [gesv-rules-2026:24:1]. Платежи по страховке включаются в ГЭСВ, если они связаны с выдачей или обслуживанием займа и их размеры известны на дату заключения договора [gesv-rules-2026:23:1].\n\n**Важно**\nВ расчет ГЭСВ входят платежи по основному долгу, вознаграждению, а также комиссии и иные платежи, связанные с выдачей и обслуживанием займа [gesv-rules-2026:20:1]. К таким платежам относятся, в частности, платежи в пользу страховой организации, если страхование требуется условиями займа [bank-fees-2026:4:1].",
+      "partial": false
+    },
+    {
+      "domain": "legal",
+      "question": "Начальник не отдаёт деньги за работу. Что делать сначала?",
+      "question_type": "situation",
+      "normal_preparation": "source_bound_work",
+      "accepted": true,
+      "citations_valid": true,
+      "elapsed_s": 6.53,
+      "repair_executed": false,
+      "automated_issues": [],
+      "error": null,
+      "answer": "**Юридический агент**\n**Коротко**\nРаботодатель обязан выплатить заработную плату не позже первой декады следующего месяца [labor:p63:3:1]. При задержке он должен доплатить задолженность и пеню, рассчитанную исходя из 1,25-кратной базовой ставки Национального Банка за каждый просроченный день [labor:p64:1:1].\n\n**Что сделать сейчас**\nСохраните трудовой договор, расчетные листки и переписку с начальником, подтверждающие факт работы и размер долга.\n\nЗапросите у работодателя письменное или электронное уведомление о составных частях заработной платы и основаниях удержаний, если оно не было предоставлено .\n\nПодготовьте письменное требование о выплате задолженности и пени за период задержки, указав конкретные даты просрочки [labor:p64:1:1].\n\n**Важно**\nПеня начисляется за каждый календарный день, начиная со следующего дня после установленного срока выплаты и до дня фактической оплаты [labor:p64:1:1].\n\n**Уточните**\nУдерживаются ли деньги из-за конкретных оснований, указанных в расчете, или задержка носит общий характер?\n\nКакая дата установлена в трудовом договоре как день выплаты заработной платы?",
+      "partial": false
+    },
+    {
+      "domain": "legal",
+      "question": "А как написать требование?",
+      "question_type": "document",
+      "normal_preparation": "source_bound_work",
+      "accepted": false,
+      "citations_valid": null,
+      "elapsed_s": 14.43,
+      "repair_executed": true,
+      "automated_issues": null,
+      "error": "Claim review did not approve an answer",
+      "answer": ""
+    },
+    {
+      "domain": "finance",
+      "question": "Кредит 1000000 тенге на 2 года под ГЭСВ 20%. Рассчитай переплату.",
+      "question_type": "calculation",
+      "normal_preparation": "requires_model",
+      "accepted": true,
+      "citations_valid": true,
+      "elapsed_s": 11.16,
+      "repair_executed": true,
+      "automated_issues": [],
+      "error": null,
+      "answer": "**Финансовый агент**\n**Коротко**\nДля точного расчёта переплаты необходимы конкретные даты и суммы платежей, так как формула ГЭСВ использует периоды времени до каждого платежа [gesv-rules-2026:19:1].\n\n**Что сделать сейчас**\nПришлите график платежей с датами и суммами.\nУточните, какие комиссии и платежи включены в договор займа.\n\n**Важно**\nВ расчет ГЭСВ включаются платежи по основному долгу, вознаграждению и связанные с обслуживанием займа комиссии [gesv-rules-2026:20:1].\nРасчет производится алгебраическим методом с учетом фактических дат выплат или графика [gesv-rules-2026:34:1].\nШтрафы и неустойки за нарушение условий договора в расчет ГЭСВ не включаются [gesv-rules-2026:24:1].",
+      "partial": false
+    },
+    {
+      "domain": "legal",
+      "question": "Могу ли я отозвать согласие на обработку персональных данных?",
+      "question_type": "situation",
+      "normal_preparation": "requires_model",
+      "accepted": true,
+      "citations_valid": true,
+      "elapsed_s": 12.72,
+      "repair_executed": true,
+      "automated_issues": [],
+      "error": null,
+      "answer": "**Юридический агент**\nПодготовьте письменное уведомление об отзыве согласия и направьте его собственнику или оператору данных.\n\nСохраните подтверждение отправки уведомления, чтобы зафиксировать дату обращения.\n\nОператор обязан прекратить обработку данных в течение пятнадцати рабочих дней, если их хранение не требуется законодательством, либо предоставить мотивированный отказ [personal-law:p8:1:1].\n\nОтзыв согласия не допускается, если он противоречит законам Республики Казахстан или при наличии неисполненного обязательства [personal-law:p7:2:1].\n\nСвязано ли ваше согласие с действующим договором или неисполненным обязательством?\n\nКакие именно данные и для какой цели вы ранее разрешили обрабатывать?",
+      "partial": true
+    },
+    {
+      "domain": "legal",
+      "question": "Купил неисправный телефон, хочу вернуть деньги. Что можно требовать?",
+      "question_type": "situation",
+      "normal_preparation": "source_bound_legal",
+      "accepted": true,
+      "citations_valid": true,
+      "elapsed_s": 15.08,
+      "repair_executed": true,
+      "automated_issues": [],
+      "error": null,
+      "answer": "**Юридический агент**\nДля таких товаров закон прямо предусматривает это право без условия о существенности недостатка [consumer-law:p12:1:1].\n\nСохраните чек, гарантийный талон и переписку с продавцом.\n\nПодготовьте письменную претензию с требованием о расторжении договора и возврате уплаченной суммы.\n\nУкажите в документе дату покупки, описание неисправности и банковские реквизиты для возврата.\n\nЗапросите у продавца акт проверки качества, если он намерен оспаривать ваши требования.\n\nЕсли продавец не удовлетворит требование в установленный срок, он обязан выплатить неустойку в размере не менее 1% от стоимости товара за каждый день просрочки [consumer-law:p23:1:1].\n\nКогда именно вы обнаружили неисправность и были ли оговорены какие-либо дефекты при покупке?\n\nПытался ли продавец предложить ремонт или замену, и в какие сроки?",
+      "partial": true
+    },
+    {
+      "domain": "finance",
+      "question": "Что страхуется по обязательному автострахованию: машина или ответственность перед потерпевшими?",
+      "question_type": "definition",
+      "normal_preparation": "requires_model",
+      "accepted": true,
+      "citations_valid": true,
+      "elapsed_s": 7.4,
+      "repair_executed": true,
+      "automated_issues": [],
+      "error": null,
+      "answer": "**Финансовый агент**\nПо обязательному автострахованию страхуется гражданско-правовая ответственность владельца транспортного средства, а не сама машина [auto-insurance:73:1].\n\nСтраховой случай наступает при причинении вреда жизни, здоровью или имуществу лиц, признанных потерпевшими, в результате эксплуатации застрахованного автомобиля [auto-insurance:73:1].",
+      "partial": true
+    }
+  ],
+  "fault_injection": [
+    {
+      "domain": "finance",
+      "question": "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?",
+      "question_type": "definition",
+      "normal_preparation": "requires_model",
+      "accepted": true,
+      "citations_valid": true,
+      "elapsed_s": 5.23,
+      "repair_executed": true,
+      "automated_issues": [],
+      "error": null,
+      "answer": "**Финансовый агент**\nКомиссия за оплату коммунальных услуг в Halyk SuperApp составляет 0 тенге [halyk-superapp:p1:5:1].\n\nЭто условие действует с 15 сентября 2026 года [halyk-superapp:p1:5:1].",
+      "partial": true
+    }
+  ],
+  "matrix_cases": [
+    {
+      "domain": "finance",
+      "question": "Что такое ГЭСВ и чем она отличается от номинальной ставки?",
+      "expected_preparation": "source_bound_gesv",
+      "has_previous_context": false,
+      "room_kind": "existing_test_room",
+      "status": "answered",
+      "answer": "Финансовый агент\n\nДля банковского займа ГЭСВ отражает годовую стоимость с учётом платежей по основному долгу, вознаграждению и комиссий и иных платежей, включаемых по правилам расчёта. Она не сводится к одной объявленной процентной ставке. [1]\n\nВажно\n- Не любые расходы входят в ГЭСВ: платежи из-за нарушения условий договора, включая неустойку и другие штрафные санкции, исключены. [2]\n- Для заёмщика — физического лица учитываются предусмотренные договором комиссии и платежи, размеры и сроки которых известны при заключении договора. Для платежей, факт взимания которых заранее неизвестен, правила предусматривают перерасчёт при фактической оплате или введении платежа во время обслуживания займа. [3]\n\nСохраните договор и график платежей. Уточните, речь о банковском займе или микрокредите МФО: это объяснение относится к банковским займам.\n\nИсточники\n\n1. Об утверждении Правил исчисления ставок вознаграждения в достоверном, годовом, эффективном, сопоставимом исчислении (реальной стоимости) по займам и вкладам, Пункт 12.\nhttps://old.adilet.zan.kz/rus/docs/V2600038333\nПроверено: 2026-10-22. Редакция/версия: 2026-04-03. Фрагмент: gesv-rules-2026:20:1.\nЦитата из документа: «12. В расчет годовой эффективной ставки вознаграждения по займу включаются платежи клиента по основному долгу и вознаграждению, а также комиссии и иные платежи, связанные с выдачей и обслуживанием займа, указанные в пунктах 13 и 14 Правил.»\n\n2. Об утверждении Правил исчисления ставок вознаграждения в достоверном, годовом, эффективном, сопоставимом исчислении (реальной стоимости) по займам и вкладам, Пункт 15.\nhttps://old.adilet.zan.kz/rus/docs/V2600038333\nПроверено: 2026-10-22. Редакция/версия: 2026-04-03. Фрагмент: gesv-rules-2026:24:1.\nЦитата из документа: «15. В расчет годовой эффективной ставки вознаграждения по займу не включаются: 1) платежи клиента в пользу третьих лиц, за исключением платежей, указанных в подпунктах 1), 2), 3) и 4) части первой пункта 13 Правил и в подпунктах 5), 6), 7) и 8) пункта 2 Перечня; 2) платежи клиента, связанные с несоблюдением им условий договора банковского займа, включая неустойку и иные виды штрафных санкций, в том числе за превышение лимита овердрафта, установленного клиенту.»\n\n3. Об утверждении Правил исчисления ставок вознаграждения в достоверном, годовом, эффективном, сопоставимом исчислении (реальной стоимости) по займам и вкладам, Пункт 14.\nhttps://old.adilet.zan.kz/rus/docs/V2600038333\nПроверено: 2026-10-22. Редакция/версия: 2026-04-03. Фрагмент: gesv-rules-2026:23:1.\nЦитата из документа: «14. В расчет годовой эффективной ставки вознаграждения по займу, выдаваемому клиенту – физическому лицу, включаются комиссии и иные платежи, связанные с выдачей и обслуживанием займа, предусмотренные договором банковского займа, размеры и сроки выплаты, которых известны на дату заключения договора банковского займа. Если при расчете годовой эффективной ставки вознаграждения по займу отсутствует возможность определения размеров платежей в пользу лиц, указанных в подпунктах 5), 6), 7) и 7-1) пункт…»",
+      "automated_issues": [],
+      "status_message_seen": true,
+      "elapsed_ms": 1235
+    },
+    {
+      "domain": "finance",
+      "question": "Включаются ли штрафы и страховка в ГЭСВ?",
+      "expected_preparation": "source_bound_gesv",
+      "has_previous_context": false,
+      "room_kind": "existing_test_room",
+      "status": "answered",
+      "answer": "Финансовый агент\n\nДля банковского займа ГЭСВ отражает годовую стоимость с учётом платежей по основному долгу, вознаграждению и комиссий и иных платежей, включаемых по правилам расчёта. Она не сводится к одной объявленной процентной ставке. [1]\n\nВажно\n- Не любые расходы входят в ГЭСВ: платежи из-за нарушения условий договора, включая неустойку и другие штрафные санкции, исключены. [2]\n- Для заёмщика — физического лица учитываются предусмотренные договором комиссии и платежи, размеры и сроки которых известны при заключении договора. Для платежей, факт взимания которых заранее неизвестен, правила предусматривают перерасчёт при фактической оплате или введении платежа во время обслуживания займа. [3]\n\nВ действующем перечне комиссий упомянуты страховые платежи по договорам, влияющим на условия предоставления займа или вытекающим из них. Поэтому нельзя без проверки условий обещать, что любая страховка всегда исключена из расходов по займу. Сам перечень взимаемых платежей не заменяет правила расчёта ГЭСВ. [4]\n\nСохраните договор и график платежей. Уточните, речь о банковском займе или микрокредите МФО: это объяснение относится к банковским займам.\n\nИсточники\n\n1. Об утверждении Правил исчисления ставок вознаграждения в достоверном, годовом, эффективном, сопоставимом исчислении (реальной стоимости) по займам и вкладам, Пункт 12.\nhttps://old.adilet.zan.kz/rus/docs/V2600038333\nПроверено: 2026-10-22. Редакция/версия: 2026-04-03. Фрагмент: gesv-rules-2026:20:1.\nЦитата из документа: «12. В расчет годовой эффективной ставки вознаграждения по займу включаются платежи клиента по основному долгу и вознаграждению, а также комиссии и иные платежи, связанные с выдачей и обслуживанием займа, указанные в пунктах 13 и 14 Правил.»\n\n2. Об утверждении Правил исчисления ставок вознаграждения в достоверном, годовом, эффективном, сопоставимом исчислении (реальной стоимости) по займам и вкладам, Пункт 15.\nhttps://old.adilet.zan.kz/rus/docs/V2600038333\nПроверено: 2026-10-22. Редакция/версия: 2026-04-03. Фрагмент: gesv-rules-2026:24:1.\nЦитата из документа: «2) платежи клиента, связанные с несоблюдением им условий договора банковского займа, включая неустойку и иные виды штрафных санкций, в том числе за превышение лимита овердрафта, установленного клиенту.»\n\n3. Об утверждении Правил исчисления ставок вознаграждения в достоверном, годовом, эффективном, сопоставимом исчислении (реальной стоимости) по займам и вкладам, Пункт 14.\nhttps://old.adilet.zan.kz/rus/docs/V2600038333\nПроверено: 2026-10-22. Редакция/версия: 2026-04-03. Фрагмент: gesv-rules-2026:23:1.\nЦитата из документа: «14. В расчет годовой эффективной ставки вознаграждения по займу, выдаваемому клиенту – физическому лицу, включаются комиссии и иные платежи, связанные с выдачей и обслуживанием займа, предусмотренные договором банковского займа, размеры и сроки выплаты, которых известны на дату заключения договора банковского займа. Если при расчете годовой эффективной ставки вознаграждения по займу отсутствует возможность определения размеров платежей в пользу лиц, указанных в подпунктах 5), 6), 7) и 7-1) пункт…»\n\n4. Об утверждении Требований к условиям осуществления банковской деятельности — приложение 1: перечень комиссий, Пункт 2.\nhttps://old.adilet.zan.kz/rus/docs/V2600038748\nПроверено: 2026-10-22. Редакция/версия: 2026-07-24. Фрагмент: bank-fees-2026:4:1.\nЦитата из документа: «5) платежи заемщика в пользу страховой (перестраховочной) организации, в том числе за счет суммы банковского займа, осуществляемые в рамках договоров добровольного страхования при предоставлении займа, заключение которых оказывает влияние на условия предоставления (изменения) займа либо вытекает из условий займа, включая договоры страхования предмета залога, находящегося в пользовании залогодателя и обеспечивающего обязательства заемщика; 6) платежи заемщика гаранту (поручителю) за получение гар…»",
+      "automated_issues": [],
+      "status_message_seen": true,
+      "elapsed_ms": 1202
+    },
+    {
+      "domain": "legal",
+      "question": "Начальник не отдаёт деньги за работу",
+      "expected_preparation": "source_bound_work",
+      "has_previous_context": false,
+      "room_kind": "existing_test_room",
+      "status": "answered",
+      "answer": "Юридический агент\n\nЕсли это зарплата по трудовым отношениям, начните с фиксации невыплаты и письменного требования работодателю. Дата выплаты зарплаты закрепляется в трудовом или коллективном договоре. [1] При задержке норма предусматривает выплату работодателем работнику задолженности и пени. [2]\n\nЧто сделать сейчас\n1. Запишите, за какой период не заплатили, какая сумма ожидается и когда должна была быть выплата.\n2. Сохраните договор, расчётные листки, подтверждения выполненной работы, выписку о поступлениях и переписку.\n3. Письменно попросите работодателя проверить расчёт, выплатить задолженность и сообщить срок выплаты. Сохраните копию обращения и подтверждение передачи.\n\nМогу подготовить текст: напишите А как написать требование?.\n\nУ вас трудовой договор или договор на оказание услуг? От этого зависит дальнейший порядок действий.\n\nИсточники\n\n1. Трудовой кодекс Республики Казахстан, Статья 113 — стр. 63\nhttps://adilet.zan.kz/rus/docs/K1500000414\nПроверено: 2026-10-05. Редакция/версия: 2026-09-06. Фрагмент: labor:p63:3:1.\nЦитата из документа: «2. При выплате заработной платы работодатель обязан в письменной или электронной форме ежемесячно извещать каждого работника о составных частях заработной платы, причитающейся ему за соответствующий период, размерах и основаниях произведенных удержаний, в том числе сведения об удержанных и перечисленных обязательных»\n\n2. Трудовой кодекс Республики Казахстан, Статья 113 — стр. 64\nhttps://adilet.zan.kz/rus/docs/K1500000414\nПроверено: 2026-10-05. Редакция/версия: 2026-09-06. Фрагмент: labor:p64:1:1.\nЦитата из документа: «Работодатель выплачивает работнику задолженность и пеню за период задержки платежа. Размер пени рассчитывается исходя из 1,25-кратной базовой ставки Национального Банка Республики Казахстан на день исполнения обязательств по выплате заработной платы и начисляется за каждый просроченный календарный день,»",
+      "automated_issues": [],
+      "status_message_seen": true,
+      "elapsed_ms": 1175
+    },
+    {
+      "domain": "legal",
+      "question": "А как написать требование?",
+      "expected_preparation": "source_bound_work",
+      "has_previous_context": true,
+      "room_kind": "existing_test_room",
+      "status": "answered",
+      "answer": "Юридический агент\n\nНиже редактируемый черновик для случая трудовых отношений. При задержке зарплаты сохранённая норма предусматривает выплату работодателем работнику задолженности и пени. [1]\n\nЧерновик\nКому: [работодатель / руководитель организации]\nОт: [имя]\n\nТребование о выплате задолженности по заработной плате\n\nПо моим данным, мне не выплачена заработная плата за [период]. Предварительная сумма задолженности — [сумма] тенге.\n\nПрошу проверить расчёт и выплатить причитающуюся мне задолженность. Также прошу предоставить расчёт начислений и удержаний, а при задержке выплаты — расчёт причитающейся пени.\n\nПрошу письменно сообщить размер задолженности и срок её выплаты.\n\nДата: [дата]\nПодпись: [подпись]\n\nКак использовать\nЗаполните поля у себя, без отправки персональных данных в чат. Если сумма неизвестна, уберите предложение о предварительной сумме — просьба предоставить расчёт уже есть. Сохраните копию обращения и подтверждение его передачи работодателю.\n\nИсточники\n\n1. Трудовой кодекс Республики Казахстан, Статья 113 — стр. 64\nhttps://adilet.zan.kz/rus/docs/K1500000414\nПроверено: 2026-10-05. Редакция/версия: 2026-09-06. Фрагмент: labor:p64:1:1.\nЦитата из документа: «Работодатель выплачивает работнику задолженность и пеню за период задержки платежа. Размер пени рассчитывается исходя из 1,25-кратной базовой ставки Национального Банка Республики Казахстан на день исполнения обязательств по выплате заработной платы и начисляется за каждый просроченный календарный день,»",
+      "automated_issues": [],
+      "status_message_seen": true,
+      "elapsed_ms": 844
+    },
+    {
+      "domain": "legal",
+      "question": "Могу ли я отозвать согласие на обработку персональных данных?",
+      "expected_preparation": "requires_model",
+      "has_previous_context": false,
+      "room_kind": "existing_test_room",
+      "status": "answered",
+      "answer": "Юридический агент\n\nВы можете отозвать согласие на обработку персональных данных, уведомив об этом оператора [1].\n\nПодготовьте письменное уведомление об отзыве согласия и направьте его собственнику или оператору данных.\n\nСохраните подтверждение отправки уведомления, чтобы зафиксировать дату обращения.\n\nОтзыв согласия не допускается, если это противоречит законам Республики Казахстан или при наличии неисполненного обязательства [2].\n\nВ течение пятнадцати рабочих дней после уведомления оператор обязан прекратить обработку данных, если их хранение не требуется законом, либо предоставить мотивированный отказ [1].\n\nЕсть ли у вас незакрытые обязательства по договору с этим оператором?\n\nКакие именно данные вы хотите прекратить обрабатывать?\n\nИсточники\n\n1. Закон РК «О персональных данных и их защите», Статья 8 — стр. 8\nhttps://adilet.zan.kz/rus/docs/Z1300000094\nПроверено: 2026-10-01. Редакция/версия: 2026-09-14. Фрагмент: personal-law:p8:1:1.\nЦитата из документа: «5. Срок действия согласия на обработку персональных данных не может превышать срок, необходимый для достижения целей сбора и обработки персональных данных, если иное не установлено законами Республики Казахстан или договором.»\n\n2. Закон РК «О персональных данных и их защите», Статья 8 — стр. 7\nhttps://adilet.zan.kz/rus/docs/Z1300000094\nПроверено: 2026-10-01. Редакция/версия: 2026-09-14. Фрагмент: personal-law:p7:2:1.\nЦитата из документа: «1. Субъект или его законный представитель дает (отзывает) согласие на сбор, обработку персональных данных письменно, посредством государственного сервиса, негосударственного сервиса либо иным способом, позволяющим подтвердить получение согласия.»",
+      "automated_issues": [],
+      "status_message_seen": true,
+      "execution_steps": [
+        [
+          {
+            "node": "startAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "agentAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_1",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_2",
+            "status": "FINISHED"
+          },
+          {
+            "node": "conditionAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_1",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_3",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_2",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_4",
+            "status": "FINISHED"
+          },
+          {
+            "node": "directReplyAgentflow_1",
+            "status": "FINISHED"
+          }
+        ]
+      ],
+      "elapsed_ms": 11844
+    },
+    {
+      "domain": "finance",
+      "question": "Что страхуется по обязательному автострахованию: машина или ответственность перед потерпевшими?",
+      "expected_preparation": "requires_model",
+      "has_previous_context": false,
+      "room_kind": "existing_test_room",
+      "status": "answered",
+      "answer": "Финансовый агент\n\nКоротко\nПо обязательному автострахованию страхуется гражданско-правовая ответственность владельца транспортного средства, а не сама машина [1]. Страховой случай наступает при причинении вреда жизни, здоровью или имуществу лиц, признанных потерпевшими, в результате эксплуатации застрахованного автомобиля [1].\n\nИсточники\n\n1. Об обязательном страховании гражданско-правовой ответственности владельцев транспортных средств, Статья 22\nhttps://old.adilet.zan.kz/rus/docs/Z030000446_\nПроверено: 2026-10-21. Редакция/версия: Официальный текст получен 2026-10-21; точная дата редакции отдельно не установлена. Фрагмент: auto-insurance:73:1.\nЦитата из документа: «1. Страховым случаем признается факт наступления гражданско-правовой ответственности застрахованного по возмещению вреда, причиненного жизни, здоровью и (или) имуществу лиц, признанных потерпевшими, в результате эксплуатации застрахованным транспортного средства, указанного в договоре обязательного страхования ответственности владельцев транспортных средств.»",
+      "automated_issues": [],
+      "status_message_seen": true,
+      "execution_steps": [
+        [
+          {
+            "node": "startAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "agentAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_1",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_2",
+            "status": "FINISHED"
+          },
+          {
+            "node": "conditionAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_1",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_3",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_2",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_4",
+            "status": "FINISHED"
+          },
+          {
+            "node": "directReplyAgentflow_1",
+            "status": "FINISHED"
+          }
+        ]
+      ],
+      "elapsed_ms": 7748
+    },
+    {
+      "domain": "finance",
+      "question": "Кредит 1000000 тенге на 2 года под ГЭСВ 20%. Рассчитай переплату.",
+      "expected_preparation": "requires_model",
+      "has_previous_context": false,
+      "room_kind": "existing_test_room",
+      "status": "answered",
+      "answer": "Финансовый агент\n\nКоротко\nДля точного расчёта переплаты необходимы конкретные данные о платежах, так как в предоставленных фрагментах нет графика и формулы в текстовом виде [1].\n\nЧто сделать сейчас\nПришлите график платежей с датами и суммами каждого взноса.\nУточните, включены ли в ГЭСВ комиссии, известные на дату договора .\nУкажите, есть ли в договоре платежи, исключенные из расчета ГЭСВ .\n\nВажно\nГЭСВ учитывает фактические даты выплат [2].\nБанк обязан начислять вознаграждение за фактические дни пользования займом [3].\n\nИсточники\n\n1. Об утверждении Правил исчисления ставок вознаграждения в достоверном, годовом, эффективном, сопоставимом исчислении (реальной стоимости) по займам и вкладам, Пункт 11.\nhttps://old.adilet.zan.kz/rus/docs/V2600038333\nПроверено: 2026-10-22. Редакция/версия: 2026-04-03. Фрагмент: gesv-rules-2026:19:1.\nЦитата из документа: «11. Годовая эффективная ставка вознаграждения по займу рассчитывается по следующей формуле: где: D - сумма первого займа;»\n\n2. Об утверждении Правил исчисления ставок вознаграждения в достоверном, годовом, эффективном, сопоставимом исчислении (реальной стоимости) по займам и вкладам, Пункт 22.\nhttps://old.adilet.zan.kz/rus/docs/V2600038333\nПроверено: 2026-10-22. Редакция/версия: 2026-04-03. Фрагмент: gesv-rules-2026:34:1.\nЦитата из документа: «22. Исчисление годовой эффективной ставки вознаграждения осуществляется алгебраическим методом, на основе формул указанных в пунктах 11 или 20 Правил, последовательными приближениями, с учетом округления в соответствии с пунктом 23 Правил. Произведенные выплаты клиентом банку и выплаты банком клиенту учитываются на даты их фактических выплат, будущие – согласно графику выплат.»\n\n3. О банках и банковской деятельности в Республике Казахстан, Статья 57 — стр. 59\nhttps://adilet.zan.kz/rus/docs/Z2600000258\nПроверено: 2026-10-05. Редакция/версия: 2026-08-25. Фрагмент: banks:p59:4:1.\nЦитата из документа: «Статья 57. Ответственное кредитование 1. Банк предоставляет банковский заем в соответствии с требованиями законодательства Республики Казахстан и кредитной политики банка, утвержденной советом директоров банка.»",
+      "automated_issues": [],
+      "status_message_seen": true,
+      "execution_steps": [
+        [
+          {
+            "node": "startAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "agentAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_1",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_2",
+            "status": "FINISHED"
+          },
+          {
+            "node": "conditionAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_1",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_3",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_2",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_4",
+            "status": "FINISHED"
+          },
+          {
+            "node": "directReplyAgentflow_1",
+            "status": "FINISHED"
+          }
+        ]
+      ],
+      "elapsed_ms": 10417
+    },
+    {
+      "domain": "finance",
+      "question": "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?",
+      "expected_preparation": "requires_model",
+      "has_previous_context": false,
+      "room_kind": "existing_test_room",
+      "status": "answered",
+      "answer": "Финансовый агент\n\nКоротко\nВ приложении Halyk SuperApp комиссия за оплату коммунальных услуг составляет 0 тенге [1]. Это условие действует с 15 сентября 2026 года [1].\n\nИсточники\n\n1. Halyk: тарифы SuperApp — стр. 1\nhttps://halykbank.kz/storage/app/media/Tarify/2026/9/RUS_Тарифы_Halyk_SuperApp.pdf\nПроверено: 2026-10-01. Редакция/версия: Изменения, действующие с 15.09.2026. Фрагмент: halyk-superapp:p1:5:1.\nЦитата из документа: «7 Оплата коммунальных услуг 0 теңге 0 теңге 8 Университеты, школы, колледжи, детские сады (кроме универсальных 0 теңге 0 теңге платежей с текущего счета/карточки)»",
+      "automated_issues": [],
+      "status_message_seen": true,
+      "execution_steps": [
+        [
+          {
+            "node": "startAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "agentAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_1",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_2",
+            "status": "FINISHED"
+          },
+          {
+            "node": "conditionAgentflow_0",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_1",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_3",
+            "status": "FINISHED"
+          },
+          {
+            "node": "llmAgentflow_2",
+            "status": "FINISHED"
+          },
+          {
+            "node": "customFunctionAgentflow_4",
+            "status": "FINISHED"
+          },
+          {
+            "node": "directReplyAgentflow_1",
+            "status": "FINISHED"
+          }
+        ]
+      ],
+      "elapsed_ms": 8786
+    }
+  ],
+  "cleanup": {
+    "synthetic_user_deactivated": true,
+    "temporary_bot_session_logged_out": true,
+    "temporary_credentials_removed": true,
+    "qa_flow_deleted": true
+  },
+  "public_file_comparison": {
+    "matched": 319,
+    "checked": 345,
+    "not_identical": [
+      ".env.example",
+      ".gitattributes",
+      ".gitignore",
+      "compose.offline.yml",
+      "config/litellm/config.yaml",
+      "config/litellm/offline.yaml",
+      "config/postgres/01-databases.sql",
+      "reports/accounts-check.json",
+      "reports/answer-quality-20261012.json",
+      "reports/flowise-date-validation-20261012.json",
+      "reports/legal-corpus-20261007.json",
+      "reports/local-audit-20261021-retrieval.json",
+      "reports/local-audit-20261021.json",
+      "reports/local-audit-20261021.md",
+      "reports/new-install-e2e-20261006.json",
+      "reports/reference-answers-20261007.json",
+      "reports/team-e2e.json",
+      "reports/verification.json",
+      "reports/wage-conversation-20261012.json",
+      "scripts/check_local_http.py",
+      "scripts/offline_preflight.py",
+      "scripts/setup.py",
+      "support-frontend/Dockerfile",
+      "support-frontend/package-lock.json",
+      "support-frontend/package.json",
+      "support-frontend/vite.config.js"
+    ],
+    "note": "Operational VM is not an exact portable checkout. Existing service configuration and unrelated tooling/history were preserved. All 32 files changed by this release match the deployed release; all 76 bot files match the image. Full portable source snapshot is in stages/agentflow-claims-20261022/new. docker-compose.yml deliberately excluded from comparison."
+  },
+  "limits": [
+    "Passing code checks establishes traceability, not legal correctness. The same model drafts and audits; shared semantic mistakes remain possible.",
+    "Final direct-model run accepted 7/8 cases; one synthetic letter was rejected. The normal wage-letter path uses a checked source-bound template and answered in Element.",
+    "Some accepted direct-model answers retained only independent verified parts and are not complete answers to every subquestion.",
+    "No claim of complete Kazakhstan law coverage, fine-tuning, or a verified numeric GESV calculator.",
+    "Source-bound responses bypass Flowise and are counted separately."
+  ]
+}
