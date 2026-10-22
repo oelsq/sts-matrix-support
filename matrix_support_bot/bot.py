@@ -84,7 +84,7 @@ async def main():
     started_ms = int(time.time() * 1000)
     seen = set()
     previous_routes = {}
-    from flowise_client import FlowiseClient
+    from flowise_client import FlowiseClient, FlowiseReviewRejected
     flowise = FlowiseClient.from_env(os.environ)
     if flowise:
         for room_id, entry in flowise.routes.items():
@@ -129,11 +129,14 @@ async def main():
                 "temperature": 0.1,
             }
             workflow = bool(flowise and getattr(flowise,'is_workflow',lambda *_:False)(room_id,domain))
+            quality = workflow and flowise.routes[room_id].get('quality_contract')=='sts.claims.v1'
             async def complete(request, stage="draft"):
                 if workflow:
                     from agentflow_graphs import MARKER
+                    context = {'question':question,'previous_question':previous_question or '', 'evidence':local_evidence}
+                    kwargs = {'context':context} if quality else {}
                     result = await flowise.run_workflow(http,domain,room_id,sender,event_id,request['messages'],
-                                review_messages(domain,search_question,MARKER,local_evidence))
+                                review_messages(domain,search_question,MARKER,local_evidence),**kwargs)
                     log.info('Agentflows V2 workflow completed; domain=%s',domain)
                     return {'choices':[{'message':{'content':result},'finish_reason':None}]}
                 if flowise and flowise.selected(room_id, domain):
@@ -148,8 +151,12 @@ async def main():
                     response.raise_for_status()
                     return await response.json()
 
-            for attempt in range(2):
-                data = await complete(payload)
+            for attempt in range(1 if quality else 2):
+                try:
+                    data = await complete(payload)
+                except FlowiseReviewRejected:
+                    log.info("Agent claim review rejected; domain=%s", domain)
+                    return practical_fallback(domain, search_question, validation_failed=True)
                 answer = data["choices"][0]["message"]["content"]
                 if not isinstance(answer, str) or not answer.strip():
                     raise ValueError("Empty LLM response")
@@ -166,7 +173,7 @@ async def main():
                 truncated = data["choices"][0].get("finish_reason") == "length"
                 quality_issues = [] if citation_failure or domain == "general" else usefulness_issues(question, rendered)
                 citation_failure = citation_failure or truncated or bool(quality_issues)
-                if citation_failure and attempt:
+                if citation_failure and (attempt or quality):
                     log.info("Agent fallback: domain=%s reason=answer_validation", domain)
                     return practical_fallback(domain, search_question, validation_failed=True)
                 if not citation_failure:

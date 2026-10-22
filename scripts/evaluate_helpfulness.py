@@ -82,8 +82,9 @@ async def live_answer(domain, question, evidence, previous, mode, case_id):
                 room = next(room for room, entry in flow.routes.items() if entry['domain'] == domain)
                 if not flow.is_workflow(room, domain):
                     raise RuntimeError('Expected Agentflows V2 route')
+                kwargs = {'context':{'question':question,'previous_question':previous or '', 'evidence':evidence}} if flow.routes[room].get('quality_contract') else {}
                 text = await flow.run_workflow(http, domain, room, 'synthetic-helpfulness-review', case_id,
-                                               request, review_messages(domain, review_question, MARKER, evidence))
+                                               request, review_messages(domain, review_question, MARKER, evidence),**kwargs)
             else:
                 async def complete(msgs):
                     async with http.post(os.environ['LLM_ENDPOINT'].rstrip('/')+'/chat/completions',

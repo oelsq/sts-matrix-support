@@ -50,7 +50,9 @@ def parse_official_page(html: str, expected_title: str = '', document_kind: str 
     status = status_match[0]
     if 'утрати' in status.casefold(): raise SourceError('Repealed document cannot be activated')
     parser = OfficialTextParser(); parser.feed(article[1]); text = parser.text()
-    if document_kind == 'supreme_court_resolution':
+    if document_kind == 'regulatory_rules':
+        complete = 'Постановление Правления' in header and len(re.findall(r'^\d+\.\s',text,re.M)) >= 5
+    elif document_kind == 'supreme_court_resolution':
         complete = 'Нормативное постановление Верховного' in header and len(re.findall(r'^\d+[.-]?\d*\.\s',text,re.M)) >= 3
     else:
         complete = len(re.findall(r'^Статья\s+\d',text,re.M)) >= 2

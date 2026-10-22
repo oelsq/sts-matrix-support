@@ -196,7 +196,7 @@ class KnowledgeStore:
                 chunk_clause = clause
                 for line in lines:
                     resolution_point = (re.match(r"^\s*(\d+(?:-\d+)?)\.\s",line)
-                                        if entry.get("document_kind") == "supreme_court_resolution" else None)
+                                        if entry.get("document_kind") in {"supreme_court_resolution", "regulatory_rules"} else None)
                     if re.match(r"^\s*(Статья |Глава )", line) or resolution_point:
                         if current:
                             chunks.append((chunk_section, chunk_clause, "\n".join(current)))

@@ -2,19 +2,23 @@
 import asyncio,time
 from types import SimpleNamespace
 import pytest
-from flowise_client import FlowiseClient
+from flowise_client import FlowiseClient,FlowiseReviewRejected
 
-@pytest.mark.parametrize('invalid_first',[False,True])
-def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invalid_first):
+@pytest.mark.parametrize('invalid_first,quality_rejected',[(False,False),(True,False),(False,True)])
+def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invalid_first,quality_rejected):
     import bot
     calls=[];out=[]
     class Flow:
         routes={'!v2:demo.local':{'domain':'finance','flow_id':'synthetic','engine':'agentflow_v2'}}
+        if quality_rejected:routes['!v2:demo.local']['quality_contract']='sts.claims.v1'
         def selected(self,*args):return True
         def is_workflow(self,*args):return True
         async def predict(self,*args,**kwargs):raise AssertionError('Legacy prediction must never run')
-        async def run_workflow(self,http,domain,room,sender,event,draft,review):
+        async def run_workflow(self,http,domain,room,sender,event,draft,review,**kwargs):
             calls.append((draft,review))
+            if quality_rejected:
+                assert kwargs['context']['question']=='Поясни условие тарифа Halyk'
+                raise FlowiseReviewRejected('Synthetic evidence rejection')
             assert len(review)==2 and review[0]['role']=='system'
             assert 'tariff:1:1' in draft[0]['content'] and 'tariff:1:1' in review[0]['content']
             assert '__STS_DRAFT_TO_REVIEW__' in review[-1]['content']
@@ -41,5 +45,9 @@ def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invali
     monkeypatch.setattr(bot,'KnowledgeStore',lambda _:Knowledge());monkeypatch.setattr(FlowiseClient,'from_env',lambda _:Flow())
     asyncio.run(bot.main())
     assert len(calls)==(2 if invalid_first else 1)
+    if quality_rejected:
+        assert 'временно недоступен' not in out[-1]
+        assert 'Synthetic' not in out[-1]
+        return
     assert 'Комиссия составляет 0 тенге' in out[-1] and '[S9]' not in out[-1]
     if invalid_first:assert any(m['role']=='assistant' for m in calls[1][0])

@@ -10,6 +10,10 @@ class FlowiseError(ValueError):
     pass
 
 
+class FlowiseReviewRejected(FlowiseError):
+    """The service responded, but its evidence did not pass validation."""
+
+
 def _valid_id(value):
     try:
         return str(uuid.UUID(value)) == value
@@ -32,6 +36,8 @@ class FlowiseClient:
                     or not _valid_id(entry.get('flow_id'))
                     or ('review_flow_id' in entry and not _valid_id(entry['review_flow_id']))
                     or entry.get('engine','chatflow') not in {'chatflow','agentflow_v2'}
+                    or entry.get('quality_contract') not in {None,'sts.claims.v1'}
+                    or (entry.get('quality_contract') and entry.get('engine')!='agentflow_v2')
                     or (entry.get('engine')=='agentflow_v2' and 'review_flow_id' in entry)):
                 raise FlowiseError('Invalid Flowise room route')
         if not api_key.strip():
@@ -59,13 +65,23 @@ class FlowiseClient:
     def is_workflow(self, room, domain):
         return self.selected(room,domain) and self.routes[room].get('engine') == 'agentflow_v2'
 
-    async def run_workflow(self, http, domain, room, sender, event_id, draft_messages, review_messages):
+    async def run_workflow(self, http, domain, room, sender, event_id, draft_messages, review_messages, *, context=None):
         if not self.is_workflow(room,domain):
             raise FlowiseError('Room/domain not enabled for Agentflows V2')
         from agentflow_graphs import workflow_packet
-        packet=workflow_packet(domain,draft_messages,review_messages)
+        quality=self.routes[room].get('quality_contract')=='sts.claims.v1'
+        if quality:
+            from agentflow_claims import make_quality_packet
+            packet=make_quality_packet(domain,draft_messages,review_messages,context)
+        else:
+            packet=workflow_packet(domain,draft_messages,review_messages)
         session=hashlib.sha256(('\0'.join([room,sender,event_id,'agentflow_v2'])).encode()).hexdigest()
-        return await self._prediction(http,self.routes[room]['flow_id'],json.dumps(packet,ensure_ascii=False),session,150)
+        text=await self._prediction(http,self.routes[room]['flow_id'],json.dumps(packet,ensure_ascii=False),session,240 if quality else 150,max_bytes=8*1024*1024 if quality else 2*1024*1024)
+        if quality:
+            from agentflow_claims import accept_quality_response
+            try:return accept_quality_response(text,packet)
+            except (ValueError,TypeError,KeyError) as exc:raise FlowiseReviewRejected('Claim contract rejected: '+str(exc)) from None
+        return text
 
     async def predict(self, http, domain, room, sender, event_id, messages, *, stage="draft"):
         if stage not in {'draft', 'review'}:
@@ -82,7 +98,7 @@ class FlowiseClient:
         flow_id = route.get('review_flow_id', route['flow_id']) if stage == 'review' else route['flow_id']
         return await self._prediction(http,flow_id,prompt,session,self.timeout)
 
-    async def _prediction(self,http,flow_id,prompt,session,timeout):
+    async def _prediction(self,http,flow_id,prompt,session,timeout,*,max_bytes=2*1024*1024):
         body = {'question': prompt, 'streaming': False, 'overrideConfig': {'sessionId': session}}
         async with http.post(self.url + '/api/v1/prediction/' + flow_id,
                              json=body, headers={'Authorization': 'Bearer ' + self.api_key},
@@ -92,7 +108,7 @@ class FlowiseClient:
             data = bytearray()
             async for chunk in response.content.iter_chunked(65536):
                 data.extend(chunk)
-                if len(data) > 2 * 1024 * 1024:
+                if len(data) > max_bytes:
                     raise FlowiseError('Flowise response exceeds size limit')
             result = json.loads(data)
         text = result.get('text') if isinstance(result, dict) else None
