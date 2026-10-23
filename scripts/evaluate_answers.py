@@ -82,7 +82,8 @@ async def live_checks(store, cases, route):
                         if transport == 'flowise' and flow.is_workflow(room,domain):
                             from agentflow_graphs import MARKER
                             reviewed = await flow.run_workflow(http,domain,room,'synthetic-evaluation',case['id'],
-                                  messages(domain,question,evidence,previous_question),review_messages(domain,search_question,MARKER,evidence))
+                                  messages(domain,question,evidence,previous_question),review_messages(domain,search_question,MARKER,evidence),
+                                  **({'context':{'question':question,'previous_question':previous_question,'evidence':evidence}} if flow.routes[room].get('quality_contract') else {}))
                             generation = 'agentflow_v2'
                         else:
                             draft = await complete(messages(domain, question, evidence, previous_question))

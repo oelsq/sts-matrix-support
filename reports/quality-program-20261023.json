@@ -1,0 +1,1184 @@
+{
+  "date": "2026-10-23",
+  "automated_suite": {
+    "passed": 793,
+    "failed": 0,
+    "warnings": 20,
+    "warnings_kind": "Existing FastAPI/SQLAlchemy deprecations"
+  },
+  "golden": {
+    "summary": {
+      "scenarios": 20,
+      "answered": 20,
+      "not_executed": 0,
+      "automatic_passed": 20,
+      "specialist_scored": 0,
+      "expert_accuracy": null,
+      "expert_usefulness": null,
+      "expert_exceptions": null
+    },
+    "rows": [
+      {
+        "id": "wages",
+        "domain": "legal",
+        "mechanism": "source_bound_work",
+        "error": null,
+        "milliseconds": 627.01,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "labor"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "wage-letter",
+        "domain": "legal",
+        "mechanism": "source_bound_work",
+        "error": null,
+        "milliseconds": 544.89,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "labor"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "forced-leave",
+        "domain": "legal",
+        "mechanism": "source_bound_legal",
+        "error": null,
+        "milliseconds": 704.61,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "labor"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "marriage",
+        "domain": "legal",
+        "mechanism": "source_bound_legal",
+        "error": null,
+        "milliseconds": 154.57,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "family"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "child-opinion",
+        "domain": "legal",
+        "mechanism": "source_bound_legal",
+        "error": null,
+        "milliseconds": 546.07,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "family"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "consent",
+        "domain": "legal",
+        "mechanism": "agentflow_v2",
+        "error": null,
+        "milliseconds": 14935.57,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "personal-law"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "consumer",
+        "domain": "legal",
+        "mechanism": "source_bound_legal",
+        "error": null,
+        "milliseconds": 410.29,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "consumer-law"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "phone-theft",
+        "domain": "legal",
+        "mechanism": "source_bound_legal",
+        "error": null,
+        "milliseconds": 202.8,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "criminal"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "legal-aid",
+        "domain": "legal",
+        "mechanism": "source_bound_legal_aid",
+        "error": null,
+        "milliseconds": 851.07,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "legal-aid"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "rental-letter",
+        "domain": "legal",
+        "mechanism": "organizational_draft",
+        "error": null,
+        "milliseconds": 1.02,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "gesv",
+        "domain": "finance",
+        "mechanism": "source_bound_gesv",
+        "error": null,
+        "milliseconds": 763.4,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "gesv-rules-2026"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "gesv-costs",
+        "domain": "finance",
+        "mechanism": "source_bound_gesv",
+        "error": null,
+        "milliseconds": 553.29,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "gesv-rules-2026",
+            "bank-fees-2026"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "loan-calculation",
+        "domain": "finance",
+        "mechanism": "agentflow_v2",
+        "error": null,
+        "milliseconds": 42329.86,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "gesv-rules-2026"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "deposit-guarantee",
+        "domain": "finance",
+        "mechanism": "source_bound_legal",
+        "error": null,
+        "milliseconds": 353.04,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "deposit-guarantee"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "auto-insurance",
+        "domain": "finance",
+        "mechanism": "agentflow_v2",
+        "error": null,
+        "milliseconds": 10687.7,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "auto-insurance"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "foreign-debt",
+        "domain": "finance",
+        "mechanism": "source_bound_legal",
+        "error": null,
+        "milliseconds": 529.4,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "collectors"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "collector-threat",
+        "domain": "finance",
+        "mechanism": "source_bound_legal",
+        "error": null,
+        "milliseconds": 235.88,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "collectors"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "unknown-tariff",
+        "domain": "finance",
+        "mechanism": "clarification",
+        "error": null,
+        "milliseconds": 0.4,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "halyk",
+        "domain": "finance",
+        "mechanism": "agentflow_v2",
+        "error": null,
+        "milliseconds": 6508.35,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [
+            "halyk-superapp"
+          ],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "id": "new-topic",
+        "domain": "finance",
+        "mechanism": "clarification",
+        "error": null,
+        "milliseconds": 1.14,
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      }
+    ]
+  },
+  "matrix_final": {
+    "mode": "isolated_real_matrix_synapse_agentflow",
+    "synthetic_users": 10,
+    "private_rooms": 2,
+    "cohorts": [
+      {
+        "label": "mixed_baseline",
+        "requests": 10,
+        "workers": 1,
+        "inference": "mixed_actual_agentflow_and_source_bound",
+        "ingress_seconds": 0.855,
+        "drain_seconds": 66.504,
+        "max_pending_observed": 10,
+        "latency_p50_seconds": 26.378,
+        "latency_p95_seconds": 66.396,
+        "queue_wait_p95_seconds": 58.003,
+        "service_p95_seconds": 22.372,
+        "answered": 10,
+        "duplicates": 0,
+        "generation_errors": 0
+      },
+      {
+        "label": "mixed_parallel",
+        "requests": 10,
+        "workers": 2,
+        "inference": "mixed_actual_agentflow_and_source_bound",
+        "ingress_seconds": 0.774,
+        "drain_seconds": 38.095,
+        "max_pending_observed": 9,
+        "latency_p50_seconds": 17.46,
+        "latency_p95_seconds": 37.991,
+        "queue_wait_p95_seconds": 24.426,
+        "service_p95_seconds": 15.86,
+        "answered": 10,
+        "duplicates": 0,
+        "generation_errors": 0
+      },
+      {
+        "label": "source_bound_burst",
+        "requests": 20,
+        "workers": 2,
+        "inference": "source_bound_no_new_model_calls",
+        "ingress_seconds": 1.301,
+        "drain_seconds": 53.517,
+        "max_pending_observed": 18,
+        "latency_p50_seconds": 6.1,
+        "latency_p95_seconds": 48.374,
+        "queue_wait_p95_seconds": 35.645,
+        "service_p95_seconds": 12.46,
+        "answered": 20,
+        "duplicates": 0,
+        "generation_errors": 0
+      }
+    ],
+    "cleanup": {
+      "generator_deactivated": true,
+      "bot_deactivated": true,
+      "user0_deactivated": true,
+      "user1_deactivated": true,
+      "user2_deactivated": true,
+      "user3_deactivated": true,
+      "user4_deactivated": true,
+      "user5_deactivated": true,
+      "user6_deactivated": true,
+      "user7_deactivated": true,
+      "user8_deactivated": true,
+      "user9_deactivated": true
+    },
+    "recovery": {
+      "offline_answers": 2,
+      "reply_counts": [
+        1,
+        1
+      ],
+      "pending": 0
+    }
+  },
+  "matrix_before_progress_fix": {
+    "mode": "isolated_real_matrix_synapse_agentflow",
+    "synthetic_users": 10,
+    "private_rooms": 2,
+    "cohorts": [
+      {
+        "label": "mixed_baseline",
+        "requests": 10,
+        "workers": 1,
+        "inference": "mixed_actual_agentflow_and_source_bound",
+        "ingress_seconds": 0.83,
+        "drain_seconds": 61.69,
+        "max_pending_observed": 10,
+        "latency_p50_seconds": 17.045,
+        "latency_p95_seconds": 61.582,
+        "queue_wait_p95_seconds": 49.111,
+        "service_p95_seconds": 12.806,
+        "answered": 10,
+        "duplicates": 0,
+        "generation_errors": 0
+      },
+      {
+        "label": "mixed_parallel",
+        "requests": 10,
+        "workers": 2,
+        "inference": "mixed_actual_agentflow_and_source_bound",
+        "ingress_seconds": 0.771,
+        "drain_seconds": 68.903,
+        "max_pending_observed": 10,
+        "latency_p50_seconds": 26.753,
+        "latency_p95_seconds": 68.799,
+        "queue_wait_p95_seconds": 44.418,
+        "service_p95_seconds": 28.413,
+        "answered": 10,
+        "duplicates": 0,
+        "generation_errors": 0
+      },
+      {
+        "label": "source_bound_burst",
+        "requests": 20,
+        "workers": 2,
+        "inference": "source_bound_no_new_model_calls",
+        "ingress_seconds": 1.158,
+        "drain_seconds": 196.584,
+        "max_pending_observed": 20,
+        "latency_p50_seconds": 101.508,
+        "latency_p95_seconds": 186.438,
+        "queue_wait_p95_seconds": 165.216,
+        "service_p95_seconds": 54.996,
+        "answered": 20,
+        "duplicates": 0,
+        "generation_errors": 0
+      }
+    ],
+    "cleanup": {
+      "generator_deactivated": true,
+      "bot_deactivated": true,
+      "user0_deactivated": true,
+      "user1_deactivated": true,
+      "user2_deactivated": true,
+      "user3_deactivated": true,
+      "user4_deactivated": true,
+      "user5_deactivated": true,
+      "user6_deactivated": true,
+      "user7_deactivated": true,
+      "user8_deactivated": true,
+      "user9_deactivated": true
+    },
+    "recovery": {
+      "offline_answers": 2,
+      "reply_counts": [
+        1,
+        1
+      ],
+      "pending": 0
+    }
+  },
+  "matrix_answer_checks": {
+    "answered_and_checked": 42,
+    "automatic_passed": 42,
+    "rows": [
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "consent",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "consent",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "marriage",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "forced-leave",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "consent",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "forced-leave",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "marriage",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "consent",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv-costs",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "auto-insurance",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "halyk",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "halyk",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "halyk",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv-costs",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "halyk",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "auto-insurance",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "gesv",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "wages",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      },
+      {
+        "case_id": "halyk",
+        "checks": {
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "source_hits": [],
+          "expert_accuracy": null
+        }
+      }
+    ],
+    "expert_accuracy": null
+  },
+  "load_observations": [
+    {
+      "phase": "mixed_baseline",
+      "preparation_mechanisms": {
+        "requires_model": 5,
+        "source_bound_gesv": 2,
+        "source_bound_legal": 2,
+        "source_bound_work": 1
+      },
+      "agentflow_completed": 5,
+      "rate_limit_log_lines": 0
+    },
+    {
+      "phase": "mixed_parallel",
+      "preparation_mechanisms": {
+        "source_bound_legal": 2,
+        "requires_model": 5,
+        "source_bound_work": 1,
+        "source_bound_gesv": 2
+      },
+      "agentflow_completed": 5,
+      "rate_limit_log_lines": 0
+    },
+    {
+      "phase": "source_bound_burst",
+      "preparation_mechanisms": {
+        "source_bound_work": 10,
+        "source_bound_gesv": 10
+      },
+      "agentflow_completed": 0,
+      "rate_limit_log_lines": 19
+    },
+    {
+      "phase": "recovery",
+      "preparation_mechanisms": {
+        "source_bound_work": 1,
+        "requires_model": 1
+      },
+      "agentflow_completed": 1,
+      "rate_limit_log_lines": 0
+    },
+    {
+      "phase": "recovery",
+      "preparation_mechanisms": {},
+      "agentflow_completed": 0,
+      "rate_limit_log_lines": 0
+    }
+  ],
+  "simulated_queue": {
+    "mode": "isolated_queue_simulation_not_live_model_capacity",
+    "cohorts": [
+      {
+        "requests": 20,
+        "workers": 1,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 19,
+        "delivered_unique": 20,
+        "remaining": 0,
+        "elapsed_seconds": 0.4238,
+        "queue_p50_seconds": 0.1933,
+        "queue_p95_seconds": 0.379,
+        "total_p95_seconds": 0.4,
+        "duplicates_observed": false
+      },
+      {
+        "requests": 20,
+        "workers": 2,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 18,
+        "delivered_unique": 20,
+        "remaining": 0,
+        "elapsed_seconds": 0.2172,
+        "queue_p50_seconds": 0.0895,
+        "queue_p95_seconds": 0.1924,
+        "total_p95_seconds": 0.2131,
+        "duplicates_observed": false
+      },
+      {
+        "requests": 50,
+        "workers": 1,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 49,
+        "delivered_unique": 50,
+        "remaining": 0,
+        "elapsed_seconds": 1.0519,
+        "queue_p50_seconds": 0.5052,
+        "queue_p95_seconds": 0.9799,
+        "total_p95_seconds": 1.0006,
+        "duplicates_observed": false
+      },
+      {
+        "requests": 50,
+        "workers": 2,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 48,
+        "delivered_unique": 50,
+        "remaining": 0,
+        "elapsed_seconds": 0.5327,
+        "queue_p50_seconds": 0.2571,
+        "queue_p95_seconds": 0.4837,
+        "total_p95_seconds": 0.5046,
+        "duplicates_observed": false
+      },
+      {
+        "requests": 100,
+        "workers": 1,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 99,
+        "delivered_unique": 100,
+        "remaining": 0,
+        "elapsed_seconds": 2.0915,
+        "queue_p50_seconds": 1.0274,
+        "queue_p95_seconds": 1.9569,
+        "total_p95_seconds": 1.9773,
+        "duplicates_observed": false
+      },
+      {
+        "requests": 100,
+        "workers": 2,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 98,
+        "delivered_unique": 100,
+        "remaining": 0,
+        "elapsed_seconds": 1.0595,
+        "queue_p50_seconds": 0.5105,
+        "queue_p95_seconds": 0.9835,
+        "total_p95_seconds": 1.0044,
+        "duplicates_observed": false
+      }
+    ]
+  },
+  "knowledge": {
+    "documents": 104,
+    "integrity_ok": 104,
+    "review_counts": {
+      "within_review_interval": 100,
+      "review_due": 4
+    },
+    "review_due": [
+      "halyk-superapp",
+      "halyk-debit",
+      "halyk-annual",
+      "freedom-retail"
+    ],
+    "online_checks": [
+      {
+        "id": "personal-law",
+        "url": "https://adilet.zan.kz/rus/docs/Z1300000094",
+        "status": "candidate_changed",
+        "comparison_note": "Snapshot comparison only. A full text may differ from an intentionally curated excerpt; changed bytes do not prove a new legal edition."
+      },
+      {
+        "id": "labor",
+        "url": "https://adilet.zan.kz/rus/docs/K1500000414",
+        "status": "candidate_changed",
+        "comparison_note": "Snapshot comparison only. A full text may differ from an intentionally curated excerpt; changed bytes do not prove a new legal edition."
+      },
+      {
+        "id": "nb-faq",
+        "url": "https://nationalbank.kz/ru/news/suraqtar",
+        "status": "manual_page_comparison_required",
+        "comparison_note": "Snapshot comparison only. A full text may differ from an intentionally curated excerpt; changed bytes do not prove a new legal edition."
+      },
+      {
+        "id": "family",
+        "url": "https://old.adilet.zan.kz/rus/docs/K1100000518",
+        "status": "snapshot_unchanged",
+        "comparison_note": "Snapshot comparison only. A full text may differ from an intentionally curated excerpt; changed bytes do not prove a new legal edition."
+      },
+      {
+        "id": "gesv-rules-2026",
+        "url": "https://old.adilet.zan.kz/rus/docs/V2600038333",
+        "status": "candidate_changed",
+        "comparison_note": "Snapshot comparison only. A full text may differ from an intentionally curated excerpt; changed bytes do not prove a new legal edition."
+      },
+      {
+        "id": "bank-fees-2026",
+        "url": "https://old.adilet.zan.kz/rus/docs/V2600038748",
+        "status": "candidate_changed",
+        "comparison_note": "Snapshot comparison only. A full text may differ from an intentionally curated excerpt; changed bytes do not prove a new legal edition."
+      }
+    ],
+    "active_documents_replaced": 0,
+    "specialist_approval": false
+  },
+  "limits": [
+    "20 candidate reference scenarios are not specialist-approved. Expert scores remain null.",
+    "Regex and usefulness checks are regression checks, not certification of legal accuracy.",
+    "Only 10 users and two rooms; sequential small cohorts are not an SLA or proof of 500 concurrent model generations.",
+    "Mixed groups each completed five real Agentflow workflows; the 20-request burst completed zero new workflows.",
+    "Changed snapshot bytes may mean full-text versus curated-excerpt differences, not a new legal edition.",
+    "Operational review intervals are 7 days for bank tariffs and 30 days otherwise; within interval is not proof of current law."
+  ],
+  "additional_stage_guard_tests": {
+    "passed": 2,
+    "failed": 0
+  }
+}

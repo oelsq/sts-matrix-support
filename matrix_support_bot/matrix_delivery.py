@@ -2,6 +2,7 @@
 import asyncio
 import json
 import logging
+from contextvars import ContextVar
 from types import SimpleNamespace
 
 from nio import RoomMessageText, RoomSendResponse, RoomMemberEvent
@@ -13,8 +14,16 @@ class RequestDispatcher:
     def __init__(self, store, client, handler, *, allow_unconfirmed=False):
         self.store, self.client, self.handler = store, client, handler
         self.allow_unconfirmed = allow_unconfirmed
-        self.current = None
+        self._request = ContextVar("matrix_request", default=None)
         self.wake = asyncio.Event()
+
+    @property
+    def current(self):
+        return self._request.get()
+
+    @current.setter
+    def current(self, value):
+        self._request.set(value)
 
     async def send(self, room_id, message_type, content, *, kind='final', final=True):
         if self.current is None or room_id != self.current['room_id'] or message_type!='m.room.message':
@@ -61,8 +70,15 @@ class RequestDispatcher:
             self.current=None
         return True
 
-    async def run(self, ready):
+    async def run(self, ready, workers=1):
+        if type(workers) is not int or not 1 <= workers <= 4:
+            raise ValueError('Matrix workers must be between 1 and 4')
         await ready.wait()
+        async with asyncio.TaskGroup() as group:
+            for _ in range(workers):
+                group.create_task(self._worker())
+
+    async def _worker(self):
         while True:
             self.wake.clear()
             while await self.process_next():pass

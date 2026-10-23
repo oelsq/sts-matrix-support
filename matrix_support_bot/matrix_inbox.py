@@ -50,6 +50,12 @@ class InboxStore:
           event_id TEXT, domain TEXT, effective TEXT, previous TEXT,
           PRIMARY KEY(event_id,domain));
         ''')
+        columns={r[1] for r in self.db.execute('PRAGMA table_info(inbox_requests)')}
+        for name in ['received','started','finished']:
+            if name not in columns:self.db.execute('ALTER TABLE inbox_requests ADD COLUMN '+name+' REAL')
+        self.db.execute('CREATE INDEX IF NOT EXISTS inbox_pending ON inbox_requests(state,seq)')
+        self.db.execute('CREATE INDEX IF NOT EXISTS inbox_thread ON inbox_requests(room_id,sender,seq,state)')
+        self.db.execute("CREATE INDEX IF NOT EXISTS inbox_unfinished_thread ON inbox_requests(room_id,sender,seq) WHERE state!='done'")
         previous = self.meta('identity')
         if previous is not None and previous != identity:
             self.close()
@@ -80,8 +86,8 @@ class InboxStore:
         if not isinstance(event.body, str) or not event.event_id or not event.sender:
             return False
         result = self.db.execute('''INSERT OR IGNORE INTO inbox_requests
-          (event_id,room_id,sender,body,timestamp) VALUES(?,?,?,?,?)''',
-          (event.event_id, room_id, event.sender, event.body[:12000], event.server_timestamp))
+          (event_id,room_id,sender,body,timestamp,received) VALUES(?,?,?,?,?,?)''',
+          (event.event_id, room_id, event.sender, event.body[:12000], event.server_timestamp,self.clock()))
         return result.rowcount == 1
 
     def commit_sync(self, cursor, events, anchors):
@@ -98,9 +104,12 @@ class InboxStore:
 
     def claim(self):
         with self.db:
-            row = self.db.execute("SELECT * FROM inbox_requests WHERE state='pending' AND available<=? ORDER BY seq LIMIT 1", (self.clock(),)).fetchone()
+            row = self.db.execute("""SELECT r.* FROM inbox_requests r WHERE r.state='pending' AND r.available<=?
+                AND NOT EXISTS (SELECT 1 FROM inbox_requests earlier WHERE earlier.room_id=r.room_id
+                AND earlier.sender=r.sender AND earlier.seq<r.seq AND earlier.state!='done')
+                ORDER BY r.seq LIMIT 1""", (self.clock(),)).fetchone()
             if row:
-                self.db.execute("UPDATE inbox_requests SET state='processing',attempts=attempts+1 WHERE seq=?", (row['seq'],))
+                self.db.execute("UPDATE inbox_requests SET state='processing',attempts=attempts+1,started=? WHERE seq=?", (self.clock(),row['seq']))
         return dict(row) if row else None
 
     def retry(self, event_id, attempts):
@@ -110,9 +119,15 @@ class InboxStore:
     def pending(self):
         return self.db.execute("SELECT count(*) FROM inbox_requests WHERE state!='done'").fetchone()[0]
 
+    def metrics(self):
+        """Aggregate queue state only; never expose message text or Matrix identities."""
+        states={r[0]:r[1] for r in self.db.execute('SELECT state,count(*) FROM inbox_requests GROUP BY state')}
+        pending=self.db.execute("SELECT min(received) FROM inbox_requests WHERE state!='done'").fetchone()[0]
+        return {'states':states,'oldest_pending_seconds':max(0,self.clock()-pending) if pending else 0}
+
     def finish(self, event_id):
         with self.db:
-            self.db.execute("UPDATE inbox_requests SET state='done',body='',completed=? WHERE event_id=?", (self.clock(),event_id))
+            self.db.execute("UPDATE inbox_requests SET state='done',body='',completed=?,finished=? WHERE event_id=?", (self.clock(),self.clock(),event_id))
             self.db.execute("UPDATE inbox_outbox SET content='' WHERE event_id=?", (event_id,))
             self.db.execute("DELETE FROM inbox_prepared_context WHERE event_id=?", (event_id,))
 

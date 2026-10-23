@@ -84,3 +84,11 @@ LOAN_STATUS_NOTIFICATION = re.compile(
 def loan_status_notification(question):
     """A status message needs source verification before treating it as a debt."""
     return bool(LOAN_STATUS_NOTIFICATION.search(question))
+
+
+def general_legal_aid_question(question):
+    """Recognize public eligibility, without overriding criminal-defence procedure."""
+    if re.search(r'задержан|задержали|допрос|подозреваем|обвиняем',question,re.I):return False
+    return bool(re.search(r'бесплатн|гарантированн',question,re.I)
+                and re.search(r'юридическ|правов|адвокат|защитник',question,re.I)
+                and re.search(r'кто|кому|всем|право|получить|категори|положен',question,re.I))

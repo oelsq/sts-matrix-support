@@ -510,10 +510,8 @@ def unsupported_quantities(answer, question, evidence, cited):
 
 def legal_aid_eligibility_answer(question, evidence):
     """Use a bounded article-26 summary for general eligibility questions."""
-    if not re.search(r'бесплатн|гарантированн', question, re.I) or not re.search(r'юридическ|правов', question, re.I):
-        return None
-    if not re.search(r'кто|право|получить|категори|положен', question, re.I):
-        return None
+    from retrieval_intents import general_legal_aid_question
+    if not general_legal_aid_question(question):return None
     passages = [p for p in evidence if p.get('document_id') == 'legal-aid' and str(p.get('section', '')).startswith('Статья 26.')]
     information = next((p for p in passages if 'правового информирования имеют все' in str(p['text'])), None)
     representation = next((p for p in passages if '3. Гарантированная' in str(p['text']) and 'защиты и представительства' in str(p['text'])), None)

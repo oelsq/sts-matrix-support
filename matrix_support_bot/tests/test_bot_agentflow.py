@@ -4,10 +4,11 @@ from types import SimpleNamespace
 import pytest
 from flowise_client import FlowiseClient,FlowiseReviewRejected
 
+@pytest.mark.parametrize('typing_fails',[False,True])
 @pytest.mark.parametrize('invalid_first,quality_rejected',[(False,False),(True,False),(False,True)])
-def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invalid_first,quality_rejected):
+def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invalid_first,quality_rejected,typing_fails):
     import bot
-    calls=[];out=[]
+    calls=[];out=[];typing=[]
     class Flow:
         routes={'!v2:demo.local':{'domain':'finance','flow_id':'synthetic','engine':'agentflow_v2'}}
         if quality_rejected:routes['!v2:demo.local']['quality_contract']='sts.claims.v1'
@@ -35,6 +36,9 @@ def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invali
             if k==bot.RoomMessageText:self.callback=c
         async def login(self,*args,**kwargs):return Login()
         async def room_send(self,**kwargs):out.append(kwargs['content']['body'])
+        async def room_typing(self,room_id,**kwargs):
+            typing.append(kwargs['typing_state'])
+            if typing_fails:raise RuntimeError('Ephemeral typing not available')
         async def close(self):pass
         async def sync_forever(self,**kwargs):await self.callback(SimpleNamespace(room_id='!v2:demo.local'),
             SimpleNamespace(sender='@synthetic:demo.local',body='Поясни условие тарифа Halyk',event_id='$case',server_timestamp=int(time.time()*1000)+1000))
@@ -44,6 +48,8 @@ def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invali
     monkeypatch.setattr(bot,'read_llm_key',lambda:'dummy');monkeypatch.setattr(bot,'department_roster',lambda _: {})
     monkeypatch.setattr(bot,'KnowledgeStore',lambda _:Knowledge());monkeypatch.setattr(FlowiseClient,'from_env',lambda _:Flow())
     asyncio.run(bot.main())
+    assert len(out)==1 and not out[0].startswith('Готовлю ответ')
+    assert typing==[True,False]
     assert len(calls)==(2 if invalid_first else 1)
     if quality_rejected:
         assert 'временно недоступен' not in out[-1]

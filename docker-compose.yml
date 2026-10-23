@@ -100,6 +100,7 @@ services:
       MATRIX_ROOM_ROUTES_FILE: /app/state/room_routes.json
       HANDOFF_DB: /app/state/handoff.sqlite3
       MATRIX_INBOX_DB: /app/state/matrix_inbox.sqlite3
+      MATRIX_REQUEST_WORKERS: ${MATRIX_REQUEST_WORKERS:-1}
       LEGAL_DEPARTMENT_USERS: "@jurdep:${MATRIX_SERVER_NAME:-demo.local},@jurdep2:${MATRIX_SERVER_NAME:-demo.local},@jurdep3:${MATRIX_SERVER_NAME:-demo.local},@jurdep4:${MATRIX_SERVER_NAME:-demo.local},@jurdep5:${MATRIX_SERVER_NAME:-demo.local}"
       FINANCE_DEPARTMENT_USERS: "@findep:${MATRIX_SERVER_NAME:-demo.local},@findep2:${MATRIX_SERVER_NAME:-demo.local},@findep3:${MATRIX_SERVER_NAME:-demo.local},@findep4:${MATRIX_SERVER_NAME:-demo.local},@findep5:${MATRIX_SERVER_NAME:-demo.local}"
       ELEMENT_PUBLIC_URL: ${ELEMENT_PUBLIC_URL:-http://localhost:8081}

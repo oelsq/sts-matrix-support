@@ -198,6 +198,17 @@ async def main():
                      "Если просили письмо, напиши сам черновик с заполнителями. Ошибки предыдущей попытки: " + ", ".join(quality_issues)},
                 ]
 
+        typing_counts = {}
+        async def indicate_typing(room_id, delta):
+            # Ephemeral presence avoids spending the message quota on progress text.
+            if not hasattr(client,'room_typing'):return
+            count=max(0,typing_counts.get(room_id,0)+delta)
+            if count:typing_counts[room_id]=count
+            else:typing_counts.pop(room_id,None)
+            if delta>0 and count>1 or delta<0 and count>0:return
+            try:await client.room_typing(room_id,typing_state=bool(count),timeout=30000)
+            except Exception as exc:log.debug('Typing indicator unavailable (%s)',type(exc).__name__)
+
         async def process_event(room, event):
             if (
                 event.sender == client.user
@@ -272,23 +283,24 @@ async def main():
             if notice:
                 await dispatcher.send(room_id=room.room_id, message_type="m.room.message",
                                        content=matrix_content(notice),kind='urgent',final=False)
-            if flowise and room.room_id in flowise.routes:
-                await dispatcher.send(room_id=room.room_id, message_type="m.room.message",
-                                       content={"msgtype":"m.text", "body":"Готовлю ответ по проверенным документам…"},kind='progress',final=False)
-            replies = []
-            for domain in domains:
-                try:
-                    replies.append(await ask_agent(domain, question, room.room_id, event.sender, event.event_id))
-                    log.info("Agent %s answered", domain)
-                except Exception as exc:
-                    log.error("Agent %s failed (%s)", domain, type(exc).__name__)
-                    name = {
-                        "legal": "Юридический агент",
-                        "finance": "Финансовый агент",
-                        "general": "Помощник",
-                    }[domain]
-                    replies.append(practical_fallback(domain, question) +
-                                   "\n\nСервис генерации временно недоступен; выше — ограниченная помощь без нового ответа модели.")
+            await indicate_typing(room.room_id,1)
+            try:
+                replies = []
+                for domain in domains:
+                    try:
+                        replies.append(await ask_agent(domain, question, room.room_id, event.sender, event.event_id))
+                        log.info("Agent %s answered", domain)
+                    except Exception as exc:
+                        log.error("Agent %s failed (%s)", domain, type(exc).__name__)
+                        name = {
+                            "legal": "Юридический агент",
+                            "finance": "Финансовый агент",
+                            "general": "Помощник",
+                        }[domain]
+                        replies.append(practical_fallback(domain, question) +
+                                       "\n\nСервис генерации временно недоступен; выше — ограниченная помощь без нового ответа модели.")
+            finally:
+                await indicate_typing(room.room_id,-1)
             answer = "\n\n".join(replies)
             latest_context[key] = (question, answer)
             if len(latest_context) > 1000:
@@ -306,6 +318,7 @@ async def main():
         dispatcher=RequestDispatcher(inbox,client,process_event,allow_unconfirmed=not durable_sync)
         ready=asyncio.Event()
         worker=None
+        knowledge_monitor=None
 
         def eligible_room(room_id):
             return not (handoff and handoff.store.contains_room(room_id))
@@ -325,6 +338,9 @@ async def main():
             ready.set();dispatcher.wake.set()
 
         try:
+            if knowledge_dir:
+                from knowledge_monitor import monitor
+                knowledge_monitor=asyncio.create_task(monitor(knowledge_dir,str(state_path/'knowledge-freshness.json')))
             session=inbox.meta('matrix_session')
             restored=False
             if session and hasattr(client,'restore_login'):
@@ -347,13 +363,16 @@ async def main():
             client.add_event_callback(message, RoomMessageText)
             if durable_sync:
                 client.add_response_callback(checkpoint,SyncResponse)
-                worker=asyncio.create_task(dispatcher.run(ready))
+                worker=asyncio.create_task(dispatcher.run(ready, workers=int(os.getenv("MATRIX_REQUEST_WORKERS","1"))))
                 await client.sync_forever(timeout=30000,since=inbox.cursor,full_state=True,
                                           sync_filter={'room':{'timeline':{'limit':100}}})
             else:
                 while await dispatcher.process_next():pass
                 await client.sync_forever(timeout=30000)
         finally:
+            if knowledge_monitor:
+                knowledge_monitor.cancel()
+                with contextlib.suppress(asyncio.CancelledError):await knowledge_monitor
             if worker:
                 worker.cancel()
                 with contextlib.suppress(asyncio.CancelledError):await worker

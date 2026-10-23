@@ -39,6 +39,20 @@ class ExpandedKnowledgeTests(unittest.TestCase):
         found=self.store.search('legal','Как получить гарантированную государством бесплатную юридическую помощь?')
         self.assertTrue(any(p['document_id']=='legal-aid' and p['section'].startswith('Статья 26.') for p in found))
 
+    def test_everyday_free_lawyer_question_preserves_distinct_forms(self):
+        from local_reply import prepare_local_reply
+        result=prepare_local_reply('legal','Всем ли бесплатно положен адвокат в Казахстане?',self.store)
+        self.assertEqual(result.mechanism,'source_bound_legal_aid')
+        self.assertIn('информирование',result.answer)
+        self.assertIn('консультирования',result.answer)
+        self.assertIn('представительство',result.answer)
+        self.assertIn('не связан с предпринимательской деятельностью',result.answer)
+        self.assertTrue(any(p['document_id']=='legal-aid' and p['section'].startswith('Статья 26.') for p in result.evidence))
+
+    def test_free_criminal_defence_keeps_procedural_route(self):
+        from retrieval_intents import general_legal_aid_question
+        self.assertFalse(general_legal_aid_question('Меня задержали, положен ли бесплатный адвокат?'))
+
     def test_future_ombudsman_article_and_clauses_not_retrieved(self):
         found=self.store.search('finance','Финансовый омбудсман досудебное урегулирование задолженности',10000)
         self.assertFalse(any(p['document_id']=='banks' and p['section'].startswith('Статья 65') for p in found))

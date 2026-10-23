@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from pypdf import PdfReader
-from retrieval_intents import query_hints, explicit_article, loan_status_notification
+from retrieval_intents import query_hints, explicit_article, loan_status_notification, general_legal_aid_question
 
 DOMAINS = {"legal", "finance"}
 TOKEN = re.compile(r"[\w-]{3,}", re.UNICODE)
@@ -254,6 +254,8 @@ class KnowledgeStore:
                     self.passages.append(passage)
         if present_domains != DOMAINS:
             raise KnowledgeError("Offline mode requires reviewed legal and finance documents")
+        from evidence_neighbors import QualificationIndex
+        self.qualifications=QualificationIndex(self.passages)
         self._by_id = {str(p["id"]): p for p in self.passages}
         self._document_sizes = Counter(p["document_id"] for p in self.passages)
         self._counters = {str(p["id"]): Counter(_terms(str(p["text"]) + " " + str(p.get("section", ""))))
@@ -329,6 +331,8 @@ class KnowledgeStore:
                 normalized += " " + expansion
         if re.search(r"\bбрак\w*", question, re.I):
             normalized += " брачный супружеский возраст заключение брака"
+        if general_legal_aid_question(question):
+            normalized += " бесплатная гарантированная юридическая помощь право информирование консультирование представительство"
         terms = _terms(normalized) - _terms("Halyk халык Freedom фридом ФинАгент ЮрАгент")
         if domain not in DOMAINS or not terms:
             return []
@@ -489,7 +493,7 @@ class KnowledgeStore:
                     score += 250
                 if passage["document_id"] in intent_sections and section.startswith(tuple(intent_sections[passage["document_id"]])):
                     score += 400
-                if ("юриди" in terms and "помощ" in terms and ("прав" in question.casefold() or re.search(r"кто|кому|положен", question, re.I))
+                if (general_legal_aid_question(question)
                         and passage["document_id"] == "legal-aid" and str(passage["section"]).startswith("Статья 26.")):
                     score += 2000
                 if ("омбуд" in question.casefold() and passage["document_id"] == "banks"

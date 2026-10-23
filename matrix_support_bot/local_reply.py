@@ -41,4 +41,6 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
             answer = build()
             if answer and "Не удалось подготовить ответ с проверяемой" not in answer:
                 return PreparedReply(evidence, answer, mechanism)
+    if evidence and getattr(knowledge,"qualifications",None):
+        evidence=knowledge.qualifications.augment(evidence,search_question,limit=8)
     return PreparedReply(evidence, None, "requires_model")
