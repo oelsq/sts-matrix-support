@@ -52,5 +52,6 @@ def refresh_plan(routes, api):
             else:
                 continue
             node['data']['inputs'][key] = copy.deepcopy(expected[node_id]['data']['inputs'][key])
+        after_graph['nodes'][-1]['data']['label']='Итог или запрос повторного поиска'
         plan['flows'][domain] = {'id': ident, 'before': before, 'after': dict(before, flowData=json.dumps(after_graph, ensure_ascii=False))}
     return plan

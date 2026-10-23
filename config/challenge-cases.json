@@ -1,0 +1,2583 @@
+{
+  "schema_version": 1,
+  "reference_status": "awaiting_specialist",
+  "case_count": 125,
+  "distinct_families": 23,
+  "notes": "100 formulations from 20 existing candidate families, 20 arithmetic cases and 5 civil-contract scope cases. Not 125 independent expert-approved legal situations. No specialist review has occurred.",
+  "cases": [
+    {
+      "id": "expanded-wages-0",
+      "domain": "legal",
+      "question": "Начальник не отдаёт деньги за работу",
+      "previous_questions": [],
+      "candidate_reference": "Различить трудовые отношения и подряд, проверить основание оплаты, сохранить доказательства, объяснить применимые правила выплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "employment": "работодател|трудов",
+        "practical": "сохран|подтвержд|переписк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "wages",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-wages-1",
+      "domain": "legal",
+      "question": "Начальник задерживает деньги за работу. Что делать?",
+      "previous_questions": [],
+      "candidate_reference": "Различить трудовые отношения и подряд, проверить основание оплаты, сохранить доказательства, объяснить применимые правила выплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "employment": "работодател|трудов",
+        "practical": "сохран|подтвержд|переписк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "wages",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-wages-2",
+      "domain": "legal",
+      "question": "Мне не отдали заработанные деньги. Как действовать?",
+      "previous_questions": [],
+      "candidate_reference": "Различить трудовые отношения и подряд, проверить основание оплаты, сохранить доказательства, объяснить применимые правила выплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "employment": "работодател|трудов",
+        "practical": "сохран|подтвержд|переписк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "wages",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-wages-3",
+      "domain": "legal",
+      "question": "Работодатель не перечислил зарплату. С чего начать?",
+      "previous_questions": [],
+      "candidate_reference": "Различить трудовые отношения и подряд, проверить основание оплаты, сохранить доказательства, объяснить применимые правила выплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "employment": "работодател|трудов",
+        "practical": "сохран|подтвержд|переписк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "wages",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-wages-4",
+      "domain": "legal",
+      "question": "За выполненную работу денег до сих пор нет. Помоги разобраться.",
+      "previous_questions": [],
+      "candidate_reference": "Различить трудовые отношения и подряд, проверить основание оплаты, сохранить доказательства, объяснить применимые правила выплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "employment": "работодател|трудов",
+        "practical": "сохран|подтвержд|переписк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "wages",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-wage-letter-0",
+      "domain": "legal",
+      "question": "А как написать требование?",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "candidate_reference": "Предоставить сам черновик требования с заполнителями, используя предыдущий вопрос о задержке оплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "draft": "Кому:",
+        "request": "Прошу",
+        "placeholder": "\\[период\\]"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "wage-letter",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-wage-letter-1",
+      "domain": "legal",
+      "question": "Помоги составить требование об оплате.",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "candidate_reference": "Предоставить сам черновик требования с заполнителями, используя предыдущий вопрос о задержке оплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "draft": "Кому:",
+        "request": "Прошу",
+        "placeholder": "\\[период\\]"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "wage-letter",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-wage-letter-2",
+      "domain": "legal",
+      "question": "Напиши требование работодателю о выплате зарплаты.",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "candidate_reference": "Предоставить сам черновик требования с заполнителями, используя предыдущий вопрос о задержке оплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "draft": "Кому:",
+        "request": "Прошу",
+        "placeholder": "\\[период\\]"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "wage-letter",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-wage-letter-3",
+      "domain": "legal",
+      "question": "Составь письмо с просьбой выплатить задолженность за работу.",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "candidate_reference": "Предоставить сам черновик требования с заполнителями, используя предыдущий вопрос о задержке оплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "draft": "Кому:",
+        "request": "Прошу",
+        "placeholder": "\\[период\\]"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "wage-letter",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-wage-letter-4",
+      "domain": "legal",
+      "question": "Нужен текст требования о выплате заработанных денег.",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "candidate_reference": "Предоставить сам черновик требования с заполнителями, используя предыдущий вопрос о задержке оплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "draft": "Кому:",
+        "request": "Прошу",
+        "placeholder": "\\[период\\]"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "wage-letter",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-forced-leave-0",
+      "domain": "legal",
+      "question": "Работодатель заставляет написать заявление на отпуск без содержания. Обязан соглашаться?",
+      "previous_questions": [],
+      "candidate_reference": "Сохранить условие о соглашении сторон и заявлении работника. Не превращать право на отпуск в право работодателя принуждать.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "agreement": "соглашени",
+        "application": "заявлен"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "forced-leave",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-forced-leave-1",
+      "domain": "legal",
+      "question": "Меня заставляют написать заявление на отпуск без содержания. Нужно соглашаться?",
+      "previous_questions": [],
+      "candidate_reference": "Сохранить условие о соглашении сторон и заявлении работника. Не превращать право на отпуск в право работодателя принуждать.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "agreement": "соглашени",
+        "application": "заявлен"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "forced-leave",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-forced-leave-2",
+      "domain": "legal",
+      "question": "Работодатель отправляет в неоплачиваемый отпуск без моего согласия. Можно так?",
+      "previous_questions": [],
+      "candidate_reference": "Сохранить условие о соглашении сторон и заявлении работника. Не превращать право на отпуск в право работодателя принуждать.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "agreement": "соглашени",
+        "application": "заявлен"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "forced-leave",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-forced-leave-3",
+      "domain": "legal",
+      "question": "Обязан ли работник писать заявление на отпуск за свой счёт по просьбе начальника?",
+      "previous_questions": [],
+      "candidate_reference": "Сохранить условие о соглашении сторон и заявлении работника. Не превращать право на отпуск в право работодателя принуждать.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "agreement": "соглашени",
+        "application": "заявлен"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "forced-leave",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-forced-leave-4",
+      "domain": "legal",
+      "question": "Начальник требует взять отпуск без сохранения заработной платы. Я против.",
+      "previous_questions": [],
+      "candidate_reference": "Сохранить условие о соглашении сторон и заявлении работника. Не превращать право на отпуск в право работодателя принуждать.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "agreement": "соглашени",
+        "application": "заявлен"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "forced-leave",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-marriage-0",
+      "domain": "legal",
+      "question": "Что регулирует брачный договор?",
+      "previous_questions": [],
+      "candidate_reference": "Различить допускаемое имущественное положение детей и ограничения прав и обязанностей супругов в отношении детей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "child-property": "имущественном положении детей",
+        "parent-duties": "права и обязанности в отношении детей"
+      },
+      "forbidden": {
+        "blanket-ban": "нельзя регулировать права детей"
+      },
+      "risk": "high",
+      "family": "marriage",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-marriage-1",
+      "domain": "legal",
+      "question": "Какие вопросы можно включить в брачный договор?",
+      "previous_questions": [],
+      "candidate_reference": "Различить допускаемое имущественное положение детей и ограничения прав и обязанностей супругов в отношении детей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "child-property": "имущественном положении детей",
+        "parent-duties": "права и обязанности в отношении детей"
+      },
+      "forbidden": {
+        "blanket-ban": "нельзя регулировать права детей"
+      },
+      "risk": "high",
+      "family": "marriage",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-marriage-2",
+      "domain": "legal",
+      "question": "Объясни, что регулируется брачным договором, а что нет.",
+      "previous_questions": [],
+      "candidate_reference": "Различить допускаемое имущественное положение детей и ограничения прав и обязанностей супругов в отношении детей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "child-property": "имущественном положении детей",
+        "parent-duties": "права и обязанности в отношении детей"
+      },
+      "forbidden": {
+        "blanket-ban": "нельзя регулировать права детей"
+      },
+      "risk": "high",
+      "family": "marriage",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-marriage-3",
+      "domain": "legal",
+      "question": "Можно брачным договором определить обязанности родителей и имущество детей?",
+      "previous_questions": [],
+      "candidate_reference": "Различить допускаемое имущественное положение детей и ограничения прав и обязанностей супругов в отношении детей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "child-property": "имущественном положении детей",
+        "parent-duties": "права и обязанности в отношении детей"
+      },
+      "forbidden": {
+        "blanket-ban": "нельзя регулировать права детей"
+      },
+      "risk": "high",
+      "family": "marriage",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-marriage-4",
+      "domain": "legal",
+      "question": "Какие ограничения есть у брачного договора в отношении детей?",
+      "previous_questions": [],
+      "candidate_reference": "Различить допускаемое имущественное положение детей и ограничения прав и обязанностей супругов в отношении детей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "child-property": "имущественном положении детей",
+        "parent-duties": "права и обязанности в отношении детей"
+      },
+      "forbidden": {
+        "blanket-ban": "нельзя регулировать права детей"
+      },
+      "risk": "high",
+      "family": "marriage",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-child-opinion-0",
+      "domain": "legal",
+      "question": "Ребёнку 10 лет. Он сам решает с кем жить после развода?",
+      "previous_questions": [],
+      "candidate_reference": "Различить обязательность учёта мнения и единоличное решение ребёнка; сохранить интересы ребёнка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "interest": "интерес",
+        "not-alone": "не означает|не.*единолич|не.*самостоятельн"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "child-opinion",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-child-opinion-1",
+      "domain": "legal",
+      "question": "Ребёнок сам решает, с кем жить после развода?",
+      "previous_questions": [],
+      "candidate_reference": "Различить обязательность учёта мнения и единоличное решение ребёнка; сохранить интересы ребёнка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "interest": "интерес",
+        "not-alone": "не означает|не.*единолич|не.*самостоятельн"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "child-opinion",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-child-opinion-2",
+      "domain": "legal",
+      "question": "Суд обязательно согласится с выбором ребёнка, с кем из родителей жить?",
+      "previous_questions": [],
+      "candidate_reference": "Различить обязательность учёта мнения и единоличное решение ребёнка; сохранить интересы ребёнка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "interest": "интерес",
+        "not-alone": "не означает|не.*единолич|не.*самостоятельн"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "child-opinion",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-child-opinion-3",
+      "domain": "legal",
+      "question": "Достаточно желания ребёнка для определения места жительства с родителем?",
+      "previous_questions": [],
+      "candidate_reference": "Различить обязательность учёта мнения и единоличное решение ребёнка; сохранить интересы ребёнка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "interest": "интерес",
+        "not-alone": "не означает|не.*единолич|не.*самостоятельн"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "child-opinion",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-child-opinion-4",
+      "domain": "legal",
+      "question": "Учитывается ли мнение ребёнка о проживании с отцом или матерью и какие ограничения?",
+      "previous_questions": [],
+      "candidate_reference": "Различить обязательность учёта мнения и единоличное решение ребёнка; сохранить интересы ребёнка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "interest": "интерес",
+        "not-alone": "не означает|не.*единолич|не.*самостоятельн"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "child-opinion",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-consent-0",
+      "domain": "legal",
+      "question": "Можно ли отозвать согласие на обработку персональных данных?",
+      "previous_questions": [],
+      "candidate_reference": "Указать ограничения: противоречие законам и неисполненное обязательство. Отдельно проверить законные основания дальнейшей обработки.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "personal-law"
+      ],
+      "required": {
+        "obligation": "неисполненн|невыполненн|непогашенн",
+        "law": "противореч|вопреки"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "consent",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-consent-1",
+      "domain": "legal",
+      "question": "Можно ли забрать согласие на обработку персональных данных?",
+      "previous_questions": [],
+      "candidate_reference": "Указать ограничения: противоречие законам и неисполненное обязательство. Отдельно проверить законные основания дальнейшей обработки.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "personal-law"
+      ],
+      "required": {
+        "obligation": "неисполненн|невыполненн|непогашенн",
+        "law": "противореч|вопреки"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "consent",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-consent-2",
+      "domain": "legal",
+      "question": "Когда нельзя отозвать согласие на обработку персональных данных?",
+      "previous_questions": [],
+      "candidate_reference": "Указать ограничения: противоречие законам и неисполненное обязательство. Отдельно проверить законные основания дальнейшей обработки.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "personal-law"
+      ],
+      "required": {
+        "obligation": "неисполненн|невыполненн|непогашенн",
+        "law": "противореч|вопреки"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "consent",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-consent-3",
+      "domain": "legal",
+      "question": "Хочу отозвать согласие на обработку данных. Есть исключения?",
+      "previous_questions": [],
+      "candidate_reference": "Указать ограничения: противоречие законам и неисполненное обязательство. Отдельно проверить законные основания дальнейшей обработки.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "personal-law"
+      ],
+      "required": {
+        "obligation": "неисполненн|невыполненн|непогашенн",
+        "law": "противореч|вопреки"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "consent",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-consent-4",
+      "domain": "legal",
+      "question": "Отзыв согласия на персональные данные всегда прекращает их обработку?",
+      "previous_questions": [],
+      "candidate_reference": "Указать ограничения: противоречие законам и неисполненное обязательство. Отдельно проверить законные основания дальнейшей обработки.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "personal-law"
+      ],
+      "required": {
+        "obligation": "неисполненн|невыполненн|непогашенн",
+        "law": "противореч|вопреки"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "consent",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-consumer-0",
+      "domain": "legal",
+      "question": "Купил неисправный телефон, хочу вернуть деньги",
+      "previous_questions": [],
+      "candidate_reference": "Дать полезные действия с учётом недостатка и условий гарантии; не обещать возврат при любых обстоятельствах.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "consumer-law"
+      ],
+      "required": {
+        "defect": "недостат|неисправ|дефект",
+        "action": "сохран|претензи|продав"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "consumer",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-consumer-1",
+      "domain": "legal",
+      "question": "Купил телефон, он сломался, продавец отказывается вернуть деньги. Что делать?",
+      "previous_questions": [],
+      "candidate_reference": "Дать полезные действия с учётом недостатка и условий гарантии; не обещать возврат при любых обстоятельствах.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "consumer-law"
+      ],
+      "required": {
+        "defect": "недостат|неисправ|дефект",
+        "action": "сохран|претензи|продав"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "consumer",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-consumer-2",
+      "domain": "legal",
+      "question": "Магазин не принимает неисправный телефон. Какие действия?",
+      "previous_questions": [],
+      "candidate_reference": "Дать полезные действия с учётом недостатка и условий гарантии; не обещать возврат при любых обстоятельствах.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "consumer-law"
+      ],
+      "required": {
+        "defect": "недостат|неисправ|дефект",
+        "action": "сохран|претензи|продав"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "consumer",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-consumer-3",
+      "domain": "legal",
+      "question": "Как действовать при обнаружении недостатка купленного телефона?",
+      "previous_questions": [],
+      "candidate_reference": "Дать полезные действия с учётом недостатка и условий гарантии; не обещать возврат при любых обстоятельствах.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "consumer-law"
+      ],
+      "required": {
+        "defect": "недостат|неисправ|дефект",
+        "action": "сохран|претензи|продав"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "consumer",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-consumer-4",
+      "domain": "legal",
+      "question": "Телефон оказался с дефектом. Можно потребовать возврат денег у продавца?",
+      "previous_questions": [],
+      "candidate_reference": "Дать полезные действия с учётом недостатка и условий гарантии; не обещать возврат при любых обстоятельствах.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "consumer-law"
+      ],
+      "required": {
+        "defect": "недостат|неисправ|дефект",
+        "action": "сохран|претензи|продав"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "consumer",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-phone-theft-0",
+      "domain": "legal",
+      "question": "Украли телефон на работе. Что делать?",
+      "previous_questions": [],
+      "candidate_reference": "Зафиксировать пропажу и защитить доступы; не выдумывать обязательную квалификацию и наказание.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "criminal"
+      ],
+      "required": {
+        "evidence": "сохран|зафиксир|запишите",
+        "access": "доступ|SIM|оператор|банк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "phone-theft",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-phone-theft-1",
+      "domain": "legal",
+      "question": "В офисе украли телефон. Что мне сделать?",
+      "previous_questions": [],
+      "candidate_reference": "Зафиксировать пропажу и защитить доступы; не выдумывать обязательную квалификацию и наказание.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "criminal"
+      ],
+      "required": {
+        "evidence": "сохран|зафиксир|запишите",
+        "access": "доступ|SIM|оператор|банк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "phone-theft",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-phone-theft-2",
+      "domain": "legal",
+      "question": "Телефон похитили на работе. Как защитить доступы и сохранить доказательства?",
+      "previous_questions": [],
+      "candidate_reference": "Зафиксировать пропажу и защитить доступы; не выдумывать обязательную квалификацию и наказание.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "criminal"
+      ],
+      "required": {
+        "evidence": "сохран|зафиксир|запишите",
+        "access": "доступ|SIM|оператор|банк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "phone-theft",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-phone-theft-3",
+      "domain": "legal",
+      "question": "Украли телефон с банковскими приложениями. Какие первые действия?",
+      "previous_questions": [],
+      "candidate_reference": "Зафиксировать пропажу и защитить доступы; не выдумывать обязательную квалификацию и наказание.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "criminal"
+      ],
+      "required": {
+        "evidence": "сохран|зафиксир|запишите",
+        "access": "доступ|SIM|оператор|банк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "phone-theft",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-phone-theft-4",
+      "domain": "legal",
+      "question": "Что делать после кражи телефона в помещении организации?",
+      "previous_questions": [],
+      "candidate_reference": "Зафиксировать пропажу и защитить доступы; не выдумывать обязательную квалификацию и наказание.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "criminal"
+      ],
+      "required": {
+        "evidence": "сохран|зафиксир|запишите",
+        "access": "доступ|SIM|оператор|банк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "phone-theft",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-legal-aid-0",
+      "domain": "legal",
+      "question": "Всем ли бесплатно положен адвокат в Казахстане?",
+      "previous_questions": [],
+      "candidate_reference": "Различить общедоступное правовое информирование и другие формы юридической помощи, имеющие условия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "legal-aid"
+      ],
+      "required": {
+        "distinction": "информирован",
+        "conditions": "услови|категор|основан"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "legal-aid",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-legal-aid-1",
+      "domain": "legal",
+      "question": "Каждому положен бесплатный адвокат?",
+      "previous_questions": [],
+      "candidate_reference": "Различить общедоступное правовое информирование и другие формы юридической помощи, имеющие условия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "legal-aid"
+      ],
+      "required": {
+        "distinction": "информирован",
+        "conditions": "услови|категор|основан"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "legal-aid",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-legal-aid-2",
+      "domain": "legal",
+      "question": "Кто имеет право получить бесплатную юридическую помощь?",
+      "previous_questions": [],
+      "candidate_reference": "Различить общедоступное правовое информирование и другие формы юридической помощи, имеющие условия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "legal-aid"
+      ],
+      "required": {
+        "distinction": "информирован",
+        "conditions": "услови|категор|основан"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "legal-aid",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-legal-aid-3",
+      "domain": "legal",
+      "question": "Можно ли всем получить бесплатного адвоката в Казахстане?",
+      "previous_questions": [],
+      "candidate_reference": "Различить общедоступное правовое информирование и другие формы юридической помощи, имеющие условия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "legal-aid"
+      ],
+      "required": {
+        "distinction": "информирован",
+        "conditions": "услови|категор|основан"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "legal-aid",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-legal-aid-4",
+      "domain": "legal",
+      "question": "Есть ли право на бесплатного адвоката у любого гражданина?",
+      "previous_questions": [],
+      "candidate_reference": "Различить общедоступное правовое информирование и другие формы юридической помощи, имеющие условия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "legal-aid"
+      ],
+      "required": {
+        "distinction": "информирован",
+        "conditions": "услови|категор|основан"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "legal-aid",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-rental-letter-0",
+      "domain": "legal",
+      "question": "Как написать требование о возврате залога за квартиру?",
+      "previous_questions": [],
+      "candidate_reference": "Подготовить черновик с заполнителями без выдуманного обязательного срока возврата.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-general"
+      ],
+      "required": {
+        "draft": "Кому:|Адресат:",
+        "request": "Прошу|прошу"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "rental-letter",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-rental-letter-1",
+      "domain": "legal",
+      "question": "Напиши требование арендодателю о возврате залога за квартиру.",
+      "previous_questions": [],
+      "candidate_reference": "Подготовить черновик с заполнителями без выдуманного обязательного срока возврата.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-general"
+      ],
+      "required": {
+        "draft": "Кому:|Адресат:",
+        "request": "Прошу|прошу"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "rental-letter",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-rental-letter-2",
+      "domain": "legal",
+      "question": "Составь письмо хозяину квартиры о возврате депозита.",
+      "previous_questions": [],
+      "candidate_reference": "Подготовить черновик с заполнителями без выдуманного обязательного срока возврата.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-general"
+      ],
+      "required": {
+        "draft": "Кому:|Адресат:",
+        "request": "Прошу|прошу"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "rental-letter",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-rental-letter-3",
+      "domain": "legal",
+      "question": "Нужен образец претензии о возврате обеспечительного платежа за аренду жилья.",
+      "previous_questions": [],
+      "candidate_reference": "Подготовить черновик с заполнителями без выдуманного обязательного срока возврата.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-general"
+      ],
+      "required": {
+        "draft": "Кому:|Адресат:",
+        "request": "Прошу|прошу"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "rental-letter",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-rental-letter-4",
+      "domain": "legal",
+      "question": "Помоги написать обращение о возврате залога после аренды квартиры.",
+      "previous_questions": [],
+      "candidate_reference": "Подготовить черновик с заполнителями без выдуманного обязательного срока возврата.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-general"
+      ],
+      "required": {
+        "draft": "Кому:|Адресат:",
+        "request": "Прошу|прошу"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "rental-letter",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-gesv-0",
+      "domain": "finance",
+      "question": "Что такое ГЭСВ и чем она отличается от номинальной ставки?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить эффективную стоимость и учёт платежей, сохранив исключения.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "cost": "платеж|комисси",
+        "exclusions": "штраф|неустойк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "gesv",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-gesv-1",
+      "domain": "finance",
+      "question": "Что означает ГЭСВ при оформлении кредита?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить эффективную стоимость и учёт платежей, сохранив исключения.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "cost": "платеж|комисси",
+        "exclusions": "штраф|неустойк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "gesv",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-gesv-2",
+      "domain": "finance",
+      "question": "Объясни ГЭСВ простыми словами и что она учитывает.",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить эффективную стоимость и учёт платежей, сохранив исключения.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "cost": "платеж|комисси",
+        "exclusions": "штраф|неустойк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "gesv",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-gesv-3",
+      "domain": "finance",
+      "question": "ГЭСВ и номинальная ставка — какая разница?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить эффективную стоимость и учёт платежей, сохранив исключения.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "cost": "платеж|комисси",
+        "exclusions": "штраф|неустойк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "gesv",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-gesv-4",
+      "domain": "finance",
+      "question": "Годовая эффективная ставка вознаграждения: что включает и какие есть исключения?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить эффективную стоимость и учёт платежей, сохранив исключения.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "cost": "платеж|комисси",
+        "exclusions": "штраф|неустойк"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "gesv",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-gesv-costs-0",
+      "domain": "finance",
+      "question": "Какие комиссии и страховки включаются в ГЭСВ?",
+      "previous_questions": [],
+      "candidate_reference": "Не объявлять любую страховку всегда включённой или исключённой; различить правила расчёта и перечень взимаемых платежей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026",
+        "bank-fees-2026"
+      ],
+      "required": {
+        "insurance": "страхов",
+        "conditions": "услови",
+        "rules": "расч[её]т|расч[её]та"
+      },
+      "forbidden": {
+        "always": "(?m)^\\s*(?:[-*]\\s*)?Любая страховка всегда исключена"
+      },
+      "risk": "high",
+      "family": "gesv-costs",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-gesv-costs-1",
+      "domain": "finance",
+      "question": "Все страховки входят в ГЭСВ или есть условия?",
+      "previous_questions": [],
+      "candidate_reference": "Не объявлять любую страховку всегда включённой или исключённой; различить правила расчёта и перечень взимаемых платежей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026",
+        "bank-fees-2026"
+      ],
+      "required": {
+        "insurance": "страхов",
+        "conditions": "услови",
+        "rules": "расч[её]т|расч[её]та"
+      },
+      "forbidden": {
+        "always": "(?m)^\\s*(?:[-*]\\s*)?Любая страховка всегда исключена"
+      },
+      "risk": "high",
+      "family": "gesv-costs",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-gesv-costs-2",
+      "domain": "finance",
+      "question": "Как определяется включение комиссий и страхования в ГЭСВ?",
+      "previous_questions": [],
+      "candidate_reference": "Не объявлять любую страховку всегда включённой или исключённой; различить правила расчёта и перечень взимаемых платежей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026",
+        "bank-fees-2026"
+      ],
+      "required": {
+        "insurance": "страхов",
+        "conditions": "услови",
+        "rules": "расч[её]т|расч[её]та"
+      },
+      "forbidden": {
+        "always": "(?m)^\\s*(?:[-*]\\s*)?Любая страховка всегда исключена"
+      },
+      "risk": "high",
+      "family": "gesv-costs",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-gesv-costs-3",
+      "domain": "finance",
+      "question": "Какие условия важны для учёта страховки при расчёте ГЭСВ?",
+      "previous_questions": [],
+      "candidate_reference": "Не объявлять любую страховку всегда включённой или исключённой; различить правила расчёта и перечень взимаемых платежей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026",
+        "bank-fees-2026"
+      ],
+      "required": {
+        "insurance": "страхов",
+        "conditions": "услови",
+        "rules": "расч[её]т|расч[её]та"
+      },
+      "forbidden": {
+        "always": "(?m)^\\s*(?:[-*]\\s*)?Любая страховка всегда исключена"
+      },
+      "risk": "high",
+      "family": "gesv-costs",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-gesv-costs-4",
+      "domain": "finance",
+      "question": "Объясни включение и исключение комиссий и страховок при расчёте ГЭСВ по кредиту.",
+      "previous_questions": [],
+      "candidate_reference": "Не объявлять любую страховку всегда включённой или исключённой; различить правила расчёта и перечень взимаемых платежей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026",
+        "bank-fees-2026"
+      ],
+      "required": {
+        "insurance": "страхов",
+        "conditions": "услови",
+        "rules": "расч[её]т|расч[её]та"
+      },
+      "forbidden": {
+        "always": "(?m)^\\s*(?:[-*]\\s*)?Любая страховка всегда исключена"
+      },
+      "risk": "high",
+      "family": "gesv-costs",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-loan-calculation-0",
+      "domain": "finance",
+      "question": "Кредит 1000000 тенге на 2 года под ГЭСВ 20%. Рассчитай переплату.",
+      "previous_questions": [],
+      "candidate_reference": "Запросить график и относящиеся платежи. По этим трём данным не выдавать выдуманную точную переплату.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "schedule": "график",
+        "inputs": "дат|сумм|комисси"
+      },
+      "forbidden": {
+        "invented-result": "переплата составит 400 ?000"
+      },
+      "risk": "high",
+      "family": "loan-calculation",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-loan-calculation-1",
+      "domain": "finance",
+      "question": "Посчитай переплату по кредиту: сумма миллион, ставка 20%, срок три года.",
+      "previous_questions": [],
+      "candidate_reference": "Запросить график и относящиеся платежи. По этим трём данным не выдавать выдуманную точную переплату.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "schedule": "график",
+        "inputs": "дат|сумм|комисси"
+      },
+      "forbidden": {
+        "invented-result": "переплата составит 400 ?000"
+      },
+      "risk": "high",
+      "family": "loan-calculation",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-loan-calculation-2",
+      "domain": "finance",
+      "question": "Сколько переплачу по займу 1000000 тенге на 36 месяцев под 20%?",
+      "previous_questions": [],
+      "candidate_reference": "Запросить график и относящиеся платежи. По этим трём данным не выдавать выдуманную точную переплату.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "schedule": "график",
+        "inputs": "дат|сумм|комисси"
+      },
+      "forbidden": {
+        "invented-result": "переплата составит 400 ?000"
+      },
+      "risk": "high",
+      "family": "loan-calculation",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-loan-calculation-3",
+      "domain": "finance",
+      "question": "Рассчитай общую переплату, знаю только сумму займа, срок и годовую ставку.",
+      "previous_questions": [],
+      "candidate_reference": "Запросить график и относящиеся платежи. По этим трём данным не выдавать выдуманную точную переплату.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "schedule": "график",
+        "inputs": "дат|сумм|комисси"
+      },
+      "forbidden": {
+        "invented-result": "переплата составит 400 ?000"
+      },
+      "risk": "high",
+      "family": "loan-calculation",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-loan-calculation-4",
+      "domain": "finance",
+      "question": "Можно определить переплату без графика платежей по сумме и ставке кредита?",
+      "previous_questions": [],
+      "candidate_reference": "Запросить график и относящиеся платежи. По этим трём данным не выдавать выдуманную точную переплату.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "schedule": "график",
+        "inputs": "дат|сумм|комисси"
+      },
+      "forbidden": {
+        "invented-result": "переплата составит 400 ?000"
+      },
+      "risk": "high",
+      "family": "loan-calculation",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-deposit-guarantee-0",
+      "domain": "finance",
+      "question": "Гарантируется ли любая сумма вклада в банке независимо от валюты и вида депозита?",
+      "previous_questions": [],
+      "candidate_reference": "Различить лимиты по виду и валюте и совокупный предел; банк должен участвовать в системе.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "deposit-guarantee"
+      ],
+      "required": {
+        "currency": "валют",
+        "type": "сберегательн",
+        "total": "совокупн|разные|разных"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "deposit-guarantee",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-deposit-guarantee-1",
+      "domain": "finance",
+      "question": "Страхование вкладов одинаково для всех валют и типов депозитов?",
+      "previous_questions": [],
+      "candidate_reference": "Различить лимиты по виду и валюте и совокупный предел; банк должен участвовать в системе.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "deposit-guarantee"
+      ],
+      "required": {
+        "currency": "валют",
+        "type": "сберегательн",
+        "total": "совокупн|разные|разных"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "deposit-guarantee",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-deposit-guarantee-2",
+      "domain": "finance",
+      "question": "Какие ограничения гарантии возврата банковского вклада?",
+      "previous_questions": [],
+      "candidate_reference": "Различить лимиты по виду и валюте и совокупный предел; банк должен участвовать в системе.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "deposit-guarantee"
+      ],
+      "required": {
+        "currency": "валют",
+        "type": "сберегательн",
+        "total": "совокупн|разные|разных"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "deposit-guarantee",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-deposit-guarantee-3",
+      "domain": "finance",
+      "question": "Если банк лишится лицензии, все мои депозиты вернут полностью?",
+      "previous_questions": [],
+      "candidate_reference": "Различить лимиты по виду и валюте и совокупный предел; банк должен участвовать в системе.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "deposit-guarantee"
+      ],
+      "required": {
+        "currency": "валют",
+        "type": "сберегательн",
+        "total": "совокупн|разные|разных"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "deposit-guarantee",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-deposit-guarantee-4",
+      "domain": "finance",
+      "question": "От чего зависит предельное возмещение по вкладам одного человека в банке?",
+      "previous_questions": [],
+      "candidate_reference": "Различить лимиты по виду и валюте и совокупный предел; банк должен участвовать в системе.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "deposit-guarantee"
+      ],
+      "required": {
+        "currency": "валют",
+        "type": "сберегательн",
+        "total": "совокупн|разные|разных"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "deposit-guarantee",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-auto-insurance-0",
+      "domain": "finance",
+      "question": "Что страхуется по обязательному автострахованию: машина или ответственность перед потерпевшими?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить объект ответственности перед потерпевшими, не обещать ремонт своей машины как объект этого покрытия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "auto-insurance"
+      ],
+      "required": {
+        "liability": "ответственност",
+        "victim": "потерпевш|вред"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "auto-insurance",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-auto-insurance-1",
+      "domain": "finance",
+      "question": "Обязательная автостраховка покрывает машину владельца или ответственность перед потерпевшими?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить объект ответственности перед потерпевшими, не обещать ремонт своей машины как объект этого покрытия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "auto-insurance"
+      ],
+      "required": {
+        "liability": "ответственност",
+        "victim": "потерпевш|вред"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "auto-insurance",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-auto-insurance-2",
+      "domain": "finance",
+      "question": "Что является объектом обязательного страхования ответственности владельца автомобиля?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить объект ответственности перед потерпевшими, не обещать ремонт своей машины как объект этого покрытия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "auto-insurance"
+      ],
+      "required": {
+        "liability": "ответственност",
+        "victim": "потерпевш|вред"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "auto-insurance",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-auto-insurance-3",
+      "domain": "finance",
+      "question": "ОГПО — это страхование своей машины или вреда другим людям?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить объект ответственности перед потерпевшими, не обещать ремонт своей машины как объект этого покрытия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "auto-insurance"
+      ],
+      "required": {
+        "liability": "ответственност",
+        "victim": "потерпевш|вред"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "auto-insurance",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-auto-insurance-4",
+      "domain": "finance",
+      "question": "Что покрывает обязательное автострахование и кто считается потерпевшим?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить объект ответственности перед потерпевшими, не обещать ремонт своей машины как объект этого покрытия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "auto-insurance"
+      ],
+      "required": {
+        "liability": "ответственност",
+        "victim": "потерпевш|вред"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "auto-insurance",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-foreign-debt-0",
+      "domain": "finance",
+      "question": "Коллекторы требуют заплатить чужой долг родственника. Что делать?",
+      "previous_questions": [],
+      "candidate_reference": "Знакомство и родство не доказывают обязательство; различить контакт с третьим лицом и требование погашения долга.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "basis": "основан|поручител|соза[её]мщик",
+        "third-party": "треть|родств|знаком"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "foreign-debt",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-foreign-debt-1",
+      "domain": "finance",
+      "question": "Коллекторы требуют оплатить кредит знакомого. Я заём не брал.",
+      "previous_questions": [],
+      "candidate_reference": "Знакомство и родство не доказывают обязательство; различить контакт с третьим лицом и требование погашения долга.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "basis": "основан|поручител|соза[её]мщик",
+        "third-party": "треть|родств|знаком"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "foreign-debt",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-foreign-debt-2",
+      "domain": "finance",
+      "question": "Мне звонят по чужому долгу и требуют деньги. Какие основания проверить?",
+      "previous_questions": [],
+      "candidate_reference": "Знакомство и родство не доказывают обязательство; различить контакт с третьим лицом и требование погашения долга.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "basis": "основан|поручител|соза[её]мщик",
+        "third-party": "треть|родств|знаком"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "foreign-debt",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-foreign-debt-3",
+      "domain": "finance",
+      "question": "Я не должник, но коллектор просит погасить долг родственника.",
+      "previous_questions": [],
+      "candidate_reference": "Знакомство и родство не доказывают обязательство; различить контакт с третьим лицом и требование погашения долга.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "basis": "основан|поручител|соза[её]мщик",
+        "third-party": "треть|родств|знаком"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "foreign-debt",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-foreign-debt-4",
+      "domain": "finance",
+      "question": "Должен ли посторонний человек платить по чужому кредиту по требованию коллектора?",
+      "previous_questions": [],
+      "candidate_reference": "Знакомство и родство не доказывают обязательство; различить контакт с третьим лицом и требование погашения долга.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "basis": "основан|поручител|соза[её]мщик",
+        "third-party": "треть|родств|знаком"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "foreign-debt",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-collector-threat-0",
+      "domain": "finance",
+      "question": "Коллектор угрожает насилием. Что делать?",
+      "previous_questions": [],
+      "candidate_reference": "При угрозе обеспечить безопасность; сохранить доказательства и объяснить ограничение способов взыскания.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "safety": "безопасност|экстренн",
+        "proof": "сохран|сообщени|скриншот"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "collector-threat",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-collector-threat-1",
+      "domain": "finance",
+      "question": "Коллектор угрожает насилием из-за кредита. Какие первые действия?",
+      "previous_questions": [],
+      "candidate_reference": "При угрозе обеспечить безопасность; сохранить доказательства и объяснить ограничение способов взыскания.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "safety": "безопасност|экстренн",
+        "proof": "сохран|сообщени|скриншот"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "collector-threat",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-collector-threat-2",
+      "domain": "finance",
+      "question": "Мне угрожают коллекторы, хочу защититься и зафиксировать доказательства.",
+      "previous_questions": [],
+      "candidate_reference": "При угрозе обеспечить безопасность; сохранить доказательства и объяснить ограничение способов взыскания.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "safety": "безопасност|экстренн",
+        "proof": "сохран|сообщени|скриншот"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "collector-threat",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-collector-threat-3",
+      "domain": "finance",
+      "question": "Что делать с угрозами от взыскателей долга?",
+      "previous_questions": [],
+      "candidate_reference": "При угрозе обеспечить безопасность; сохранить доказательства и объяснить ограничение способов взыскания.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "safety": "безопасност|экстренн",
+        "proof": "сохран|сообщени|скриншот"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "collector-threat",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-collector-threat-4",
+      "domain": "finance",
+      "question": "Коллекторы запугивают, требуют срочно перевести деньги. Как действовать безопасно?",
+      "previous_questions": [],
+      "candidate_reference": "При угрозе обеспечить безопасность; сохранить доказательства и объяснить ограничение способов взыскания.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "safety": "безопасност|экстренн",
+        "proof": "сохран|сообщени|скриншот"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "collector-threat",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-unknown-tariff-0",
+      "domain": "finance",
+      "question": "Какая комиссия за перевод с карты?",
+      "previous_questions": [],
+      "candidate_reference": "Уточнить банк, продукт и канал; не подставлять комиссию другого банка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "bank": "банк",
+        "product": "продукт|приложени"
+      },
+      "forbidden": {
+        "invented-zero": "комиссия составляет 0"
+      },
+      "risk": "high",
+      "family": "unknown-tariff",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-unknown-tariff-1",
+      "domain": "finance",
+      "question": "Сколько стоит перевод?",
+      "previous_questions": [],
+      "candidate_reference": "Уточнить банк, продукт и канал; не подставлять комиссию другого банка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "bank": "банк",
+        "product": "продукт|приложени"
+      },
+      "forbidden": {
+        "invented-zero": "комиссия составляет 0"
+      },
+      "risk": "high",
+      "family": "unknown-tariff",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-unknown-tariff-2",
+      "domain": "finance",
+      "question": "Какая комиссия за перевод денег на карту?",
+      "previous_questions": [],
+      "candidate_reference": "Уточнить банк, продукт и канал; не подставлять комиссию другого банка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "bank": "банк",
+        "product": "продукт|приложени"
+      },
+      "forbidden": {
+        "invented-zero": "комиссия составляет 0"
+      },
+      "risk": "high",
+      "family": "unknown-tariff",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-unknown-tariff-3",
+      "domain": "finance",
+      "question": "Сколько берут за обслуживание счёта?",
+      "previous_questions": [],
+      "candidate_reference": "Уточнить банк, продукт и канал; не подставлять комиссию другого банка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "bank": "банк",
+        "product": "продукт|приложени"
+      },
+      "forbidden": {
+        "invented-zero": "комиссия составляет 0"
+      },
+      "risk": "high",
+      "family": "unknown-tariff",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-unknown-tariff-4",
+      "domain": "finance",
+      "question": "Какая комиссия за оплату коммуналки?",
+      "previous_questions": [],
+      "candidate_reference": "Уточнить банк, продукт и канал; не подставлять комиссию другого банка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "bank": "банк",
+        "product": "продукт|приложени"
+      },
+      "forbidden": {
+        "invented-zero": "комиссия составляет 0"
+      },
+      "risk": "high",
+      "family": "unknown-tariff",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-halyk-0",
+      "domain": "finance",
+      "question": "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?",
+      "previous_questions": [],
+      "candidate_reference": "Ответить по соответствующей строке тарифа с учётом условий пользователя и версии, не переносить другой канал.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "halyk-superapp"
+      ],
+      "required": {
+        "amount": "0 тенге|0 теңге",
+        "scope": "коммунальн"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "halyk",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-halyk-1",
+      "domain": "finance",
+      "question": "Сколько берут в Halyk SuperApp за оплату коммунальных услуг?",
+      "previous_questions": [],
+      "candidate_reference": "Ответить по соответствующей строке тарифа с учётом условий пользователя и версии, не переносить другой канал.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "halyk-superapp"
+      ],
+      "required": {
+        "amount": "0 тенге|0 теңге",
+        "scope": "коммунальн"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "halyk",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-halyk-2",
+      "domain": "finance",
+      "question": "Оплата коммунальных услуг через Halyk SuperApp — какая комиссия?",
+      "previous_questions": [],
+      "candidate_reference": "Ответить по соответствующей строке тарифа с учётом условий пользователя и версии, не переносить другой канал.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "halyk-superapp"
+      ],
+      "required": {
+        "amount": "0 тенге|0 теңге",
+        "scope": "коммунальн"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "halyk",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-halyk-3",
+      "domain": "finance",
+      "question": "Есть ли комиссия при оплате коммуналки в Halyk SuperApp?",
+      "previous_questions": [],
+      "candidate_reference": "Ответить по соответствующей строке тарифа с учётом условий пользователя и версии, не переносить другой канал.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "halyk-superapp"
+      ],
+      "required": {
+        "amount": "0 тенге|0 теңге",
+        "scope": "коммунальн"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "halyk",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-halyk-4",
+      "domain": "finance",
+      "question": "Какая плата за коммунальные платежи в приложении Halyk SuperApp?",
+      "previous_questions": [],
+      "candidate_reference": "Ответить по соответствующей строке тарифа с учётом условий пользователя и версии, не переносить другой канал.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "halyk-superapp"
+      ],
+      "required": {
+        "amount": "0 тенге|0 теңге",
+        "scope": "коммунальн"
+      },
+      "forbidden": {},
+      "risk": "high",
+      "family": "halyk",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-new-topic-0",
+      "domain": "finance",
+      "question": "А какая комиссия в Freedom?",
+      "previous_questions": [
+        "Какая комиссия Halyk SuperApp за коммунальные услуги?"
+      ],
+      "candidate_reference": "Новый банк требует нового источника и уточнения продукта, не наследовать тариф Halyk.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "freedom-retail"
+      ],
+      "required": {
+        "product": "продукт|карт|перевод|операци"
+      },
+      "forbidden": {
+        "wrong-bank": "по тарифу Halyk"
+      },
+      "risk": "high",
+      "family": "new-topic",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-new-topic-1",
+      "domain": "finance",
+      "question": "А какая комиссия в Freedom?",
+      "previous_questions": [
+        "Какая комиссия Halyk SuperApp за коммунальные услуги?"
+      ],
+      "candidate_reference": "Новый банк требует нового источника и уточнения продукта, не наследовать тариф Halyk.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "freedom-retail"
+      ],
+      "required": {
+        "product": "продукт|карт|перевод|операци"
+      },
+      "forbidden": {
+        "wrong-bank": "по тарифу Halyk"
+      },
+      "risk": "high",
+      "family": "new-topic",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-new-topic-2",
+      "domain": "finance",
+      "question": "Какая комиссия у Фридом?",
+      "previous_questions": [
+        "Какая комиссия Halyk SuperApp за коммунальные услуги?"
+      ],
+      "candidate_reference": "Новый банк требует нового источника и уточнения продукта, не наследовать тариф Halyk.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "freedom-retail"
+      ],
+      "required": {
+        "product": "продукт|карт|перевод|операци"
+      },
+      "forbidden": {
+        "wrong-bank": "по тарифу Halyk"
+      },
+      "risk": "high",
+      "family": "new-topic",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-new-topic-3",
+      "domain": "finance",
+      "question": "Какая комиссия в банке Freedom?",
+      "previous_questions": [
+        "Какая комиссия Halyk SuperApp за коммунальные услуги?"
+      ],
+      "candidate_reference": "Новый банк требует нового источника и уточнения продукта, не наследовать тариф Halyk.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "freedom-retail"
+      ],
+      "required": {
+        "product": "продукт|карт|перевод|операци"
+      },
+      "forbidden": {
+        "wrong-bank": "по тарифу Halyk"
+      },
+      "risk": "high",
+      "family": "new-topic",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "expanded-new-topic-4",
+      "domain": "finance",
+      "question": "А в Freedom сколько комиссия?",
+      "previous_questions": [
+        "Какая комиссия Halyk SuperApp за коммунальные услуги?"
+      ],
+      "candidate_reference": "Новый банк требует нового источника и уточнения продукта, не наследовать тариф Halyk.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "freedom-retail"
+      ],
+      "required": {
+        "product": "продукт|карт|перевод|операци"
+      },
+      "forbidden": {
+        "wrong-bank": "по тарифу Halyk"
+      },
+      "risk": "high",
+      "family": "new-topic",
+      "case_origin": "paraphrase_of_existing_candidate",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-positive-0",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"100000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"51000\"}, {\"date\": \"2026-12-01\", \"amount\": \"51000\"}], \"extra_costs\": \"0\", \"schedule_complete\": true}",
+      "previous_questions": [],
+      "candidate_reference": "По переданным данным разность выплат и полученной суммы равна 2 000,00 KZT. Не называть это ГЭСВ.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "exact_difference": "2\\ 000,00\\ KZT",
+        "method": "Метод:",
+        "scope": "ГЭСВ.*не определяются"
+      },
+      "forbidden": {},
+      "risk": "medium",
+      "family": "cashflow-arithmetic",
+      "case_origin": "deterministic_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-incomplete-0",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"100000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"51000\"}, {\"date\": \"2026-12-01\", \"amount\": \"51000\"}], \"extra_costs\": \"0\", \"schedule_complete\": false}",
+      "previous_questions": [],
+      "candidate_reference": "Не выдавать итог по неполному графику; запросить недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "incomplete": "полный график|части платежей",
+        "help": "График полный"
+      },
+      "forbidden": {
+        "fake_total": "Превышение выплат над полученной суммой:"
+      },
+      "risk": "medium",
+      "family": "cashflow-incomplete",
+      "case_origin": "negative_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-positive-1",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"110000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"56000\"}, {\"date\": \"2026-12-01\", \"amount\": \"56000\"}], \"extra_costs\": \"100\", \"schedule_complete\": true}",
+      "previous_questions": [],
+      "candidate_reference": "По переданным данным разность выплат и полученной суммы равна 2 100,00 KZT. Не называть это ГЭСВ.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "exact_difference": "2\\ 100,00\\ KZT",
+        "method": "Метод:",
+        "scope": "ГЭСВ.*не определяются"
+      },
+      "forbidden": {},
+      "risk": "medium",
+      "family": "cashflow-arithmetic",
+      "case_origin": "deterministic_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-incomplete-1",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"110000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"56000\"}, {\"date\": \"2026-12-01\", \"amount\": \"56000\"}], \"extra_costs\": \"100\", \"schedule_complete\": false}",
+      "previous_questions": [],
+      "candidate_reference": "Не выдавать итог по неполному графику; запросить недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "incomplete": "полный график|части платежей",
+        "help": "График полный"
+      },
+      "forbidden": {
+        "fake_total": "Превышение выплат над полученной суммой:"
+      },
+      "risk": "medium",
+      "family": "cashflow-incomplete",
+      "case_origin": "negative_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-positive-2",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"120000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"61000\"}, {\"date\": \"2026-12-01\", \"amount\": \"61000\"}], \"extra_costs\": \"200\", \"schedule_complete\": true}",
+      "previous_questions": [],
+      "candidate_reference": "По переданным данным разность выплат и полученной суммы равна 2 200,00 KZT. Не называть это ГЭСВ.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "exact_difference": "2\\ 200,00\\ KZT",
+        "method": "Метод:",
+        "scope": "ГЭСВ.*не определяются"
+      },
+      "forbidden": {},
+      "risk": "medium",
+      "family": "cashflow-arithmetic",
+      "case_origin": "deterministic_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-incomplete-2",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"120000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"61000\"}, {\"date\": \"2026-12-01\", \"amount\": \"61000\"}], \"extra_costs\": \"200\", \"schedule_complete\": false}",
+      "previous_questions": [],
+      "candidate_reference": "Не выдавать итог по неполному графику; запросить недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "incomplete": "полный график|части платежей",
+        "help": "График полный"
+      },
+      "forbidden": {
+        "fake_total": "Превышение выплат над полученной суммой:"
+      },
+      "risk": "medium",
+      "family": "cashflow-incomplete",
+      "case_origin": "negative_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-positive-3",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"130000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"66000\"}, {\"date\": \"2026-12-01\", \"amount\": \"66000\"}], \"extra_costs\": \"300\", \"schedule_complete\": true}",
+      "previous_questions": [],
+      "candidate_reference": "По переданным данным разность выплат и полученной суммы равна 2 300,00 KZT. Не называть это ГЭСВ.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "exact_difference": "2\\ 300,00\\ KZT",
+        "method": "Метод:",
+        "scope": "ГЭСВ.*не определяются"
+      },
+      "forbidden": {},
+      "risk": "medium",
+      "family": "cashflow-arithmetic",
+      "case_origin": "deterministic_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-incomplete-3",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"130000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"66000\"}, {\"date\": \"2026-12-01\", \"amount\": \"66000\"}], \"extra_costs\": \"300\", \"schedule_complete\": false}",
+      "previous_questions": [],
+      "candidate_reference": "Не выдавать итог по неполному графику; запросить недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "incomplete": "полный график|части платежей",
+        "help": "График полный"
+      },
+      "forbidden": {
+        "fake_total": "Превышение выплат над полученной суммой:"
+      },
+      "risk": "medium",
+      "family": "cashflow-incomplete",
+      "case_origin": "negative_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-positive-4",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"140000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"71000\"}, {\"date\": \"2026-12-01\", \"amount\": \"71000\"}], \"extra_costs\": \"400\", \"schedule_complete\": true}",
+      "previous_questions": [],
+      "candidate_reference": "По переданным данным разность выплат и полученной суммы равна 2 400,00 KZT. Не называть это ГЭСВ.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "exact_difference": "2\\ 400,00\\ KZT",
+        "method": "Метод:",
+        "scope": "ГЭСВ.*не определяются"
+      },
+      "forbidden": {},
+      "risk": "medium",
+      "family": "cashflow-arithmetic",
+      "case_origin": "deterministic_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-incomplete-4",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"140000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"71000\"}, {\"date\": \"2026-12-01\", \"amount\": \"71000\"}], \"extra_costs\": \"400\", \"schedule_complete\": false}",
+      "previous_questions": [],
+      "candidate_reference": "Не выдавать итог по неполному графику; запросить недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "incomplete": "полный график|части платежей",
+        "help": "График полный"
+      },
+      "forbidden": {
+        "fake_total": "Превышение выплат над полученной суммой:"
+      },
+      "risk": "medium",
+      "family": "cashflow-incomplete",
+      "case_origin": "negative_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-positive-5",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"150000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"76000\"}, {\"date\": \"2026-12-01\", \"amount\": \"76000\"}], \"extra_costs\": \"500\", \"schedule_complete\": true}",
+      "previous_questions": [],
+      "candidate_reference": "По переданным данным разность выплат и полученной суммы равна 2 500,00 KZT. Не называть это ГЭСВ.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "exact_difference": "2\\ 500,00\\ KZT",
+        "method": "Метод:",
+        "scope": "ГЭСВ.*не определяются"
+      },
+      "forbidden": {},
+      "risk": "medium",
+      "family": "cashflow-arithmetic",
+      "case_origin": "deterministic_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-incomplete-5",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"150000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"76000\"}, {\"date\": \"2026-12-01\", \"amount\": \"76000\"}], \"extra_costs\": \"500\", \"schedule_complete\": false}",
+      "previous_questions": [],
+      "candidate_reference": "Не выдавать итог по неполному графику; запросить недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "incomplete": "полный график|части платежей",
+        "help": "График полный"
+      },
+      "forbidden": {
+        "fake_total": "Превышение выплат над полученной суммой:"
+      },
+      "risk": "medium",
+      "family": "cashflow-incomplete",
+      "case_origin": "negative_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-positive-6",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"160000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"81000\"}, {\"date\": \"2026-12-01\", \"amount\": \"81000\"}], \"extra_costs\": \"600\", \"schedule_complete\": true}",
+      "previous_questions": [],
+      "candidate_reference": "По переданным данным разность выплат и полученной суммы равна 2 600,00 KZT. Не называть это ГЭСВ.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "exact_difference": "2\\ 600,00\\ KZT",
+        "method": "Метод:",
+        "scope": "ГЭСВ.*не определяются"
+      },
+      "forbidden": {},
+      "risk": "medium",
+      "family": "cashflow-arithmetic",
+      "case_origin": "deterministic_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-incomplete-6",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"160000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"81000\"}, {\"date\": \"2026-12-01\", \"amount\": \"81000\"}], \"extra_costs\": \"600\", \"schedule_complete\": false}",
+      "previous_questions": [],
+      "candidate_reference": "Не выдавать итог по неполному графику; запросить недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "incomplete": "полный график|части платежей",
+        "help": "График полный"
+      },
+      "forbidden": {
+        "fake_total": "Превышение выплат над полученной суммой:"
+      },
+      "risk": "medium",
+      "family": "cashflow-incomplete",
+      "case_origin": "negative_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-positive-7",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"170000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"86000\"}, {\"date\": \"2026-12-01\", \"amount\": \"86000\"}], \"extra_costs\": \"700\", \"schedule_complete\": true}",
+      "previous_questions": [],
+      "candidate_reference": "По переданным данным разность выплат и полученной суммы равна 2 700,00 KZT. Не называть это ГЭСВ.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "exact_difference": "2\\ 700,00\\ KZT",
+        "method": "Метод:",
+        "scope": "ГЭСВ.*не определяются"
+      },
+      "forbidden": {},
+      "risk": "medium",
+      "family": "cashflow-arithmetic",
+      "case_origin": "deterministic_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-incomplete-7",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"170000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"86000\"}, {\"date\": \"2026-12-01\", \"amount\": \"86000\"}], \"extra_costs\": \"700\", \"schedule_complete\": false}",
+      "previous_questions": [],
+      "candidate_reference": "Не выдавать итог по неполному графику; запросить недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "incomplete": "полный график|части платежей",
+        "help": "График полный"
+      },
+      "forbidden": {
+        "fake_total": "Превышение выплат над полученной суммой:"
+      },
+      "risk": "medium",
+      "family": "cashflow-incomplete",
+      "case_origin": "negative_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-positive-8",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"180000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"91000\"}, {\"date\": \"2026-12-01\", \"amount\": \"91000\"}], \"extra_costs\": \"800\", \"schedule_complete\": true}",
+      "previous_questions": [],
+      "candidate_reference": "По переданным данным разность выплат и полученной суммы равна 2 800,00 KZT. Не называть это ГЭСВ.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "exact_difference": "2\\ 800,00\\ KZT",
+        "method": "Метод:",
+        "scope": "ГЭСВ.*не определяются"
+      },
+      "forbidden": {},
+      "risk": "medium",
+      "family": "cashflow-arithmetic",
+      "case_origin": "deterministic_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-incomplete-8",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"180000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"91000\"}, {\"date\": \"2026-12-01\", \"amount\": \"91000\"}], \"extra_costs\": \"800\", \"schedule_complete\": false}",
+      "previous_questions": [],
+      "candidate_reference": "Не выдавать итог по неполному графику; запросить недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "incomplete": "полный график|части платежей",
+        "help": "График полный"
+      },
+      "forbidden": {
+        "fake_total": "Превышение выплат над полученной суммой:"
+      },
+      "risk": "medium",
+      "family": "cashflow-incomplete",
+      "case_origin": "negative_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-positive-9",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"190000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"96000\"}, {\"date\": \"2026-12-01\", \"amount\": \"96000\"}], \"extra_costs\": \"900\", \"schedule_complete\": true}",
+      "previous_questions": [],
+      "candidate_reference": "По переданным данным разность выплат и полученной суммы равна 2 900,00 KZT. Не называть это ГЭСВ.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "exact_difference": "2\\ 900,00\\ KZT",
+        "method": "Метод:",
+        "scope": "ГЭСВ.*не определяются"
+      },
+      "forbidden": {},
+      "risk": "medium",
+      "family": "cashflow-arithmetic",
+      "case_origin": "deterministic_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "cashflow-incomplete-9",
+      "domain": "finance",
+      "question": "!расчёт\n{\"amount_received\": \"190000\", \"received_on\": \"2026-10-01\", \"currency\": \"KZT\", \"payments\": [{\"date\": \"2026-11-01\", \"amount\": \"96000\"}, {\"date\": \"2026-12-01\", \"amount\": \"96000\"}], \"extra_costs\": \"900\", \"schedule_complete\": false}",
+      "previous_questions": [],
+      "candidate_reference": "Не выдавать итог по неполному графику; запросить недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "incomplete": "полный график|части платежей",
+        "help": "График полный"
+      },
+      "forbidden": {
+        "fake_total": "Превышение выплат над полученной суммой:"
+      },
+      "risk": "medium",
+      "family": "cashflow-incomplete",
+      "case_origin": "negative_inputs",
+      "independent_legal_scenario": false
+    },
+    {
+      "id": "civil-work-0",
+      "domain": "legal",
+      "question": "У меня договор ГПХ, заказчик не оплатил принятую работу. Что делать?",
+      "previous_questions": [],
+      "candidate_reference": "Учесть сообщённый гражданский договор; не обещать автоматически сроки выплаты зарплаты и трудовую пеню. Предложить сверить оплату, приёмку и требование заказчику.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-special"
+      ],
+      "required": {
+        "civil_context": "гражданск|ГПХ|подряд|услуг|заказчик|при[её]мк"
+      },
+      "forbidden": {
+        "labour_as_default": "Работодатель обязан.*не реже одного раза в месяц|вам положена трудовая пеня"
+      },
+      "risk": "high",
+      "family": "civil-work-contract",
+      "case_origin": "new_scope_regression",
+      "independent_legal_scenario": true
+    },
+    {
+      "id": "civil-work-1",
+      "domain": "legal",
+      "question": "Я работаю по договору подряда, оплата не поступила. Как потребовать деньги?",
+      "previous_questions": [],
+      "candidate_reference": "Учесть сообщённый гражданский договор; не обещать автоматически сроки выплаты зарплаты и трудовую пеню. Предложить сверить оплату, приёмку и требование заказчику.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-special"
+      ],
+      "required": {
+        "civil_context": "гражданск|ГПХ|подряд|услуг|заказчик|при[её]мк"
+      },
+      "forbidden": {
+        "labour_as_default": "Работодатель обязан.*не реже одного раза в месяц|вам положена трудовая пеня"
+      },
+      "risk": "high",
+      "family": "civil-work-contract",
+      "case_origin": "new_scope_regression",
+      "independent_legal_scenario": true
+    },
+    {
+      "id": "civil-work-2",
+      "domain": "legal",
+      "question": "По договору оказания услуг заказчик не платит. Как составить требование?",
+      "previous_questions": [],
+      "candidate_reference": "Учесть сообщённый гражданский договор; не обещать автоматически сроки выплаты зарплаты и трудовую пеню. Предложить сверить оплату, приёмку и требование заказчику.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-special"
+      ],
+      "required": {
+        "civil_context": "гражданск|ГПХ|подряд|услуг|заказчик|при[её]мк"
+      },
+      "forbidden": {
+        "labour_as_default": "Работодатель обязан.*не реже одного раза в месяц|вам положена трудовая пеня"
+      },
+      "risk": "high",
+      "family": "civil-work-contract",
+      "case_origin": "new_scope_regression",
+      "independent_legal_scenario": true
+    },
+    {
+      "id": "civil-work-3",
+      "domain": "legal",
+      "question": "У меня договор ГПХ",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "candidate_reference": "Учесть сообщённый гражданский договор; не обещать автоматически сроки выплаты зарплаты и трудовую пеню. Предложить сверить оплату, приёмку и требование заказчику.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-special"
+      ],
+      "required": {
+        "civil_context": "гражданск|ГПХ|подряд|услуг|заказчик|при[её]мк"
+      },
+      "forbidden": {
+        "labour_as_default": "Работодатель обязан.*не реже одного раза в месяц|вам положена трудовая пеня"
+      },
+      "risk": "high",
+      "family": "civil-work-contract",
+      "case_origin": "new_scope_regression",
+      "independent_legal_scenario": true
+    },
+    {
+      "id": "civil-work-4",
+      "domain": "legal",
+      "question": "Работаю по договору подряда",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "candidate_reference": "Учесть сообщённый гражданский договор; не обещать автоматически сроки выплаты зарплаты и трудовую пеню. Предложить сверить оплату, приёмку и требование заказчику.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-special"
+      ],
+      "required": {
+        "civil_context": "гражданск|ГПХ|подряд|услуг|заказчик|при[её]мк"
+      },
+      "forbidden": {
+        "labour_as_default": "Работодатель обязан.*не реже одного раза в месяц|вам положена трудовая пеня"
+      },
+      "risk": "high",
+      "family": "civil-work-contract",
+      "case_origin": "new_scope_regression",
+      "independent_legal_scenario": true
+    }
+  ]
+}

@@ -87,12 +87,37 @@ def make_quality_packet(domain, draft_messages, review_messages, context):
                         'source_kind':p.get('document_kind','legislation'),'applicability_note':p.get('applicability_note','')})
     for source in sources:source['excerpts']=source_excerpts(source['text'])
     constraints=[]
-    if re.search(r'отозв|отзыв',q,re.I) and re.search(r'согласи|персональн',q,re.I) and any('при наличии неисполненного' in normalized(p['text']).casefold() for p in sources):
+    from retrieval_intents import consent_withdrawal_question
+    if consent_withdrawal_question(q) and any('при наличии неисполненного' in normalized(p['text']).casefold() for p in sources):
         constraints.append({'id':'consent-withdrawal-exceptions','patterns':['неисполненн|невыполненн|непогашенн','противореч|вопреки'],
           'guidance':'По переданной статье укажи оба исключения: отзыв не допускается, если противоречит законам или имеется неисполненное обязательство. Не обещай безусловное прекращение обработки.'})
+    from retrieval_intents import deposit_guarantee_question,auto_liability_definition,collector_contact_question
+    from case_facts import case_facts
+    facts=case_facts(q,previous)
+    source_body=' '.join(normalized(p['text']).casefold() for p in sources)
+    from response_guidance import is_document_request
+    if not is_document_request(q):
+        if (re.search(r'гэ[сc]в|эффективн.*ставк',q,re.I) and re.search(r'что такое|отлич|разниц|включ|учитыв|объясн|состав',q,re.I)
+                and 'включая неустойку и иные виды штрафных санкций' in source_body):
+            constraints.append({'id':'apr-excluded-breach-costs','patterns':['неусто|штраф'],
+                'guidance':'Сохрани исключение из переданного пункта 15: платежи из-за нарушения условий договора, включая неустойку и штрафные санкции, не включаются в ГЭСВ. Не объявляй все расходы включаемыми.'})
+        if deposit_guarantee_question(q) and all(v in source_body for v in ['сберегательным','совокупн','иностранной валюте']):
+            constraints.append({'id':'deposit-type-currency-total','patterns':['валют','сберегательн','совокупн|разных|разные'],
+                'guidance':'Объясни различия по виду вклада и валюте, а также совокупный предел в одном банке по переданной статье. Не обещай возврат любой суммы.'})
+        if auto_liability_definition(q) and 'имуществу третьих лиц' in source_body:
+            constraints.append({'id':'auto-third-party-liability','patterns':['ответственност','треть|потерпевш|вред'],
+                'guidance':'Объект — интерес, связанный с возмещением вреда третьим лицам. Не превращай обязательное страхование ответственности в безусловное покрытие собственной машины.'})
+        if collector_contact_question(q) and re.search(r'угро|шантаж|насили|запугива',q,re.I):
+            constraints.append({'id':'immediate-threat-safety','patterns':['безопасност|экстренн'],
+                'guidance':'Сначала предложи обеспечить безопасность и экстренную помощь при непосредственной угрозе жизни или здоровью. Это организационный совет; не выдумывай полномочия ведомств.'})
+    if facts['user_reported_facts'].get('contract_reported')=='civil':
+        constraints.append({'id':'reported-civil-contract','patterns':['гражданск|гпх|подряд|услуг|заказчик|при[её]мк'],
+            'guidance':'Учти сообщённый гражданский договор, проверь условия оплаты и приёмки. Не подставляй автоматически трудовые сроки и пеню; при признаках подмены трудовых отношений уточни обстоятельства.'})
     packet=workflow_packet(domain,draft_messages,review_messages)
     for unused in ('review_system','review_prefix','review_suffix'):packet[unused]=''
-    packet['quality']={'contract':CONTRACT,'question':q,'previous_question':previous,
+    from case_facts import case_facts
+    from source_applicability import tariff_review_due
+    packet['quality']={'case_facts':facts,'tariffs_requiring_review':tariff_review_due(evidence),'contract':CONTRACT,'question':q,'previous_question':previous,
                        'question_type':question_type(q),'sources':sources,'constraints':constraints}
     if len(json.dumps(packet,ensure_ascii=False).encode())>256000:
         raise ValueError('Quality packet too large')
@@ -177,4 +202,6 @@ def accept_quality_response(text, packet):
     if not isinstance(partial,bool):raise ValueError('Invalid partial status')
     quotes=tuple(dict.fromkeys((proof['source_id'],proof['quote']) for row in audit['checks']
                               if row['status']=='supported' for proof in row['proofs']))
-    return ReviewedAnswer(answer,ReviewDetails(quotes,partial,quality['question_type']))
+    hints=value.get('retrieval_hints',[])
+    if not isinstance(hints,list) or len(hints)>4 or any(not isinstance(h,str) or len(h)>400 for h in hints):raise ValueError('Invalid retrieval diagnostics')
+    return ReviewedAnswer(answer,ReviewDetails(quotes,partial,quality['question_type'],tuple(hints)))

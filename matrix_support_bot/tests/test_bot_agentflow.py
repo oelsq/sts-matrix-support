@@ -4,9 +4,10 @@ from types import SimpleNamespace
 import pytest
 from flowise_client import FlowiseClient,FlowiseReviewRejected
 
+@pytest.mark.parametrize('research_available',[False,True])
 @pytest.mark.parametrize('typing_fails',[False,True])
 @pytest.mark.parametrize('invalid_first,quality_rejected',[(False,False),(True,False),(False,True)])
-def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invalid_first,quality_rejected,typing_fails):
+def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invalid_first,quality_rejected,typing_fails,research_available):
     import bot
     calls=[];out=[];typing=[]
     class Flow:
@@ -18,16 +19,20 @@ def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invali
         async def run_workflow(self,http,domain,room,sender,event,draft,review,**kwargs):
             calls.append((draft,review))
             if quality_rejected:
-                assert kwargs['context']['question']=='Поясни условие тарифа Halyk'
-                raise FlowiseReviewRejected('Synthetic evidence rejection')
+                assert kwargs['context']['question']=='Поясни условие тарифа Halyk за перевод'
+                if not research_available or len(calls)==1:raise FlowiseReviewRejected('Synthetic evidence rejection',retrieval_hints=('проверить условие перевода',))
+                assert len(kwargs['context']['evidence'])==2
             assert len(review)==2 and review[0]['role']=='system'
             assert 'tariff:1:1' in draft[0]['content'] and 'tariff:1:1' in review[0]['content']
             assert '__STS_DRAFT_TO_REVIEW__' in review[-1]['content']
             return 'Неизвестное право. [S9]' if invalid_first and len(calls)==1 else 'Комиссия составляет 0 тенге. [S1]'
     class Knowledge:
         passages=[1]
-        def search(self,*args,**kwargs):return [{'id':'tariff:1:1','document_id':'tariff','title':'Тариф','text':'Комиссия 0 тенге.',
+        def search(self,*args,**kwargs):
+            result=[{'id':'tariff:1:1','document_id':'tariff','title':'Тариф','text':'Комиссия 0 тенге.',
             'source':'https://example.org/tariff','reviewed_on':'2026-10-13','version':'Test','section':'','page':1}]
+            if research_available and kwargs.get('limit',8)>8:result.append(dict(result[0],id='tariff:2:1',text='Дополнительное условие перевода.'))
+            return result
     class Login:pass
     class Matrix:
         user='@bot:demo.local'
@@ -41,7 +46,7 @@ def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invali
             if typing_fails:raise RuntimeError('Ephemeral typing not available')
         async def close(self):pass
         async def sync_forever(self,**kwargs):await self.callback(SimpleNamespace(room_id='!v2:demo.local'),
-            SimpleNamespace(sender='@synthetic:demo.local',body='Поясни условие тарифа Halyk',event_id='$case',server_timestamp=int(time.time()*1000)+1000))
+            SimpleNamespace(sender='@synthetic:demo.local',body='Поясни условие тарифа Halyk за перевод',event_id='$case',server_timestamp=int(time.time()*1000)+1000))
     for name,value in {'MATRIX_HOMESERVER':'http://homeserver:8008','MATRIX_USER':'@bot:demo.local','MATRIX_PASSWORD':'dummy',
         'LLM_ENDPOINT':'http://litellm:4000/v1','LLM_MODEL':'dummy','KNOWLEDGE_DIR':'synthetic','OFFLINE_MODE':'0','MATRIX_ROOM_ROUTES_FILE':str(tmp_path/'absent')}.items():monkeypatch.setenv(name,value)
     monkeypatch.setattr(bot,'AsyncClient',Matrix);monkeypatch.setattr(bot,'LoginResponse',Login)
@@ -50,8 +55,8 @@ def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invali
     asyncio.run(bot.main())
     assert len(out)==1 and not out[0].startswith('Готовлю ответ')
     assert typing==[True,False]
-    assert len(calls)==(2 if invalid_first else 1)
-    if quality_rejected:
+    assert len(calls)==(2 if invalid_first or quality_rejected and research_available else 1)
+    if quality_rejected and not research_available:
         assert 'временно недоступен' not in out[-1]
         assert 'Synthetic' not in out[-1]
         return

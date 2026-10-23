@@ -13,7 +13,7 @@ def is_document_request(question: str) -> bool:
             r'помоги.{0,20}(?:напис|состав)|(?:напиши|составь|подготовь)|как (?:мне )?(?:написать|составить)', current, re.I):
         return False
     return bool(re.search(
-        r"(?:напис|напиш|состав|сформулир|подготов|шаблон|черновик|образец).*"
+        r"(?:напис|напиш|состав|сформулир|подготов|шаблон|черновик|образец|нужен\s+текст).*"
         r"(?:требован|заявлен|претензи|обращен|письм|жалоб)|"
         r"(?:требован|заявлен|претензи|обращен|письм|жалоб).*"
         r"(?:напис|напиш|состав|сформулир|подготов|шаблон|черновик|образец)", current, re.I))
@@ -25,6 +25,10 @@ def request_clarification(domain: str, question: str, previous_question: str = "
         return None
     label='Юридический агент' if domain=='legal' else 'Финансовый агент'
     current=question.split("\nПредыдущий вопрос:")[0].strip()
+    if re.search(r'перепла[тч]',current,re.I) and re.search(r'рассчитай|посчитай|сколько|без график|только сумм|только.*ставк',current,re.I):
+        from cashflow_calculator import TEMPLATE
+        return (f'**{label}**\n\nПо одной сумме и ставке точную переплату определить нельзя: нужен полный график платежей, '
+                'даты, фактически полученная сумма и отдельные расходы. Отправьте `!расчёт` или заполните шаблон ниже.\n\n'+TEMPLATE)
     generic_letter=re.fullmatch(
         r"(?:а\s+)?(?:как\s+(?:мне\s+)?(?:написать|составить|оформить)|(?:напиши|составь|подготовь))"
         r"\s+(?:мне\s+)?(?:требование|заявление|жалобу|претензию|письмо)[?!.\s]*",current,re.I)
@@ -42,6 +46,12 @@ def request_clarification(domain: str, question: str, previous_question: str = "
                 'Сохраните договор, условия оплаты и подтверждения работы. Если пришлёте нужный фрагмент российского '
                 'документа без личных данных, помогу объяснить его содержание, отдельно обозначив пределы проверки.')
     if domain in {'legal','finance'}:
+        from offline_knowledge import BANK_NAMES,is_tariff_question,is_rights_question
+        if (any(name in question.casefold() for names in BANK_NAMES.values() for name in names)
+                and is_tariff_question(question) and not is_rights_question(question)
+                and not re.search(r'перевод|оплат|обслужив|сняти|пополн|выпуск|конверт|плат[её]ж',question,re.I)):
+            return (f'**{label}**\n\nУточните продукт и операцию: например, перевод с карты, оплата услуги '
+                    'или обслуживание счёта. По названию банка нельзя выбрать подходящую строку тарифа.')
         if re.fullmatch(r'(?:а\s+)?какая\s+комиссия\s+(?:в|у)\s+(?:freedom|фридом|halyk|халык|kaspi|каспи)[?!.\s]*',current,re.I):
             return (f'**{label}**\n\nУточните продукт и операцию: например, перевод с карты, оплата услуги '
                     'или обслуживание счёта. По одному названию банка нельзя выбрать подходящую строку тарифа.')
@@ -69,8 +79,9 @@ def retrieval_question(question: str, previous_question: str = "") -> str:
               r"средн.*зарплат|медиан", r"аренд|квартир|найм"]
     new_problem = any(re.search(pattern, question, re.I) and not re.search(pattern, previous_question, re.I)
                       for pattern in topics)
+    fact_followup=bool(re.match(r'^(?:у меня |я работаю |работаю |)(?:договор (?:ГПХ|подряда|оказания услуг)|трудового договора нет|нет трудового договора|есть гарантия|гарантии нет)',question,re.I))
     followup = re.match(r"^(а\b|и\b|тогда\b|если\b|это\b|почему\b|какой\b|какие\b|сколько\b|что дальше|поясни|объясни|уточни)", question, re.I)
-    if previous_question and len(question.split()) <= 18 and (followup or is_document_request(question)) and not new_topic and not new_problem:
+    if previous_question and len(question.split()) <= 18 and (followup or fact_followup or is_document_request(question)) and not new_topic and (not new_problem or fact_followup):
         return question + "\nПредыдущий вопрос: " + previous_question[:3000]
     return question
 
@@ -144,7 +155,8 @@ def work_payment_question(question: str) -> bool:
         return False
     wages = re.search(r'жалақ|зарплат|заработн.{0,16}плат|начальник|ден[ье]г.{0,20}за работу', q)
     trouble = re.search(r'төлемей|төленбей|невыплат|не\s+(?:плат|выда|отда)|задерж|задолж|просроч|долг', q)
-    return bool(wages and trouble) and not salary_statistic_question(question)
+    from retrieval_intents import colloquial_work_payment
+    return (bool(wages and trouble) or colloquial_work_payment(question)) and not salary_statistic_question(question)
 
 
 def work_payment_draft() -> str:
@@ -262,3 +274,22 @@ def practical_fallback(domain: str, question: str, *, validation_failed: bool = 
             + "\n\nДля точного вывода по норме, сроку или условиям продукта пока недостаточно подходящих подтверждений в локальной базе. "
               "Перечисленные шаги — организационные советы, а не установленная законом процедура.\n\n"
             + followup)
+
+
+
+def civil_payment_draft():
+    """Organizational draft; no invented civil-law remedy, deadline or interest."""
+    return ('**Требование заказчику — черновик**\n\n'
+            'Это шаблон по сообщённому гражданскому договору. Перед отправкой сверьте факты и условия оплаты/приёмки; '
+            'трудовые сроки и пеня автоматически здесь не применяются.\n\n'
+            'Кому: [заказчик]\nОт: [исполнитель / подрядчик]\n\n'
+            '**Требование об оплате по договору**\n\n'
+            'Между нами заключён договор [вид, дата, номер]. По моим данным, '
+            '[описание выполненных работ / оказанных услуг и обстоятельств их передачи заказчику]. '
+            'Неоплаченная сумма по моему расчёту составляет [сумма и валюта] за [период / этап].\n\n'
+            'Прошу проверить расчёт, сообщить о наличии разногласий по объёму и приёмке, '
+            'оплатить причитающуюся сумму и письменно сообщить результат рассмотрения.\n\n'
+            'Приложения: [договор, акты, подтверждения передачи результата, переписка — при наличии].\n'
+            'Дата: [дата]\nПодпись: [подпись]\n\n'
+            'Заполните поля у себя, уберите неподтверждённые сведения. Сохраните копию и подтверждение передачи; '
+            'не отправляйте персональные данные и весь договор в общий чат.')

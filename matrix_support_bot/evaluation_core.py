@@ -72,7 +72,7 @@ def current_reviews(case,corpus,answer,records):
 def summarize(rows):
     answered=[r for r in rows if r.get('answer') is not None]
     reviewed=[r for r in answered if r.get('reviews',{}).get('reference',{}).get('decision')=='approved' and 'answer' in r.get('reviews',{})]
-    result={'scenarios':len(rows),'answered':len(answered),'not_executed':len(rows)-len(answered),
+    result={'scenarios':len(rows),'answered':len(answered),'not_executed':sum(r.get('answer') is None and not r.get('error') for r in rows),'generation_failed':sum(bool(r.get('error')) for r in rows),
             'automatic_passed':sum(r['checks']['passed'] for r in answered),'specialist_scored':len(reviewed),
             'expert_accuracy':None,'expert_usefulness':None,'expert_exceptions':None}
     if reviewed:

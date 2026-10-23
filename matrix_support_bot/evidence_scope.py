@@ -4,7 +4,14 @@ from offline_knowledge import is_rights_question
 from response_guidance import salary_statistic_question, work_payment_question, statistic_period, statistic_territory
 
 def scope_evidence(domain, question, evidence):
+    from source_applicability import applicable
+    evidence=[p for p in evidence if applicable(p)]
     q = question.casefold()
+    from case_facts import case_facts
+    facts=case_facts(question)
+    if (facts['kind']=='work_payment' and facts['user_reported_facts'].get('contract_reported')=='civil'
+            and not re.search(r'фактическ|признать.*трудов|подмен|притвор|трудовые отношения|маскир',q)):
+        evidence=[p for p in evidence if p['document_id'] not in {'labor','labor-wage-guide','labor-esutd-guide'}]
     # Bank and microcredit legislation have different subjects. Do not feed a
     # single-creditor question the other institution's special procedure.
     bank = bool(re.search(r'\bбанк(?:а|е|у|ом|и|ов|ах)?\b|банковск', q))
@@ -34,9 +41,8 @@ def scope_evidence(domain, question, evidence):
         evidence = relevant
     # A definition of liability insurance needs its subject, not procedures
     # for inspecting a damaged vehicle or exclusions for particular victims.
-    if (re.search(r'автострах|огпо|осаго', q)
-            and re.search(r'что страхуется|что покрывает|объект.*страхован', q)
-            and not re.search(r'что делать|как получить|ремонт|оценщик|удерж|выплат|отказ|дтп', q)):
+    from retrieval_intents import auto_liability_definition
+    if auto_liability_definition(q):
         definitions = []
         for item in evidence:
             if item['document_id'] != 'auto-insurance':

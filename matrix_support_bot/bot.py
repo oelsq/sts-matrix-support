@@ -157,10 +157,19 @@ async def main():
                     response.raise_for_status()
                     return await response.json()
 
-            for attempt in range(1 if quality else 2):
+            if quality:
+                from quality_reply import quality_reply
+                try:
+                    result=await quality_reply(flowise,http,domain,room_id,sender,event_id,question,previous_question,
+                                               local_evidence,knowledge,search_question=search_question)
+                    log.info('Agentflows V2 workflow completed; domain=%s research=%d',domain,result.research_attempts)
+                    return result.answer
+                except FlowiseReviewRejected:
+                    return practical_fallback(domain,search_question,validation_failed=True)
+            for attempt in range(2):
                 try:
                     data = await complete(payload)
-                except FlowiseReviewRejected:
+                except FlowiseReviewRejected as exc:
                     log.info("Agent claim review rejected; domain=%s", domain)
                     return practical_fallback(domain, search_question, validation_failed=True)
                 answer = data["choices"][0]["message"]["content"]
@@ -226,7 +235,8 @@ async def main():
                     "- `!юрдеп2` или `!финдеп3` — выбрать конкретного сотрудника.\n"
                     "- `!другой` — сменить сотрудника; используйте команду здесь, в чате ИИ.\n"
                     "- `!новый` — начать новую тему.\n"
-                    "- `!база` — посмотреть доступные темы знаний."))
+                    "- `!база` — посмотреть доступные темы знаний.\n"
+                    "- `!расчёт` — шаблон точного расчёта переплаты по полному графику платежей."))
                 return
             if question.strip().casefold() == "!новый":
                 conversations.clear(room.room_id, event.sender)

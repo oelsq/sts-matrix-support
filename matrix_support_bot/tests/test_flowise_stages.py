@@ -164,7 +164,7 @@ def test_bot_uses_review_flow_and_does_not_send_unreviewed_draft(monkeypatch,tmp
         async def close(self):pass
         async def sync_forever(self,**kwargs):
             await self.callback(SimpleNamespace(room_id=ROOM),SimpleNamespace(sender='@user:demo.local',
-                body='Объясни условие тарифа Halyk',event_id='$stages',server_timestamp=int(time.time()*1000)+1000))
+                body='Объясни условие тарифа Halyk за перевод',event_id='$stages',server_timestamp=int(time.time()*1000)+1000))
     monkeypatch.setattr(bot,'AsyncClient',Matrix);monkeypatch.setattr(bot,'LoginResponse',Login)
     monkeypatch.setattr(bot,'KnowledgeStore',lambda _:Knowledge())
     monkeypatch.setattr(bot,'read_llm_key',lambda:'dummy')

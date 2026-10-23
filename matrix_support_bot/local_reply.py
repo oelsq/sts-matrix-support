@@ -16,10 +16,20 @@ class PreparedReply:
 
 
 def prepare_local_reply(domain, question, knowledge, *, search_question=None, previous_question=""):
+    from cashflow_calculator import calculator_reply
+    calculated=calculator_reply(question)
+    if calculated:return PreparedReply(None,calculated,'cashflow_calculator')
     search_question = search_question or question
     clarification = request_clarification(domain, search_question, previous_question)
     if clarification:
         return PreparedReply(None, clarification, "clarification")
+    from case_facts import case_facts
+    from response_guidance import is_document_request
+    import re
+    if (case_facts(question,previous_question)['user_reported_facts'].get('contract_reported')=='civil'
+            and is_document_request(question) and re.search(r'не плат|не оплат|долг|задолж|оплат|требован',question,re.I)):
+        from response_guidance import civil_payment_draft
+        return PreparedReply(None,civil_payment_draft(),'organizational_civil_draft')
     evidence = None
     from document_drafts import is_rental_refund_draft
     if is_rental_refund_draft(search_question):

@@ -7,7 +7,7 @@ from response_guidance import is_document_request
 def checked_gesv_answer(domain,question,evidence):
     if (is_document_request(question) or not re.search(r'гэ[сc]в|эффективн.*ставк',question,re.I)
             or re.search(r'\bмфо\b|микрокредит|рассчита|посчита|вычисл|переплат|какая.*ставк.*(?:halyk|kaspi|freedom)',question,re.I)
-            or not re.search(r'что такое|чем.*отлич|включ|учитыв|из чего|состав|как.*сравн',question,re.I)):
+            or not re.search(r'что такое|чем.*отлич|разниц|объясн|включ|учитыв|из чего|состав|как.*сравн',question,re.I)):
         return None
     def find(point,phrase):
         return next((p for p in evidence if p['document_id']=='gesv-rules-2026'

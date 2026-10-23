@@ -1,0 +1,5071 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-23T17:04:08.029327+00:00",
+  "baseline_commit": "c01167adc8ba1043a16e0d41c8e9cff91d76cbc7",
+  "automatic_validation_is_not_expert_approval": true,
+  "autotests": {
+    "passed": 838,
+    "warnings": 20,
+    "failures": 0
+  },
+  "challenge_set": {
+    "scenarios": 125,
+    "families": 23,
+    "includes_paraphrases_and_calculator_cases": true,
+    "independent_specialist_reviewed_legal_cases": 0
+  },
+  "candidate_runs": {
+    "agentflow-research-20261023": {
+      "status": "complete",
+      "summary": {
+        "scenarios": 125,
+        "answered": 120,
+        "not_executed": 0,
+        "automatic_passed": 99,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null,
+        "generation_failed": 5
+      },
+      "mechanisms": {
+        "source_bound_work": 6,
+        "agentflow_v2": 51,
+        "source_bound_legal": 18,
+        "requires_model": 5,
+        "source_bound_legal_aid": 5,
+        "organizational_draft": 5,
+        "source_bound_gesv": 6,
+        "clarification": 8,
+        "cashflow_calculator": 20,
+        "no_evidence_fallback": 1
+      },
+      "researches_on_returned_answers": 33,
+      "families": 23,
+      "specialist_approved": 0,
+      "rows": [
+        {
+          "id": "expanded-wages-0",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 638.38,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wages-1",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 377.54,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wages-2",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 34392.98,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-wages-3",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 31799.62,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-wages-4",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 23179.75,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "employment"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-wage-letter-0",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 675.33,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wage-letter-1",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 662.1,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wage-letter-2",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 541.14,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wage-letter-3",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 631.26,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wage-letter-4",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 22732.7,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "draft",
+              "placeholder"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-forced-leave-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 814.63,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-forced-leave-1",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 756.15,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-forced-leave-2",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 33129.38,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-forced-leave-3",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 30335.96,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "application"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-forced-leave-4",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 15428.63,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-marriage-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 402.61,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-marriage-1",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 6786.52,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "child-property",
+              "parent-duties"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-marriage-2",
+          "domain": "legal",
+          "mechanism": "requires_model",
+          "error": "FlowiseReviewRejected",
+          "milliseconds": 23831.62,
+          "checks": null,
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-marriage-3",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 30605.71,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "parent-duties"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-marriage-4",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 19264.87,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "parent-duties"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-child-opinion-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 570.51,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-child-opinion-1",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 724.48,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-child-opinion-2",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 63373.05,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "not-alone"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-child-opinion-3",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 47831.96,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "not-alone"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-child-opinion-4",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 26201.58,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "not-alone"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-consent-0",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 7410.28,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "personal-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consent-1",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 12926.9,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "law"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "personal-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consent-2",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 30999.03,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "personal-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-consent-3",
+          "domain": "legal",
+          "mechanism": "requires_model",
+          "error": "FlowiseReviewRejected",
+          "milliseconds": 54639.76,
+          "checks": null,
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consent-4",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 38942.47,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "personal-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-consumer-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 446.42,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "consumer-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consumer-1",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 493.25,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "consumer-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consumer-2",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 854.46,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "consumer-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consumer-3",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 30304.77,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "consumer-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-consumer-4",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 43542.99,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "consumer-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-phone-theft-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 274.22,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "criminal"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-phone-theft-1",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 10117.31,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "access"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "criminal"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-phone-theft-2",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 574.75,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "criminal"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-phone-theft-3",
+          "domain": "legal",
+          "mechanism": "requires_model",
+          "error": "FlowiseReviewRejected",
+          "milliseconds": 11503.48,
+          "checks": null,
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-phone-theft-4",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 27201.23,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "access"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "criminal"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-legal-aid-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal_aid",
+          "error": null,
+          "milliseconds": 931.5,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "legal-aid"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-legal-aid-1",
+          "domain": "legal",
+          "mechanism": "source_bound_legal_aid",
+          "error": null,
+          "milliseconds": 635.49,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "legal-aid"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-legal-aid-2",
+          "domain": "legal",
+          "mechanism": "source_bound_legal_aid",
+          "error": null,
+          "milliseconds": 947.61,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "legal-aid"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-legal-aid-3",
+          "domain": "legal",
+          "mechanism": "source_bound_legal_aid",
+          "error": null,
+          "milliseconds": 859.2,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "legal-aid"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-legal-aid-4",
+          "domain": "legal",
+          "mechanism": "source_bound_legal_aid",
+          "error": null,
+          "milliseconds": 703.5,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "legal-aid"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-rental-letter-0",
+          "domain": "legal",
+          "mechanism": "organizational_draft",
+          "error": null,
+          "milliseconds": 3.29,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-rental-letter-1",
+          "domain": "legal",
+          "mechanism": "organizational_draft",
+          "error": null,
+          "milliseconds": 2.18,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-rental-letter-2",
+          "domain": "legal",
+          "mechanism": "organizational_draft",
+          "error": null,
+          "milliseconds": 2.23,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-rental-letter-3",
+          "domain": "legal",
+          "mechanism": "organizational_draft",
+          "error": null,
+          "milliseconds": 2.34,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-rental-letter-4",
+          "domain": "legal",
+          "mechanism": "organizational_draft",
+          "error": null,
+          "milliseconds": 2.24,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-0",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 950.08,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-1",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 38738.21,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-gesv-2",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 455.64,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-3",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 32206.39,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-gesv-4",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 730.66,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-costs-0",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 760.37,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026",
+              "bank-fees-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-costs-1",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 40142.75,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026",
+              "bank-fees-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-gesv-costs-2",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 781.39,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026",
+              "bank-fees-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-costs-3",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 44291.8,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026",
+              "bank-fees-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-gesv-costs-4",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 969.76,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026",
+              "bank-fees-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-loan-calculation-0",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 32274.34,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-loan-calculation-1",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 22953.61,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-loan-calculation-2",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 20341.35,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-loan-calculation-3",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 29274.34,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-loan-calculation-4",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 34122.01,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "schedule"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-deposit-guarantee-0",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 254.63,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "deposit-guarantee"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-deposit-guarantee-1",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 32380.12,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "deposit-guarantee"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-deposit-guarantee-2",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 24479.61,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "deposit-guarantee"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-deposit-guarantee-3",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 23820.21,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "currency",
+              "type",
+              "total"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-deposit-guarantee-4",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 25358.9,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "total"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "deposit-guarantee"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-auto-insurance-0",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 12795.22,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "auto-insurance"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-auto-insurance-1",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 67088.8,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "liability"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "auto-insurance"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-auto-insurance-2",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 36972.05,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "victim"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-auto-insurance-3",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 29441.45,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "auto-insurance"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-auto-insurance-4",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 27566.84,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "auto-insurance"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-foreign-debt-0",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 530.84,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-foreign-debt-1",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 531.47,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-foreign-debt-2",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 53642.98,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "basis"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-foreign-debt-3",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 363.49,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-foreign-debt-4",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 596.0,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-collector-threat-0",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 275.9,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-collector-threat-1",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 727.65,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-collector-threat-2",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 561.36,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-collector-threat-3",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 31919.67,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "safety"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-collector-threat-4",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 34435.82,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "safety"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-unknown-tariff-0",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.42,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-unknown-tariff-1",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.73,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-unknown-tariff-2",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.22,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-unknown-tariff-3",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.32,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-unknown-tariff-4",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.61,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-halyk-0",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 7898.65,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "halyk-superapp"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-halyk-1",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 8688.89,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "halyk-superapp"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-halyk-2",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 2994.67,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "halyk-superapp"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-halyk-3",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 38085.21,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "halyk-superapp"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-halyk-4",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 10896.49,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "halyk-superapp"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-new-topic-0",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 1.46,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-new-topic-1",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.86,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-new-topic-2",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.88,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-new-topic-3",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 27539.35,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "freedom-retail"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-new-topic-4",
+          "domain": "finance",
+          "mechanism": "requires_model",
+          "error": "FlowiseReviewRejected",
+          "milliseconds": 71755.31,
+          "checks": null,
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-0",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 2.86,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-0",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 2.49,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-1",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.96,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-1",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.66,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-2",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.99,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-2",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.69,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-3",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.95,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-3",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.63,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-4",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.95,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-4",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.68,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-5",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 2.0,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-5",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.34,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-6",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.95,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-6",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.84,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-7",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.72,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-7",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.64,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-8",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.92,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-8",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.78,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-9",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 2.06,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-9",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.65,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "civil-work-0",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 31135.53,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "civil-special"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "civil-work-1",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 30736.9,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "civil-special"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "civil-work-2",
+          "domain": "legal",
+          "mechanism": "requires_model",
+          "error": "FlowiseReviewRejected",
+          "milliseconds": 46752.13,
+          "checks": null,
+          "research_attempts": 0
+        },
+        {
+          "id": "civil-work-3",
+          "domain": "legal",
+          "mechanism": "no_evidence_fallback",
+          "error": null,
+          "milliseconds": 500.39,
+          "checks": {
+            "passed": false,
+            "missing_conditions": [
+              "civil_context"
+            ],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "civil-work-4",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 31583.91,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "civil-special"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        }
+      ]
+    },
+    "agentflow-research-20261023-final": {
+      "status": "complete",
+      "summary": {
+        "scenarios": 125,
+        "answered": 125,
+        "not_executed": 0,
+        "generation_failed": 0,
+        "automatic_passed": 125,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "mechanisms": {
+        "source_bound_work": 10,
+        "source_bound_legal": 47,
+        "agentflow_v2": 15,
+        "source_bound_legal_aid": 5,
+        "organizational_draft": 5,
+        "source_bound_gesv": 7,
+        "clarification": 15,
+        "cashflow_calculator": 20,
+        "organizational_civil_draft": 1
+      },
+      "researches_on_returned_answers": 10,
+      "families": 23,
+      "specialist_approved": 0,
+      "rows": [
+        {
+          "id": "expanded-wages-0",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 740.58,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wages-1",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 415.49,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wages-2",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 582.8,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wages-3",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 321.59,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wages-4",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 319.16,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wage-letter-0",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 471.66,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wage-letter-1",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 652.48,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wage-letter-2",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 481.17,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wage-letter-3",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 564.28,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-wage-letter-4",
+          "domain": "legal",
+          "mechanism": "source_bound_work",
+          "error": null,
+          "milliseconds": 619.47,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-forced-leave-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 945.39,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-forced-leave-1",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 648.29,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-forced-leave-2",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 590.92,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-forced-leave-3",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 32226.3,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-forced-leave-4",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 792.38,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "labor"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-marriage-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 557.65,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-marriage-1",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 856.83,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-marriage-2",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 762.6,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-marriage-3",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 800.62,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-marriage-4",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 816.34,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-child-opinion-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 638.18,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-child-opinion-1",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 629.91,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-child-opinion-2",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 857.33,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-child-opinion-3",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 749.41,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-child-opinion-4",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 745.26,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "family"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consent-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 1014.91,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "personal-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consent-1",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 853.68,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "personal-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consent-2",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 1056.14,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "personal-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consent-3",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 914.88,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "personal-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consent-4",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 1026.72,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "personal-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consumer-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 441.43,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "consumer-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consumer-1",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 564.95,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "consumer-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consumer-2",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 873.94,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "consumer-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-consumer-3",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 41681.3,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "consumer-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-consumer-4",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 7679.17,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "consumer-law"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-phone-theft-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 411.2,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "criminal"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-phone-theft-1",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 143.5,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "criminal"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-phone-theft-2",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 447.63,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "criminal"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-phone-theft-3",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 632.27,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "criminal"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-phone-theft-4",
+          "domain": "legal",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 924.35,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "criminal"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-legal-aid-0",
+          "domain": "legal",
+          "mechanism": "source_bound_legal_aid",
+          "error": null,
+          "milliseconds": 748.98,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "legal-aid"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-legal-aid-1",
+          "domain": "legal",
+          "mechanism": "source_bound_legal_aid",
+          "error": null,
+          "milliseconds": 562.21,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "legal-aid"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-legal-aid-2",
+          "domain": "legal",
+          "mechanism": "source_bound_legal_aid",
+          "error": null,
+          "milliseconds": 951.79,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "legal-aid"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-legal-aid-3",
+          "domain": "legal",
+          "mechanism": "source_bound_legal_aid",
+          "error": null,
+          "milliseconds": 836.53,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "legal-aid"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-legal-aid-4",
+          "domain": "legal",
+          "mechanism": "source_bound_legal_aid",
+          "error": null,
+          "milliseconds": 738.7,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "legal-aid"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-rental-letter-0",
+          "domain": "legal",
+          "mechanism": "organizational_draft",
+          "error": null,
+          "milliseconds": 0.79,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-rental-letter-1",
+          "domain": "legal",
+          "mechanism": "organizational_draft",
+          "error": null,
+          "milliseconds": 2.02,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-rental-letter-2",
+          "domain": "legal",
+          "mechanism": "organizational_draft",
+          "error": null,
+          "milliseconds": 2.44,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-rental-letter-3",
+          "domain": "legal",
+          "mechanism": "organizational_draft",
+          "error": null,
+          "milliseconds": 2.58,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-rental-letter-4",
+          "domain": "legal",
+          "mechanism": "organizational_draft",
+          "error": null,
+          "milliseconds": 2.5,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-0",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 838.53,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-1",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 31396.52,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-gesv-2",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 574.75,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-3",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 367.35,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-4",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 718.25,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-costs-0",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 632.96,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026",
+              "bank-fees-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-costs-1",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 34728.84,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026",
+              "bank-fees-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-gesv-costs-2",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 911.84,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026",
+              "bank-fees-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-gesv-costs-3",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 61639.44,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026",
+              "bank-fees-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-gesv-costs-4",
+          "domain": "finance",
+          "mechanism": "source_bound_gesv",
+          "error": null,
+          "milliseconds": 972.93,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "gesv-rules-2026",
+              "bank-fees-2026"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-loan-calculation-0",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 1.08,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-loan-calculation-1",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 1.18,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-loan-calculation-2",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 1.2,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-loan-calculation-3",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 1.23,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-loan-calculation-4",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 1.21,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-deposit-guarantee-0",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 637.16,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "deposit-guarantee"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-deposit-guarantee-1",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 572.08,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "deposit-guarantee"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-deposit-guarantee-2",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 701.45,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "deposit-guarantee"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-deposit-guarantee-3",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 596.92,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "deposit-guarantee"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-deposit-guarantee-4",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 623.62,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "deposit-guarantee"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-auto-insurance-0",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 1201.65,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "auto-insurance"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-auto-insurance-1",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 1073.31,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "auto-insurance"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-auto-insurance-2",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 972.77,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "auto-insurance"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-auto-insurance-3",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 708.41,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "auto-insurance"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-auto-insurance-4",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 891.64,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "auto-insurance"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-foreign-debt-0",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 718.06,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-foreign-debt-1",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 541.17,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-foreign-debt-2",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 793.05,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-foreign-debt-3",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 588.61,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-foreign-debt-4",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 674.14,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-collector-threat-0",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 420.59,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-collector-threat-1",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 760.83,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-collector-threat-2",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 688.17,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-collector-threat-3",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 461.49,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-collector-threat-4",
+          "domain": "finance",
+          "mechanism": "source_bound_legal",
+          "error": null,
+          "milliseconds": 931.31,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "collectors"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-unknown-tariff-0",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 1.41,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-unknown-tariff-1",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.79,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-unknown-tariff-2",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.89,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-unknown-tariff-3",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.83,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-unknown-tariff-4",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.87,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-halyk-0",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 5935.9,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "halyk-superapp"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-halyk-1",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 4991.42,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "halyk-superapp"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-halyk-2",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 6492.59,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "halyk-superapp"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-halyk-3",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 22420.11,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "halyk-superapp"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "expanded-halyk-4",
+          "domain": "finance",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 10380.65,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "halyk-superapp"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-new-topic-0",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 1.54,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-new-topic-1",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 1.0,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-new-topic-2",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 0.98,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-new-topic-3",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 1.01,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "expanded-new-topic-4",
+          "domain": "finance",
+          "mechanism": "clarification",
+          "error": null,
+          "milliseconds": 1.04,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-0",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 2.77,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-0",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 2.25,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-1",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.96,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-1",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.63,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-2",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 2.0,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-2",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.59,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-3",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.88,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-3",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.66,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-4",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.94,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-4",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.61,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-5",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.97,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-5",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.66,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-6",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.93,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-6",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.68,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-7",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.9,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-7",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.63,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-8",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.95,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-8",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.65,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-positive-9",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.97,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "cashflow-incomplete-9",
+          "domain": "finance",
+          "mechanism": "cashflow_calculator",
+          "error": null,
+          "milliseconds": 1.92,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "civil-work-0",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 29728.61,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "civil-special"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "civil-work-1",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 35068.82,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "civil-special"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "civil-work-2",
+          "domain": "legal",
+          "mechanism": "organizational_civil_draft",
+          "error": null,
+          "milliseconds": 2.87,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          },
+          "research_attempts": 0
+        },
+        {
+          "id": "civil-work-3",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 54526.35,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "civil-special"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        },
+        {
+          "id": "civil-work-4",
+          "domain": "legal",
+          "mechanism": "agentflow_v2",
+          "error": null,
+          "milliseconds": 30441.55,
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [
+              "civil-special"
+            ],
+            "expert_accuracy": null
+          },
+          "research_attempts": 1
+        }
+      ]
+    }
+  },
+  "matrix": {
+    "load": {
+      "mode": "isolated_real_matrix_synapse_agentflow",
+      "synthetic_users": 10,
+      "private_rooms": 2,
+      "cohorts": [
+        {
+          "label": "mixed_baseline",
+          "requests": 10,
+          "workers": 1,
+          "inference": "mixed_actual_agentflow_and_source_bound",
+          "ingress_seconds": 0.896,
+          "drain_seconds": 21.529,
+          "max_pending_observed": 9,
+          "latency_p50_seconds": 5.765,
+          "latency_p95_seconds": 21.422,
+          "queue_wait_p95_seconds": 13.038,
+          "service_p95_seconds": 6.226,
+          "answered": 10,
+          "duplicates": 0,
+          "generation_errors": 0
+        },
+        {
+          "label": "mixed_parallel",
+          "requests": 10,
+          "workers": 2,
+          "inference": "mixed_actual_agentflow_and_source_bound",
+          "ingress_seconds": 0.725,
+          "drain_seconds": 12.612,
+          "max_pending_observed": 9,
+          "latency_p50_seconds": 8.798,
+          "latency_p95_seconds": 12.51,
+          "queue_wait_p95_seconds": 9.768,
+          "service_p95_seconds": 8.257,
+          "answered": 10,
+          "duplicates": 0,
+          "generation_errors": 0
+        },
+        {
+          "label": "source_bound_burst",
+          "requests": 20,
+          "workers": 2,
+          "inference": "source_bound_no_new_model_calls",
+          "ingress_seconds": 1.196,
+          "drain_seconds": 56.343,
+          "max_pending_observed": 18,
+          "latency_p50_seconds": 6.125,
+          "latency_p95_seconds": 51.327,
+          "queue_wait_p95_seconds": 38.588,
+          "service_p95_seconds": 15.329,
+          "answered": 20,
+          "duplicates": 0,
+          "generation_errors": 0
+        }
+      ],
+      "cleanup": {
+        "generator_deactivated": true,
+        "bot_deactivated": true,
+        "user0_deactivated": true,
+        "user1_deactivated": true,
+        "user2_deactivated": true,
+        "user3_deactivated": true,
+        "user4_deactivated": true,
+        "user5_deactivated": true,
+        "user6_deactivated": true,
+        "user7_deactivated": true,
+        "user8_deactivated": true,
+        "user9_deactivated": true
+      },
+      "recovery": {
+        "offline_answers": 2,
+        "reply_counts": [
+          1,
+          1
+        ],
+        "pending": 0
+      }
+    },
+    "answer_checks": {
+      "answered_and_checked": 42,
+      "automatic_passed": 42,
+      "rows": [
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "marriage",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "consent",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "consent",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "forced-leave",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "auto-insurance",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv-costs",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "halyk",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "halyk",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "consent",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "auto-insurance",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv-costs",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "consent",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "halyk",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "marriage",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "forced-leave",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "halyk",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "gesv",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "wages",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        },
+        {
+          "case_id": "halyk",
+          "checks": {
+            "passed": true,
+            "missing_conditions": [],
+            "forbidden_claims": [],
+            "usefulness_issues": [],
+            "source_hits": [],
+            "expert_accuracy": null
+          }
+        }
+      ],
+      "expert_accuracy": null
+    },
+    "observations": [
+      {
+        "phase": "mixed_baseline",
+        "preparation_mechanisms": {
+          "source_bound_legal": 5,
+          "source_bound_gesv": 2,
+          "source_bound_work": 1,
+          "requires_model": 2
+        },
+        "agentflow_completed": 2,
+        "rate_limit_log_lines": 0
+      },
+      {
+        "phase": "mixed_parallel",
+        "preparation_mechanisms": {
+          "source_bound_legal": 5,
+          "requires_model": 2,
+          "source_bound_gesv": 2,
+          "source_bound_work": 1
+        },
+        "agentflow_completed": 2,
+        "rate_limit_log_lines": 0
+      },
+      {
+        "phase": "source_bound_burst",
+        "preparation_mechanisms": {
+          "source_bound_work": 10,
+          "source_bound_gesv": 10
+        },
+        "agentflow_completed": 0,
+        "rate_limit_log_lines": 19
+      },
+      {
+        "phase": "recovery",
+        "preparation_mechanisms": {
+          "source_bound_work": 1,
+          "requires_model": 1
+        },
+        "agentflow_completed": 1,
+        "rate_limit_log_lines": 0
+      },
+      {
+        "phase": "recovery",
+        "preparation_mechanisms": {},
+        "agentflow_completed": 0,
+        "rate_limit_log_lines": 0
+      }
+    ],
+    "golden_summary": {
+      "scenarios": 20,
+      "answered": 20,
+      "not_executed": 0,
+      "generation_failed": 0,
+      "automatic_passed": 20,
+      "specialist_scored": 0,
+      "expert_accuracy": null,
+      "expert_usefulness": null,
+      "expert_exceptions": null
+    }
+  },
+  "model_case_latency_seconds": {
+    "cases": 15,
+    "p50": 30.442,
+    "p95": 61.639,
+    "max": 61.639
+  },
+  "deployment": {
+    "image": "sha256:8a26cb06d35d60b9621776b5a7d5d76e2df187ee51dcdff97329ed2bdf8961c8",
+    "runtime_modules_checked": 47,
+    "mismatches": 0,
+    "workers": 2,
+    "protected_room_routes": 4,
+    "staff_per_department": 5,
+    "updated_active_agentflows": 2,
+    "nodes_per_agentflow": 13,
+    "temporary_agentflows_deleted": 4,
+    "synthetic_accounts_deactivated": 12
+  },
+  "knowledge": {
+    "materials": 104,
+    "corpus_replaced": false,
+    "model_weights_changed": false,
+    "review_due": 4,
+    "within_review_interval": 100,
+    "legal_currency_certified": false
+  },
+  "limitations": [
+    "Specialist review is pending; automatic matching does not prove legal interpretation.",
+    "110 challenge replies used source-bound text, clarification or arithmetic; only 15 went through model workflows.",
+    "Re-search is performed once by Python in response to Flowise diagnostics, not by a separate retriever node inside the UI.",
+    "The same configured Qwen model generates and audits drafts; correlated errors remain possible.",
+    "Search remains lexical with controlled hints and same-act links, not a complete semantic search system.",
+    "Four stored bank tariffs need review; date warnings do not make the tariffs current.",
+    "Burst delivery was delayed by queue/rate limits; this is not proof of readiness for 100–500 simultaneous users."
+  ]
+}

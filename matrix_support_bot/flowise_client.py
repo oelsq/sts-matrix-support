@@ -12,6 +12,9 @@ class FlowiseError(ValueError):
 
 class FlowiseReviewRejected(FlowiseError):
     """The service responded, but its evidence did not pass validation."""
+    def __init__(self,message,*,retrieval_hints=()):
+        super().__init__(message)
+        self.retrieval_hints=tuple(retrieval_hints)
 
 
 def _valid_id(value):
@@ -80,7 +83,17 @@ class FlowiseClient:
         if quality:
             from agentflow_claims import accept_quality_response
             try:return accept_quality_response(text,packet)
-            except (ValueError,TypeError,KeyError) as exc:raise FlowiseReviewRejected('Claim contract rejected: '+str(exc)) from None
+            except (ValueError,TypeError,KeyError) as exc:
+                hints=()
+                try:
+                    response=json.loads(text)
+                    if (isinstance(response,dict) and response.get('contract')=='sts.claims.v1'
+                            and response.get('status')=='needs_revision'
+                            and response.get('question_type')==packet['quality']['question_type']):
+                        raw=response.get('retrieval_hints',[])
+                        if isinstance(raw,list) and len(raw)<=4 and all(isinstance(h,str) and len(h)<=400 for h in raw):hints=tuple(raw)
+                except (ValueError,TypeError):pass
+                raise FlowiseReviewRejected('Claim contract rejected: '+str(exc),retrieval_hints=hints) from None
         return text
 
     async def predict(self, http, domain, room, sender, event_id, messages, *, stage="draft"):

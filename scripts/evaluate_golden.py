@@ -17,23 +17,28 @@ async def run(args):
     for case in cases:
         started=time.monotonic();search,previous=case_context(case)
         prepared=prepare_local_reply(case['domain'],case['question'],store,search_question=search,previous_question=previous)
-        answer=prepared.answer;mechanism=prepared.mechanism;error=None
+        answer=prepared.answer;mechanism=prepared.mechanism;error=None;error_detail=None
         if answer is None and args.live:
-            try:answer=await live_answer(case['domain'],case['question'],prepared.evidence,previous,args.live,case['id']);mechanism='agentflow_v2' if args.live=='flowise' else 'direct_model'
-            except Exception as exc:error=type(exc).__name__
-        row={'id':case['id'],'case_sha256':digest(case),'domain':case['domain'],'question':case['question'],'candidate_reference':case['candidate_reference'],'answer':answer,'mechanism':mechanism,'error':error,
-             'evidence':[{'id':p['id'],'document':p['document_id'],'source':p['source'],'version':p.get('version'),'section':p.get('section'),'text':p['text']} for p in prepared.evidence or []],
-             'checks':automated_checks(case,answer,prepared.evidence) if answer else None,
+            try:answer=await live_answer(case['domain'],case['question'],prepared.evidence,previous,args.live,case['id'],knowledge=store);mechanism='agentflow_v2' if args.live=='flowise' else 'direct_model'
+            except Exception as exc:error=type(exc).__name__;error_detail=str(exc)[:300]
+        actual_evidence=getattr(answer,'evidence',prepared.evidence)
+        row={'research_attempts':getattr(answer,'research_attempts',0),'id':case['id'],'case_sha256':digest(case),'domain':case['domain'],'question':case['question'],'candidate_reference':case['candidate_reference'],'answer':answer,'mechanism':mechanism,'error':error,'error_detail':error_detail,
+             'evidence':[{'id':p['id'],'document':p['document_id'],'source':p['source'],'version':p.get('version'),'section':p.get('section'),'text':p['text']} for p in actual_evidence or []],
+             'checks':automated_checks(case,answer,actual_evidence) if answer else None,
              'reviews':current_reviews(case,fingerprint,answer,records),'milliseconds':round((time.monotonic()-started)*1000,2)}
         rows.append(row)
-    report={'schema_version':1,'corpus_sha256':fingerprint,'rows':rows,'summary':summarize(rows),'external_specialist_approval_required':True}
+        if args.progress:
+            checkpoint={'schema_version':1,'status':'in_progress','planned_scenarios':len(cases),'corpus_sha256':fingerprint,'rows':rows,'summary':summarize(rows),'external_specialist_approval_required':True}
+            private_json(args.output,checkpoint)
+            print(json.dumps({'completed':len(rows),'total':len(cases),'last_case':case['id'],'error':error,'automatic_passed':row['checks']['passed'] if row['checks'] else None}),flush=True)
+    report={'status':'complete','planned_scenarios':len(cases),'schema_version':1,'corpus_sha256':fingerprint,'rows':rows,'summary':summarize(rows),'external_specialist_approval_required':True}
     private_json(args.output,report);print(json.dumps(report['summary'],ensure_ascii=False))
     return 1 if any(r['error'] or r['checks'] and not r['checks']['passed'] for r in rows) else 0
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--cases',type=Path,default=ROOT/'config/golden-cases.json');p.add_argument('--knowledge',type=Path,default=ROOT/'offline_knowledge')
     sub=p.add_subparsers(dest='command',required=True)
-    e=sub.add_parser('run');e.add_argument('--reviews',type=Path);e.add_argument('--output',required=True,type=Path);e.add_argument('--live',choices=['direct','flowise'])
+    e=sub.add_parser('run');e.add_argument('--reviews',type=Path);e.add_argument('--output',required=True,type=Path);e.add_argument('--live',choices=['direct','flowise']);e.add_argument('--progress',action='store_true')
     r=sub.add_parser('review');r.add_argument('--case',required=True);r.add_argument('--kind',choices=['reference','answer'],required=True);r.add_argument('--reviewer',required=True);r.add_argument('--role',required=True,choices=['legal_specialist','finance_specialist']);r.add_argument('--decision',required=True,choices=['approved','rejected']);r.add_argument('--run',type=Path);r.add_argument('--scores',help='accuracy,usefulness,exceptions: integers 0..4');r.add_argument('--notes',default='');r.add_argument('--output',required=True,type=Path)
     args=p.parse_args()
     if args.command=='run':raise SystemExit(asyncio.run(run(args)))

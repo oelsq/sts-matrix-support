@@ -123,4 +123,4 @@ if(!ok && canFilter) {
 }
 if(ok && scopeErrors(finalAnswer).length){errors.push(...scopeErrors(finalAnswer));ok=false;}
 return {audit_ok:ok?'yes':'no',audit_feedback:JSON.stringify({errors,feedback:(audit && audit.feedback || '')+' '+constraints.map(c=>c.guidance).join(' ')}),
- response:JSON.stringify({contract:'sts.claims.v1',question_type:quality.question_type,status:ok?'approved':'needs_revision',answer:ok?finalAnswer:'',audit:finalAudit || null,partial})};
+ response:JSON.stringify({contract:'sts.claims.v1',question_type:quality.question_type,status:ok?'approved':'needs_revision',answer:ok?finalAnswer:'',audit:finalAudit || null,partial,retrieval_hints:(!ok||partial)?units.filter(u=>errors.some(e=>e.startsWith(u.id+':'))).slice(0,4).map(u=>u.text.slice(0,400)):[]})};

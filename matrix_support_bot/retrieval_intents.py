@@ -7,6 +7,8 @@ import re
 
 # pattern, query expansion, preferred documents, preferred article prefixes
 RULES = [
+    (r'(?:укра|краж|похит).*(?:телефон|смартфон)|(?:телефон|смартфон).*(?:укра|краж|похит)', 'кража тайное хищение чужого имущества', ('criminal',), ('Статья 188.',)),
+    (r'брачн\w*.*договор|договор\w*.*брачн', 'брачный договор имущественные права супругов имущественное положение детей права обязанности в отношении детей', ('family',), ('Статья 39.','Статья 41.')),
     (r"(?=.*(?:гэ[сc]в|эффективн.*ставк))(?=.*(?:рассчита|посчита|вычисли|переплат)).+", "даты суммы график платежей расчет годовой эффективной ставки", ("gesv-rules-2026",), ("Пункт 11.", "Пункт 22.")),
     (r"гэ[сc]в|эффективн.*ставк|полная.*стоимост.*кредит", "годовая эффективная ставка расчет платежи включаются не включаются неустойка страхование комиссия", ("gesv-rules-2026",), ("Пункт 12.", "Пункт 14.", "Пункт 15.")),
     (r"(?:гэ[сc]в|эффективн.*ставк).*(?:страхов|комисси)|(?:страхов|комисси).*(?:гэ[сc]в|эффективн.*ставк)", "перечень комиссии страхование договор условия займа физическое лицо", ("bank-fees-2026",), ("Пункт 2.",)),
@@ -53,6 +55,14 @@ CODE_NAMES = [
     (re.compile(r"\bкоап\b|кодекс.*административн.*правонаруш", re.I), "administrative-offences"),
 ]
 
+def colloquial_work_payment(question):
+    current=question.casefold().split('\nпредыдущий вопрос:')[0]
+    if re.search(r'гпх|подряд|оказани.{0,12}услуг',current):return False
+    work=re.search(r'зарплат|заработн.{0,16}плат|работодател|начальник|заработанн.{0,20}ден|ден.{0,20}заработанн|(?:выполненн.{0,10}|за )работ',question,re.I)
+    trouble=re.search(r'невыплат|не\s+(?:плат|отда|выда|получ|перечисл|поступ|оплат)|задерж|задолж|ден[ье]г.{0,25}нет',question,re.I)
+    return bool(work and trouble)
+
+
 def query_hints(question):
     expansions, documents, sections = [], set(), {}
     for pattern, expansion, docs, headings in RULES:
@@ -62,6 +72,36 @@ def query_hints(question):
             if headings:
                 for doc in docs:
                     sections.setdefault(doc, []).extend(headings)
+    if deposit_guarantee_question(question):
+        expansions.append('гарантируемый депозит предел возмещения сберегательные иные иностранная валюта совокупное банк участник')
+        documents.add('deposit-guarantee');sections.setdefault('deposit-guarantee',[]).append('Статья 18.')
+    if auto_liability_definition(question):
+        expansions.append('объект обязательного страхования ответственности имущественный интерес вред третьим лицам')
+        documents.add('auto-insurance');sections.setdefault('auto-insurance',[]).extend(['Статья 3.','Статья 22.'])
+    if collector_contact_question(question):
+        expansions.append('коллекторское агентство третье лицо угрозы насилие контактные данные должника')
+        documents.add('collectors');sections.setdefault('collectors',[]).append('Статья 5.')
+    if child_residence_question(question):
+        expansions.append('место жительства ребенка мнение ребенка интересы соглашение родителей возраст десяти лет')
+        documents.add('family');sections.setdefault('family',[]).extend(['Статья 62.','Статья 73.'])
+    if consent_withdrawal_question(question):
+        expansions.append('отзыв согласия обработка персональных данных противоречит законам неисполненное обязательство')
+        documents.add('personal-law');sections.setdefault('personal-law',[]).append('Статья 8.')
+    if re.search(r'трудов.{0,20}договор',question,re.I) and re.search(r'гпх|подряд',question,re.I) and re.search(r'отлич|разниц|сравн',question,re.I):
+        expansions.append('отличительные признаки трудового договора трудовая функция личное выполнение подчинение трудовому распорядку')
+        documents.add('labor');sections.setdefault('labor',[]).append('Статья 27.')
+    if colloquial_work_payment(question):
+        expansions.append('работодатель заработная плата задолженность дата выплаты работнику')
+        documents.add('labor');sections.setdefault('labor',[]).append('Статья 113.')
+    if re.search(r'гпх|договор\w*\s+подряда',question,re.I):
+        expansions.append('договор подряда заказчик подрядчик приемка выполненной работы оплата работы')
+        documents.add('civil-special');sections.setdefault('civil-special',[]).extend(['Статья 616.','Статья 623.','Статья 630.'])
+    if re.search(r'договор\w*\s+(?:на\s+)?оказани\w*\s+услуг',question,re.I):
+        expansions.append('возмездное оказание услуг заказчик оплата услуг исполнитель')
+        documents.add('civil-special');sections.setdefault('civil-special',[]).extend(['Статья 683.','Статья 685.'])
+    if re.search(r'отпуск.{0,35}за свой сч[её]т|за свой сч[её]т.{0,35}отпуск',question,re.I):
+        expansions.append('отпуск без сохранения заработной платы соглашение сторон заявление работника')
+        documents.add('labor');sections.setdefault('labor',[]).append('Статья 97.')
     return " ".join(expansions), documents, sections
 
 
@@ -92,3 +132,25 @@ def general_legal_aid_question(question):
     return bool(re.search(r'бесплатн|гарантированн',question,re.I)
                 and re.search(r'юридическ|правов|адвокат|защитник',question,re.I)
                 and re.search(r'кто|кому|всем|право|получить|категори|положен',question,re.I))
+
+
+def child_residence_question(question):
+    return bool(re.search(r'реб[её]н|дет[ьи]',question,re.I) and re.search(r'с кем|прожив|мест.{0,12}жительств|выбор|выбир|сам реш|самостоятельн',question,re.I))
+
+
+def consent_withdrawal_question(question):
+    return bool(re.search(r'отозв|отзыв|забра.{0,20}согласи|прекрат.{0,20}обработ',question,re.I) and re.search(r'согласи|персональн',question,re.I))
+
+
+def deposit_guarantee_question(question):
+    return bool(re.search(r'вклад|депозит',question,re.I) and re.search(r'гарант|страхован|возмещ|лиш.{0,15}лиценз|вернут полностью',question,re.I))
+
+
+def auto_liability_definition(question):
+    return bool(re.search(r'автострах|огпо|осаго|страхован.{0,35}ответственност.{0,30}автомобил',question,re.I)
+                and re.search(r'покрыва|страхуется|страхование своей|объект',question,re.I)
+                and not re.search(r'ремонт|оценщик|удерж|выплат|отказ|как получить|что делать',question,re.I))
+
+
+def collector_contact_question(question):
+    return bool(re.search(r'коллектор|взыскател.{0,15}долг|звон.{0,20}чуж.{0,10}долг',question,re.I))

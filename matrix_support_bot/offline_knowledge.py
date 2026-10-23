@@ -246,7 +246,7 @@ class KnowledgeStore:
                         "bank": str(entry.get("bank", "")),
                         "version": str(entry.get("version_date", entry.get("version", ""))),
                     }
-                    for metadata in ('reporting_year', 'reporting_quarter', 'territory'):
+                    for metadata in ('reporting_year', 'reporting_quarter', 'territory','valid_from','valid_until','status'):
                         if metadata in entry:
                             passage[metadata] = entry[metadata]
                     if page_number:
@@ -534,7 +534,12 @@ class KnowledgeStore:
         if re.search(r"купил|покуп|продав|неисправ|товар|сломал.*телефон|магазин.*обратно", question, re.I) and not selected:
             supplements += [p for p in candidates if p["document_id"] == "consumer-law"
                             and "относятся исключительно транспортные средства" in " ".join(str(p["text"]).split())]
-        if re.search(r'коллектор',question,re.I) and re.search(r'чуж|родственник|знаком',question,re.I):
+        from retrieval_intents import collector_contact_question
+        threatening=bool(re.search(r'угро|шантаж|насили|запугива',question,re.I))
+        if collector_contact_question(question) and threatening:
+            supplements += [p for p in candidates if p['document_id']=='collectors'
+                and 'оказывать давление путем угрозы применения насилия' in ' '.join(p['text'].split())][:1]
+        if collector_contact_question(question) and re.search(r'чуж|родственник|знаком',question,re.I) and not threatening:
             supplements += [p for p in candidates if p['document_id']=='collectors'
                 and 'Взаимодействие коллекторского агентства с третьим лицом' in ' '.join(p['text'].split())]
         if re.search(r"банкрот", question, re.I):

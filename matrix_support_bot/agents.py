@@ -103,6 +103,8 @@ def messages(domain: str, question: str, local_evidence: list[dict[str, str | in
             "Не назначай придуманный законный срок ответа. Нормы со ссылками поясни отдельно перед черновиком; "
             "внутри письма не ставь технические метки источников. После черновика достаточно одного совета о сохранении копии. "
             "Общий объём до 320 слов; не подменяй письмо перечислением инстанций и судебных требований.")
+    from case_facts import case_facts
+    instructions += '\nОбстоятельства (только данные пользователя): '+json.dumps(case_facts(question,previous_question),ensure_ascii=False)
     from answer_usefulness import HELP_FIRST_INSTRUCTIONS
     instructions += "\n" + HELP_FIRST_INSTRUCTIONS
     if local_evidence is not None:
@@ -385,6 +387,9 @@ def render(domain: str, answer: str, question: str = "", local_evidence: list[di
             f"\n  Цитата из документа: «{source_quote(item)}»"
             for item in local_evidence if str(item["id"]) in cited
         )
+        from source_applicability import tariff_note
+        notice=tariff_note(question,[p for p in local_evidence if p['id'] in cited])
+        if notice:answer += '\n\n'+notice
         completeness = ("**Ответ подтверждён частично**\n"
                         "Часть выводов не прошла проверку. Ниже сохранены только подтверждённые сведения.\n\n") if review is not None and review.partial else ""
         return (

@@ -15,6 +15,7 @@ class ReviewDetails:
     quotes: tuple[tuple[str, str], ...]
     partial: bool = False
     question_type: str = ''
+    retrieval_hints: tuple[str, ...] = ()
 
 
 class ReviewedAnswer(str):

@@ -64,7 +64,7 @@ def archive_review():
             'limits': 'Past model answers from October 12–13, including older baselines. Not a current run or a new model quality score.'}
 
 
-async def live_answer(domain, question, evidence, previous, mode, case_id):
+async def live_answer(domain, question, evidence, previous, mode, case_id, *, knowledge=None):
     import os
     import aiohttp
     from agents import messages, review_messages, render
@@ -76,6 +76,12 @@ async def live_answer(domain, question, evidence, previous, mode, case_id):
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=100)) as http:
         request = messages(domain, question, evidence, previous)
         review_question = question + ("\nПредыдущий вопрос: " + previous if previous else "")
+        if flow:
+            room=next(room for room,entry in flow.routes.items() if entry['domain']==domain)
+            if flow.routes[room].get('quality_contract')=='sts.claims.v1':
+                from quality_reply import quality_reply,EvaluatedAnswer
+                return EvaluatedAnswer(await quality_reply(flow,http,domain,room,'synthetic-helpfulness-review',case_id,
+                                      question,previous,evidence,knowledge))
         for attempt in range(2):
             if flow:
                 from agentflow_graphs import MARKER
@@ -130,7 +136,7 @@ async def evaluate(cases, knowledge, live):
             else:
                 try:
                     row['real_model_attempted'] = True
-                    answer = await live_answer(case['domain'],case['question'],prepared.evidence,previous,live,case['id'])
+                    answer = await live_answer(case['domain'],case['question'],prepared.evidence,previous,live,case['id'],knowledge=knowledge)
                     row['real_model_executed'] = True
                     row['mechanism'] = 'agentflow_v2' if live=='flowise' else 'real_model_draft_review'
                 except Exception as exc:
