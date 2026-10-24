@@ -54,7 +54,7 @@ def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invali
     monkeypatch.setattr(bot,'KnowledgeStore',lambda _:Knowledge());monkeypatch.setattr(FlowiseClient,'from_env',lambda _:Flow())
     asyncio.run(bot.main())
     assert len(out)==1 and not out[0].startswith('Готовлю ответ')
-    assert typing==[True,False]
+    assert typing in ([],[True,False])  # Fast answers may finish before the delayed indicator.
     assert len(calls)==(2 if invalid_first or quality_rejected and research_available else 1)
     if quality_rejected and not research_available:
         assert 'временно недоступен' not in out[-1]

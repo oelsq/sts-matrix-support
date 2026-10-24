@@ -1,6 +1,7 @@
 """Opt-in Flowise predictions for explicitly configured Matrix rooms."""
 import hashlib
 import json
+import re
 import uuid
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -12,9 +13,10 @@ class FlowiseError(ValueError):
 
 class FlowiseReviewRejected(FlowiseError):
     """The service responded, but its evidence did not pass validation."""
-    def __init__(self,message,*,retrieval_hints=()):
+    def __init__(self,message,*,retrieval_hints=(),validation_errors=()):
         super().__init__(message)
         self.retrieval_hints=tuple(retrieval_hints)
+        self.validation_errors=tuple(validation_errors)
 
 
 def _valid_id(value):
@@ -84,16 +86,22 @@ class FlowiseClient:
             from agentflow_claims import accept_quality_response
             try:return accept_quality_response(text,packet)
             except (ValueError,TypeError,KeyError) as exc:
-                hints=()
+                hints=();codes=()
                 try:
                     response=json.loads(text)
                     if (isinstance(response,dict) and response.get('contract')=='sts.claims.v1'
                             and response.get('status')=='needs_revision'
                             and response.get('question_type')==packet['quality']['question_type']):
+                        raw_codes=response.get('validation_errors',[])
+                        unit_errors={'missing','missing_proof','invalid_proof','invalid_quote','citation_mismatch','unsupported','unproven_quantity','unproven_fact_disguised_as_advice','invalid_user_context','invented_user_quantity','user_text_is_not_law','unproven_numeric_relation'}
+                        general_errors={'invalid_audit_json','incomplete_audit','missing_or_duplicate_claims','invalid_answer_size','review_requested_revision'}
+                        qualifications={'missing_qualification:'+c['id'] for c in packet['quality'].get('constraints',[])}
+                        if isinstance(raw_codes,list) and len(raw_codes)<=16:
+                            codes=tuple(c for c in raw_codes if isinstance(c,str) and (c in general_errors or c in qualifications or re.fullmatch(r'C(?:[1-9]|[12][0-9]|3[0-2]):[a-z_]+',c) and c.split(':')[1] in unit_errors))
                         raw=response.get('retrieval_hints',[])
                         if isinstance(raw,list) and len(raw)<=4 and all(isinstance(h,str) and len(h)<=400 for h in raw):hints=tuple(raw)
                 except (ValueError,TypeError):pass
-                raise FlowiseReviewRejected('Claim contract rejected: '+str(exc),retrieval_hints=hints) from None
+                raise FlowiseReviewRejected('Claim contract rejected: '+str(exc),retrieval_hints=hints,validation_errors=codes) from None
         return text
 
     async def predict(self, http, domain, room, sender, event_id, messages, *, stage="draft"):

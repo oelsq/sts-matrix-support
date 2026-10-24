@@ -1,0 +1,32 @@
+{
+  "manifest": {
+    "model_id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "revision": "86741b4e3f5cb7765a600d3a3d55a0f6a6cb443d",
+    "license": "Apache-2.0",
+    "dimensions": 384,
+    "max_tokens": 128,
+    "files": {
+      "model.onnx": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+      "tokenizer.json": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+      "tokenizer_config.json": "cac868512d555e9ac37a33c28300d36931ae4b5ddff43f1ca9bdacfe6fcd9dc8",
+      "config.json": "6300193cb75e01cf80c96decef7187dfb33094d97cc1490b7ead6ff134476e4e",
+      "README.md": "1e98ea05b0de579fcaad3d625b62ea55647142ed674d5f5ebf1440e4bbbb6f23"
+    },
+    "network_required_at_runtime": false
+  },
+  "repository": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "download_files": {
+    "model.onnx": "onnx/model_quint8_avx2.onnx",
+    "tokenizer.json": "tokenizer.json",
+    "tokenizer_config.json": "tokenizer_config.json",
+    "config.json": "config.json",
+    "README.md": "README.md"
+  },
+  "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+  "additional_files": {
+    "LICENSE.txt": {
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  }
+}

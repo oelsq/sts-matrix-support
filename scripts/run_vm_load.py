@@ -13,7 +13,8 @@ def validate_stage(stage,allowed_root=Path('/home/admin_sts/sts-matrix-support/s
     return stage
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--stage',type=Path,required=True);p.add_argument('--candidate',required=True);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--stage',type=Path,required=True);p.add_argument('--candidate',required=True);p.add_argument('--knowledge',type=Path);p.add_argument('--semantic-root',type=Path);a=p.parse_args()
+    a.candidate=subprocess.check_output(['docker','image','inspect',a.candidate,'--format','{{.Id}}'],text=True).strip()
     try:stage=validate_stage(a.stage)
     except ValueError as exc:p.error(str(exc))
     stage.mkdir(parents=True,exist_ok=True);project=Path('/home/admin_sts/sts-matrix-support/project').resolve();state=stage/'loadstate';state.mkdir(mode=0o700,exist_ok=True)
@@ -49,7 +50,12 @@ print(json.dumps(result))
          'FLOWISE_URL':'http://flowise:3000','FLOWISE_ALLOWED_HOSTS':'flowise','FLOWISE_ROOM_ROUTES_FILE':'/app/state/flowise_rooms.json','FLOWISE_API_KEY_FILE':'/run/secrets/flowise_key',
          'MATRIX_ROOM_ROUTES_FILE':'/app/state/absent.json','MATRIX_INBOX_DB':'/app/state/matrix_inbox.sqlite3','HANDOFF_DB':'/app/state/handoff.sqlite3',
          'LEGAL_DEPARTMENT_USERS':'','FINANCE_DEPARTMENT_USERS':'','PYTHONPATH':'/app:/app/tools'}
-    key_mounts=['-v','/home/admin_sts/.sts-litellm/key:/run/secrets/litellm_key:ro','-v',str(project/'.human-handoff-state/flowise_api_key')+':/run/secrets/flowise_key:ro','-v',str(project/'offline_knowledge')+':/app/offline_knowledge:ro']
+    key_mounts=['-v','/home/admin_sts/.sts-litellm/key:/run/secrets/litellm_key:ro','-v',str(project/'.human-handoff-state/flowise_api_key')+':/run/secrets/flowise_key:ro','-v',str((a.knowledge or project/'offline_knowledge').resolve())+':/app/offline_knowledge:ro']
+    if a.semantic_root:
+        semantic=a.semantic_root.resolve()
+        if not all((semantic/n).is_dir() for n in ['model','index']):raise ValueError('Semantic assets missing')
+        key_mounts += ['-v',str(semantic)+':/semantic:ro']
+        env.update(SEMANTIC_MODEL_DIR='/semantic/model',SEMANTIC_INDEX_DIR='/semantic/index',SEMANTIC_THREADS='2',HF_HUB_OFFLINE='1')
     envfile=stage/'load.env'
     observations=[];current_phase=None
     def create_bot(workers,phase):
@@ -68,7 +74,8 @@ print(json.dumps(result))
         if logs.returncode==0:
             text=logs.stdout+logs.stderr
             observations.append({'phase':current_phase,'preparation_mechanisms':dict(Counter(re.findall(r'mechanism=([a-z_]+)',text))),
-                'agentflow_completed':text.count('Agentflows V2 workflow completed;'),'rate_limit_log_lines':sum('429' in line or 'M_LIMIT_EXCEEDED' in line or 'rate limit' in line.casefold() for line in text.splitlines())})
+                'agentflow_completed':text.count('Agentflows V2 workflow completed;'),
+                'delivery_summary':[json.loads(v) for v in re.findall(r'Matrix delivery summary: (\{[^\n]+\})',text)],'rate_limit_log_lines':sum('429' in line or 'M_LIMIT_EXCEEDED' in line or 'rate limit' in line.casefold() for line in text.splitlines())})
             private(stage/'load-observations.json',json.dumps(observations))
         subprocess.run(['docker','rm','-f',botname],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     proc=None;audit_proc=None;handled=set()

@@ -13,7 +13,7 @@ const quantities = input => {
  text=text.replace(/(?<=\d)[ \u00a0\u202f](?=\d{3}(?:\D|$))/g,'').replace(/,/g,'.');
  return new Set((text.match(/\d+(?:[.]\d+)?/g)||[]).map(v=>String(Number(v))));
 };
-const advicePattern = /^(?:не умножайте|не передавайте|не сообщайте|не переводите|пришлите|расскажите|поясните|определите|зафиксируйте|убедитесь|сохраните|запишите|опишите|уточните|попросите|запросите|сравните|проверьте|подготовьте|напишите|приложите|составьте|укажите|сообщите|заполните|направьте|отправьте|обратитесь|прошу|кому:|адресат:|отправитель:|от:|дата:|подпись:|тема:|требование|заявление|претензия|\[)/i;
+const advicePattern = /^(?:обеспечьте|заблокируйте|защитите|смените|выйдите|отключите|ограничьте|свяжитесь|не умножайте|не передавайте|не сообщайте|не переводите|пришлите|расскажите|поясните|определите|зафиксируйте|убедитесь|сохраните|запишите|опишите|уточните|попросите|запросите|сравните|проверьте|подготовьте|напишите|приложите|составьте|укажите|сообщите|заполните|направьте|отправьте|обратитесь|прошу|кому:|адресат:|отправитель:|от:|дата:|подпись:|тема:|требование|заявление|претензия|\[)/i;
 const fact = /\d|(?:^|[^а-яёa-z])(?:обязан|вправе|запрещ|неусто|пен[яию]|процент|должен|гарантир)|не позднее|в течение|рабочих дней|так как|поскольку|согласно|в соответствии|не мо(?:жет|гут)|не допуска|ограничива|регулирует|устанавливает|влеч[её]т|призна[её]тся|имеет право|подлежит/i;
 const safeAdvice = (input,document=false) => {
  const text=input.replace(/^\s*(?:\d+[.)]|[-*])\s+/,'').replace(/\*\*/g,'').trim();
@@ -123,4 +123,4 @@ if(!ok && canFilter) {
 }
 if(ok && scopeErrors(finalAnswer).length){errors.push(...scopeErrors(finalAnswer));ok=false;}
 return {audit_ok:ok?'yes':'no',audit_feedback:JSON.stringify({errors,feedback:(audit && audit.feedback || '')+' '+constraints.map(c=>c.guidance).join(' ')}),
- response:JSON.stringify({contract:'sts.claims.v1',question_type:quality.question_type,status:ok?'approved':'needs_revision',answer:ok?finalAnswer:'',audit:finalAudit || null,partial,retrieval_hints:(!ok||partial)?units.filter(u=>errors.some(e=>e.startsWith(u.id+':'))).slice(0,4).map(u=>u.text.slice(0,400)):[]})};
+ response:JSON.stringify({contract:'sts.claims.v1',question_type:quality.question_type,status:ok?'approved':'needs_revision',answer:ok?finalAnswer:'',audit:finalAudit || null,partial,validation_errors:errors.slice(0,16).map(e=>e.split(':').slice(0,2).join(':')),retrieval_hints:(!ok||partial)?units.filter(u=>errors.some(e=>e.startsWith(u.id+':'))).slice(0,4).map(u=>u.text.slice(0,400)):[]})};

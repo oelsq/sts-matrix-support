@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "review_status": "candidate_retrieval_expectations_not_specialist_approved",
+  "note": "New paraphrases for broad document retrieval; does not verify the applicable article or legal answer. Do not tune expectations to the observed output.",
+  "cases": [
+    {
+      "id": "semantic-paraphrase-1",
+      "domain": "legal",
+      "question": "Деньги за будущую квартиру предлагают передать застройщику до окончания стройки. Что проверить?",
+      "document": "shared-construction",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-2",
+      "domain": "legal",
+      "question": "Чужой магазин печатает мои рисунки на футболках и продаёт без разрешения. Как защитить свою работу?",
+      "document": "copyright",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-3",
+      "domain": "legal",
+      "question": "После развода мне мешают видеться с дочерью. Как урегулировать общение?",
+      "document": "family",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-4",
+      "domain": "legal",
+      "question": "Сосед поставил забор на части моего участка. С чего начать спор о границе?",
+      "document": "land",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-5",
+      "domain": "legal",
+      "question": "У меня требуют бумагу, которую госорган уже может получить из своих систем. Как разобраться?",
+      "document": "state-services",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-6",
+      "domain": "legal",
+      "question": "Хотим разрешить спор с посредником без судебного разбирательства. Как это оформляется?",
+      "document": "mediation",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-7",
+      "domain": "legal",
+      "question": "Работников вынуждают подписывать уход по собственному желанию. Какие обстоятельства проверить?",
+      "document": "labor",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-8",
+      "domain": "legal",
+      "question": "Сайт распространяет мою фотографию и номер без моего разрешения. Как защищать мои сведения?",
+      "document": "personal-law",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-9",
+      "domain": "finance",
+      "question": "Давно рассчитался с кредитором, но бюро показывает просрочку. Как исправить запись?",
+      "document": "credit-history",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-10",
+      "domain": "finance",
+      "question": "Фирма получает оплату от иностранного покупателя в долларах. Какие правила проверить?",
+      "document": "currency-control",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-11",
+      "domain": "finance",
+      "question": "Хочу купить долю в фонде вместо выбора отдельных акций. Как устроены такие вложения?",
+      "document": "investment-funds",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-12",
+      "domain": "finance",
+      "question": "Оборудование сначала используем за регулярную плату, затем выкупаем. Что проверить в договоре?",
+      "document": "leasing",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-13",
+      "domain": "finance",
+      "question": "Предлагают жильё под обеспечение этой же квартирой. Как устроен такой залог?",
+      "document": "mortgage",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-14",
+      "domain": "finance",
+      "question": "В отчётности компании разошлись остатки и подтверждающие документы. Какие правила учёта смотреть?",
+      "document": "accounting",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-15",
+      "domain": "finance",
+      "question": "Заёмщик больше не тянет обязательства и хочет восстановить способность платить. Какие процедуры существуют?",
+      "document": "bankruptcy",
+      "top_k": 8
+    },
+    {
+      "id": "semantic-paraphrase-16",
+      "domain": "finance",
+      "question": "При переводе денег просят сообщить код из сообщения и обещают спасти сбережения. Как защититься?",
+      "document": "nb-fraud",
+      "top_k": 8
+    }
+  ]
+}

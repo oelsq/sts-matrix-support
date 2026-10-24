@@ -1,0 +1,985 @@
+{
+  "schema_version": 1,
+  "notes": "40 additional distinct questions outside the 125 challenge set (20 per specialist), plus 20 baseline candidate references. Some additional questions were used in retrieval tests; this is not a newly held-out external expert benchmark. Use --force-model. No specialist approval.",
+  "cases": [
+    {
+      "id": "wages",
+      "domain": "legal",
+      "question": "Начальник не отдаёт деньги за работу",
+      "previous_questions": [],
+      "candidate_reference": "Различить трудовые отношения и подряд, проверить основание оплаты, сохранить доказательства, объяснить применимые правила выплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "employment": "работодател|трудов",
+        "practical": "сохран|подтвержд|переписк"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "wage-letter",
+      "domain": "legal",
+      "question": "А как написать требование?",
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "candidate_reference": "Предоставить сам черновик требования с заполнителями, используя предыдущий вопрос о задержке оплаты.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "draft": "Кому:",
+        "request": "Прошу",
+        "placeholder": "\\[(?:период|месяц)[^\\]\\n]{0,40}\\]"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "forced-leave",
+      "domain": "legal",
+      "question": "Работодатель заставляет написать заявление на отпуск без содержания. Обязан соглашаться?",
+      "previous_questions": [],
+      "candidate_reference": "Сохранить условие о соглашении сторон и заявлении работника. Не превращать право на отпуск в право работодателя принуждать.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "agreement": "соглашени",
+        "application": "заявлен"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "marriage",
+      "domain": "legal",
+      "question": "Что регулирует брачный договор?",
+      "previous_questions": [],
+      "candidate_reference": "Различить допускаемое имущественное положение детей и ограничения прав и обязанностей супругов в отношении детей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "child-property": "имущественном положении детей",
+        "parent-duties": "права и обязанности в отношении детей"
+      },
+      "forbidden": {
+        "blanket-ban": "нельзя регулировать права детей"
+      },
+      "risk": "high"
+    },
+    {
+      "id": "child-opinion",
+      "domain": "legal",
+      "question": "Ребёнку 10 лет. Он сам решает с кем жить после развода?",
+      "previous_questions": [],
+      "candidate_reference": "Различить обязательность учёта мнения и единоличное решение ребёнка; сохранить интересы ребёнка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "interest": "интерес",
+        "not-alone": "не означает|не.*единолич|не.*самостоятельн"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "consent",
+      "domain": "legal",
+      "question": "Можно ли отозвать согласие на обработку персональных данных?",
+      "previous_questions": [],
+      "candidate_reference": "Указать ограничения: противоречие законам и неисполненное обязательство. Отдельно проверить законные основания дальнейшей обработки.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "personal-law"
+      ],
+      "required": {
+        "obligation": "неисполненн|невыполненн|непогашенн",
+        "law": "противореч|вопреки"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "consumer",
+      "domain": "legal",
+      "question": "Купил неисправный телефон, хочу вернуть деньги",
+      "previous_questions": [],
+      "candidate_reference": "Дать полезные действия с учётом недостатка и условий гарантии; не обещать возврат при любых обстоятельствах.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "consumer-law"
+      ],
+      "required": {
+        "defect": "недостат|неисправ|дефект",
+        "action": "сохран|претензи|продав"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "phone-theft",
+      "domain": "legal",
+      "question": "Украли телефон на работе. Что делать?",
+      "previous_questions": [],
+      "candidate_reference": "Зафиксировать пропажу и защитить доступы; не выдумывать обязательную квалификацию и наказание.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "criminal"
+      ],
+      "required": {
+        "evidence": "сохран|зафиксир|запишите",
+        "access": "доступ|SIM|оператор|банк"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "legal-aid",
+      "domain": "legal",
+      "question": "Всем ли бесплатно положен адвокат в Казахстане?",
+      "previous_questions": [],
+      "candidate_reference": "Различить общедоступное правовое информирование и другие формы юридической помощи, имеющие условия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "legal-aid"
+      ],
+      "required": {
+        "distinction": "информирован",
+        "conditions": "услови|категор|основан"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "rental-letter",
+      "domain": "legal",
+      "question": "Как написать требование о возврате залога за квартиру?",
+      "previous_questions": [],
+      "candidate_reference": "Подготовить черновик с заполнителями без выдуманного обязательного срока возврата.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-general"
+      ],
+      "required": {
+        "draft": "Кому:|Адресат:",
+        "request": "Прошу|прошу"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "gesv",
+      "domain": "finance",
+      "question": "Что такое ГЭСВ и чем она отличается от номинальной ставки?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить эффективную стоимость и учёт платежей, сохранив исключения.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "cost": "платеж|комисси",
+        "exclusions": "штраф|неустойк"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "gesv-costs",
+      "domain": "finance",
+      "question": "Какие комиссии и страховки включаются в ГЭСВ?",
+      "previous_questions": [],
+      "candidate_reference": "Не объявлять любую страховку всегда включённой или исключённой; различить правила расчёта и перечень взимаемых платежей.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026",
+        "bank-fees-2026"
+      ],
+      "required": {
+        "insurance": "страхов",
+        "conditions": "услови",
+        "rules": "расч[её]т|расч[её]та"
+      },
+      "forbidden": {
+        "always": "(?m)^\\s*(?:[-*]\\s*)?Любая страховка всегда исключена"
+      },
+      "risk": "high"
+    },
+    {
+      "id": "loan-calculation",
+      "domain": "finance",
+      "question": "Кредит 1000000 тенге на 2 года под ГЭСВ 20%. Рассчитай переплату.",
+      "previous_questions": [],
+      "candidate_reference": "Запросить график и относящиеся платежи. По этим трём данным не выдавать выдуманную точную переплату.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "schedule": "график",
+        "inputs": "дат|сумм|комисси"
+      },
+      "forbidden": {
+        "invented-result": "переплата составит 400 ?000"
+      },
+      "risk": "high"
+    },
+    {
+      "id": "deposit-guarantee",
+      "domain": "finance",
+      "question": "Гарантируется ли любая сумма вклада в банке независимо от валюты и вида депозита?",
+      "previous_questions": [],
+      "candidate_reference": "Различить лимиты по виду и валюте и совокупный предел; банк должен участвовать в системе.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "deposit-guarantee"
+      ],
+      "required": {
+        "currency": "валют",
+        "type": "сберегательн",
+        "total": "совокупн|разные|разных"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "auto-insurance",
+      "domain": "finance",
+      "question": "Что страхуется по обязательному автострахованию: машина или ответственность перед потерпевшими?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить объект ответственности перед потерпевшими, не обещать ремонт своей машины как объект этого покрытия.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "auto-insurance"
+      ],
+      "required": {
+        "liability": "ответственност",
+        "victim": "потерпевш|вред"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "foreign-debt",
+      "domain": "finance",
+      "question": "Коллекторы требуют заплатить чужой долг родственника. Что делать?",
+      "previous_questions": [],
+      "candidate_reference": "Знакомство и родство не доказывают обязательство; различить контакт с третьим лицом и требование погашения долга.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "basis": "основан|поручител|соза[её]мщик",
+        "third-party": "треть|родств|знаком"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "collector-threat",
+      "domain": "finance",
+      "question": "Коллектор угрожает насилием. Что делать?",
+      "previous_questions": [],
+      "candidate_reference": "При угрозе обеспечить безопасность; сохранить доказательства и объяснить ограничение способов взыскания.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "collectors"
+      ],
+      "required": {
+        "safety": "безопасност|экстренн",
+        "proof": "сохран|сообщени|скриншот"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "unknown-tariff",
+      "domain": "finance",
+      "question": "Какая комиссия за перевод с карты?",
+      "previous_questions": [],
+      "candidate_reference": "Уточнить банк, продукт и канал; не подставлять комиссию другого банка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "bank": "банк",
+        "product": "продукт|приложени"
+      },
+      "forbidden": {
+        "invented-zero": "комиссия составляет 0"
+      },
+      "risk": "high"
+    },
+    {
+      "id": "halyk",
+      "domain": "finance",
+      "question": "Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?",
+      "previous_questions": [],
+      "candidate_reference": "Ответить по соответствующей строке тарифа с учётом условий пользователя и версии, не переносить другой канал.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "halyk-superapp"
+      ],
+      "required": {
+        "amount": "0 тенге|0 теңге",
+        "scope": "коммунальн"
+      },
+      "forbidden": {},
+      "risk": "high"
+    },
+    {
+      "id": "new-topic",
+      "domain": "finance",
+      "question": "А какая комиссия в Freedom?",
+      "previous_questions": [
+        "Какая комиссия Halyk SuperApp за коммунальные услуги?"
+      ],
+      "candidate_reference": "Новый банк требует нового источника и уточнения продукта, не наследовать тариф Halyk.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "freedom-retail"
+      ],
+      "required": {
+        "product": "продукт|карт|перевод|операци"
+      },
+      "forbidden": {
+        "wrong-bank": "по тарифу Halyk"
+      },
+      "risk": "high"
+    },
+    {
+      "id": "model-expanded-help-legal-credit-fix",
+      "domain": "legal",
+      "question": "В кредитной истории висит уже закрытый кредит. Как исправить ошибку?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «credit-history». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "credit-history"
+      ],
+      "required": {
+        "1": "оспорить",
+        "2": "поставщик",
+        "3": "письменный отказ"
+      },
+      "forbidden": {},
+      "family": "credit-history",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-help-finance-credit-report",
+      "domain": "finance",
+      "question": "Как получить свой кредитный отчет?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям. Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "1": "отч[её]т о себе",
+        "2": "официальный канал",
+        "3": "конкретной записью"
+      },
+      "forbidden": {},
+      "family": "expanded-help-finance-credit-report",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-help-legal-credit-letter",
+      "domain": "legal",
+      "question": "А напиши заявление об исправлении ошибки.",
+      "previous_questions": [
+        "В кредитной истории указан закрытый кредит как действующий."
+      ],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям. Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "1": "Кому:",
+        "2": "Прошу проверить",
+        "3": "Подпись:"
+      },
+      "forbidden": {},
+      "family": "expanded-help-legal-credit-letter",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-help-finance-union",
+      "domain": "finance",
+      "question": "Начальник требует выйти из профсоюза. Можно ли ограничивать права из-за членства?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «trade-unions». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "trade-unions"
+      ],
+      "required": {
+        "1": "дискриминац",
+        "2": "Сохраните",
+        "3": "письменн"
+      },
+      "forbidden": {},
+      "family": "trade-unions",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-help-legal-construction",
+      "domain": "legal",
+      "question": "Хочу купить квартиру в новостройке. Какие документы запросить у компании перед долевым участием?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «shared-construction». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "shared-construction"
+      ],
+      "required": {
+        "1": "разные способы",
+        "2": "гаранти",
+        "3": "разрешение"
+      },
+      "forbidden": {},
+      "family": "shared-construction",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-help-finance-auto-costs",
+      "domain": "finance",
+      "question": "После ДТП страховщик удержал из выплаты расходы на оценку ущерба. Это допустимо?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «auto-insurance». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "auto-insurance"
+      ],
+      "required": {
+        "1": "удерживать.*нельзя",
+        "2": "расч[её]т",
+        "3": "расходах самого страховщика"
+      },
+      "forbidden": {},
+      "family": "auto-insurance",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-help-legal-loan-notification",
+      "domain": "legal",
+      "question": "Получил уведомление о статусе чужого займа. Где проверить кредитную историю?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям. Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "1": "Не переходите по ссылке",
+        "2": "Государственного кредитного бюро",
+        "3": "электронного правительства"
+      },
+      "forbidden": {},
+      "family": "expanded-help-legal-loan-notification",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-credit-history-2",
+      "domain": "finance",
+      "question": "Напиши заявление об исправлении неверной информации в кредитном отчете.",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «credit-history». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "credit-history"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "credit-history",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-currency-control-1",
+      "domain": "legal",
+      "question": "Что считается валютной операцией по закону?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «currency-control». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "currency-control"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "currency-control",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-currency-control-2",
+      "domain": "finance",
+      "question": "Какие полномочия у органов валютного контроля?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «currency-control». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "currency-control"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "currency-control",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-securities-market-1",
+      "domain": "legal",
+      "question": "Брокер предлагает покупать ценные бумаги. Нужна ли ему лицензия?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «securities-market». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "securities-market"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "securities-market",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-securities-market-2",
+      "domain": "finance",
+      "question": "Какие сведения относятся к коммерческой тайне на рынке ценных бумаг?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «securities-market». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "securities-market"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "securities-market",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-aml-1",
+      "domain": "legal",
+      "question": "Банк просит объяснить происхождение денег. Что означает финансовый мониторинг?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «aml». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "aml"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "aml",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-aml-2",
+      "domain": "finance",
+      "question": "Когда финансовая организация должна изучать своего клиента по правилам финансового мониторинга?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «aml». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "aml"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "aml",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-accounting-1",
+      "domain": "legal",
+      "question": "Какие требования к первичным бухгалтерским документам?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «accounting». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "accounting"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "accounting",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-accounting-2",
+      "domain": "finance",
+      "question": "Кто отвечает за организацию бухгалтерского учета в компании?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «accounting». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "accounting"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "accounting",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-audit-1",
+      "domain": "legal",
+      "question": "Каким организациям требуется обязательный аудит?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «audit». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "audit"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "audit",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-audit-2",
+      "domain": "finance",
+      "question": "Что такое аудиторская тайна?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «audit». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "audit"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "audit",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-joint-stock-1",
+      "domain": "legal",
+      "question": "Какие права есть у акционера общества?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «joint-stock». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "joint-stock"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "joint-stock",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-joint-stock-2",
+      "domain": "finance",
+      "question": "Как принимается решение о выплате дивидендов по акциям?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «joint-stock». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "joint-stock"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "joint-stock",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-investment-funds-1",
+      "domain": "legal",
+      "question": "Чем пай инвестиционного фонда отличается от акции?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «investment-funds». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "investment-funds"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "investment-funds",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-investment-funds-2",
+      "domain": "finance",
+      "question": "Какие сведения об инвестиционном фонде должны предоставлять инвестору?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «investment-funds». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "investment-funds"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "investment-funds",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-mortgage-1",
+      "domain": "legal",
+      "question": "Что должно быть указано в ипотечном договоре?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «mortgage». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "mortgage"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "mortgage",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-mortgage-2",
+      "domain": "finance",
+      "question": "Можно ли обратиться в суд при внесудебной реализации ипотеки?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «mortgage». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "mortgage"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "mortgage",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-leasing-1",
+      "domain": "legal",
+      "question": "Кто несет риски повреждения имущества в лизинге?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «leasing». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "leasing"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "leasing",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-leasing-2",
+      "domain": "finance",
+      "question": "Какие существенные условия должны быть в договоре лизинга?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «leasing». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "leasing"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "leasing",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-housing-savings-1",
+      "domain": "legal",
+      "question": "При каких условиях начисляется государственная премия по жилищным строительным сбережениям?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «housing-savings». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "housing-savings"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "housing-savings",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-housing-savings-2",
+      "domain": "finance",
+      "question": "Какие права у вкладчика жилищных строительных сбережений?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «housing-savings». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "housing-savings"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "housing-savings",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-auto-insurance-2",
+      "domain": "legal",
+      "question": "Как определяется страховой случай по обязательному автострахованию?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «auto-insurance». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "auto-insurance"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "auto-insurance",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-employee-accident-insurance-1",
+      "domain": "finance",
+      "question": "Кто обязан заключить договор страхования работника от несчастных случаев?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «employee-accident-insurance». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "employee-accident-insurance"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "employee-accident-insurance",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-employee-accident-insurance-2",
+      "domain": "legal",
+      "question": "Какие обязанности у страховщика при производственной травме работника?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «employee-accident-insurance». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "employee-accident-insurance"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "employee-accident-insurance",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-digital-assets-1",
+      "domain": "finance",
+      "question": "Чем обеспеченные цифровые активы отличаются от необеспеченных?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «digital-assets». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "digital-assets"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "digital-assets",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-digital-assets-2",
+      "domain": "legal",
+      "question": "Какие требования к деятельности цифрового майнера в Казахстане?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «digital-assets». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "digital-assets"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "digital-assets",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-trade-unions-2",
+      "domain": "finance",
+      "question": "Как создается профессиональный союз?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «trade-unions». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "trade-unions"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "trade-unions",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-shared-construction-2",
+      "domain": "legal",
+      "question": "Какими способами застройщик вправе привлекать деньги дольщиков?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «shared-construction». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "shared-construction"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "shared-construction",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-permissions-1",
+      "domain": "finance",
+      "question": "В чем разница между разрешением и уведомлением о начале деятельности?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «permissions». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "permissions"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "permissions",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-permissions-2",
+      "domain": "legal",
+      "question": "Когда прекращается действие лицензии на деятельность?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «permissions». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "permissions"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "permissions",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-copyright-1",
+      "domain": "finance",
+      "question": "Чужую фотографию используют в рекламе. Какие имущественные авторские права защищаются?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «copyright». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "copyright"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "copyright",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-legal-copyright-2",
+      "domain": "legal",
+      "question": "Какие особенности авторских прав на служебное произведение?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «copyright». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "copyright"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "copyright",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    },
+    {
+      "id": "model-expanded-finance-communications-1",
+      "domain": "finance",
+      "question": "Какие обязанности у оператора связи перед абонентом?",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «communications». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "communications"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "communications",
+      "origin": "existing_additional_question_not_in_125_challenge_set"
+    }
+  ]
+}

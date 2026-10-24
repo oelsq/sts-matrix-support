@@ -7,7 +7,7 @@ sys.path.insert(0,'/app')
 from evaluation_core import private_json,automated_checks
 async def main():
  stage=Path('/stage');gen=json.loads((stage/'load-credentials.json').read_text())['generator'];assert gen['user_id'].startswith('@sts-load-generator-')
- cases={c['id']:c for c in json.loads(Path('/app/config/golden-cases.json').read_text())['cases']}
+ cases={c['id']:c for file in ['golden-cases.json','model-challenge-cases.json'] for c in json.loads((Path('/app/config')/file).read_text())['cases']}
  mixed=['Начальник не отдаёт деньги за работу','Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?','Можно ли отозвать согласие на обработку персональных данных?','Что такое ГЭСВ и чем отличается от номинальной ставки?','Что регулирует брачный договор?','Что страхуется по обязательному автострахованию: машина или ответственность?','Работодатель заставляет уйти в отпуск без содержания. Обязан соглашаться?','Какие комиссии и страховки включаются в ГЭСВ?']
  ids=['wages','halyk','consent','gesv','marriage','auto-insurance','forced-leave','gesv-costs'];lookup=dict(zip(mixed,ids));lookup.update({c['question']:c['id'] for c in cases.values()})
  requests={};replies={};rows={};deadline=time.monotonic()+900

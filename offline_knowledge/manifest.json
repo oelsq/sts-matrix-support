@@ -32,33 +32,51 @@
       "id": "halyk-superapp",
       "domain": "finance",
       "title": "Halyk: тарифы SuperApp",
-      "file": "documents/halyk-superapp.pdf",
-      "source": "https://halykbank.kz/storage/app/media/Tarify/2026/9/RUS_Тарифы_Halyk_SuperApp.pdf",
-      "reviewed_on": "2026-10-01",
-      "version": "Изменения, действующие с 15.09.2026",
+      "file": "documents/halyk-superapp-98dd6deba4c3f55f.pdf",
+      "source": "https://halykbank.kz/storage/app/media/Tarify/2026/10/RUS_Приложение_2_Taify_FL_09.10.2026.pdf",
+      "reviewed_on": "2026-10-24",
+      "version": "Изменения по РТК №1073 от 08.10.2026, введены с 09.10.2026; файл в каталоге проверен 24.10.2026",
       "artifact_kind": "official_pdf",
       "catalog_url": "https://halykbank.kz/tariffs",
       "bank": "halyk",
-      "sha256": "a694476c1a3d6b8e6810b13d97553d103a7fdcbf43cf5e000f73595e6f0a1aba",
+      "sha256": "98dd6deba4c3f55f61ef1fbc0ebfa75e3dc91b6dcc403c77adfb784596b0d78c",
       "also_domains": [
         "legal"
-      ]
+      ],
+      "applicability_note": "Техническая сверка официального каталога и полного PDF. Это не экспертное подтверждение ответов. Условия зависят от операции, категории клиента и сносок; даты введения отдельных изменений нужно читать в документе.",
+      "source_verification": {
+        "kind": "official_catalog_and_pdf_technical_verification",
+        "catalog_sha256": "1410110a6e3031a1b3c67ff706eb5fb8510606d1f2c3ead2d8677114f10b7ae5",
+        "pdf_sha256": "98dd6deba4c3f55f61ef1fbc0ebfa75e3dc91b6dcc403c77adfb784596b0d78c",
+        "verified_on": "2026-10-24",
+        "previous_entry_sha256": "e192e957cd95a5c63f2e8d501e7e4af00305a0f9f9857dcf698ca541e9babce1",
+        "specialist_approval": false
+      }
     },
     {
       "id": "halyk-debit",
       "domain": "finance",
       "title": "Halyk: дебетовые карты - прочие тарифы",
-      "file": "documents/halyk-debit.pdf",
-      "source": "https://halykbank.kz/storage/app/media/Tarify/2026/8/RUS_Приложение_2_Тарифы_ФЛ_ 17.08.2026.pdf",
-      "reviewed_on": "2026-10-01",
-      "version": "Файл 17.08.2026 в текущем каталоге",
+      "file": "documents/halyk-debit-e232cdd04a3c85fd.pdf",
+      "source": "https://halykbank.kz/storage/app/media/Tarify/2026/10.1/РУС_Приложение_2_Тарифы ФЛ_ 23.10.2026.pdf",
+      "reviewed_on": "2026-10-24",
+      "version": "Файл 23.10.2026 в каталоге; корректировка РТК №1120 от 22.10.2026 с указанной датой введения 20.10.2026",
       "artifact_kind": "official_pdf",
       "catalog_url": "https://halykbank.kz/tariffs",
       "bank": "halyk",
-      "sha256": "ae3121ede1351590e61db1c4b127defefd4a812f2730b7c717152fdf6f685383",
+      "sha256": "e232cdd04a3c85fd39490e219640d1a6ff7f5c90486a71d94c9bc7e5fba98599",
       "also_domains": [
         "legal"
-      ]
+      ],
+      "applicability_note": "Техническая сверка официального каталога и полного PDF. Это не экспертное подтверждение ответов. Условия зависят от операции, категории клиента и сносок; даты введения отдельных изменений нужно читать в документе.",
+      "source_verification": {
+        "kind": "official_catalog_and_pdf_technical_verification",
+        "catalog_sha256": "1410110a6e3031a1b3c67ff706eb5fb8510606d1f2c3ead2d8677114f10b7ae5",
+        "pdf_sha256": "e232cdd04a3c85fd39490e219640d1a6ff7f5c90486a71d94c9bc7e5fba98599",
+        "verified_on": "2026-10-24",
+        "previous_entry_sha256": "7752bf1793173ea570106c0134ac583f0b46932234b4ab1aea38ad6993b8d15e",
+        "specialist_approval": false
+      }
     },
     {
       "id": "halyk-annual",
@@ -66,12 +84,21 @@
       "title": "Halyk: годовое обслуживание дебетовых карт",
       "file": "documents/halyk-annual.pdf",
       "source": "https://halykbank.kz/storage/app/media/Tarify/2026/8/RUS_Pril_2_TarifyFL_01.08.2026_ru.pdf",
-      "reviewed_on": "2026-10-01",
-      "version": "Изменения, действующие с 01.08.2026",
+      "reviewed_on": "2026-10-24",
+      "version": "Изменения, действующие с 01.08.2026; файл и ссылка каталога сверены 24.10.2026",
       "artifact_kind": "official_pdf",
       "catalog_url": "https://halykbank.kz/tariffs",
       "bank": "halyk",
-      "sha256": "967d64fc893b8d42475349ac5a0917ba0d0940640b25c9a3d1859bdf1d375506"
+      "sha256": "967d64fc893b8d42475349ac5a0917ba0d0940640b25c9a3d1859bdf1d375506",
+      "applicability_note": "Техническая сверка официального каталога и полного PDF. Это не экспертное подтверждение ответов. Условия зависят от операции, категории клиента и сносок; даты введения отдельных изменений нужно читать в документе.",
+      "source_verification": {
+        "kind": "official_catalog_and_pdf_technical_verification",
+        "catalog_sha256": "1410110a6e3031a1b3c67ff706eb5fb8510606d1f2c3ead2d8677114f10b7ae5",
+        "pdf_sha256": "967d64fc893b8d42475349ac5a0917ba0d0940640b25c9a3d1859bdf1d375506",
+        "verified_on": "2026-10-24",
+        "previous_entry_sha256": "860ab9d468e1c124931126e3b677ae739320e4167ce0311e7261c3f3f9bd46bf",
+        "specialist_approval": false
+      }
     },
     {
       "id": "freedom-retail",
@@ -79,15 +106,24 @@
       "title": "Freedom Bank: тарифы для физических лиц и платёжных карт",
       "file": "documents/freedom-retail.pdf",
       "source": "https://bankffin.kz/storage/docs/oLlzNnWSUlHXkSABXtiCeKxjuhsTihHfzB1Jy3TD.pdf",
-      "reviewed_on": "2026-10-01",
-      "version": "Изменения от 17.09.2026, протокол №218",
+      "reviewed_on": "2026-10-24",
+      "version": "Изменения от 17.09.2026, протокол №218; файл и ссылка раздела «Тарифы» сверены 24.10.2026",
       "artifact_kind": "official_pdf",
       "catalog_url": "https://bankffin.kz/ru/documents",
       "bank": "freedom",
       "sha256": "31e3e77928c77bd89ba6da13baf8805e403381ae31dd6d546337ac82fec4169e",
       "also_domains": [
         "legal"
-      ]
+      ],
+      "applicability_note": "Техническая сверка официального каталога и полного PDF. Это не экспертное подтверждение ответов. Условия зависят от операции, категории клиента и сносок; даты введения отдельных изменений нужно читать в документе.",
+      "source_verification": {
+        "kind": "official_catalog_and_pdf_technical_verification",
+        "catalog_sha256": "18a110dedbeff5018bea913bf236b553e90514df59be3f6e8ee50f9319dcfbc4",
+        "pdf_sha256": "31e3e77928c77bd89ba6da13baf8805e403381ae31dd6d546337ac82fec4169e",
+        "verified_on": "2026-10-24",
+        "previous_entry_sha256": "da1ca7ebb1a5a0b20b8522c65c49e41d40c390b5f0096e36bca6a499212d3424",
+        "specialist_approval": false
+      }
     },
     {
       "id": "banks",

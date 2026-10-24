@@ -51,7 +51,7 @@ class InboxStore:
           PRIMARY KEY(event_id,domain));
         ''')
         columns={r[1] for r in self.db.execute('PRAGMA table_info(inbox_requests)')}
-        for name in ['received','started','finished']:
+        for name in ['received','started','finished','response_ready']:
             if name not in columns:self.db.execute('ALTER TABLE inbox_requests ADD COLUMN '+name+' REAL')
         self.db.execute('CREATE INDEX IF NOT EXISTS inbox_pending ON inbox_requests(state,seq)')
         self.db.execute('CREATE INDEX IF NOT EXISTS inbox_thread ON inbox_requests(room_id,sender,seq,state)')
@@ -109,12 +109,12 @@ class InboxStore:
                 AND earlier.sender=r.sender AND earlier.seq<r.seq AND earlier.state!='done')
                 ORDER BY r.seq LIMIT 1""", (self.clock(),)).fetchone()
             if row:
-                self.db.execute("UPDATE inbox_requests SET state='processing',attempts=attempts+1,started=? WHERE seq=?", (self.clock(),row['seq']))
+                self.db.execute("UPDATE inbox_requests SET state='processing',attempts=attempts+1,started=COALESCE(started,?) WHERE seq=?", (self.clock(),row['seq']))
         return dict(row) if row else None
 
-    def retry(self, event_id, attempts):
+    def retry(self, event_id, attempts, *, delay=None):
         with self.db:
-            self.db.execute("UPDATE inbox_requests SET state='pending',available=? WHERE event_id=?", (self.clock()+min(60,2**min(attempts,6)),event_id))
+            self.db.execute("UPDATE inbox_requests SET state='pending',available=? WHERE event_id=?", (self.clock()+(max(.05,float(delay)) if delay is not None else min(60,2**min(attempts,6))),event_id))
 
     def pending(self):
         return self.db.execute("SELECT count(*) FROM inbox_requests WHERE state!='done'").fetchone()[0]
@@ -138,6 +138,8 @@ class InboxStore:
         with self.db:
             self.db.execute('INSERT OR IGNORE INTO inbox_outbox(event_id,kind,content,final) VALUES(?,?,?,?)',
                             (event_id,kind,json.dumps(content,ensure_ascii=False),int(final)))
+        if final:
+            with self.db:self.db.execute('UPDATE inbox_requests SET response_ready=COALESCE(response_ready,?) WHERE event_id=?',(self.clock(),event_id))
         return dict(self.db.execute('SELECT * FROM inbox_outbox WHERE event_id=? AND kind=?', (event_id,kind)).fetchone())
 
     def replies(self, event_id):

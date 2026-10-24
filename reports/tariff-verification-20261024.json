@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-10-24",
+  "documents": [
+    {
+      "id": "halyk-superapp",
+      "snapshot_changed": true,
+      "active_sha256": "98dd6deba4c3f55f61ef1fbc0ebfa75e3dc91b6dcc403c77adfb784596b0d78c",
+      "verification_kind": "official_catalog_and_pdf_technical_verification",
+      "specialist_approval": false,
+      "previous_entry_sha256": "e192e957cd95a5c63f2e8d501e7e4af00305a0f9f9857dcf698ca541e9babce1"
+    },
+    {
+      "id": "halyk-debit",
+      "snapshot_changed": true,
+      "active_sha256": "e232cdd04a3c85fd39490e219640d1a6ff7f5c90486a71d94c9bc7e5fba98599",
+      "verification_kind": "official_catalog_and_pdf_technical_verification",
+      "specialist_approval": false,
+      "previous_entry_sha256": "7752bf1793173ea570106c0134ac583f0b46932234b4ab1aea38ad6993b8d15e"
+    },
+    {
+      "id": "halyk-annual",
+      "snapshot_changed": false,
+      "active_sha256": "967d64fc893b8d42475349ac5a0917ba0d0940640b25c9a3d1859bdf1d375506",
+      "verification_kind": "official_catalog_and_pdf_technical_verification",
+      "specialist_approval": false,
+      "previous_entry_sha256": "860ab9d468e1c124931126e3b677ae739320e4167ce0311e7261c3f3f9bd46bf"
+    },
+    {
+      "id": "freedom-retail",
+      "snapshot_changed": false,
+      "active_sha256": "31e3e77928c77bd89ba6da13baf8805e403381ae31dd6d546337ac82fec4169e",
+      "verification_kind": "official_catalog_and_pdf_technical_verification",
+      "specialist_approval": false,
+      "previous_entry_sha256": "da1ca7ebb1a5a0b20b8522c65c49e41d40c390b5f0096e36bca6a499212d3424"
+    }
+  ],
+  "legal_interpretations_approved": 0,
+  "human_specialist_approval": false
+}

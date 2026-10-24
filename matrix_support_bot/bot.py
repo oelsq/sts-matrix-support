@@ -119,7 +119,7 @@ async def main():
             local_evidence = None
             search_question, previous_question = conversations.resolve(room_id, sender, domain, question, request_id=event_id)
             retrieval_started = time.monotonic()
-            prepared = prepare_local_reply(domain, question, knowledge,
+            prepared = await asyncio.to_thread(prepare_local_reply,domain, question, knowledge,
                                            search_question=search_question, previous_question=previous_question)
             local_evidence = prepared.evidence
             log.info("Reply preparation: domain=%s mechanism=%s passages=%d elapsed_ms=%d continuation=%s",
@@ -207,16 +207,8 @@ async def main():
                      "Если просили письмо, напиши сам черновик с заполнителями. Ошибки предыдущей попытки: " + ", ".join(quality_issues)},
                 ]
 
-        typing_counts = {}
-        async def indicate_typing(room_id, delta):
-            # Ephemeral presence avoids spending the message quota on progress text.
-            if not hasattr(client,'room_typing'):return
-            count=max(0,typing_counts.get(room_id,0)+delta)
-            if count:typing_counts[room_id]=count
-            else:typing_counts.pop(room_id,None)
-            if delta>0 and count>1 or delta<0 and count>0:return
-            try:await client.room_typing(room_id,typing_state=bool(count),timeout=30000)
-            except Exception as exc:log.debug('Typing indicator unavailable (%s)',type(exc).__name__)
+        from matrix_transport import TypingIndicators,MatrixSender
+        typing=TypingIndicators(client)
 
         async def process_event(room, event):
             if (
@@ -293,7 +285,7 @@ async def main():
             if notice:
                 await dispatcher.send(room_id=room.room_id, message_type="m.room.message",
                                        content=matrix_content(notice),kind='urgent',final=False)
-            await indicate_typing(room.room_id,1)
+            typing.start(room.room_id)
             try:
                 replies = []
                 for domain in domains:
@@ -310,7 +302,7 @@ async def main():
                         replies.append(practical_fallback(domain, question) +
                                        "\n\nСервис генерации временно недоступен; выше — ограниченная помощь без нового ответа модели.")
             finally:
-                await indicate_typing(room.room_id,-1)
+                typing.finish(room.room_id)
             answer = "\n\n".join(replies)
             latest_context[key] = (question, answer)
             if len(latest_context) > 1000:
@@ -325,7 +317,8 @@ async def main():
             log.info("Send result: %s", type(result).__name__)
 
         durable_sync=hasattr(client,'add_response_callback')
-        dispatcher=RequestDispatcher(inbox,client,process_event,allow_unconfirmed=not durable_sync)
+        sender=MatrixSender(http,client,os.environ['MATRIX_HOMESERVER']) if durable_sync and hasattr(client,'access_token') else None
+        dispatcher=RequestDispatcher(inbox,client,process_event,allow_unconfirmed=not durable_sync,sender=sender)
         ready=asyncio.Event()
         worker=None
         knowledge_monitor=None
@@ -386,6 +379,8 @@ async def main():
             if worker:
                 worker.cancel()
                 with contextlib.suppress(asyncio.CancelledError):await worker
+            if sender:log.info('Matrix delivery summary: %s',json.dumps(sender.metrics))
+            await typing.close()
             await client.close()
             inbox.close()
 

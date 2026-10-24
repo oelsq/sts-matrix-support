@@ -144,3 +144,5 @@ Flowise: отдельные Chatflows черновика и проверки —
 Проверка числовых утверждений, точные цитаты и восстановление запросов после перезапуска: [docs/reliability.md](docs/reliability.md).
 
 Эталонные сценарии, оценки специалистов, нагрузочные проверки и обновление знаний: [docs/quality-program.md](docs/quality-program.md).
+
+Смысловой поиск в закрытой сети, установка закреплённой модели и проверка индекса: [docs/offline-semantic-search.md](docs/offline-semantic-search.md). Принудительный модельный прогон и закрытый пакет для специалистов описаны в [docs/quality-program.md](docs/quality-program.md).

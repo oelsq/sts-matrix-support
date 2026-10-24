@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-24",
+  "status": "deployed_and_verified",
+  "runtime": {
+    "runtime_files_checked": 66,
+    "runtime_mismatches": [],
+    "workers": "2",
+    "departments": {
+      "legal": 5,
+      "finance": 5
+    },
+    "routes": 4,
+    "protected_routes": 4,
+    "pending": 0,
+    "semantic_loaded": true,
+    "indexed_passages": 28176,
+    "freshness": {
+      "within_review_interval": 104
+    },
+    "freshness_mode": "0o600",
+    "public_file_mismatches": [],
+    "image": "sha256:4665951c4d89e916cef318903c612a992c2e756a0d88b81e0b7bf2984a2254d0",
+    "running": true,
+    "networks": [
+      "llm-net",
+      "sts-team-demo_default"
+    ]
+  },
+  "post_deployment": {
+    "normal": {
+      "scenarios": 20,
+      "answered": 20,
+      "not_executed": 0,
+      "generation_failed": 0,
+      "automatic_passed": 20,
+      "specialist_scored": 0,
+      "expert_accuracy": null,
+      "expert_usefulness": null,
+      "expert_exceptions": null,
+      "exit_code": 0,
+      "model_scenarios_attempted": 0,
+      "model_scenarios_returned": 0
+    },
+    "security": {
+      "scenarios": 2,
+      "answered": 2,
+      "not_executed": 0,
+      "generation_failed": 0,
+      "automatic_passed": 2,
+      "specialist_scored": 0,
+      "expert_accuracy": null,
+      "expert_usefulness": null,
+      "expert_exceptions": null,
+      "exit_code": 0,
+      "model_scenarios_attempted": 2,
+      "model_scenarios_returned": 2
+    }
+  },
+  "temporary_flow_cleanup": {
+    "own_test_flows_deleted": 2,
+    "active_flows_unchanged": true,
+    "active_routes": 4
+  },
+  "synapse_rate_limits_changed": false,
+  "expert_approval_obtained": false
+}

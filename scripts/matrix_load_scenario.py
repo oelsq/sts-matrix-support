@@ -78,7 +78,7 @@ async def scenario(stage):
                    'Можно ли отозвать согласие на обработку персональных данных?','Что такое ГЭСВ и чем отличается от номинальной ставки?',
                    'Что регулирует брачный договор?','Что страхуется по обязательному автострахованию: машина или ответственность?',
                    'Работодатель заставляет уйти в отпуск без содержания. Обязан соглашаться?','Какие комиссии и страховки включаются в ГЭСВ?',
-                   'Можно ли отозвать согласие на обработку персональных данных?','Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?']
+                   'Что считается валютной операцией по закону?','Какие полномочия у органов валютного контроля?']
             for label,count,workers in [('mixed_baseline',10,1),('mixed_parallel',10,2),('source_bound_burst',20,2)]:
                 if label!='mixed_baseline':await control('restart',workers,phase=label)
                 max_pending=0;started=time.monotonic()
@@ -86,13 +86,15 @@ async def scenario(stage):
                 submitted=await asyncio.gather(*(send(rooms[i%2],questions[i],users[i%10]) for i in range(count)))
                 ingress=time.monotonic()-started;ids=[p[0] for p in submitted];await wait_for(ids);await asyncio.sleep(.1)
                 db=sqlite3.connect('file:/loadstate/matrix_inbox.sqlite3?mode=ro',uri=True)
-                metrics=[db.execute('SELECT started-received,finished-started,attempts FROM inbox_requests WHERE event_id=?',(i,)).fetchone() for i in ids];db.close()
+                metrics=[db.execute('SELECT started-received,finished-started,attempts,response_ready-started,finished-response_ready FROM inbox_requests WHERE event_id=?',(i,)).fetchone() for i in ids];db.close()
                 latencies=[next(iter(answers[i].values()))['observed']-submitted[j][1] for j,i in enumerate(ids)]
                 row={'label':label,'requests':count,'workers':workers,'inference':'mixed_actual_agentflow_and_source_bound' if label!='source_bound_burst' else 'source_bound_no_new_model_calls',
                      'ingress_seconds':round(ingress,3),'drain_seconds':round(time.monotonic()-started,3),'max_pending_observed':max_pending,
                      'latency_p50_seconds':pct(latencies,.5),'latency_p95_seconds':pct(latencies,.95),
                      'queue_wait_p95_seconds':pct([r[0] for r in metrics if r and r[0] is not None],.95),
                      'service_p95_seconds':pct([r[1] for r in metrics if r and r[1] is not None],.95),
+                     'preparation_p95_seconds':pct([r[3] for r in metrics if r and r[3] is not None],.95),
+                     'delivery_p95_seconds':pct([r[4] for r in metrics if r and r[4] is not None],.95),
                      'answered':sum(i in answers for i in ids),'duplicates':sum(max(0,len(answers[i])-1) for i in ids),
                      'generation_errors':sum(next(iter(answers[i].values()))['generation_error'] for i in ids)}
                 report['cohorts'].append(row);private_json(stage/'matrix-load-results.json',report);print(json.dumps(row),flush=True)

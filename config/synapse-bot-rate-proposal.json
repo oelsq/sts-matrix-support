@@ -1,0 +1,22 @@
+{
+  "status": "not_applied_user_chose_existing_limit",
+  "scope": "only_the_project_bot_account",
+  "endpoint": "/_synapse/admin/v1/users/<BOT_MXID>/override_ratelimit",
+  "proposed_body": {
+    "messages_per_second": 2,
+    "burst_count": 20
+  },
+  "preconditions": [
+    "Read and preserve the previous per-account policy with authorized administrative access",
+    "Apply only to the explicitly selected service account",
+    "Recheck a bounded load and restore prior policy if necessary"
+  ],
+  "global_configuration_change": false,
+  "disable_rate_limiting": false,
+  "reference": "https://github.com/element-hq/synapse/blob/develop/docs/admin_api/user_admin_api.md#override-ratelimiting-for-users",
+  "operator_decision": {
+    "date": "2026-10-24",
+    "decision": "keep_current_limits",
+    "applied": false
+  }
+}

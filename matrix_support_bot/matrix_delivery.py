@@ -6,14 +6,16 @@ from contextvars import ContextVar
 from types import SimpleNamespace
 
 from nio import RoomMessageText, RoomSendResponse, RoomMemberEvent
+from matrix_transport import DeliveryDeferred
 
 log = logging.getLogger('support_bot.inbox')
 
 
 class RequestDispatcher:
-    def __init__(self, store, client, handler, *, allow_unconfirmed=False):
+    def __init__(self, store, client, handler, *, allow_unconfirmed=False, sender=None):
         self.store, self.client, self.handler = store, client, handler
         self.allow_unconfirmed = allow_unconfirmed
+        self.sender=sender
         self._request = ContextVar("matrix_request", default=None)
         self.wake = asyncio.Event()
 
@@ -39,7 +41,7 @@ class RequestDispatcher:
         kwargs=dict(room_id=self.current['room_id'],message_type='m.room.message',content=json.loads(row['content']))
         # Matrix transaction deduplication survives restarts because login is restored.
         if not self.allow_unconfirmed:kwargs['tx_id']=self.store.transaction_id(row['event_id'],row['kind'])
-        result=await self.client.room_send(**kwargs)
+        result=await (self.sender or self.client.room_send)(**kwargs)
         sent_id=getattr(result,'event_id',None)
         if not sent_id and self.allow_unconfirmed:sent_id='$unconfirmed-test-client'
         if not isinstance(sent_id,str) or not sent_id:
@@ -63,6 +65,9 @@ class RequestDispatcher:
         except asyncio.CancelledError:
             # Processing is returned to pending by the next exclusively owning process.
             raise
+        except DeliveryDeferred as exc:
+            self.store.retry(row['event_id'],row['attempts']+1,delay=exc.seconds)
+            log.info('Frozen reply retained until Matrix cooldown expires')
         except Exception as exc:
             self.store.retry(row['event_id'],row['attempts']+1)
             log.error('Request retained for retry (%s)',type(exc).__name__)

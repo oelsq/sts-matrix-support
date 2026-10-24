@@ -1,0 +1,17 @@
+# Optional offline semantic search for the bot; other services are unchanged.
+services:
+  bot:
+    build:
+      args:
+        WITH_SEMANTIC: "1"
+    environment:
+      SEMANTIC_MODEL_DIR: /app/semantic_model
+      SEMANTIC_INDEX_DIR: /app/semantic_index
+      SEMANTIC_THREADS: "2"
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+    volumes:
+      - ./runtime/semantic/model:/app/semantic_model:ro
+      - ./runtime/semantic/index:/app/semantic_index:ro

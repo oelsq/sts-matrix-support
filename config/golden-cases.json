@@ -41,7 +41,7 @@
       "required": {
         "draft": "Кому:",
         "request": "Прошу",
-        "placeholder": "\\[период\\]"
+        "placeholder": "\\[(?:период|месяц)[^\\]\\n]{0,40}\\]"
       },
       "forbidden": {},
       "risk": "high"

@@ -1,0 +1,15 @@
+# Additive offline CPU retrieval dependencies; use together with requirements.lock.txt.
+numpy==2.3.4
+onnxruntime==1.23.2
+tokenizers==0.22.1
+coloredlogs==15.0.1
+filelock==4.2.4
+flatbuffers==25.12.19
+fsspec==2026.9.0
+hf-xet==1.7.0
+huggingface-hub==1.33.0
+humanfriendly==10.0
+mpmath==1.3.0
+protobuf==7.36.2
+sympy==1.14.0
+tqdm==4.70.1

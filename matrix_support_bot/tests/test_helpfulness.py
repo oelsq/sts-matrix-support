@@ -64,7 +64,7 @@ def test_rental_followup_returns_editable_letter_in_same_production_path(corpus,
 def test_public_product_tariff_is_available_in_both_specialists(corpus,domain):
     question="Какая комиссия в Halyk SuperApp за оплату коммунальных услуг?"
     prepared=prepare_local_reply(domain,question,corpus)
-    assert prepared.answer is None and prepared.mechanism=="requires_model"
+    assert prepared.answer and "0 тенге" in prepared.answer and "Не удалось" not in prepared.answer
     assert prepared.evidence and all(p["document_id"]=="halyk-superapp" for p in prepared.evidence)
     assert "оплата коммунальных услуг" in " ".join(prepared.evidence[0]["text"].lower().split())
 

@@ -38,7 +38,9 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
         evidence = scope_evidence(domain, search_question, knowledge.search(domain, search_question, limit=8))
         if not evidence:
             return PreparedReply(evidence, practical_fallback(domain, search_question), "no_evidence_fallback")
+        from checked_tariffs import checked_tariff_answer
         builders = [
+            ('source_bound_tariff',lambda:checked_tariff_answer(domain,search_question,evidence)),
             ("source_bound_gesv", lambda: checked_gesv_answer(domain, search_question, evidence)),
             ("source_bound_public_rights", lambda: checked_public_rights_answer(domain, search_question, evidence)),
             ("source_bound_guidance", lambda: checked_practical_guidance(domain, search_question, evidence)),

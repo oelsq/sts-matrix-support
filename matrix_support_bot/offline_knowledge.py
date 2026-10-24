@@ -70,7 +70,7 @@ def is_tariff_question(question: str) -> bool:
     # A purchase price mentioned in a dispute is not a request for bank fees.
     financial = re.search(r"банк|карт|сч[её]т|перевод|плат[её]ж|вклад|депозит|кредит|за[её]м|halyk|халык|freedom|фридом|kaspi|каспи|super\s*app", question, re.I)
     fee_or_rate = re.search(r"комисси|тариф|ставк.*(?:вклад|депозит)|(?:вклад|депозит).*ставк", question, re.I)
-    price_request = re.search(r"сколько (?:стоит|будет стоить)|какова.*стоимость|какая.*стоимость|стоимость (?:открытия|обслуживания)", question, re.I)
+    price_request = re.search(r"сколько (?:стоит|будет стоить)|какова.*стоимость|какая.*стоимость|какая.*\bплата\b|какова.*\bплата\b|\bплата\s+за\b|\bсколько\s+(?:берут|возьмут)\b.{0,100}\bза\s+(?:оплат|перевод|обслуживан|открыт)|стоимость (?:открытия|обслуживания)", question, re.I)
     service = re.search(r"обслуживан", question, re.I)
     return bool(fee_or_rate or financial and (price_request or service)) and not is_rights_question(question)
 
@@ -238,7 +238,7 @@ class KnowledgeStore:
                         "document_id": doc_id, "domain": domain, "title": title,
                         "domains": applicable_domains,
                         "artifact_kind": str(entry.get("artifact_kind", "")),
-                        "document_kind": str(entry.get("document_kind", "legislation")),
+                        "document_kind": str(entry.get("document_kind", "bank_tariff" if entry.get("bank") else "legislation")),
                         "applicability_note": str(entry.get("applicability_note", "")),
                         "excluded_sections": entry.get("excluded_sections", []),
                         "reviewed_on": reviewed_on, "source": source,
@@ -270,7 +270,39 @@ class KnowledgeStore:
             for term in counter:
                 self._postings.setdefault(term,set()).add(identifier)
 
+        self.semantic=None
+        import os,logging
+        if os.getenv('SEMANTIC_INDEX_DIR') and os.getenv('SEMANTIC_MODEL_DIR'):
+            try:
+                from semantic_search import LocalEncoder,SemanticIndex
+                encoder=LocalEncoder(os.environ['SEMANTIC_MODEL_DIR'],int(os.getenv('SEMANTIC_THREADS','2')))
+                self.semantic=SemanticIndex(self.passages,encoder,os.environ['SEMANTIC_INDEX_DIR'])
+                logging.getLogger('support_bot.semantic').info('Verified offline semantic index ready; passages=%d',len(self.passages))
+            except Exception as exc:
+                logging.getLogger('support_bot.semantic').warning('Semantic index unavailable (%s); using lexical retrieval',type(exc).__name__)
+
     def search(self, domain: str, question: str, limit: int = 6) -> list[dict[str, str | int]]:
+        lexical=self._lexical_search(domain,question,limit)
+        semantic=getattr(self,'semantic',None)
+        if semantic is None or not lexical or limit<3 or domain not in DOMAINS or needs_bank(question) or is_tariff_question(question) or explicit_article(question):return lexical
+        selected={bank for bank,names in BANK_NAMES.items() if any(n in question.casefold() for n in names)}
+        product='halyk-superapp' if 'halyk' in selected and re.search(r'super\s*app|супер\s*апп',question,re.I) and not is_rights_question(question) else None
+        cached=self._candidate_cache.get((domain,tuple(sorted(selected)),is_tariff_question(question),product))
+        if cached is None:return lexical
+        from evidence_scope import scope_evidence
+        from semantic_search import merge_hits
+        try:
+            eligible={p['id'] for p in scope_evidence(domain,question,cached[0])}
+            dense=semantic.search(question,eligible,limit=8)
+            combined=scope_evidence(domain,question,merge_hits(lexical,dense,limit))
+            return combined
+        except Exception as exc:
+            import logging
+            logging.getLogger('support_bot.semantic').warning('Semantic query unavailable (%s); lexical results retained',type(exc).__name__)
+            return lexical
+
+    def _lexical_search(self, domain: str, question: str, limit: int = 6) -> list[dict[str, str | int]]:
+
         if limit <= 0:
             return []
         question=re.sub(r'[\u2010-\u2015\u2212]','-',question)
