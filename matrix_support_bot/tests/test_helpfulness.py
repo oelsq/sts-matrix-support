@@ -113,7 +113,7 @@ def test_actual_matrix_callback_retries_deflection_and_keeps_help_without_routin
             return good
     class Knowledge:
         passages=[1]
-        def search(self,*args,**kwargs):return [{"id":"test:1","document_id":"test","title":"Источник","text":"Работодатель предоставляет расчёт. Кредитор рассматривает обращение.","source":"https://example.org","reviewed_on":"2026-10-21","section":""}]
+        def search(self,*args,**kwargs):return [{"id":"test:1","document_id":"test","domain":"legal","domains":["legal","finance"],"title":"Источник","text":"Работодатель предоставляет расчёт. Кредитор рассматривает обращение.","source":"https://example.org","reviewed_on":"2026-10-21","section":""}]
     class Login:pass
     class Matrix:
         user="@bot:demo.local"

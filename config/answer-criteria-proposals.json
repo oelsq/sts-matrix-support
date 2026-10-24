@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "status": "candidate_not_specialist_approved",
+  "note": "Original model-challenge-cases.json is unchanged. Score both criteria sets on exactly the same private answer. No authenticity or legal accuracy is inferred from regex checks.",
+  "proposals": {
+    "marriage": {
+      "original_case_sha256": "461d5e1199f5edb2f12511e78c5cc95561868e9273f88ee3adf4b646b44b38c2",
+      "replace_required": {
+        "child-property": "имущественн[а-яё]*\\s+положен[а-яё]*\\s+дет[а-яё]*",
+        "parent-duties": "прав[а-яё]*(?:[\\s,]+[а-яё]+){0,5}[\\s,]+обязанност[а-яё]*(?:[\\s,]+[а-яё]+){0,7}[\\s,]+дет"
+      },
+      "remove_required": [],
+      "rationale": "Падеж и вставка слова «супругов» не должны менять результат проверки двух разных предметов договора."
+    },
+    "model-expanded-help-legal-credit-fix": {
+      "original_case_sha256": "7882f531b380096fb558f42b42d109f1ab1ce2ca32347880f64de129184247b7",
+      "replace_required": {
+        "1": "оспор|оспар|заявлен.{0,80}(?:исправ|провер)",
+        "2": "поставщик|кредитор|банк|бюро",
+        "3": "письменн.{0,30}(?:ответ|результат|отказ)"
+      },
+      "remove_required": [],
+      "rationale": "Проверять действие оспаривания, адресата и письменный результат, а не единственную форму инфинитива и наличие именно отказа."
+    },
+    "model-expanded-help-finance-credit-report": {
+      "original_case_sha256": "4e7329d3e69312337668ebfac46a58c1ac79a9880c548733ea65924d4d46deeb",
+      "replace_required": {
+        "1": "отч[её]т.{0,25}(?:о себе|свой|собственн)|(?:свой|собственн|персональн).{0,25}отч[её]т",
+        "2": "официальн.{0,30}(?:канал|сайт|сервис|портал)|кредитн.{0,12}бюро|egov"
+      },
+      "remove_required": [
+        "3"
+      ],
+      "rationale": "Вопрос о получении отчёта не требует рассказа об исправлении конкретной записи. Убрать нерелевантное требование, сохранив получение собственного отчёта через официальный канал."
+    },
+    "model-expanded-help-legal-credit-letter": {
+      "original_case_sha256": "a9a2e27541e36fbf24a2bb1a2888b569787197b8deb570d3537a60757501a2ea",
+      "replace_required": {
+        "2": "(?:Прошу|Требую).{0,70}(?:провер|исправ|рассмотр)"
+      },
+      "remove_required": [],
+      "rationale": "Просьба исправить сведения или рассмотреть заявление также выполняет запрос черновика; поля адресата и подписи сохраняются."
+    },
+    "model-expanded-help-legal-construction": {
+      "original_case_sha256": "7a6cc9c51af4346225f6a2b9c56b182d8797c1a0c0cad786b3b89daf2c63e2ec",
+      "replace_required": {
+        "1": "способ|схем|вариант"
+      },
+      "remove_required": [],
+      "rationale": "Проверять различение способов привлечения денег, а не точное словосочетание «разные способы»; требования о гарантии и разрешении сохраняются."
+    },
+    "model-expanded-help-finance-auto-costs": {
+      "original_case_sha256": "9709ca80ad90b39fb395ff9d5c506d57dbfb9c2a8fcc3fcba6eb21dab6cf006e",
+      "replace_required": {
+        "1": "не (?:долж|вправе|может).{0,50}(?:удерж|вычит|включ)|(?:удерж|вычит).{0,60}(?:нельзя|не допуска|запрещ)",
+        "3": "(?:собственн|самого).{0,25}страховщик|расход.{0,50}страховщик|страховщик.{0,50}расход"
+      },
+      "remove_required": [],
+      "rationale": "Сохранить проверку запрета удержания и вида расходов, разрешив другой порядок слов. Это автоматический кандидат, не экспертная оценка применимости."
+    }
+  }
+}

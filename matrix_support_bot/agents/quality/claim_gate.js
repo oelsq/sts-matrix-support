@@ -108,7 +108,7 @@ for (const unit of units) {
   } else errors.push(unit.id+':unsupported');
 }
 const constraints=quality.constraints||[];
-const scopeErrors=text=>constraints.filter(c=>c.patterns.some(p=>!(new RegExp(p,'i')).test(text))).map(c=>'missing_qualification:'+c.id);
+const scopeErrors=text=>constraints.filter(c=>c.patterns.some(p=>!(new RegExp(p,'i')).test(norm(text.replace(/[*_\u0060]+/g,''))))).map(c=>'missing_qualification:'+c.id);
 errors.push(...scopeErrors(answer));
 if (audit && audit.verdict!=='approve') errors.push('review_requested_revision');
 let ok=errors.length===0, finalAnswer=answer, finalAudit=audit, partial=false;

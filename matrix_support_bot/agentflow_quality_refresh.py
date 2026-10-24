@@ -47,6 +47,8 @@ def refresh_plan(routes, api):
             node_id = node['id']
             if node_id in {'customFunctionAgentflow_1', 'customFunctionAgentflow_2', 'customFunctionAgentflow_3', 'customFunctionAgentflow_4'}:
                 key = 'customFunctionJavascriptFunction'
+            elif node_id == 'agentAgentflow_0':
+                key = 'agentMessages'
             elif node_id in {'llmAgentflow_0', 'llmAgentflow_1', 'llmAgentflow_2'}:
                 key = 'llmMessages'
             else:

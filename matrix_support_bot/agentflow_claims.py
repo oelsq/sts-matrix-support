@@ -30,6 +30,11 @@ def normalized(value):
     return ' '.join(value.split())
 
 
+def constraint_text(answer):
+    """Ignore presentation markup/line wraps, never words or logical negation."""
+    return normalized(re.sub(r"[*_`]+", "", answer))
+
+
 def units(answer):
     result = []
     for line in answer.splitlines():
@@ -137,6 +142,10 @@ def make_quality_packet(domain, draft_messages, review_messages, context):
         constraints.append({'id':'reported-civil-contract','patterns':['гражданск|гпх|подряд|услуг|заказчик|при[её]мк'],
             'guidance':'Учти сообщённый гражданский договор, проверь условия оплаты и приёмки. Не подставляй автоматически трудовые сроки и пеню; при признаках подмены трудовых отношений уточни обстоятельства.'})
     packet=workflow_packet(domain,draft_messages,review_messages)
+    from answer_focus import drafting_focus
+    focus = drafting_focus(q, previous, evidence)
+    if focus:
+        packet['draft_system'] += "\nЗадачи текущего ответа (не самостоятельные источники права): " + " ".join(focus)
     for unused in ('review_system','review_prefix','review_suffix'):packet[unused]=''
     from case_facts import case_facts
     from source_applicability import tariff_review_due
@@ -219,7 +228,7 @@ def accept_quality_response(text, packet):
     if value.get('question_type')!=quality['question_type']:raise ValueError('Question type mismatch')
     errors=validate_audit(answer,audit,quality['sources'],quality['question'],quality['previous_question'],format_type=quality['question_type'])
     for constraint in quality.get('constraints',[]):
-        if any(not re.search(pattern,answer,re.I) for pattern in constraint['patterns']):errors.append('missing_qualification:'+constraint['id'])
+        if any(not re.search(pattern,constraint_text(answer),re.I) for pattern in constraint['patterns']):errors.append('missing_qualification:'+constraint['id'])
     if errors:raise ValueError('Claim evidence validation failed: '+','.join(errors[:4]))
     partial=value.get('partial',False)
     if not isinstance(partial,bool):raise ValueError('Invalid partial status')

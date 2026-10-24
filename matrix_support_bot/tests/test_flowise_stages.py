@@ -151,7 +151,7 @@ def test_bot_uses_review_flow_and_does_not_send_unreviewed_draft(monkeypatch,tmp
     class Knowledge:
         passages=[1]
         def search(self,*args,**kwargs):
-            return [{'id':'tariff:1:1','document_id':'tariff','title':'Тариф','text':'Комиссия 0 тенге.',
+            return [{'id':'tariff:1:1','document_id':'tariff','domain':'finance','domains':['legal','finance'],'title':'Тариф','text':'Комиссия 0 тенге.',
                      'source':'https://example.org/tariff','reviewed_on':'2026-10-13','version':'Test','section':'','page':1}]
     class Login:pass
     class Matrix:

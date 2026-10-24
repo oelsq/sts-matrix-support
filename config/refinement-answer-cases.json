@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "status": "candidate_not_specialist_approved",
+  "cases": [
+    {
+      "id": "answer-semantic-paraphrase-2",
+      "domain": "legal",
+      "question": "Чужой магазин печатает мои рисунки на футболках и продаёт без разрешения. Как защитить свою работу?",
+      "previous_questions": [],
+      "candidate_reference": "Дать прямой разбор по применимому фрагменту документа copyright, сохранить существенные условия и предложить конкретное действие, если его просили. Это кандидат для проверки специалистом, не экспертный эталон.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "copyright"
+      ],
+      "required": {
+        "rights": "автор|произведен|исключительн",
+        "action": "зафиксир|сохран|проверь|уточн|претензи|требован"
+      },
+      "forbidden": {},
+      "origin": "previously_failed_paraphrase_retrieval_case",
+      "limits": "Automatic wording checks plus claim gate; no human legal interpretation approval."
+    },
+    {
+      "id": "answer-semantic-paraphrase-5",
+      "domain": "legal",
+      "question": "У меня требуют бумагу, которую госорган уже может получить из своих систем. Как разобраться?",
+      "previous_questions": [],
+      "candidate_reference": "Дать прямой разбор по применимому фрагменту документа state-services, сохранить существенные условия и предложить конкретное действие, если его просили. Это кандидат для проверки специалистом, не экспертный эталон.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "state-services"
+      ],
+      "required": {
+        "subject": "документ|сведени|справк",
+        "action": "основан|запрос|проверь|уточн|жалоб"
+      },
+      "forbidden": {},
+      "origin": "previously_failed_paraphrase_retrieval_case",
+      "limits": "Automatic wording checks plus claim gate; no human legal interpretation approval."
+    },
+    {
+      "id": "answer-semantic-paraphrase-6",
+      "domain": "legal",
+      "question": "Хотим разрешить спор с посредником без судебного разбирательства. Как это оформляется?",
+      "previous_questions": [],
+      "candidate_reference": "Дать прямой разбор по применимому фрагменту документа mediation, сохранить существенные условия и предложить конкретное действие, если его просили. Это кандидат для проверки специалистом, не экспертный эталон.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "mediation"
+      ],
+      "required": {
+        "voluntary": "добровольн|согласи.*сторон|соглас.*сторон",
+        "agreement": "договор|соглашен"
+      },
+      "forbidden": {},
+      "origin": "previously_failed_paraphrase_retrieval_case",
+      "limits": "Automatic wording checks plus claim gate; no human legal interpretation approval."
+    },
+    {
+      "id": "answer-semantic-paraphrase-8",
+      "domain": "legal",
+      "question": "Сайт распространяет мою фотографию и номер без моего разрешения. Как защищать мои сведения?",
+      "previous_questions": [],
+      "candidate_reference": "Дать прямой разбор по применимому фрагменту документа personal-law, сохранить существенные условия и предложить конкретное действие, если его просили. Это кандидат для проверки специалистом, не экспертный эталон.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "personal-law"
+      ],
+      "required": {
+        "data": "данн|сведени|согласи",
+        "action": "зафиксир|сохран|потреб|проверь|уточн|обращен|обратит"
+      },
+      "forbidden": {},
+      "origin": "previously_failed_paraphrase_retrieval_case",
+      "limits": "Automatic wording checks plus claim gate; no human legal interpretation approval."
+    },
+    {
+      "id": "answer-semantic-paraphrase-12",
+      "domain": "finance",
+      "question": "Оборудование сначала используем за регулярную плату, затем выкупаем. Что проверить в договоре?",
+      "previous_questions": [],
+      "candidate_reference": "Дать прямой разбор по применимому фрагменту документа leasing, сохранить существенные условия и предложить конкретное действие, если его просили. Это кандидат для проверки специалистом, не экспертный эталон.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "leasing"
+      ],
+      "required": {
+        "subject": "лизинг|аренд|договор",
+        "conditions": "выкуп|собственност|услови"
+      },
+      "forbidden": {},
+      "origin": "previously_failed_paraphrase_retrieval_case",
+      "limits": "Automatic wording checks plus claim gate; no human legal interpretation approval."
+    },
+    {
+      "id": "answer-semantic-paraphrase-13",
+      "domain": "finance",
+      "question": "Предлагают жильё под обеспечение этой же квартирой. Как устроен такой залог?",
+      "previous_questions": [],
+      "candidate_reference": "Дать прямой разбор по применимому фрагменту документа mortgage, сохранить существенные условия и предложить конкретное действие, если его просили. Это кандидат для проверки специалистом, не экспертный эталон.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "mortgage"
+      ],
+      "required": {
+        "subject": "ипотек|залог",
+        "conditions": "договор|обеспечен|услови"
+      },
+      "forbidden": {},
+      "origin": "previously_failed_paraphrase_retrieval_case",
+      "limits": "Automatic wording checks plus claim gate; no human legal interpretation approval."
+    },
+    {
+      "id": "answer-semantic-paraphrase-15",
+      "domain": "finance",
+      "question": "Заёмщик больше не тянет обязательства и хочет восстановить способность платить. Какие процедуры существуют?",
+      "previous_questions": [],
+      "candidate_reference": "Дать прямой разбор по применимому фрагменту документа bankruptcy, сохранить существенные условия и предложить конкретное действие, если его просили. Это кандидат для проверки специалистом, не экспертный эталон.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "bankruptcy"
+      ],
+      "required": {
+        "procedure": "восстановлен|банкротств",
+        "conditions": "услови|процедур|кредитор|уточн"
+      },
+      "forbidden": {},
+      "origin": "previously_failed_paraphrase_retrieval_case",
+      "limits": "Automatic wording checks plus claim gate; no human legal interpretation approval."
+    }
+  ]
+}

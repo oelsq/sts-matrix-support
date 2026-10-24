@@ -15,6 +15,22 @@ class PreparedReply:
     mechanism: str
 
 
+def prepare_model_evidence(domain, question, knowledge, evidence=None):
+    """One scoped source/exception path for production and forced inference tests."""
+    if knowledge is None or domain == "general":
+        return evidence
+    if evidence is None:
+        evidence = knowledge.search(domain, question, limit=8)
+    def accessible(p):
+        return (domain in p.get("domains", [p.get("domain")]) or
+                (p.get("artifact_kind") == "official_text_snapshot" and
+                 p.get("document_kind") in {"legislation", "supreme_court_resolution"} and not p.get("bank")))
+    evidence = scope_evidence(domain, question, [p for p in evidence if accessible(p)])
+    if evidence and getattr(knowledge, "qualifications", None):
+        evidence = knowledge.qualifications.augment(evidence, question, limit=8)
+    return scope_evidence(domain, question, [p for p in evidence if accessible(p)])[:8]
+
+
 def prepare_local_reply(domain, question, knowledge, *, search_question=None, previous_question=""):
     from cashflow_calculator import calculator_reply
     calculated=calculator_reply(question)
@@ -53,6 +69,5 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
             answer = build()
             if answer and "Не удалось подготовить ответ с проверяемой" not in answer:
                 return PreparedReply(evidence, answer, mechanism)
-    if evidence and getattr(knowledge,"qualifications",None):
-        evidence=knowledge.qualifications.augment(evidence,search_question,limit=8)
+    evidence = prepare_model_evidence(domain, search_question, knowledge, evidence)
     return PreparedReply(evidence, None, "requires_model")

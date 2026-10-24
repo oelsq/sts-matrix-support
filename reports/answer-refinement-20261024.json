@@ -1,0 +1,1570 @@
+{
+  "forced": {
+    "status": "complete",
+    "completed": 60,
+    "planned": 60,
+    "execution_concurrency": 2,
+    "summary": {
+      "scenarios": 60,
+      "answered": 57,
+      "not_executed": 0,
+      "generation_failed": 3,
+      "automatic_passed": 52,
+      "specialist_scored": 0,
+      "expert_accuracy": null,
+      "expert_usefulness": null,
+      "expert_exceptions": null
+    },
+    "model_attempted": 57,
+    "model_returned": 54,
+    "preparation_mechanisms": {
+      "source_bound_work": 2,
+      "source_bound_legal": 10,
+      "source_bound_legal_aid": 1,
+      "organizational_draft": 1,
+      "source_bound_gesv": 2,
+      "clarification": 3,
+      "source_bound_tariff": 1,
+      "source_bound_public_rights": 9,
+      "requires_model": 31
+    },
+    "flagged": [
+      {
+        "id": "marriage",
+        "error_class": null,
+        "missing_conditions": [
+          "parent-duties"
+        ],
+        "validation_codes": []
+      },
+      {
+        "id": "child-opinion",
+        "error_class": "FlowiseReviewRejected",
+        "missing_conditions": [],
+        "validation_codes": [
+          "C1:citation_mismatch",
+          "C2:citation_mismatch",
+          "C7:unsupported",
+          "review_requested_revision",
+          "missing_qualification:child-opinion-not-sole-residence-decision"
+        ]
+      },
+      {
+        "id": "collector-threat",
+        "error_class": "FlowiseReviewRejected",
+        "missing_conditions": [],
+        "validation_codes": [
+          "C2:unproven_fact_disguised_as_advice",
+          "missing_qualification:immediate-threat-safety"
+        ]
+      },
+      {
+        "id": "model-expanded-help-finance-credit-report",
+        "error_class": null,
+        "missing_conditions": [
+          "3"
+        ],
+        "validation_codes": []
+      },
+      {
+        "id": "model-expanded-help-legal-construction",
+        "error_class": null,
+        "missing_conditions": [
+          "1"
+        ],
+        "validation_codes": []
+      },
+      {
+        "id": "model-expanded-help-finance-auto-costs",
+        "error_class": null,
+        "missing_conditions": [
+          "1",
+          "3"
+        ],
+        "validation_codes": []
+      },
+      {
+        "id": "model-expanded-help-legal-loan-notification",
+        "error_class": null,
+        "missing_conditions": [
+          "1"
+        ],
+        "validation_codes": []
+      },
+      {
+        "id": "model-expanded-finance-credit-history-2",
+        "error_class": "FlowiseReviewRejected",
+        "missing_conditions": [],
+        "validation_codes": [
+          "C9:unproven_fact_disguised_as_advice",
+          "C14:unproven_fact_disguised_as_advice"
+        ]
+      }
+    ]
+  },
+  "normal": {
+    "status": "complete",
+    "completed": 125,
+    "planned": 125,
+    "execution_concurrency": 2,
+    "summary": {
+      "scenarios": 125,
+      "answered": 125,
+      "not_executed": 0,
+      "generation_failed": 0,
+      "automatic_passed": 125,
+      "specialist_scored": 0,
+      "expert_accuracy": null,
+      "expert_usefulness": null,
+      "expert_exceptions": null
+    },
+    "model_attempted": 10,
+    "model_returned": 10,
+    "preparation_mechanisms": {
+      "source_bound_work": 10,
+      "source_bound_legal": 47,
+      "requires_model": 10,
+      "source_bound_legal_aid": 5,
+      "organizational_draft": 5,
+      "source_bound_gesv": 7,
+      "clarification": 15,
+      "source_bound_tariff": 5,
+      "cashflow_calculator": 20,
+      "organizational_civil_draft": 1
+    },
+    "flagged": []
+  },
+  "transfer": {
+    "status": "complete",
+    "completed": 7,
+    "planned": 7,
+    "execution_concurrency": 2,
+    "summary": {
+      "scenarios": 7,
+      "answered": 7,
+      "not_executed": 0,
+      "generation_failed": 0,
+      "automatic_passed": 7,
+      "specialist_scored": 0,
+      "expert_accuracy": null,
+      "expert_usefulness": null,
+      "expert_exceptions": null
+    },
+    "model_attempted": 7,
+    "model_returned": 7,
+    "preparation_mechanisms": {
+      "requires_model": 7
+    },
+    "flagged": []
+  },
+  "preserved_round1": {
+    "forced": {
+      "status": "in_progress",
+      "completed": 13,
+      "planned": 60,
+      "execution_concurrency": 1,
+      "summary": {
+        "scenarios": 13,
+        "answered": 11,
+        "not_executed": 0,
+        "generation_failed": 2,
+        "automatic_passed": 11,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 12,
+      "model_returned": 10,
+      "preparation_mechanisms": {
+        "source_bound_work": 2,
+        "source_bound_legal": 6,
+        "source_bound_legal_aid": 1,
+        "organizational_draft": 1,
+        "source_bound_gesv": 2,
+        "clarification": 1
+      },
+      "flagged": [
+        {
+          "id": "marriage",
+          "error_class": "FlowiseReviewRejected",
+          "missing_conditions": [],
+          "validation_codes": [
+            "missing_qualification:marriage-child-property-vs-parent-duties"
+          ]
+        },
+        {
+          "id": "child-opinion",
+          "error_class": "FlowiseReviewRejected",
+          "missing_conditions": [],
+          "validation_codes": [
+            "C1:citation_mismatch",
+            "C4:unsupported",
+            "C10:unproven_fact_disguised_as_advice",
+            "review_requested_revision",
+            "missing_qualification:child-opinion-not-sole-residence-decision"
+          ]
+        }
+      ]
+    },
+    "normal": {
+      "status": "in_progress",
+      "completed": 65,
+      "planned": 125,
+      "execution_concurrency": 1,
+      "summary": {
+        "scenarios": 65,
+        "answered": 65,
+        "not_executed": 0,
+        "generation_failed": 0,
+        "automatic_passed": 65,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 6,
+      "model_returned": 6,
+      "preparation_mechanisms": {
+        "source_bound_work": 10,
+        "source_bound_legal": 27,
+        "requires_model": 6,
+        "source_bound_legal_aid": 5,
+        "organizational_draft": 5,
+        "source_bound_gesv": 7,
+        "clarification": 5
+      },
+      "flagged": []
+    }
+  },
+  "retrieval": {
+    "baseline": {
+      "semantic_loaded": true,
+      "passages": 28176,
+      "modes": {
+        "lexical": {
+          "original_330": {
+            "passed": 330,
+            "total": 330,
+            "failed_ids": []
+          },
+          "paraphrases_16": {
+            "passed": 7,
+            "total": 16,
+            "failed_ids": [
+              "semantic-paraphrase-1",
+              "semantic-paraphrase-2",
+              "semantic-paraphrase-5",
+              "semantic-paraphrase-6",
+              "semantic-paraphrase-8",
+              "semantic-paraphrase-11",
+              "semantic-paraphrase-12",
+              "semantic-paraphrase-13",
+              "semantic-paraphrase-15"
+            ]
+          },
+          "transfer_33": {
+            "passed": 16,
+            "total": 33,
+            "failed_ids": [
+              "concept-transfer-copyright-1",
+              "concept-transfer-copyright-2",
+              "concept-transfer-state-services-3",
+              "concept-transfer-mediation-2",
+              "concept-transfer-personal-law-1",
+              "concept-transfer-personal-law-2",
+              "concept-transfer-personal-law-3",
+              "concept-transfer-leasing-1",
+              "concept-transfer-leasing-2",
+              "concept-transfer-leasing-3",
+              "concept-transfer-mortgage-1",
+              "concept-transfer-mortgage-2",
+              "concept-transfer-bankruptcy-2",
+              "concept-transfer-bankruptcy-3",
+              "concept-transfer-credit-history-1",
+              "concept-transfer-shared-construction-1",
+              "concept-transfer-shared-construction-3"
+            ]
+          }
+        },
+        "hybrid": {
+          "original_330": {
+            "passed": 330,
+            "total": 330,
+            "failed_ids": []
+          },
+          "paraphrases_16": {
+            "passed": 9,
+            "total": 16,
+            "failed_ids": [
+              "semantic-paraphrase-2",
+              "semantic-paraphrase-5",
+              "semantic-paraphrase-6",
+              "semantic-paraphrase-8",
+              "semantic-paraphrase-12",
+              "semantic-paraphrase-13",
+              "semantic-paraphrase-15"
+            ]
+          },
+          "transfer_33": {
+            "passed": 20,
+            "total": 33,
+            "failed_ids": [
+              "concept-transfer-copyright-2",
+              "concept-transfer-state-services-3",
+              "concept-transfer-mediation-2",
+              "concept-transfer-personal-law-1",
+              "concept-transfer-personal-law-2",
+              "concept-transfer-personal-law-3",
+              "concept-transfer-leasing-1",
+              "concept-transfer-leasing-2",
+              "concept-transfer-leasing-3",
+              "concept-transfer-mortgage-1",
+              "concept-transfer-mortgage-2",
+              "concept-transfer-bankruptcy-2",
+              "concept-transfer-credit-history-1"
+            ]
+          }
+        }
+      }
+    },
+    "candidate": {
+      "semantic_loaded": true,
+      "passages": 28176,
+      "modes": {
+        "lexical": {
+          "original_330": {
+            "passed": 330,
+            "total": 330,
+            "failed_ids": []
+          },
+          "paraphrases_16": {
+            "passed": 15,
+            "total": 16,
+            "failed_ids": [
+              "semantic-paraphrase-11"
+            ]
+          },
+          "transfer_33": {
+            "passed": 33,
+            "total": 33,
+            "failed_ids": []
+          }
+        },
+        "hybrid": {
+          "original_330": {
+            "passed": 330,
+            "total": 330,
+            "failed_ids": []
+          },
+          "paraphrases_16": {
+            "passed": 16,
+            "total": 16,
+            "failed_ids": []
+          },
+          "transfer_33": {
+            "passed": 33,
+            "total": 33,
+            "failed_ids": []
+          }
+        }
+      }
+    }
+  },
+  "criteria_before": {
+    "schema_version": 1,
+    "status": "automatic_comparison_not_expert_review",
+    "same_private_answers": true,
+    "answers_copied": false,
+    "expert_approvals_created": 0,
+    "total": 60,
+    "original_passed": 45,
+    "proposed_passed": 49,
+    "rows": [
+      {
+        "case_id": "wages",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "wage-letter",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "forced-leave",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "marriage",
+        "original_passed": false,
+        "proposed_passed": true,
+        "original_missing": [
+          "child-property"
+        ],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "child-opinion",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": "FlowiseReviewRejected"
+      },
+      {
+        "case_id": "consent",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "consumer",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "phone-theft",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [
+          "access"
+        ],
+        "proposed_missing": [
+          "access"
+        ],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "legal-aid",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "rental-letter",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": "FlowiseReviewRejected"
+      },
+      {
+        "case_id": "gesv",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "gesv-costs",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "loan-calculation",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "deposit-guarantee",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "auto-insurance",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "foreign-debt",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [
+          "basis"
+        ],
+        "proposed_missing": [
+          "basis"
+        ],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "collector-threat",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": "FlowiseReviewRejected"
+      },
+      {
+        "case_id": "unknown-tariff",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "halyk",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": "FlowiseReviewRejected"
+      },
+      {
+        "case_id": "new-topic",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-legal-credit-fix",
+        "original_passed": false,
+        "proposed_passed": true,
+        "original_missing": [
+          "1"
+        ],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-finance-credit-report",
+        "original_passed": false,
+        "proposed_passed": true,
+        "original_missing": [
+          "2",
+          "3"
+        ],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-legal-credit-letter",
+        "original_passed": false,
+        "proposed_passed": true,
+        "original_missing": [
+          "2"
+        ],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-finance-union",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-legal-construction",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [
+          "1",
+          "3"
+        ],
+        "proposed_missing": [
+          "3"
+        ],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-finance-auto-costs",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [
+          "1",
+          "3"
+        ],
+        "proposed_missing": [
+          "1"
+        ],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-legal-loan-notification",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-credit-history-2",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": "FlowiseReviewRejected"
+      },
+      {
+        "case_id": "model-expanded-legal-currency-control-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-currency-control-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-securities-market-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-securities-market-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-aml-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-aml-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-accounting-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-accounting-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-audit-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-audit-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-joint-stock-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-joint-stock-2",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": "FlowiseReviewRejected"
+      },
+      {
+        "case_id": "model-expanded-legal-investment-funds-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-investment-funds-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-mortgage-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-mortgage-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-leasing-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-leasing-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-housing-savings-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-housing-savings-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-auto-insurance-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-employee-accident-insurance-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-employee-accident-insurance-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-digital-assets-1",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": "FlowiseReviewRejected"
+      },
+      {
+        "case_id": "model-expanded-legal-digital-assets-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-trade-unions-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-shared-construction-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-permissions-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-permissions-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-copyright-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-copyright-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-communications-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      }
+    ]
+  },
+  "criteria_after": {
+    "schema_version": 1,
+    "status": "automatic_comparison_not_expert_review",
+    "same_private_answers": true,
+    "answers_copied": false,
+    "expert_approvals_created": 0,
+    "total": 60,
+    "original_passed": 52,
+    "proposed_passed": 55,
+    "rows": [
+      {
+        "case_id": "wages",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "wage-letter",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "forced-leave",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "marriage",
+        "original_passed": false,
+        "proposed_passed": true,
+        "original_missing": [
+          "parent-duties"
+        ],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "child-opinion",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": "FlowiseReviewRejected"
+      },
+      {
+        "case_id": "consent",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "consumer",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "phone-theft",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "legal-aid",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "rental-letter",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "gesv",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "gesv-costs",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "loan-calculation",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "deposit-guarantee",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "auto-insurance",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "foreign-debt",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "collector-threat",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": "FlowiseReviewRejected"
+      },
+      {
+        "case_id": "unknown-tariff",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "halyk",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "new-topic",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-legal-credit-fix",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-finance-credit-report",
+        "original_passed": false,
+        "proposed_passed": true,
+        "original_missing": [
+          "3"
+        ],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-legal-credit-letter",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-finance-union",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-legal-construction",
+        "original_passed": false,
+        "proposed_passed": true,
+        "original_missing": [
+          "1"
+        ],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-finance-auto-costs",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [
+          "1",
+          "3"
+        ],
+        "proposed_missing": [
+          "1"
+        ],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-help-legal-loan-notification",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [
+          "1"
+        ],
+        "proposed_missing": [
+          "1"
+        ],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-credit-history-2",
+        "original_passed": false,
+        "proposed_passed": false,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": "FlowiseReviewRejected"
+      },
+      {
+        "case_id": "model-expanded-legal-currency-control-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-currency-control-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-securities-market-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-securities-market-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-aml-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-aml-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-accounting-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-accounting-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-audit-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-audit-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-joint-stock-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-joint-stock-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-investment-funds-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-investment-funds-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-mortgage-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-mortgage-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-leasing-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-leasing-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-housing-savings-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-housing-savings-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-auto-insurance-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-employee-accident-insurance-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-employee-accident-insurance-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-digital-assets-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-digital-assets-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-trade-unions-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-shared-construction-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-permissions-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-permissions-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-copyright-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-legal-copyright-2",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      },
+      {
+        "case_id": "model-expanded-finance-communications-1",
+        "original_passed": true,
+        "proposed_passed": true,
+        "original_missing": [],
+        "proposed_missing": [],
+        "generation_error_class": null
+      }
+    ]
+  },
+  "expert_packet": {
+    "answers_for_review": 57,
+    "references_for_review": 60,
+    "answer_text_copied": false,
+    "review_records": 117,
+    "specialist_approvals_created": 0,
+    "full_sources_copied": 47
+  },
+  "expert_transfer_packet": {
+    "answers_for_review": 7,
+    "references_for_review": 7,
+    "answer_text_copied": false,
+    "review_records": 14,
+    "specialist_approvals_created": 0,
+    "full_sources_copied": 18
+  },
+  "deployment": {
+    "tested_source_files_checked": 94,
+    "source_mismatches": [],
+    "semantic_loaded": true,
+    "indexed_passages": 28176,
+    "workers": "2",
+    "departments": {
+      "legal": 5,
+      "finance": 5
+    },
+    "protected_routes": 4,
+    "pending": 0,
+    "image": "sha256:0d3f3aa7459734e74f1f24bb88086d2d202f33fdd535aae07201755b7c37b915",
+    "running": true,
+    "public_files_checked": 20,
+    "rate_limits_changed": false
+  },
+  "active_flows": {
+    "active_flows_verified": 2,
+    "first_draft_prompts_match": true,
+    "claim_gates_match": true,
+    "per_stage_models_preserved": true,
+    "layouts_preserved": true,
+    "protected_routes": 4
+  },
+  "flow_cleanup": {
+    "own_test_flows_deleted": 4,
+    "active_flows_unchanged": true,
+    "active_routes": 4
+  },
+  "unit_tests": {
+    "status": "passed",
+    "tests_passed": 908,
+    "warnings": 20,
+    "elapsed_seconds": 232.95,
+    "javascript_runtime_checks_executed": true,
+    "source_files_bound_by_hash": 94
+  },
+  "matrix_load": {
+    "cohorts": [
+      {
+        "label": "mixed_baseline",
+        "requests": 10,
+        "workers": 1,
+        "inference": "mixed_actual_agentflow_and_source_bound",
+        "ingress_seconds": 0.819,
+        "drain_seconds": 63.698,
+        "max_pending_observed": 10,
+        "latency_p50_seconds": 6.217,
+        "latency_p95_seconds": 63.59,
+        "queue_wait_p95_seconds": 41.709,
+        "service_p95_seconds": 33.799,
+        "preparation_p95_seconds": 33.644,
+        "delivery_p95_seconds": 0.2,
+        "answered": 10,
+        "duplicates": 0,
+        "generation_errors": 0
+      },
+      {
+        "label": "mixed_parallel",
+        "requests": 10,
+        "workers": 2,
+        "inference": "mixed_actual_agentflow_and_source_bound",
+        "ingress_seconds": 0.703,
+        "drain_seconds": 28.354,
+        "max_pending_observed": 10,
+        "latency_p50_seconds": 10.797,
+        "latency_p95_seconds": 28.249,
+        "queue_wait_p95_seconds": 22.174,
+        "service_p95_seconds": 22.25,
+        "preparation_p95_seconds": 22.078,
+        "delivery_p95_seconds": 0.583,
+        "answered": 10,
+        "duplicates": 0,
+        "generation_errors": 0
+      },
+      {
+        "label": "source_bound_burst",
+        "requests": 20,
+        "workers": 2,
+        "inference": "source_bound_no_new_model_calls",
+        "ingress_seconds": 1.141,
+        "drain_seconds": 55.996,
+        "max_pending_observed": 20,
+        "latency_p50_seconds": 11.902,
+        "latency_p95_seconds": 51.226,
+        "queue_wait_p95_seconds": 33.962,
+        "service_p95_seconds": 28.987,
+        "preparation_p95_seconds": 4.096,
+        "delivery_p95_seconds": 28.561,
+        "answered": 20,
+        "duplicates": 0,
+        "generation_errors": 0
+      }
+    ],
+    "recovery": {
+      "offline_answers": 2,
+      "reply_counts": [
+        1,
+        1
+      ],
+      "pending": 0
+    },
+    "cleanup_accounts_deactivated": 12,
+    "content_checks": {
+      "answered_and_checked": 42,
+      "automatic_passed": 42,
+      "expert_accuracy": null
+    }
+  },
+  "schema_version": 1,
+  "date": "2026-10-24",
+  "status": "deployed_and_automatically_verified",
+  "scope": "Response preparation, retrieval, protected Agentflows V2 and specialist-review preparation; not legal/financial expert certification",
+  "baseline_release": "81cffa83ca060c9328a4d606e8896323ddd47b80",
+  "baseline_model": {
+    "original_automatic_passed": 45,
+    "proposed_automatic_passed": 49,
+    "scenarios": 60,
+    "model_attempted": 57,
+    "model_returned": 50,
+    "generation_review_rejected": 7
+  },
+  "corpus": {
+    "documents": 104,
+    "indexed_passages": 28176,
+    "corpus_modified": false,
+    "generation_weights_modified": false,
+    "offline_embedding_model_replaced": false
+  },
+  "policy": {
+    "synapse_rate_limits_changed": false,
+    "decision": "keep_current_limits",
+    "privileged_synapse_bot_token_probe_performed": false
+  },
+  "specialist_review": {
+    "approvals": 0,
+    "responsible_specialists": "not_yet_assigned",
+    "packet_paths": [
+      "runtime/evaluation/specialist-review-refinement-20261024",
+      "runtime/evaluation/specialist-review-paraphrases-20261024"
+    ],
+    "answer_text_copied": false
+  },
+  "interpretation": {
+    "criteria": "Original model questions and criteria unchanged. Proposed criteria are separate, unapproved and applied to exactly the same private replies; their score gain is not a model improvement.",
+    "model": "Observed run comparison, not a randomized causal experiment. Before: concurrency 1; final synthetic evaluation: concurrency 2. Generated replies accepted by the claim gate are not independently certified legal interpretations.",
+    "normal": "125 normal scenarios include prepared source-bound replies, calculators and clarifications; only 10 exercised the generator.",
+    "transfer": "7 previously failing retrieval paraphrases were also evaluated as complete replies; all 7 exercised the generator. Candidate wording criteria are not specialist approval.",
+    "retrieval": "330 original expectations unchanged; 16 known paraphrases and 33 developer-authored transfer questions. These checks prove document hits within the evidence budget, not full legal applicability or independent generalization.",
+    "partial_round1": "Interrupted first-round reports retained separately after a formatting issue was found; never merged into the final full-run score.",
+    "unit_first_attempt": "16 old test doubles omitted domain metadata; their metadata was corrected without loosening expected behavior. Final suite: 908 passed.",
+    "load": "One sequential isolated Matrix load with two true model questions in each mixed cohort; 20-question source-bound burst makes no new model calls. Not an SLA or an isolated benchmark of model throughput."
+  }
+}

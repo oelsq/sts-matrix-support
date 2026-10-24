@@ -117,7 +117,7 @@ def test_forced_model_accounting_never_counts_local_reply_as_inference(tmp_path,
     case={'id':'synthetic','domain':'legal','question':'Synthetic question','previous_questions':[],
           'candidate_reference':'Candidate','sources':[],'required':{},'forbidden':{}}
     cases=tmp_path/'cases.json';cases.write_text(json.dumps({'cases':[case]}))
-    fragment={'id':'SYN','document_id':'synthetic','source':'https://adilet.zan.kz','text':'Synthetic evidence'}
+    fragment={'id':'SYN','document_id':'synthetic','domain':'legal','domains':['legal'],'source':'https://adilet.zan.kz','text':'Synthetic evidence'}
     monkeypatch.setattr(offline_knowledge,'KnowledgeStore',lambda root:NS(search=lambda *a,**kw:[fragment] if evidence else []))
     monkeypatch.setattr(local_reply,'prepare_local_reply',lambda *a,**kw:NS(answer='Local answer',mechanism=mechanism,evidence=[fragment] if evidence else []))
     monkeypatch.setattr(evidence_scope,'scope_evidence',lambda domain,q,items:items)

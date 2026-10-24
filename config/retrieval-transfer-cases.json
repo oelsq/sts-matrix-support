@@ -1,0 +1,238 @@
+{
+  "schema_version": 1,
+  "review_status": "candidate_retrieval_expectations_not_specialist_approved",
+  "note": "Authored before query-rule changes. Development transfer set, not independent external validation; expected document is not proof of legal applicability. Keep previous 16 cases and 330-case suite unchanged.",
+  "cases": [
+    {
+      "id": "concept-transfer-copyright-1",
+      "domain": "legal",
+      "question": "На сувенирах продают копии моего эскиза, согласия я не давал. Как действовать?",
+      "document": "copyright",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-copyright-2",
+      "domain": "legal",
+      "question": "Мои иллюстрации перенесли на упаковку товара без моего разрешения. Что проверить?",
+      "document": "copyright",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-copyright-3",
+      "domain": "legal",
+      "question": "Кто-то воспроизводит мои картины на продажу, со мной это не согласовывали. Какие права проверить?",
+      "document": "copyright",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-state-services-1",
+      "domain": "legal",
+      "question": "В ЦОНе просят справку, хотя сведения уже есть в государственной базе. Что проверить?",
+      "document": "state-services",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-state-services-2",
+      "domain": "legal",
+      "question": "При оказании госуслуги требуют заново принести документ из информационной системы госоргана. Как разобраться?",
+      "document": "state-services",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-state-services-3",
+      "domain": "legal",
+      "question": "Госорган сам располагает сведениями, но для услуги требует от меня бумажное подтверждение. Куда смотреть?",
+      "document": "state-services",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-mediation-1",
+      "domain": "legal",
+      "question": "Мы хотим уладить конфликт с помощью нейтрального посредника и оформить соглашение. Как начать?",
+      "document": "mediation",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-mediation-2",
+      "domain": "legal",
+      "question": "Можно ли разрешить спор при участии независимого примирителя, не доводя дело до суда?",
+      "document": "mediation",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-mediation-3",
+      "domain": "legal",
+      "question": "Стороны спора согласны пригласить третье нейтральное лицо для примирения. Как оформить договорённость?",
+      "document": "mediation",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-personal-law-1",
+      "domain": "legal",
+      "question": "Без моего согласия в интернете разместили адрес проживания и номер телефона. Что предпринять?",
+      "document": "personal-law",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-personal-law-2",
+      "domain": "legal",
+      "question": "На сайте опубликовали моё фото вместе с домашним адресом. Разрешения не давал. Как защититься?",
+      "document": "personal-law",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-personal-law-3",
+      "domain": "legal",
+      "question": "Мою фамилию и телефон выложили в публичный канал без согласования. Какие нормы смотреть?",
+      "document": "personal-law",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-leasing-1",
+      "domain": "finance",
+      "question": "Компания хочет пользоваться станком с ежемесячными платежами и последующим выкупом. Какие условия проверить?",
+      "document": "leasing",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-leasing-2",
+      "domain": "finance",
+      "question": "Берём оборудование во временное владение с правом выкупа после периодических платежей. Что это за договор?",
+      "document": "leasing",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-leasing-3",
+      "domain": "finance",
+      "question": "Фирме предлагают автомобиль за регулярные взносы с последующей передачей в собственность. Что проверить?",
+      "document": "leasing",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-mortgage-1",
+      "domain": "finance",
+      "question": "Банк выдаёт заём под залог покупаемого жилья. Какие правила применяются?",
+      "document": "mortgage",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-mortgage-2",
+      "domain": "finance",
+      "question": "Для кредита хотят оформить обеспечение моей квартирой. На какие условия смотреть?",
+      "document": "mortgage",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-mortgage-3",
+      "domain": "finance",
+      "question": "Дом остаётся в пользовании, но передаётся в залог по займу. Что проверить в документах?",
+      "document": "mortgage",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-bankruptcy-1",
+      "domain": "finance",
+      "question": "Должник не может обслуживать долги и хочет восстановить возможность платить через предусмотренную процедуру. Что изучить?",
+      "document": "bankruptcy",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-bankruptcy-2",
+      "domain": "finance",
+      "question": "У гражданина нет средств погашать обязательства, он спрашивает о списании долгов через суд. Какие варианты проверить?",
+      "document": "bankruptcy",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-bankruptcy-3",
+      "domain": "finance",
+      "question": "Не тяну долговые обязательства, хочу узнать про восстановление способности платить. Какие процедуры есть?",
+      "document": "bankruptcy",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-joint-stock-1",
+      "domain": "finance",
+      "question": "Кто утверждает распределение прибыли акционерного общества между владельцами акций?",
+      "document": "joint-stock",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-joint-stock-2",
+      "domain": "finance",
+      "question": "Как общество решает выплатить дивиденды держателям обыкновенных акций?",
+      "document": "joint-stock",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-joint-stock-3",
+      "domain": "finance",
+      "question": "Кто устанавливает выплату дохода по акциям общества и какие ограничения проверить?",
+      "document": "joint-stock",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-digital-assets-1",
+      "domain": "finance",
+      "question": "Как закон различает обеспеченные цифровые активы и необеспеченные?",
+      "document": "digital-assets",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-digital-assets-2",
+      "domain": "finance",
+      "question": "Какие виды цифровых финансовых активов описаны в законе?",
+      "document": "digital-assets",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-digital-assets-3",
+      "domain": "finance",
+      "question": "Что означает обеспечение цифрового актива имущественным требованием?",
+      "document": "digital-assets",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-credit-history-1",
+      "domain": "finance",
+      "question": "Бюро продолжает показывать погашенную задолженность как действующую. Как оспорить запись?",
+      "document": "credit-history",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-credit-history-2",
+      "domain": "finance",
+      "question": "Кредит закрыт, а в отчёте бюро осталась просрочка. Что делать для исправления?",
+      "document": "credit-history",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-credit-history-3",
+      "domain": "finance",
+      "question": "В своей кредитной истории нашёл неверные сведения о займе. Как добиться проверки?",
+      "document": "credit-history",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-shared-construction-1",
+      "domain": "legal",
+      "question": "Застройщик собирает оплату за квартиру ещё до сдачи дома. Что запросить перед оплатой?",
+      "document": "shared-construction",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-shared-construction-2",
+      "domain": "legal",
+      "question": "Предлагают оплатить будущее жильё на стадии котлована. Какие документы о строительстве проверить?",
+      "document": "shared-construction",
+      "top_k": 8
+    },
+    {
+      "id": "concept-transfer-shared-construction-3",
+      "domain": "legal",
+      "question": "Несу деньги за квартиру в строящемся доме. Как проверить законность привлечения денег?",
+      "document": "shared-construction",
+      "top_k": 8
+    }
+  ]
+}

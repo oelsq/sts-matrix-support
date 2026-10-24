@@ -29,7 +29,7 @@ def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invali
     class Knowledge:
         passages=[1]
         def search(self,*args,**kwargs):
-            result=[{'id':'tariff:1:1','document_id':'tariff','title':'Тариф','text':'Комиссия 0 тенге.',
+            result=[{'id':'tariff:1:1','document_id':'tariff','domain':'finance','domains':['legal','finance'],'title':'Тариф','text':'Комиссия 0 тенге.',
             'source':'https://example.org/tariff','reviewed_on':'2026-10-13','version':'Test','section':'','page':1}]
             if research_available and kwargs.get('limit',8)>8:result.append(dict(result[0],id='tariff:2:1',text='Дополнительное условие перевода.'))
             return result
