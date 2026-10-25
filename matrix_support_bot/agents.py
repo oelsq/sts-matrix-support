@@ -321,13 +321,24 @@ def render(domain: str, answer: str, question: str = "", local_evidence: list[di
         # A template can contain [дата] or [имя]. Only source-like markers
         # participate in citation validation; unknown S numbers/fragment IDs fail.
         markers = re.findall(r"\[([^\[\]\n]+)\]", answer)
-        cited = {marker for marker in markers if marker in allowed or
-                 re.search(r"\bS\d+\b|^ID\b|:", marker, re.I)}
-        if review is not None and review.question_type == 'calculation' and not cited and not review.quotes:
-            # A checked request for missing inputs contains no factual claim to cite.
+        def source_marker(marker):
+            if marker in allowed:
+                return True
+            # A reviewed letter may contain a labelled placeholder, not a
+            # reference. Accept only fixed Cyrillic labels and placeholder
+            # wording; S/ID aliases, fragment IDs, numbers and URLs still fail.
+            if review is not None and review.question_type == 'document' and re.fullmatch(
+                    r'(?:укажите|указать|название|наименование|дата|номер|ФИО|адрес|описание|перечень|контакт|сведения|Кому|От|банк|кредитное бюро|организация|получатель|договор|спорная запись|приложения|подпись|ИИН|БИН|полное наименование|детали ошибки)'
+                    r'[а-яё .,()—–/_-]{0,60}:[а-яё .,()—–/_-]{1,160}', marker, re.I):
+                return False
+            return bool(re.search(r"\bS\d+\b|^ID\b|:", marker, re.I))
+        cited = {marker for marker in markers if source_marker(marker)}
+        if review is not None and review.question_type in {'calculation','document'} and not cited and not review.quotes:
+            # A checked request for missing inputs or a purely organizational letter
+            # contains no legal assertion to cite. Fact-like lines remain blocked.
             from agentflow_claims import units, safe_advice
-            if not all(safe_advice(unit['text']) for unit in units(answer)):
-                raise ValueError("Uncited reviewed calculation contains a factual assertion")
+            if not all(safe_advice(unit['text'],document=review.question_type=='document') for unit in units(answer)):
+                raise ValueError("Uncited reviewed "+review.question_type+" contains a factual assertion")
             completeness = ("**Ответ подтверждён частично**\n"
                             "Часть выводов не прошла проверку. Ниже сохранены только подтверждённые сведения.\n\n") if review.partial else ""
             return f"**{label}**\n{completeness}{answer}"
@@ -466,7 +477,7 @@ def unsupported_quantities(answer, question, evidence, cited):
         version = str(passage.get('version', ''))
         for match in date_pattern.finditer(version):
             prefix = version[max(0, match.start()-70):match.start()]
-            if re.search(r"(?:действу\w*|вступ\w*\s+в\s+силу|ввод\w*\s+в\s+действие)\s+с\s*$", prefix, re.I):
+            if re.search(r"(?:действу\w*|вступ\w*\s+в\s+силу|(?:ввод\w*\s+в\s+действие|введ\w*))\s+с\s*$", prefix, re.I):
                 key = date_key(match)
                 if key is not None:
                     supported_dates.add(key)

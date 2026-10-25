@@ -43,7 +43,7 @@ async def scenario(stage):
                     if event.get('sender')!=bot['user_id'] or event.get('type')!='m.room.message':continue
                     c=event['content'];request=c.get('org.sts.request_id')
                     if request and not c.get('body','').startswith('Готовлю ответ'):
-                        answers.setdefault(request,{})[event['event_id']]={'observed':time.monotonic(),'generation_error':'Сервис генерации временно недоступен' in c.get('body','')}
+                        answers.setdefault(request,{})[event['event_id']]={'observed':time.monotonic(),'generation_error':'Сервис генерации временно недоступен' in c.get('body',''),'feedback_saved':'Оценка сохранена' in c.get('body',''),'feedback_updated':'заменена новой' in c.get('body',''),'feedback_duplicate':'учтена один раз' in c.get('body','')}
         async def send(room,question,account=None):
             start=time.monotonic();r=await api('PUT','/_matrix/client/v3/rooms/'+quote(room,safe='')+'/send/m.room.message/'+uuid.uuid4().hex,{'msgtype':'m.text','body':question},token=(account or gen)['access_token']);return r['event_id'],start
         async def wait_for(ids):
@@ -86,7 +86,7 @@ async def scenario(stage):
                 submitted=await asyncio.gather(*(send(rooms[i%2],questions[i],users[i%10]) for i in range(count)))
                 ingress=time.monotonic()-started;ids=[p[0] for p in submitted];await wait_for(ids);await asyncio.sleep(.1)
                 db=sqlite3.connect('file:/loadstate/matrix_inbox.sqlite3?mode=ro',uri=True)
-                metrics=[db.execute('SELECT started-received,finished-started,attempts,response_ready-started,finished-response_ready FROM inbox_requests WHERE event_id=?',(i,)).fetchone() for i in ids];db.close()
+                metrics=[db.execute('SELECT started-received,finished-started,attempts,response_ready-started,finished-response_ready,delivery_attempts,delivery_deferrals,delivery_rate_limits FROM inbox_requests WHERE event_id=?',(i,)).fetchone() for i in ids];db.close()
                 latencies=[next(iter(answers[i].values()))['observed']-submitted[j][1] for j,i in enumerate(ids)]
                 row={'label':label,'requests':count,'workers':workers,'inference':'mixed_actual_agentflow_and_source_bound' if label!='source_bound_burst' else 'source_bound_no_new_model_calls',
                      'ingress_seconds':round(ingress,3),'drain_seconds':round(time.monotonic()-started,3),'max_pending_observed':max_pending,
@@ -95,6 +95,7 @@ async def scenario(stage):
                      'service_p95_seconds':pct([r[1] for r in metrics if r and r[1] is not None],.95),
                      'preparation_p95_seconds':pct([r[3] for r in metrics if r and r[3] is not None],.95),
                      'delivery_p95_seconds':pct([r[4] for r in metrics if r and r[4] is not None],.95),
+                     'delivery_attempts':sum(r[5] for r in metrics if r),'delivery_deferrals':sum(r[6] for r in metrics if r),'server_rate_limits':sum(r[7] for r in metrics if r),
                      'answered':sum(i in answers for i in ids),'duplicates':sum(max(0,len(answers[i])-1) for i in ids),
                      'generation_errors':sum(next(iter(answers[i].values()))['generation_error'] for i in ids)}
                 report['cohorts'].append(row);private_json(stage/'matrix-load-results.json',report);print(json.dumps(row),flush=True)
@@ -102,6 +103,19 @@ async def scenario(stage):
             until=time.monotonic()+10
             while time.monotonic()<until:await sync()
             report['recovery']={'offline_answers':len(offline),'reply_counts':[len(answers[x[0]]) for x in offline],'pending':pending()}
+            # Voluntary feedback is tested only for these synthetic people.
+            feedback_submitted=[]
+            for i,room,command in [(0,rooms[0],'!оценка полезно'),(1,rooms[1],'!оценка полезно'),(0,rooms[0],'!оценка ошибка'),(0,rooms[0],'!оценка ошибка')]:
+                request=await send(room,command,users[i]);feedback_submitted.append(request[0]);await wait_for([request[0]])
+            flags=[next(iter(answers[i].values())) for i in feedback_submitted]
+            db=sqlite3.connect('file:/loadstate/matrix_inbox.sqlite3?mode=ro',uri=True)
+            feedback_rows=db.execute('SELECT domain,category,count(*) FROM answer_feedback GROUP BY domain,category').fetchall();db.close()
+            report['feedback']={'acknowledged':len(flags),'saved_acknowledgements':sum(x['feedback_saved'] for x in flags),
+                'updated_acknowledgements':sum(x['feedback_updated'] for x in flags),'duplicate_acknowledgements':sum(x['feedback_duplicate'] for x in flags),
+                'records':sum(r[2] for r in feedback_rows),'categories':{d:{c:n for d2,c,n in feedback_rows if d2==d} for d,_,_ in feedback_rows}}
+            assert report['feedback']['records']==2 and report['feedback']['categories']=={'legal':{'suspected_error':1},'finance':{'helpful':1}}
+            assert report['feedback']['duplicate_acknowledgements']==1
+            private_json(stage/'matrix-load-results.json',report)
         finally:
             try:await control('stop')
             except Exception as exc:report['cleanup']['stop_error']=type(exc).__name__

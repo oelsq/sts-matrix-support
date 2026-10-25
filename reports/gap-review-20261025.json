@@ -1,0 +1,1780 @@
+{
+  "schema_version": 1,
+  "status": "automatically_tested_deployed_not_specialist_certified",
+  "date": "2026-10-25",
+  "baseline_commit": "80a027b6d1608fafba7c94b14257416856440958",
+  "candidate_image": "sha256:b06581958b259b56363a4e0d6854d184cf2c20f042d94bc926bb460239ff4647",
+  "human_specialist_approvals_created": 0,
+  "raw_answers_exported": false,
+  "real_conversations_examined": false,
+  "synapse_rate_limits_changed": false,
+  "measurements": {
+    "baseline-unseen": {
+      "status": "complete",
+      "planned": 24,
+      "completed": 24,
+      "summary": {
+        "scenarios": 24,
+        "answered": 19,
+        "not_executed": 0,
+        "generation_failed": 5,
+        "automatic_passed": 16,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "attempted": 18,
+      "returned": 13,
+      "mechanisms": {
+        "requires_model": 18,
+        "no_evidence_fallback": 1,
+        "source_bound_legal": 2,
+        "source_bound_public_rights": 1,
+        "clarification": 2
+      },
+      "flagged": [
+        {
+          "id": "unseen-20261025-01",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "notalone"
+          ]
+        },
+        {
+          "id": "unseen-20261025-02",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C2:unproven_fact_disguised_as_advice",
+            "C5:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-06",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C6:unproven_fact_disguised_as_advice",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-13",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "limit"
+          ]
+        },
+        {
+          "id": "unseen-20261025-18",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "limit"
+          ]
+        },
+        {
+          "id": "unseen-20261025-19",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C12:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-22",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C2:unsupported",
+            "C7:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-23",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C3:unproven_fact_disguised_as_advice",
+            "C5:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        }
+      ]
+    },
+    "candidate-forced-round1": {
+      "status": "complete",
+      "planned": 60,
+      "completed": 60,
+      "summary": {
+        "scenarios": 60,
+        "answered": 55,
+        "not_executed": 0,
+        "generation_failed": 5,
+        "automatic_passed": 52,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "attempted": 57,
+      "returned": 52,
+      "mechanisms": {
+        "source_bound_work": 2,
+        "source_bound_legal": 10,
+        "source_bound_legal_aid": 1,
+        "organizational_draft": 1,
+        "source_bound_gesv": 2,
+        "clarification": 3,
+        "source_bound_tariff": 1,
+        "source_bound_public_rights": 9,
+        "requires_model": 31
+      },
+      "flagged": [
+        {
+          "id": "wage-letter",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": []
+        },
+        {
+          "id": "marriage",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "missing_qualification:marriage-child-property-vs-parent-duties"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "child-opinion",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:citation_mismatch",
+            "missing_qualification:child-opinion-not-sole-residence-decision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "halyk",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [],
+          "missing_conditions": []
+        },
+        {
+          "id": "model-expanded-help-finance-credit-report",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "3"
+          ]
+        },
+        {
+          "id": "model-expanded-help-legal-construction",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1"
+          ]
+        },
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1",
+            "3"
+          ]
+        },
+        {
+          "id": "model-expanded-finance-credit-history-2",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [],
+          "missing_conditions": []
+        }
+      ]
+    },
+    "candidate-forced-round2": {
+      "status": "complete",
+      "planned": 60,
+      "completed": 60,
+      "summary": {
+        "scenarios": 60,
+        "answered": 58,
+        "not_executed": 0,
+        "generation_failed": 2,
+        "automatic_passed": 53,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "attempted": 57,
+      "returned": 55,
+      "mechanisms": {
+        "source_bound_work": 2,
+        "source_bound_legal": 10,
+        "source_bound_legal_aid": 1,
+        "organizational_draft": 1,
+        "source_bound_gesv": 2,
+        "clarification": 3,
+        "source_bound_tariff": 1,
+        "source_bound_public_rights": 9,
+        "requires_model": 31
+      },
+      "flagged": [
+        {
+          "id": "marriage",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "child-property"
+          ]
+        },
+        {
+          "id": "child-opinion",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:citation_mismatch",
+            "C2:citation_mismatch",
+            "missing_qualification:child-opinion-not-sole-residence-decision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "model-expanded-help-finance-credit-report",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "2",
+            "3"
+          ]
+        },
+        {
+          "id": "model-expanded-help-finance-union",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "2"
+          ]
+        },
+        {
+          "id": "model-expanded-help-legal-construction",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1"
+          ]
+        },
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1",
+            "3"
+          ]
+        },
+        {
+          "id": "model-expanded-finance-credit-history-2",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [],
+          "missing_conditions": []
+        }
+      ]
+    },
+    "candidate-unseen-round2": {
+      "status": "complete",
+      "planned": 24,
+      "completed": 24,
+      "summary": {
+        "scenarios": 24,
+        "answered": 18,
+        "not_executed": 0,
+        "generation_failed": 6,
+        "automatic_passed": 14,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "attempted": 18,
+      "returned": 12,
+      "mechanisms": {
+        "requires_model": 18,
+        "no_evidence_fallback": 1,
+        "source_bound_legal": 2,
+        "source_bound_public_rights": 1,
+        "clarification": 2
+      },
+      "flagged": [
+        {
+          "id": "unseen-20261025-01",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "notalone"
+          ]
+        },
+        {
+          "id": "unseen-20261025-02",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unproven_fact_disguised_as_advice",
+            "C2:unsupported",
+            "C7:citation_mismatch",
+            "C8:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-03",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:citation_mismatch",
+            "C3:unproven_fact_disguised_as_advice",
+            "missing_qualification:marriage-child-property-vs-parent-duties"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-04",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C2:unsupported",
+            "C6:unsupported",
+            "C7:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-06",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C6:unproven_fact_disguised_as_advice",
+            "C8:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-13",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "limit"
+          ]
+        },
+        {
+          "id": "unseen-20261025-18",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "limit"
+          ]
+        },
+        {
+          "id": "unseen-20261025-19",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C10:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-22",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "scope"
+          ]
+        },
+        {
+          "id": "unseen-20261025-23",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unproven_quantity",
+            "C5:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        }
+      ]
+    },
+    "candidate-normal-round2": {
+      "status": "complete",
+      "planned": 125,
+      "completed": 125,
+      "summary": {
+        "scenarios": 125,
+        "answered": 125,
+        "not_executed": 0,
+        "generation_failed": 0,
+        "automatic_passed": 125,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "attempted": 10,
+      "returned": 10,
+      "mechanisms": {
+        "source_bound_work": 10,
+        "source_bound_legal": 47,
+        "requires_model": 10,
+        "source_bound_legal_aid": 5,
+        "organizational_draft": 5,
+        "source_bound_gesv": 7,
+        "clarification": 15,
+        "source_bound_tariff": 5,
+        "cashflow_calculator": 20,
+        "organizational_civil_draft": 1
+      },
+      "flagged": []
+    },
+    "candidate-focus-kimi": {
+      "status": "complete",
+      "planned": 10,
+      "completed": 10,
+      "summary": {
+        "scenarios": 10,
+        "answered": 0,
+        "not_executed": 0,
+        "generation_failed": 10,
+        "automatic_passed": 0,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "attempted": 10,
+      "returned": 0,
+      "mechanisms": {
+        "source_bound_work": 1,
+        "source_bound_legal": 3,
+        "source_bound_tariff": 1,
+        "source_bound_public_rights": 5
+      },
+      "flagged": [
+        {
+          "id": "wage-letter",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": []
+        },
+        {
+          "id": "marriage",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": []
+        },
+        {
+          "id": "child-opinion",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": []
+        },
+        {
+          "id": "collector-threat",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": []
+        },
+        {
+          "id": "halyk",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": []
+        },
+        {
+          "id": "model-expanded-help-finance-credit-report",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": []
+        },
+        {
+          "id": "model-expanded-help-legal-construction",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": []
+        },
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": []
+        },
+        {
+          "id": "model-expanded-help-legal-loan-notification",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": []
+        },
+        {
+          "id": "model-expanded-finance-credit-history-2",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": []
+        }
+      ]
+    },
+    "candidate-forced": {
+      "status": "complete",
+      "planned": 60,
+      "completed": 60,
+      "summary": {
+        "scenarios": 60,
+        "answered": 59,
+        "not_executed": 0,
+        "generation_failed": 1,
+        "automatic_passed": 55,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "attempted": 57,
+      "returned": 56,
+      "mechanisms": {
+        "source_bound_work": 2,
+        "source_bound_legal": 10,
+        "source_bound_legal_aid": 1,
+        "organizational_draft": 1,
+        "source_bound_gesv": 2,
+        "clarification": 3,
+        "source_bound_tariff": 1,
+        "source_bound_public_rights": 9,
+        "requires_model": 31
+      },
+      "flagged": [
+        {
+          "id": "marriage",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "child-property"
+          ]
+        },
+        {
+          "id": "child-opinion",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C2:unsupported",
+            "C4:unsupported",
+            "review_requested_revision",
+            "missing_qualification:child-opinion-not-sole-residence-decision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "model-expanded-help-finance-credit-report",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "2",
+            "3"
+          ]
+        },
+        {
+          "id": "model-expanded-help-legal-construction",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1"
+          ]
+        },
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1",
+            "3"
+          ]
+        }
+      ]
+    },
+    "candidate-unseen": {
+      "status": "complete",
+      "planned": 24,
+      "completed": 24,
+      "summary": {
+        "scenarios": 24,
+        "answered": 21,
+        "not_executed": 0,
+        "generation_failed": 3,
+        "automatic_passed": 19,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "attempted": 15,
+      "returned": 12,
+      "mechanisms": {
+        "source_bound_legal": 4,
+        "requires_model": 15,
+        "clarification": 3,
+        "no_evidence_fallback": 1,
+        "source_bound_public_rights": 1
+      },
+      "flagged": [
+        {
+          "id": "unseen-20261025-06",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C8:citation_mismatch"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-13",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "limit"
+          ]
+        },
+        {
+          "id": "unseen-20261025-19",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C2:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-22",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C6:unproven_fact_disguised_as_advice",
+            "review_requested_revision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "unseen-20261025-23",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "subject"
+          ]
+        }
+      ]
+    },
+    "candidate-normal": {
+      "status": "complete",
+      "planned": 125,
+      "completed": 125,
+      "summary": {
+        "scenarios": 125,
+        "answered": 125,
+        "not_executed": 0,
+        "generation_failed": 0,
+        "automatic_passed": 125,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "attempted": 10,
+      "returned": 10,
+      "mechanisms": {
+        "source_bound_work": 10,
+        "source_bound_legal": 47,
+        "requires_model": 10,
+        "source_bound_legal_aid": 5,
+        "organizational_draft": 5,
+        "source_bound_gesv": 7,
+        "clarification": 15,
+        "source_bound_tariff": 5,
+        "cashflow_calculator": 20,
+        "organizational_civil_draft": 1
+      },
+      "flagged": []
+    },
+    "candidate-format": {
+      "status": "complete",
+      "planned": 3,
+      "completed": 3,
+      "summary": {
+        "scenarios": 3,
+        "answered": 3,
+        "not_executed": 0,
+        "generation_failed": 0,
+        "automatic_passed": 3,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "attempted": 3,
+      "returned": 3,
+      "mechanisms": {
+        "source_bound_public_rights": 3
+      },
+      "flagged": []
+    },
+    "baseline-forced": {
+      "status": "complete",
+      "planned": 60,
+      "completed": 60,
+      "summary": {
+        "scenarios": 60,
+        "answered": 57,
+        "not_executed": 0,
+        "generation_failed": 3,
+        "automatic_passed": 52,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "attempted": 57,
+      "returned": 54,
+      "mechanisms": {
+        "source_bound_work": 2,
+        "source_bound_legal": 10,
+        "source_bound_legal_aid": 1,
+        "organizational_draft": 1,
+        "source_bound_gesv": 2,
+        "clarification": 3,
+        "source_bound_tariff": 1,
+        "source_bound_public_rights": 9,
+        "requires_model": 31
+      },
+      "flagged": [
+        {
+          "id": "marriage",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "parent-duties"
+          ]
+        },
+        {
+          "id": "child-opinion",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:citation_mismatch",
+            "C2:citation_mismatch",
+            "C7:unsupported",
+            "review_requested_revision",
+            "missing_qualification:child-opinion-not-sole-residence-decision"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "collector-threat",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C2:unproven_fact_disguised_as_advice",
+            "missing_qualification:immediate-threat-safety"
+          ],
+          "missing_conditions": []
+        },
+        {
+          "id": "model-expanded-help-finance-credit-report",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "3"
+          ]
+        },
+        {
+          "id": "model-expanded-help-legal-construction",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1"
+          ]
+        },
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1",
+            "3"
+          ]
+        },
+        {
+          "id": "model-expanded-help-legal-loan-notification",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1"
+          ]
+        },
+        {
+          "id": "model-expanded-finance-credit-history-2",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C9:unproven_fact_disguised_as_advice",
+            "C14:unproven_fact_disguised_as_advice"
+          ],
+          "missing_conditions": []
+        }
+      ]
+    },
+    "cache_benchmark": {
+      "schema_version": 1,
+      "synthetic_queries": true,
+      "no_model_calls": true,
+      "no_matrix_messages": true,
+      "identical_rankings": true,
+      "semantic_loaded": true,
+      "cohorts": {
+        "without_result_cache": {
+          "requests": 20,
+          "workers": 2,
+          "elapsed_seconds": 19.191,
+          "search_p95_seconds": 4.367,
+          "cache": null
+        },
+        "with_result_cache": {
+          "requests": 20,
+          "workers": 2,
+          "elapsed_seconds": 1.765,
+          "search_p95_seconds": 1.601,
+          "cache": {
+            "hits": 18,
+            "misses": 2,
+            "waits": 1,
+            "entries": 2,
+            "inflight": 0
+          }
+        }
+      },
+      "limitation": "Shared process, repeated public synthetic queries; not Matrix response latency or production SLA."
+    },
+    "semantic_specific": {
+      "semantic_loaded": true,
+      "local_without_model": true,
+      "passed": 3,
+      "total": 3,
+      "rows": [
+        {
+          "id": "unseen-20261025-01",
+          "mechanism": "source_bound_legal",
+          "answer_available": true,
+          "passed": true
+        },
+        {
+          "id": "unseen-20261025-03",
+          "mechanism": "source_bound_legal",
+          "answer_available": true,
+          "passed": true
+        },
+        {
+          "id": "unseen-20261025-04",
+          "mechanism": "clarification",
+          "answer_available": true,
+          "passed": true
+        }
+      ]
+    },
+    "ai_baseline": {
+      "reviewer_type": "ai_source_assessment",
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 4,
+      "unavailable_answers": 3,
+      "assessment_errors": 1,
+      "finding_counts": {},
+      "cases": [
+        {
+          "id": "marriage",
+          "status": "assessed",
+          "finding_codes": []
+        },
+        {
+          "id": "child-opinion",
+          "status": "no_answer",
+          "finding_codes": []
+        },
+        {
+          "id": "collector-threat",
+          "status": "no_answer",
+          "finding_codes": []
+        },
+        {
+          "id": "model-expanded-help-finance-credit-report",
+          "status": "assessed",
+          "finding_codes": []
+        },
+        {
+          "id": "model-expanded-help-legal-construction",
+          "status": "assessed",
+          "finding_codes": []
+        },
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "status": "assessment_error",
+          "finding_codes": []
+        },
+        {
+          "id": "model-expanded-help-legal-loan-notification",
+          "status": "assessed",
+          "finding_codes": []
+        },
+        {
+          "id": "model-expanded-finance-credit-history-2",
+          "status": "no_answer",
+          "finding_codes": []
+        }
+      ]
+    },
+    "ai_baseline_insurance_retry": {
+      "reviewer_type": "ai_source_assessment",
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 1,
+      "unavailable_answers": 0,
+      "assessment_errors": 0,
+      "finding_counts": {},
+      "cases": [
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "status": "assessed",
+          "finding_codes": []
+        }
+      ]
+    },
+    "ai_rejected_drafts": {
+      "reviewer_type": "ai_source_assessment",
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 3,
+      "unavailable_answers": 0,
+      "assessment_errors": 0,
+      "finding_counts": {},
+      "cases": [
+        {
+          "id": "marriage",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "child-opinion",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "halyk",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        }
+      ]
+    },
+    "kimi_diagnostic": {
+      "own_variant_executions_checked": 1,
+      "failure_codes": [
+        "model_not_authorized_for_workflow_credential"
+      ],
+      "production_models_changed": false
+    },
+    "deployment": {
+      "tested_source_files_checked": 100,
+      "source_mismatches": [],
+      "semantic_loaded": true,
+      "indexed_passages": 28176,
+      "workers": "2",
+      "departments": {
+        "legal": 5,
+        "finance": 5
+      },
+      "protected_routes": 4,
+      "pending": 0,
+      "image": "sha256:b06581958b259b56363a4e0d6854d184cf2c20f042d94bc926bb460239ff4647",
+      "running": true,
+      "public_files_checked": 27,
+      "rate_limits_changed": false
+    },
+    "active_flows": {
+      "active_flows_verified": 2,
+      "first_draft_prompts_match": true,
+      "claim_gates_match": true,
+      "per_stage_models_preserved": true,
+      "layouts_preserved": true,
+      "protected_routes": 4
+    },
+    "flow_cleanup": {
+      "own_test_workflows_absent": 4,
+      "active_workflows_unchanged": 2,
+      "protected_routes_unchanged": 4,
+      "credentials_exported": false
+    },
+    "criteria": {
+      "schema_version": 1,
+      "status": "automatic_comparison_not_expert_review",
+      "same_private_answers": true,
+      "answers_copied": false,
+      "expert_approvals_created": 0,
+      "total": 60,
+      "original_passed": 55,
+      "proposed_passed": 58,
+      "rows": [
+        {
+          "case_id": "wages",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "wage-letter",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "forced-leave",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "marriage",
+          "original_passed": false,
+          "proposed_passed": true,
+          "original_missing": [
+            "child-property"
+          ],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "child-opinion",
+          "original_passed": false,
+          "proposed_passed": false,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": "FlowiseReviewRejected"
+        },
+        {
+          "case_id": "consent",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "consumer",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "phone-theft",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "legal-aid",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "rental-letter",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "gesv",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "gesv-costs",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "loan-calculation",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "deposit-guarantee",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "auto-insurance",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "foreign-debt",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "collector-threat",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "unknown-tariff",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "halyk",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "new-topic",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-help-legal-credit-fix",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-help-finance-credit-report",
+          "original_passed": false,
+          "proposed_passed": true,
+          "original_missing": [
+            "2",
+            "3"
+          ],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-help-legal-credit-letter",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-help-finance-union",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-help-legal-construction",
+          "original_passed": false,
+          "proposed_passed": true,
+          "original_missing": [
+            "1"
+          ],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-help-finance-auto-costs",
+          "original_passed": false,
+          "proposed_passed": false,
+          "original_missing": [
+            "1",
+            "3"
+          ],
+          "proposed_missing": [
+            "1"
+          ],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-help-legal-loan-notification",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-credit-history-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-currency-control-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-currency-control-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-securities-market-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-securities-market-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-aml-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-aml-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-accounting-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-accounting-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-audit-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-audit-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-joint-stock-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-joint-stock-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-investment-funds-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-investment-funds-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-mortgage-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-mortgage-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-leasing-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-leasing-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-housing-savings-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-housing-savings-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-auto-insurance-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-employee-accident-insurance-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-employee-accident-insurance-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-digital-assets-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-digital-assets-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-trade-unions-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-shared-construction-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-permissions-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-permissions-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-copyright-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-legal-copyright-2",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        },
+        {
+          "case_id": "model-expanded-finance-communications-1",
+          "original_passed": true,
+          "proposed_passed": true,
+          "original_missing": [],
+          "proposed_missing": [],
+          "generation_error_class": null
+        }
+      ]
+    },
+    "ai_final_flags": {
+      "reviewer_type": "ai_source_assessment",
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 4,
+      "unavailable_answers": 0,
+      "assessment_errors": 0,
+      "finding_counts": {
+        "request_not_answered": 4,
+        "insufficient_evidence": 6,
+        "unhelpful_handoff": 4,
+        "wrong_actor": 1
+      },
+      "cases": [
+        {
+          "id": "marriage",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "request_not_answered",
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "model-expanded-help-finance-credit-report",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "request_not_answered",
+            "unhelpful_handoff",
+            "wrong_actor"
+          ]
+        },
+        {
+          "id": "model-expanded-help-legal-construction",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "request_not_answered",
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "request_not_answered",
+            "insufficient_evidence",
+            "unhelpful_handoff"
+          ]
+        }
+      ]
+    },
+    "ai_additional_flags": {
+      "reviewer_type": "ai_source_assessment",
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 2,
+      "unavailable_answers": 0,
+      "assessment_errors": 0,
+      "finding_counts": {
+        "wrong_scope": 2,
+        "missing_condition": 2,
+        "insufficient_evidence": 1,
+        "unhelpful_handoff": 1
+      },
+      "cases": [
+        {
+          "id": "unseen-20261025-13",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "wrong_scope",
+            "missing_condition",
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "unseen-20261025-23",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "wrong_scope",
+            "missing_condition",
+            "unhelpful_handoff"
+          ]
+        }
+      ]
+    },
+    "retrieval": {
+      "semantic_loaded": true,
+      "passages": 28176,
+      "modes": {
+        "lexical": {
+          "original_330": {
+            "passed": 330,
+            "total": 330,
+            "failed_ids": []
+          },
+          "paraphrases_16": {
+            "passed": 15,
+            "total": 16,
+            "failed_ids": [
+              "semantic-paraphrase-11"
+            ]
+          },
+          "transfer_33": {
+            "passed": 33,
+            "total": 33,
+            "failed_ids": []
+          }
+        },
+        "hybrid": {
+          "original_330": {
+            "passed": 330,
+            "total": 330,
+            "failed_ids": []
+          },
+          "paraphrases_16": {
+            "passed": 16,
+            "total": 16,
+            "failed_ids": []
+          },
+          "transfer_33": {
+            "passed": 33,
+            "total": 33,
+            "failed_ids": []
+          }
+        }
+      }
+    },
+    "unit": {
+      "status": "passed",
+      "tests_passed": 960,
+      "warnings": 20,
+      "elapsed_seconds": 217.63,
+      "javascript_runtime_checks_executed": true,
+      "runtime_files_bound": 100
+    },
+    "matrix_load": {
+      "cohorts": [
+        {
+          "label": "mixed_baseline",
+          "requests": 10,
+          "workers": 1,
+          "inference": "mixed_actual_agentflow_and_source_bound",
+          "ingress_seconds": 0.815,
+          "drain_seconds": 80.468,
+          "max_pending_observed": 10,
+          "latency_p50_seconds": 6.317,
+          "latency_p95_seconds": 80.36,
+          "queue_wait_p95_seconds": 50.274,
+          "service_p95_seconds": 42.09,
+          "preparation_p95_seconds": 41.926,
+          "delivery_p95_seconds": 0.203,
+          "delivery_attempts": 10,
+          "delivery_deferrals": 0,
+          "server_rate_limits": 0,
+          "answered": 10,
+          "duplicates": 0,
+          "generation_errors": 0
+        },
+        {
+          "label": "mixed_parallel",
+          "requests": 10,
+          "workers": 2,
+          "inference": "mixed_actual_agentflow_and_source_bound",
+          "ingress_seconds": 0.722,
+          "drain_seconds": 78.663,
+          "max_pending_observed": 10,
+          "latency_p50_seconds": 9.67,
+          "latency_p95_seconds": 78.557,
+          "queue_wait_p95_seconds": 21.327,
+          "service_p95_seconds": 70.124,
+          "preparation_p95_seconds": 69.949,
+          "delivery_p95_seconds": 0.645,
+          "delivery_attempts": 10,
+          "delivery_deferrals": 0,
+          "server_rate_limits": 0,
+          "answered": 10,
+          "duplicates": 0,
+          "generation_errors": 0
+        },
+        {
+          "label": "source_bound_burst",
+          "requests": 20,
+          "workers": 2,
+          "inference": "source_bound_no_new_model_calls",
+          "ingress_seconds": 1.147,
+          "drain_seconds": 56.523,
+          "max_pending_observed": 20,
+          "latency_p50_seconds": 7.073,
+          "latency_p95_seconds": 51.255,
+          "queue_wait_p95_seconds": 23.958,
+          "service_p95_seconds": 34.61,
+          "preparation_p95_seconds": 4.276,
+          "delivery_p95_seconds": 34.58,
+          "delivery_attempts": 45,
+          "delivery_deferrals": 25,
+          "server_rate_limits": 10,
+          "answered": 20,
+          "duplicates": 0,
+          "generation_errors": 0
+        }
+      ],
+      "recovery": {
+        "offline_answers": 2,
+        "reply_counts": [
+          1,
+          1
+        ],
+        "pending": 0
+      },
+      "feedback": {
+        "acknowledged": 4,
+        "saved_acknowledgements": 2,
+        "updated_acknowledgements": 1,
+        "duplicate_acknowledgements": 1,
+        "records": 2,
+        "categories": {
+          "finance": {
+            "helpful": 1
+          },
+          "legal": {
+            "suspected_error": 1
+          }
+        }
+      },
+      "accounts_deactivated": 12,
+      "content": {
+        "answered_and_checked": 42,
+        "automatic_passed": 42,
+        "expert_accuracy": null
+      }
+    }
+  },
+  "retrieval_scope_note": "379 prior retrieval questions keep identical intent classification after final kinship-specific change; additional three paths verified with semantic index on VM.",
+  "limitations": [
+    "Frozen automated criteria are not legal accuracy percentages.",
+    "Additional 24 cases became a development regression set; no independent external holdout.",
+    "Same-family AI source assessment is not independent specialist approval.",
+    "Three format cases repeat one question and use general format/source guards, not three new subject families.",
+    "Burst p95 remains about 51 seconds; no measured end-to-end speedup claimed.",
+    "Corpus remains 104 materials; weights and model access policies unchanged."
+  ]
+}

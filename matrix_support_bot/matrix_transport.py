@@ -4,13 +4,19 @@ from urllib.parse import quote
 from nio import RoomSendResponse
 
 class DeliveryDeferred(RuntimeError):
-    def __init__(self,seconds):self.seconds=max(.05,float(seconds));super().__init__('Matrix delivery deferred by server cooldown')
+    def __init__(self,seconds,*,server_rate_limit=False):
+        self.seconds=max(.05,float(seconds));self.server_rate_limit=server_rate_limit
+        super().__init__('Matrix delivery deferred by server cooldown')
 
 
 class MatrixSender:
     def __init__(self,http,client,origin,*,clock=time.monotonic):
         self.http,self.client,self.origin=http,client,origin.rstrip('/');self.clock=clock;self.not_before=0.;self.lock=asyncio.Lock()
         self.metrics={'sent':0,'rate_limited':0,'cooldown_deferred':0}
+
+    @property
+    def cooldown_remaining(self):
+        return max(0., self.not_before-self.clock())
 
     async def __call__(self,*,room_id,message_type,content,tx_id):
         async with self.lock:
@@ -33,7 +39,7 @@ class MatrixSender:
                         except ValueError:value=5000
                     if not math.isfinite(value) or value<0:value=5000
                     delay=max(.05,value/1000);self.not_before=self.clock()+delay;self.metrics['rate_limited']+=1
-                    raise DeliveryDeferred(delay)
+                    raise DeliveryDeferred(delay,server_rate_limit=True)
                 ident=data.get('event_id')
                 if response.status!=200 or not isinstance(ident,str) or not ident:raise RuntimeError('Matrix delivery was not confirmed')
                 self.metrics['sent']+=1;return RoomSendResponse(ident,room_id)

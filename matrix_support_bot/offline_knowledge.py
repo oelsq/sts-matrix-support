@@ -265,6 +265,8 @@ class KnowledgeStore:
         self._postings = {}
         self._lengths = {}
         self._candidate_cache = {}
+        from search_cache import SearchCache
+        self._search_results = SearchCache()
         for identifier, counter in self._counters.items():
             self._lengths[identifier] = sum(counter.values())
             for term in counter:
@@ -282,6 +284,17 @@ class KnowledgeStore:
                 logging.getLogger('support_bot.semantic').warning('Semantic index unavailable (%s); using lexical retrieval',type(exc).__name__)
 
     def search(self, domain: str, question: str, limit: int = 6) -> list[dict[str, str | int]]:
+        from datetime import date
+        cache = getattr(self, '_search_results', None)
+        if cache is None:
+            return self._search_uncached(domain, question, limit)
+        # Keep domain, requested size, embedding instance and calendar boundary
+        # separate. A new corpus always creates a new KnowledgeStore/cache.
+        key = (domain, hashlib.sha256(question.encode()).digest(), limit,
+               id(getattr(self, 'semantic', None)), date.today().isoformat())
+        return cache.get(key, lambda: self._search_uncached(domain, question, limit))
+
+    def _search_uncached(self, domain, question, limit):
         lexical=self._lexical_search(domain,question,limit)
         semantic=getattr(self,'semantic',None)
         if semantic is None or not lexical or limit<3 or domain not in DOMAINS or needs_bank(question) or is_tariff_question(question) or explicit_article(question):return lexical

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "case_id": "unseen-20261025-24",
+  "kind": "source_annotation_only",
+  "before_sources": [
+    "gesv-insurance-fees"
+  ],
+  "after_sources": [
+    "gesv-rules-2026",
+    "bank-fees-2026"
+  ],
+  "before_case_sha256": "eb896dcc5689fb84d0ea2caf32e74273775dc75fcd3799b9ece58c2267a0d8a8",
+  "after_case_sha256": "11b6b0050da9f3cff9bdd8cc1af155cde8ab8f91c0a06a856412fc243b90b7b2",
+  "question_and_criteria_sha256": "5e7a2cb4952856e539d53721b84b3e204ea5c0f5fa492d87c0e386b5aeccbe38",
+  "note": "Corrects a non-existent document ID. The question and automatic pass/fail criteria are unchanged; baseline private report remains unmodified."
+}

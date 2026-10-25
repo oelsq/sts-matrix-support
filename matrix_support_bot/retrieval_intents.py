@@ -151,7 +151,17 @@ def general_legal_aid_question(question):
 
 
 def child_residence_question(question):
-    return bool(re.search(r'реб[её]н|дет[ьи]',question,re.I) and re.search(r'с кем|прожив|мест.{0,12}жительств|выбор|выбир|сам реш|самостоятельн',question,re.I))
+    if re.search(r'реб[её]н|дет[ьи]',question,re.I) and re.search(r'с кем|прожив|мест.{0,12}жительств|выбор|выбир|сам реш|самостоятельн',question,re.I):
+        return True
+    if not re.search(r'\b(?:дочь|дочер[а-яё]*|дочк[а-яё]*|сын[а-яё]*)\b',question,re.I):
+        return False
+    if re.search(r'совершеннолет|взросл',question,re.I):return False
+    age=re.search(r'(?:дочери|дочке|сыну).{0,10}?(\d{1,2})\s*(?:лет|год)',question,re.I)
+    if age and int(age[1])>=18:return False
+    if re.search(r'кредит|ипотек|долг|работ|професси|университет|школ|колледж',question,re.I):return False
+    residence=re.search(r'жить|жив[её]т|прожив|мест.{0,12}жительств',question,re.I)
+    dispute=re.search(r'спор|выбор|выбир|реш|развод|(?:мать|отец|родител[ьи]).{0,12}против',question,re.I)
+    return bool(residence and dispute)
 
 
 def consent_withdrawal_question(question):

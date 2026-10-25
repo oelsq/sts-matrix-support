@@ -41,7 +41,12 @@ class RequestDispatcher:
         kwargs=dict(room_id=self.current['room_id'],message_type='m.room.message',content=json.loads(row['content']))
         # Matrix transaction deduplication survives restarts because login is restored.
         if not self.allow_unconfirmed:kwargs['tx_id']=self.store.transaction_id(row['event_id'],row['kind'])
-        result=await (self.sender or self.client.room_send)(**kwargs)
+        self.store.delivery_attempt(row['event_id'])
+        try:
+            result=await (self.sender or self.client.room_send)(**kwargs)
+        except DeliveryDeferred as exc:
+            self.store.delivery_deferred(row['event_id'],server_rate_limit=exc.server_rate_limit)
+            raise
         sent_id=getattr(result,'event_id',None)
         if not sent_id and self.allow_unconfirmed:sent_id='$unconfirmed-test-client'
         if not isinstance(sent_id,str) or not sent_id:
@@ -50,7 +55,11 @@ class RequestDispatcher:
         return result
 
     async def process_next(self):
-        row=self.store.claim()
+        # A homeserver cooldown applies to all sends of this account. Do not
+        # repeatedly claim already frozen replies while it lasts. Independent
+        # users may still prepare replies; same-user order remains in SQL.
+        blocked = bool(self.sender and getattr(self.sender, 'cooldown_remaining', 0) > 0)
+        row=self.store.claim(delivery_blocked=blocked)
         if row is None:return False
         self.current=row
         try:

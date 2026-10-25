@@ -219,6 +219,11 @@ async def main():
                 return
             key = (room.room_id, event.sender)
             question = event.body[:12000]
+            from answer_feedback import feedback_reply
+            feedback = feedback_reply(inbox, room.room_id, event.sender, question)
+            if feedback is not None:
+                await dispatcher.send(room_id=room.room_id, message_type="m.room.message", content=matrix_content(feedback))
+                return
             if question.strip().casefold() == "!помощь":
                 await dispatcher.send(room_id=room.room_id, message_type="m.room.message", content=matrix_content(
                     "**Как пользоваться**\n\nЗадайте вопрос обычными словами. Для продолжения напишите уточнение в этом же чате.\n\n"
@@ -227,6 +232,7 @@ async def main():
                     "- `!юрдеп2` или `!финдеп3` — выбрать конкретного сотрудника.\n"
                     "- `!другой` — сменить сотрудника; используйте команду здесь, в чате ИИ.\n"
                     "- `!новый` — начать новую тему.\n"
+                    "- `!оценка полезно` / `!оценка неполно` / `!оценка ошибка` / `!оценка не помогло` — оценить свой последний ответ.\n"
                     "- `!база` — посмотреть доступные темы знаний.\n"
                     "- `!расчёт` — шаблон точного расчёта переплаты по полному графику платежей."))
                 return
@@ -309,6 +315,7 @@ async def main():
                 latest_context.pop(next(iter(latest_context)))
             if handoff and any(domain in departments for domain in domains):
                 answer += department_note(question, answer)
+            inbox.reply_domain(event.event_id, domains)
             result = await dispatcher.send(
                 room_id=room.room_id,
                 message_type="m.room.message",

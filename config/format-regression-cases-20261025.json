@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "candidate_not_specialist_approved",
+  "note": "Three repetitions of one unchanged existing letter request. Not three independent question families.",
+  "cases": [
+    {
+      "id": "format-credit-letter-repeat-1",
+      "domain": "finance",
+      "question": "Напиши заявление об исправлении неверной информации в кредитном отчете.",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «credit-history». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "credit-history"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "credit-history",
+      "origin": "three_repetitions_of_same_existing_question_not_new_coverage"
+    },
+    {
+      "id": "format-credit-letter-repeat-2",
+      "domain": "finance",
+      "question": "Напиши заявление об исправлении неверной информации в кредитном отчете.",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «credit-history». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "credit-history"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "credit-history",
+      "origin": "three_repetitions_of_same_existing_question_not_new_coverage"
+    },
+    {
+      "id": "format-credit-letter-repeat-3",
+      "domain": "finance",
+      "question": "Напиши заявление об исправлении неверной информации в кредитном отчете.",
+      "previous_questions": [],
+      "candidate_reference": "Проверить фактический ответ по полной применимой норме и исключениям документа «credit-history». Это кандидат для проверки специалистом; автоматические критерии полезности не удостоверяют юридическую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "credit-history"
+      ],
+      "required": {},
+      "forbidden": {},
+      "family": "credit-history",
+      "origin": "three_repetitions_of_same_existing_question_not_new_coverage"
+    }
+  ]
+}
