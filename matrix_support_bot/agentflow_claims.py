@@ -7,7 +7,7 @@ import json
 import re
 from pathlib import Path
 from agentflow_graphs import workflow_packet
-from numeric_grounding import numeric_relation_errors
+from numeric_grounding import numeric_relation_errors, normalize_age_words
 from review_result import ReviewDetails, ReviewedAnswer, source_text
 from response_guidance import is_document_request, is_reference_question
 
@@ -168,6 +168,7 @@ NUMBER_WORDS=json.loads((Path(__file__).with_name('agents')/'quality/number_word
 
 
 def quantities(text):
+    text=normalize_age_words(text)
     text=re.sub(r'^\s*(?:\d+[.)]|[-*])\s+', '', text)
     text=re.sub(r'\[S\d+\]', '', text)
     text=text.casefold()

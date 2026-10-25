@@ -37,6 +37,12 @@ def unit_code():
     return (ROOT/'claim_gate.js').read_text().split('const answer = $flow.state.draft;')[0]
 
 
+def timed_custom_function(code):
+    """Time our pure custom nodes without changing their state contract."""
+    return ('const __sts_started=Date.now();\nconst __sts_result=(()=>{\n' + code +
+            '\n})();\nconst __sts_ended=Date.now();\nreturn {...__sts_result,timeMetadata:{start:__sts_started,end:__sts_ended,delta:__sts_ended-__sts_started}};')
+
+
 def build_quality_agentflow(definitions, domain, model_config):
     legacy=build_agentflow(definitions,domain,model_config)
     model=copy.deepcopy(legacy['nodes'][2]['data']['inputs']['agentModelConfig'])
@@ -46,6 +52,9 @@ def build_quality_agentflow(definitions, domain, model_config):
         ident=name+'_'+str(index);definition=copy.deepcopy(definitions[name])
         if definition.get('name')!=name or definition.get('category')!='Agent Flows':raise ValueError('Unexpected node definition')
         anchors=[] if name=='directReplyAgentflow' else ([{'id':ident+'-output-'+str(i),'label':v,'name':str(i)} for i,v in enumerate(['Проверено','Нужна доработка'])] if name=='conditionAgentflow' else [{'id':ident+'-output-'+name,'label':label,'name':name}])
+        if name=='customFunctionAgentflow':
+            inputs=copy.deepcopy(inputs)
+            inputs['customFunctionJavascriptFunction']=timed_custom_function(inputs['customFunctionJavascriptFunction'])
         data=dict(definition,id=ident,label=label,inputs=inputs,outputs={},inputParams=[dict(p,id=ident+'-input-'+p['name']+'-'+p['type'],display=True) for p in definition.get('inputs',[])],inputAnchors=[],outputAnchors=anchors)
         nodes.append({'id':ident,'type':'agentFlow','position':{'x':x,'y':y},'data':data});return ident
     def edge(a,b,branch=None):

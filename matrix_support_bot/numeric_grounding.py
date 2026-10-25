@@ -10,7 +10,16 @@ from pathlib import Path
 ROOT = Path(__file__).with_name('agents') / 'quality'
 METRICS = json.loads((ROOT / 'numeric_metrics.json').read_text())
 WORDS = json.loads((ROOT / 'number_words.json').read_text())
+AGE_WORDS = json.loads((ROOT / 'age_words.json').read_text())
 UNIT = re.compile(r"^\s*(%|процент[а-яё]*|[-–]?крат[а-яё]*|тенге|теңге|тг(?![а-яёa-z])|₸|kzt\b|доллар[а-яё]*|usd\b|\$|евро|eur\b|€|рубл[а-яё]*|rub\b|рабочи[а-яё]*\s+дн[а-яё]*|календарн[а-яё]*\s+дн[а-яё]*|дн[а-яё]*|день|месяц[а-яё]*|год[а-яё]*|лет(?![а-яёa-z]))",re.I)
+
+
+
+def normalize_age_words(text):
+    # Whole inflected age adjectives denote the same number of years. Keep
+    # surrounding conditions/negations and do not recognize word fragments.
+    return re.sub(r'(?<!\w)('+'|'.join(AGE_WORDS)+r')летн(?:его|ему|ими|ий|яя|ее|ие|им|ем|ей|ую|юю|их|ым|ом|ых)(?!\w)',
+                  lambda m: str(AGE_WORDS[m[1].casefold()])+' лет',text,flags=re.I)
 
 
 def canonical_number(value):
@@ -21,7 +30,7 @@ def canonical_number(value):
 
 
 def normalize(text):
-    text = re.sub(r'\[S\d+\]', '', text.casefold())
+    text = re.sub(r'\[S\d+\]', '', normalize_age_words(text).casefold())
     text = re.sub(r'(?<!\d)\d{1,2}[.]\d{1,2}[.]\d{4}(?!\d)', ' DATE ', text)
     text = re.sub(r'(?:статья|статьи|пункт|подпункт|ст[.])\s+\d+(?:[-.]\d+)*', ' REFERENCE ', text)
     tens = '|'.join(k for k,v in WORDS.items() if v in range(20,100,10))

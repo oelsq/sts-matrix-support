@@ -1,0 +1,766 @@
+{
+  "schema_version": 1,
+  "status": "reserved_one_pass_no_tuning",
+  "note": "Questions and automatic criteria frozen before code changes. Run after candidate freeze only. Any subsequent tuning makes these cases regression cases, not held out. Specialist approval absent.",
+  "cases": [
+    {
+      "id": "heldout-hardening-20261025-01",
+      "domain": "legal",
+      "question": "Работаю по договору, но наниматель просит расписаться за ещё не полученную зарплату. Как зафиксировать ситуацию?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "action": "сохран|запрос|письмен|подпис"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-02",
+      "domain": "legal",
+      "question": "Меня просят подписать пустой лист при увольнении. Какие сведения сначала запросить?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "action": "сохран|запрос|уточн|подпис"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-03",
+      "domain": "legal",
+      "question": "Напиши короткое письмо о выдаче расчёта задолженности.",
+      "previous_questions": [
+        "Мне задержали оплату за два месяца работы."
+      ],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "recipient": "Кому\\s*:|Работодателю\\s*:|От\\s*:",
+        "request": "Прошу",
+        "debt": "задолж|расч[её]т"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-04",
+      "domain": "legal",
+      "question": "Устно обещали вернуть деньги за товар, но подтверждения нет. Что сохранить для претензии?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "evidence": "чек|переписк|договор|подтвержден",
+        "action": "сохран|претензи|письмен"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-05",
+      "domain": "legal",
+      "question": "Составь обращение с просьбой дать письменный ответ.",
+      "previous_questions": [
+        "Магазин принял претензию, но отвечает только по телефону."
+      ],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "recipient": "Кому\\s*:|Продавцу\\s*:|От\\s*:",
+        "request": "Прошу",
+        "reply": "письменн.{0,35}ответ"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-06",
+      "domain": "legal",
+      "question": "Работодатель обещает заплатить, если я откажусь от всех претензий. Какие документы проверить до подписи?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "labor"
+      ],
+      "required": {
+        "documents": "договор|соглашени|расч[её]т|документ",
+        "action": "проверь|уточн|сохран|запрос"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-07",
+      "domain": "legal",
+      "question": "Нам предлагают записать в брачном договоре, кто забирает ребёнка из школы. Какие вопросы стоит разделить?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "scope": "реб[её]н|родител|дет[ьи]",
+        "contract": "брачн|договор"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-08",
+      "domain": "legal",
+      "question": "После развода родители спорят о проживании сына. Какие обстоятельства нужно уточнить в первую очередь?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "condition": "возраст|лет|соглашени|интерес",
+        "help": "уточн|сохран|проверь|договор"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-09",
+      "domain": "legal",
+      "question": "Объясни разницу между общением с ребёнком и денежным содержанием. Можно ли смешивать их в одном условии?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "family"
+      ],
+      "required": {
+        "contact": "общени",
+        "money": "содержани|алимент|денежн"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-10",
+      "domain": "legal",
+      "question": "Как оформить просьбу исправить неверное имя в моих данных у организации?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "recipient": "Кому\\s*:|От\\s*:|В\\s+\\[",
+        "request": "Прошу",
+        "correction": "исправ|провер"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-11",
+      "domain": "legal",
+      "question": "Компания просит фото удостоверения в общем чате. Что уточнить до отправки?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "privacy": "данн|удостоверен|документ",
+        "help": "уточн|запрос|проверь|канал|цел"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-12",
+      "domain": "legal",
+      "question": "Отозвал согласие, но у организации ещё есть мой незакрытый договор. Это меняет ситуацию?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "condition": "обязательств|договор|закон|основан",
+        "help": "уточн|проверь|запрос|сохран"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-13",
+      "domain": "legal",
+      "question": "Арендодатель удерживает обеспечительный платёж и не объясняет расчёт. Что запросить письменно?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-general"
+      ],
+      "required": {
+        "request": "расч[её]т|обоснован|удерж",
+        "proof": "договор|акт|фотограф|переписк|подтвержден"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-14",
+      "domain": "legal",
+      "question": "Составь нейтральную просьбу вернуть платёж или объяснить удержание.",
+      "previous_questions": [
+        "После выезда арендодатель удерживает обеспечительный платёж."
+      ],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-general"
+      ],
+      "required": {
+        "recipient": "Кому\\s*:|Арендодателю\\s*:|От\\s*:",
+        "request": "Прошу",
+        "money": "вернуть|возврат|удерж"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-15",
+      "domain": "legal",
+      "question": "Застройщик называет договор бронированием, но просит крупный аванс. Какие основания привлечения денег проверить?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "shared-construction"
+      ],
+      "required": {
+        "scope": "договор|схем|способ|основан",
+        "help": "запрос|проверь|разреш|гаранти"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-16",
+      "domain": "legal",
+      "question": "Обещали гарантию на квартиру в рекламе. Какие документы подтверждают именно эту гарантию?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "shared-construction"
+      ],
+      "required": {
+        "proof": "документ|гаранти|договор",
+        "help": "запрос|проверь|сохран"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-17",
+      "domain": "legal",
+      "question": "Судебный исполнитель прислал сообщение со ссылкой на оплату. Как проверить, кому и за что перечислять деньги?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "enforcement"
+      ],
+      "required": {
+        "safety": "официальн|проверь|запрос",
+        "proof": "производств|постановлен|основан|реквизит"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-18",
+      "domain": "legal",
+      "question": "Какие сведения подготовить для обращения за юридической помощью, если денег на юриста нет?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "legal-aid"
+      ],
+      "required": {
+        "help": "документ|обстоятельств|вопрос|категор|услов",
+        "limits": "помощ|консультац|информац"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-19",
+      "domain": "legal",
+      "question": "Напиши обращение с просьбой разъяснить причину отказа.",
+      "previous_questions": [
+        "Мне отказали в государственной услуге без понятного объяснения."
+      ],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "recipient": "Кому\\s*:|От\\s*:|В\\s+\\[",
+        "request": "Прошу",
+        "reason": "причин|основан|отказ"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-20",
+      "domain": "legal",
+      "question": "Знакомый утверждает, что подписанный договор вообще нельзя оспорить. Как проверить такое утверждение?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "civil-general"
+      ],
+      "required": {
+        "limits": "оспор|недейств|услов|основан",
+        "help": "проверь|запрос|уточн|сохран"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-21",
+      "domain": "finance",
+      "question": "В кредитном договоре указаны ставка и ГЭСВ. Почему эти показатели могут отличаться?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "both": "ГЭСВ",
+        "difference": "расход|плат[её]ж|стоимост|комисси"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-22",
+      "domain": "finance",
+      "question": "Банк включил услугу в платёж, но не назвал её отдельно. Что запросить для проверки полной стоимости?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "bank-fees-2026"
+      ],
+      "required": {
+        "proof": "расшифров|расч[её]т|график|тариф",
+        "help": "запрос|проверь|уточн"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-23",
+      "domain": "finance",
+      "question": "Мне предлагают сравнить кредиты только по ежемесячному платежу. Какие ещё сведения нужны?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "compare": "срок|общ|ГЭСВ|комисси",
+        "help": "сравн|проверь|запрос|уточн"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-24",
+      "domain": "finance",
+      "question": "Посчитай точную переплату: сумма 900000 тенге, ГЭСВ 24%.",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "inputs": "график|срок|дат|комисси",
+        "help": "пришлите|уточните|укажите"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-25",
+      "domain": "finance",
+      "question": "Можно ли точно назвать комиссию перевода, если я не указал банк и способ перевода?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "bank-fees-2026"
+      ],
+      "required": {
+        "inputs": "банк|канал|способ|тариф",
+        "help": "уточн|укаж|проверь|пришл"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-26",
+      "domain": "finance",
+      "question": "В сохранённом тарифе нет даты действия. Можно ли считать его сегодняшним?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "bank-fees-2026"
+      ],
+      "required": {
+        "freshness": "дат|актуаль|редакц|действ",
+        "help": "проверь|уточн|запрос"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-27",
+      "domain": "finance",
+      "question": "В отчёте есть незнакомый кредит. Какие подтверждения запросить у организации?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "credit-history"
+      ],
+      "required": {
+        "proof": "договор|заявк|основан|документ",
+        "action": "запрос|оспор|провер|обращени"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-28",
+      "domain": "finance",
+      "question": "Напиши просьбу проверить запись, не обещая автоматически удалить всю историю.",
+      "previous_questions": [
+        "В моём кредитном отчёте указан чужой кредит."
+      ],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "credit-history"
+      ],
+      "required": {
+        "recipient": "Кому\\s*:|От\\s*:|В\\s+\\[",
+        "request": "Прошу",
+        "correction": "провер|исправ"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-29",
+      "domain": "finance",
+      "question": "Оплатил кредит. Что сохранить, если сведения об оплате ещё не отразились?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "credit-history"
+      ],
+      "required": {
+        "proof": "подтвержден|квитанц|выписк|справк",
+        "help": "сохран|запрос|проверь|уточн"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-30",
+      "domain": "finance",
+      "question": "Посредник обещает гарантированное одобрение займа после оплаты. Как проверить предложение?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "nb-faq"
+      ],
+      "required": {
+        "safety": "проверь|не перевод|официальн|запрос",
+        "scope": "гаранти|посредник|кредит|займ"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-31",
+      "domain": "finance",
+      "question": "От имени банка попросили назвать код подтверждения по телефону. Что сделать первым?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "nb-faq"
+      ],
+      "required": {
+        "safety": "не сообщ|не передав|код",
+        "action": "банк|заблок|официальн"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-32",
+      "domain": "finance",
+      "question": "После подозрительного звонка я уже сообщил данные карты. Какие действия нельзя откладывать?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "nb-faq"
+      ],
+      "required": {
+        "action": "блок|банк|доступ|карт",
+        "safety": "официальн|смен|операц"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-33",
+      "domain": "finance",
+      "question": "Страховая уменьшила выплату и не дала расшифровку. Как запросить основание каждого удержания?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "insurance"
+      ],
+      "required": {
+        "proof": "расч[её]т|расшифров|основан",
+        "scope": "полис|вид страхован|договор"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-34",
+      "domain": "finance",
+      "question": "Полис КАСКО и обязательная ответственность — это одно и то же?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "insurance"
+      ],
+      "required": {
+        "one": "КАСКО|машин|имуществ",
+        "two": "ответственност"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-35",
+      "domain": "finance",
+      "question": "Составь запрос расчёта выплаты без утверждения, что страховщик уже нарушил закон.",
+      "previous_questions": [
+        "По моему страховому случаю пришла меньшая сумма, чем я ожидал."
+      ],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "insurance"
+      ],
+      "required": {
+        "recipient": "Кому\\s*:|От\\s*:|В\\s+\\[",
+        "request": "Прошу",
+        "proof": "расч[её]т|удерж|основан"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-36",
+      "domain": "finance",
+      "question": "Я хочу открыть вклад, но банк рекламирует только высокую ставку. Какие ограничения проверить?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "conditions": "срок|снят|пополн|досроч|услов",
+        "help": "проверь|запрос|сравн|уточн"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-37",
+      "domain": "finance",
+      "question": "Просят перевести накопления на безопасный счёт. Как проверить звонящего?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "nb-faq"
+      ],
+      "required": {
+        "safety": "не перевод|официальн|банк|прекрат",
+        "action": "проверь|свяж|заблок|сообщ"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-38",
+      "domain": "finance",
+      "question": "В обменном пункте вывесили один курс, а рассчитали по другому. Какие документы сохранить?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "proof": "чек|квитанц|курс|табло|фото",
+        "help": "сохран|проверь|запрос|уточн"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-39",
+      "domain": "finance",
+      "question": "Мне предлагают вложение с гарантированной огромной доходностью. Какие признаки риска проверить?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "risk": "риск|лиценз|гаранти|доходност",
+        "help": "проверь|не перевод|уточн|запрос"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    },
+    {
+      "id": "heldout-hardening-20261025-40",
+      "domain": "finance",
+      "question": "Можно ли по одному скриншоту тарифа определить все расходы по кредиту?",
+      "previous_questions": [],
+      "candidate_reference": "Кандидат для предметной проверки специалистом: дать помощь по просьбе, сохранить условия и исключения применимого источника. Автоматические признаки не удостоверяют правовую точность.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "gesv-rules-2026"
+      ],
+      "required": {
+        "inputs": "график|договор|комисси|услов",
+        "help": "проверь|пришл|запрос|уточн"
+      },
+      "forbidden": {
+        "automatic_expert_claim": "проверено (?:юристом|финансовым специалистом)|гарантирую (?:выигрыш|одобрение|доход)"
+      },
+      "origin": "developer_authored_reserved_before_changes_not_external_expert_holdout"
+    }
+  ]
+}

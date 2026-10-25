@@ -45,7 +45,7 @@ def refresh_plan(routes, api):
         # Preserve visual layout, credentials, per-stage models, routing and state keys.
         for node in after_graph['nodes']:
             node_id = node['id']
-            if node_id in {'customFunctionAgentflow_1', 'customFunctionAgentflow_2', 'customFunctionAgentflow_3', 'customFunctionAgentflow_4'}:
+            if node_id in {'customFunctionAgentflow_0', 'customFunctionAgentflow_1', 'customFunctionAgentflow_2', 'customFunctionAgentflow_3', 'customFunctionAgentflow_4'}:
                 key = 'customFunctionJavascriptFunction'
             elif node_id == 'agentAgentflow_0':
                 key = 'agentMessages'

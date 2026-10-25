@@ -1,0 +1,1934 @@
+{
+  "schema_version": 1,
+  "status": "tested_and_deployed_not_specialist_certified",
+  "started_on": "2026-10-25",
+  "completed_on": "2026-10-26",
+  "baseline_commit": "e4f1aeef40a0ff8efb01714898f2e4d09cf929b6",
+  "image": "sha256:a96c468d2aae3b9f3053740e0f1b81581477eadad097c9bbfe7907093e4cc807",
+  "experimental_commit_not_activated": "abd5b68ae7cb22e09c05852623a9028db0abfaab",
+  "human_specialist_approvals_created": 0,
+  "raw_answers_exported": false,
+  "synapse_limits_changed": false,
+  "main": {
+    "candidate-age": {
+      "status": "complete",
+      "completed": 1,
+      "summary": {
+        "scenarios": 1,
+        "answered": 1,
+        "not_executed": 0,
+        "generation_failed": 0,
+        "automatic_passed": 0,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 1,
+      "model_returned": 1,
+      "flagged": [
+        {
+          "id": "unseen-20261025-23",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "subject"
+          ],
+          "usefulness_codes": []
+        }
+      ],
+      "timings": {
+        "workflow_attempts": 1,
+        "repair_attempts": 0,
+        "workflow_p50_ms": 7347.26,
+        "workflow_p95_ms": 7347.26,
+        "stages": {
+          "audit": {
+            "executed": 1,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 3806,
+            "workflow_stage_p95_ms": 3806
+          },
+          "decision": {
+            "executed": 1,
+            "untimed": 1,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "draft": {
+            "executed": 1,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2256,
+            "workflow_stage_p95_ms": 2256
+          },
+          "gate": {
+            "executed": 1,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 13,
+            "workflow_stage_p95_ms": 13
+          },
+          "prepare": {
+            "executed": 1,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2,
+            "workflow_stage_p95_ms": 2
+          },
+          "reply": {
+            "executed": 1,
+            "untimed": 1,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "start": {
+            "executed": 1,
+            "untimed": 1,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "unitize": {
+            "executed": 1,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 5,
+            "workflow_stage_p95_ms": 5
+          }
+        }
+      }
+    },
+    "candidate-golden": {
+      "status": "complete",
+      "completed": 20,
+      "summary": {
+        "scenarios": 20,
+        "answered": 20,
+        "not_executed": 0,
+        "generation_failed": 0,
+        "automatic_passed": 20,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 0,
+      "model_returned": 0,
+      "flagged": [],
+      "timings": {
+        "workflow_attempts": 0,
+        "repair_attempts": 0,
+        "workflow_p50_ms": null,
+        "workflow_p95_ms": null,
+        "stages": {}
+      }
+    },
+    "candidate-normal": {
+      "status": "complete",
+      "completed": 125,
+      "summary": {
+        "scenarios": 125,
+        "answered": 125,
+        "not_executed": 0,
+        "generation_failed": 0,
+        "automatic_passed": 125,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 10,
+      "model_returned": 10,
+      "flagged": [],
+      "timings": {
+        "workflow_attempts": 16,
+        "repair_attempts": 15,
+        "workflow_p50_ms": 18510.272,
+        "workflow_p95_ms": 36914.059,
+        "stages": {
+          "audit": {
+            "executed": 16,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 5095,
+            "workflow_stage_p95_ms": 20427
+          },
+          "audit_repaired": {
+            "executed": 15,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4756,
+            "workflow_stage_p95_ms": 13442
+          },
+          "decision": {
+            "executed": 16,
+            "untimed": 16,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "draft": {
+            "executed": 16,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2837,
+            "workflow_stage_p95_ms": 4137
+          },
+          "gate": {
+            "executed": 16,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 8,
+            "workflow_stage_p95_ms": 19
+          },
+          "gate_repaired": {
+            "executed": 15,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 7,
+            "workflow_stage_p95_ms": 23
+          },
+          "prepare": {
+            "executed": 16,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 1,
+            "workflow_stage_p95_ms": 2
+          },
+          "repair": {
+            "executed": 15,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2407,
+            "workflow_stage_p95_ms": 3070
+          },
+          "reply": {
+            "executed": 1,
+            "untimed": 1,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "reply_repaired": {
+            "executed": 15,
+            "untimed": 15,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "start": {
+            "executed": 16,
+            "untimed": 16,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "unitize": {
+            "executed": 16,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 3,
+            "workflow_stage_p95_ms": 16
+          },
+          "unitize_repaired": {
+            "executed": 15,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 3,
+            "workflow_stage_p95_ms": 5
+          }
+        }
+      }
+    },
+    "candidate-heldout": {
+      "status": "complete",
+      "completed": 40,
+      "summary": {
+        "scenarios": 40,
+        "answered": 31,
+        "not_executed": 0,
+        "generation_failed": 9,
+        "automatic_passed": 25,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 34,
+      "model_returned": 25,
+      "flagged": [
+        {
+          "id": "heldout-hardening-20261025-03",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C8:unproven_quantity",
+            "C8:citation_mismatch"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-07",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "scope"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-08",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:citation_mismatch",
+            "C3:unproven_fact_disguised_as_advice",
+            "C5:unsupported",
+            "review_requested_revision",
+            "missing_qualification:child-opinion-not-sole-residence-decision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-10",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "recipient",
+            "request"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-11",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C6:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-14",
+          "error_class": "FlowiseError",
+          "validation_codes": [],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-18",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "invalid_answer_size",
+            "C1:unsupported",
+            "C2:unsupported",
+            "C3:unsupported",
+            "C4:unsupported",
+            "C5:unsupported",
+            "C6:unsupported",
+            "C7:unsupported",
+            "C8:unsupported",
+            "C9:unsupported",
+            "C10:unsupported",
+            "C11:unsupported",
+            "C12:unsupported",
+            "C13:unsupported",
+            "C14:unsupported",
+            "C15:unsupported"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-19",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C6:unproven_fact_disguised_as_advice",
+            "C7:unproven_fact_disguised_as_advice",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-22",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "proof"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-26",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "freshness"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-28",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "recipient"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-31",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unproven_fact_disguised_as_advice",
+            "C2:unsupported",
+            "C3:unproven_fact_disguised_as_advice",
+            "C5:unproven_fact_disguised_as_advice",
+            "C7:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-35",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unproven_fact_disguised_as_advice",
+            "C5:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-36",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "conditions"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-39",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C5:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        }
+      ],
+      "timings": {
+        "workflow_attempts": 63,
+        "repair_attempts": 62,
+        "workflow_p50_ms": 17215.452,
+        "workflow_p95_ms": 30900.24,
+        "stages": {
+          "audit": {
+            "executed": 63,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 5345,
+            "workflow_stage_p95_ms": 8174
+          },
+          "audit_repaired": {
+            "executed": 62,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4321,
+            "workflow_stage_p95_ms": 14145
+          },
+          "decision": {
+            "executed": 63,
+            "untimed": 63,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "draft": {
+            "executed": 63,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2888,
+            "workflow_stage_p95_ms": 3841
+          },
+          "gate": {
+            "executed": 63,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 7,
+            "workflow_stage_p95_ms": 17
+          },
+          "gate_repaired": {
+            "executed": 62,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 6,
+            "workflow_stage_p95_ms": 10
+          },
+          "prepare": {
+            "executed": 63,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 1,
+            "workflow_stage_p95_ms": 2
+          },
+          "repair": {
+            "executed": 62,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2416,
+            "workflow_stage_p95_ms": 3199
+          },
+          "reply": {
+            "executed": 1,
+            "untimed": 1,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "reply_repaired": {
+            "executed": 62,
+            "untimed": 62,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "start": {
+            "executed": 63,
+            "untimed": 63,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "unitize": {
+            "executed": 63,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4,
+            "workflow_stage_p95_ms": 11
+          },
+          "unitize_repaired": {
+            "executed": 62,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 3,
+            "workflow_stage_p95_ms": 10
+          }
+        }
+      }
+    },
+    "candidate-format": {
+      "status": "complete",
+      "completed": 3,
+      "summary": {
+        "scenarios": 3,
+        "answered": 3,
+        "not_executed": 0,
+        "generation_failed": 0,
+        "automatic_passed": 3,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 3,
+      "model_returned": 3,
+      "flagged": [],
+      "timings": {
+        "workflow_attempts": 3,
+        "repair_attempts": 0,
+        "workflow_p50_ms": 9109.794,
+        "workflow_p95_ms": 9215.772,
+        "stages": {
+          "audit": {
+            "executed": 3,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4787,
+            "workflow_stage_p95_ms": 4840
+          },
+          "decision": {
+            "executed": 3,
+            "untimed": 3,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "draft": {
+            "executed": 3,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 3148,
+            "workflow_stage_p95_ms": 3269
+          },
+          "gate": {
+            "executed": 3,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 9,
+            "workflow_stage_p95_ms": 23
+          },
+          "prepare": {
+            "executed": 3,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 1,
+            "workflow_stage_p95_ms": 3
+          },
+          "reply": {
+            "executed": 3,
+            "untimed": 3,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "start": {
+            "executed": 3,
+            "untimed": 3,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "unitize": {
+            "executed": 3,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 5,
+            "workflow_stage_p95_ms": 15
+          }
+        }
+      }
+    },
+    "unit-proof": {
+      "status": "passed",
+      "tests_passed": 1015,
+      "warnings": 20,
+      "elapsed_seconds": 218.55,
+      "javascript_runtime_checks_executed": true
+    },
+    "deployment-proof": {
+      "tested_source_files_checked": 102,
+      "source_mismatches": [],
+      "semantic_loaded": true,
+      "indexed_passages": 28176,
+      "workers": "2",
+      "departments": {
+        "legal": 5,
+        "finance": 5
+      },
+      "protected_routes": 4,
+      "pending": 0,
+      "image": "sha256:a96c468d2aae3b9f3053740e0f1b81581477eadad097c9bbfe7907093e4cc807",
+      "running": true,
+      "public_files_checked": 19,
+      "rate_limits_changed": false
+    },
+    "active-flow-proof": {
+      "active_flows_verified": 2,
+      "first_draft_prompts_match": true,
+      "claim_gates_match": true,
+      "per_stage_models_preserved": true,
+      "layouts_preserved": true,
+      "protected_routes": 4
+    },
+    "test-flow-cleanup": {
+      "own_test_workflows_absent": 4,
+      "active_workflows_unchanged": 2,
+      "protected_routes_unchanged": 4,
+      "raw_data_exported": false
+    },
+    "baseline-equivalence-proof": {
+      "baseline_commit": "e4f1aeef40a0ff8efb01714898f2e4d09cf929b6",
+      "generation_instructions_identical": true,
+      "non_custom_node_inputs_identical": true,
+      "custom_node_logic_identical_except_timing_and_written_age_normalization": true,
+      "other_validation_ast_identical": true,
+      "documented_validation_changes": "whole inflected ages 12..18 become the same numeric years; other numeric/quote checks retained",
+      "topology_and_layout_preserved": true,
+      "legacy_model_case_queries_checked": 185,
+      "changed_legacy_model_case_ids": []
+    },
+    "age_diagnostic": {
+      "id": "unseen-20261025-23",
+      "codes": [
+        "reviewed_model_response_returned",
+        "numeric_user_age_present",
+        "literal_subject_criterion_omits_numeric_age",
+        "no_numeric_quantity_rejection"
+      ],
+      "workflow_attempts": 1,
+      "human_approvals_created": 0
+    },
+    "execution_archive_summary": {
+      "own_synthetic_executions_archived": 79,
+      "private_vm_archives": 2,
+      "raw_data_exported": false
+    },
+    "gate_cause_summary": {
+      "scope": "archived_flagged_synthetic_cases_only_not_all_answers",
+      "own_executions_with_first_gate": 25,
+      "first_gates_rejected": 23,
+      "first_gate_error_counts": {
+        "citation_mismatch": 4,
+        "unsupported": 35,
+        "review_requested_revision": 19,
+        "unproven_fact_disguised_as_advice": 27,
+        "missing_proof": 1
+      },
+      "known_neutral_headings_rejected": 0,
+      "raw_data_exported": false
+    },
+    "matrix_load": {
+      "cohorts": [
+        {
+          "label": "mixed_baseline",
+          "requests": 10,
+          "workers": 1,
+          "inference": "mixed_actual_agentflow_and_source_bound",
+          "ingress_seconds": 0.808,
+          "drain_seconds": 112.31,
+          "max_pending_observed": 10,
+          "latency_p50_seconds": 6.182,
+          "latency_p95_seconds": 112.2,
+          "queue_wait_p95_seconds": 78.221,
+          "service_p95_seconds": 70.408,
+          "preparation_p95_seconds": 70.244,
+          "delivery_p95_seconds": 0.191,
+          "delivery_attempts": 10,
+          "delivery_deferrals": 0,
+          "server_rate_limits": 0,
+          "answered": 10,
+          "duplicates": 0,
+          "generation_errors": 0
+        },
+        {
+          "label": "mixed_parallel",
+          "requests": 10,
+          "workers": 2,
+          "inference": "mixed_actual_agentflow_and_source_bound",
+          "ingress_seconds": 0.65,
+          "drain_seconds": 44.105,
+          "max_pending_observed": 10,
+          "latency_p50_seconds": 6.975,
+          "latency_p95_seconds": 43.999,
+          "queue_wait_p95_seconds": 33.104,
+          "service_p95_seconds": 34.351,
+          "preparation_p95_seconds": 34.196,
+          "delivery_p95_seconds": 0.475,
+          "delivery_attempts": 10,
+          "delivery_deferrals": 0,
+          "server_rate_limits": 0,
+          "answered": 10,
+          "duplicates": 0,
+          "generation_errors": 0
+        },
+        {
+          "label": "source_bound_burst",
+          "requests": 20,
+          "workers": 2,
+          "inference": "source_bound_no_new_model_calls",
+          "ingress_seconds": 1.131,
+          "drain_seconds": 56.411,
+          "max_pending_observed": 20,
+          "latency_p50_seconds": 6.823,
+          "latency_p95_seconds": 51.111,
+          "queue_wait_p95_seconds": 24.448,
+          "service_p95_seconds": 34.343,
+          "preparation_p95_seconds": 4.269,
+          "delivery_p95_seconds": 34.287,
+          "delivery_attempts": 43,
+          "delivery_deferrals": 23,
+          "server_rate_limits": 10,
+          "answered": 20,
+          "duplicates": 0,
+          "generation_errors": 0
+        }
+      ],
+      "recovery": {
+        "offline_answers": 2,
+        "reply_counts": [
+          1,
+          1
+        ],
+        "pending": 0
+      },
+      "feedback": {
+        "acknowledged": 4,
+        "saved_acknowledgements": 2,
+        "updated_acknowledgements": 1,
+        "duplicate_acknowledgements": 1,
+        "records": 2,
+        "categories": {
+          "finance": {
+            "helpful": 1
+          },
+          "legal": {
+            "suspected_error": 1
+          }
+        }
+      },
+      "accounts_deactivated": 12,
+      "content": {
+        "answered_and_checked": 42,
+        "automatic_passed": 42,
+        "expert_accuracy": null
+      },
+      "temporary_credentials_absent": true,
+      "temporary_env_absent": true
+    }
+  },
+  "experiment": {
+    "candidate-focus": {
+      "status": "complete",
+      "completed": 10,
+      "summary": {
+        "scenarios": 10,
+        "answered": 7,
+        "not_executed": 0,
+        "generation_failed": 3,
+        "automatic_passed": 1,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 10,
+      "model_returned": 7,
+      "flagged": [
+        {
+          "id": "child-opinion",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:citation_mismatch",
+            "C2:citation_mismatch",
+            "missing_qualification:child-opinion-not-sole-residence-decision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "model-expanded-help-finance-credit-report",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "2",
+            "3"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "model-expanded-help-legal-construction",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1",
+            "3"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1",
+            "3"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "unseen-20261025-06",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C8:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "unseen-20261025-13",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "limit"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "unseen-20261025-19",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "unseen-20261025-22",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "scope"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "unseen-20261025-23",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "subject",
+            "help"
+          ],
+          "usefulness_codes": []
+        }
+      ],
+      "timings": {
+        "workflow_attempts": 19,
+        "repair_attempts": 16,
+        "workflow_p50_ms": 18563.499,
+        "workflow_p95_ms": 37964.314,
+        "stages": {
+          "audit": {
+            "executed": 19,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 5288,
+            "workflow_stage_p95_ms": 32706
+          },
+          "audit_repaired": {
+            "executed": 16,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4010,
+            "workflow_stage_p95_ms": 18209
+          },
+          "decision": {
+            "executed": 19,
+            "untimed": 19,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "draft": {
+            "executed": 19,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 3199,
+            "workflow_stage_p95_ms": 5112
+          },
+          "gate": {
+            "executed": 19,
+            "untimed": 19,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "gate_repaired": {
+            "executed": 16,
+            "untimed": 16,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "prepare": {
+            "executed": 19,
+            "untimed": 19,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "repair": {
+            "executed": 16,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2661,
+            "workflow_stage_p95_ms": 3934
+          },
+          "reply": {
+            "executed": 3,
+            "untimed": 3,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "reply_repaired": {
+            "executed": 16,
+            "untimed": 16,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "start": {
+            "executed": 19,
+            "untimed": 19,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "unitize": {
+            "executed": 19,
+            "untimed": 19,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "unitize_repaired": {
+            "executed": 16,
+            "untimed": 16,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          }
+        }
+      }
+    },
+    "candidate-focus-final": {
+      "status": "complete",
+      "completed": 10,
+      "summary": {
+        "scenarios": 10,
+        "answered": 5,
+        "not_executed": 0,
+        "generation_failed": 5,
+        "automatic_passed": 0,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 10,
+      "model_returned": 5,
+      "flagged": [
+        {
+          "id": "marriage",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "child-property",
+            "parent-duties"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "child-opinion",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:citation_mismatch",
+            "C2:citation_mismatch",
+            "C4:unproven_fact_disguised_as_advice",
+            "missing_qualification:child-opinion-not-sole-residence-decision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "model-expanded-help-finance-credit-report",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "2",
+            "3"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "model-expanded-help-legal-construction",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1",
+            "3"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "unseen-20261025-06",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C5:unproven_fact_disguised_as_advice"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "unseen-20261025-13",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "limit"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "unseen-20261025-19",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:invalid_user_context"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "unseen-20261025-22",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C2:unsupported",
+            "C6:unsupported",
+            "C7:unsupported",
+            "C8:unsupported",
+            "C9:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "unseen-20261025-23",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unproven_quantity",
+            "C3:unsupported",
+            "C5:unproven_quantity",
+            "missing_qualification:minor-employment-subject",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        }
+      ],
+      "timings": {
+        "workflow_attempts": 18,
+        "repair_attempts": 17,
+        "workflow_p50_ms": 19001.936,
+        "workflow_p95_ms": 38010.122,
+        "stages": {
+          "audit": {
+            "executed": 18,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 5600,
+            "workflow_stage_p95_ms": 16693
+          },
+          "audit_repaired": {
+            "executed": 17,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4658,
+            "workflow_stage_p95_ms": 28275
+          },
+          "decision": {
+            "executed": 18,
+            "untimed": 18,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "draft": {
+            "executed": 18,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2712,
+            "workflow_stage_p95_ms": 3885
+          },
+          "gate": {
+            "executed": 18,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 6,
+            "workflow_stage_p95_ms": 20
+          },
+          "gate_repaired": {
+            "executed": 17,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 6,
+            "workflow_stage_p95_ms": 24
+          },
+          "prepare": {
+            "executed": 18,
+            "untimed": 18,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "repair": {
+            "executed": 17,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2531,
+            "workflow_stage_p95_ms": 3364
+          },
+          "reply": {
+            "executed": 1,
+            "untimed": 1,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "reply_repaired": {
+            "executed": 17,
+            "untimed": 17,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "start": {
+            "executed": 18,
+            "untimed": 18,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "unitize": {
+            "executed": 18,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4,
+            "workflow_stage_p95_ms": 13
+          },
+          "unitize_repaired": {
+            "executed": 17,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 3,
+            "workflow_stage_p95_ms": 6
+          }
+        }
+      }
+    },
+    "candidate-forced": {
+      "status": "complete",
+      "completed": 60,
+      "summary": {
+        "scenarios": 60,
+        "answered": 58,
+        "not_executed": 0,
+        "generation_failed": 2,
+        "automatic_passed": 52,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 57,
+      "model_returned": 55,
+      "flagged": [
+        {
+          "id": "wage-letter",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C8:citation_mismatch",
+            "C13:unproven_fact_disguised_as_advice"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "marriage",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "child-property"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "child-opinion",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:citation_mismatch",
+            "C2:unsupported",
+            "missing_qualification:child-opinion-not-sole-residence-decision",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "gesv-costs",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "insurance"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "model-expanded-help-legal-credit-fix",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "3"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "model-expanded-help-finance-credit-report",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "2",
+            "3"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "model-expanded-help-legal-construction",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "1",
+            "3"
+          ],
+          "usefulness_codes": []
+        }
+      ],
+      "timings": {
+        "workflow_attempts": 97,
+        "repair_attempts": 87,
+        "workflow_p50_ms": 17426.866,
+        "workflow_p95_ms": 55296.03,
+        "stages": {
+          "audit": {
+            "executed": 97,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 5211,
+            "workflow_stage_p95_ms": 16579
+          },
+          "audit_repaired": {
+            "executed": 87,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4332,
+            "workflow_stage_p95_ms": 29461
+          },
+          "decision": {
+            "executed": 97,
+            "untimed": 97,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "draft": {
+            "executed": 97,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2789,
+            "workflow_stage_p95_ms": 3997
+          },
+          "gate": {
+            "executed": 97,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 8,
+            "workflow_stage_p95_ms": 18
+          },
+          "gate_repaired": {
+            "executed": 87,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 7,
+            "workflow_stage_p95_ms": 17
+          },
+          "prepare": {
+            "executed": 97,
+            "untimed": 97,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "repair": {
+            "executed": 87,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2733,
+            "workflow_stage_p95_ms": 3573
+          },
+          "reply": {
+            "executed": 10,
+            "untimed": 10,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "reply_repaired": {
+            "executed": 87,
+            "untimed": 87,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "start": {
+            "executed": 97,
+            "untimed": 97,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "unitize": {
+            "executed": 97,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4,
+            "workflow_stage_p95_ms": 11
+          },
+          "unitize_repaired": {
+            "executed": 87,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 3,
+            "workflow_stage_p95_ms": 7
+          }
+        }
+      }
+    },
+    "candidate-normal": {
+      "status": "complete",
+      "completed": 125,
+      "summary": {
+        "scenarios": 125,
+        "answered": 125,
+        "not_executed": 0,
+        "generation_failed": 0,
+        "automatic_passed": 125,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 10,
+      "model_returned": 10,
+      "flagged": [],
+      "timings": {
+        "workflow_attempts": 19,
+        "repair_attempts": 19,
+        "workflow_p50_ms": 17626.303,
+        "workflow_p95_ms": 33384.943,
+        "stages": {
+          "audit": {
+            "executed": 19,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 5669,
+            "workflow_stage_p95_ms": 14153
+          },
+          "audit_repaired": {
+            "executed": 19,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4509,
+            "workflow_stage_p95_ms": 15857
+          },
+          "decision": {
+            "executed": 19,
+            "untimed": 19,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "draft": {
+            "executed": 19,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2984,
+            "workflow_stage_p95_ms": 4566
+          },
+          "gate": {
+            "executed": 19,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 10,
+            "workflow_stage_p95_ms": 18
+          },
+          "gate_repaired": {
+            "executed": 19,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 6,
+            "workflow_stage_p95_ms": 17
+          },
+          "prepare": {
+            "executed": 19,
+            "untimed": 19,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "repair": {
+            "executed": 19,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2342,
+            "workflow_stage_p95_ms": 3191
+          },
+          "reply_repaired": {
+            "executed": 19,
+            "untimed": 19,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "start": {
+            "executed": 19,
+            "untimed": 19,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "unitize": {
+            "executed": 19,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4,
+            "workflow_stage_p95_ms": 15
+          },
+          "unitize_repaired": {
+            "executed": 19,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 3,
+            "workflow_stage_p95_ms": 5
+          }
+        }
+      }
+    },
+    "candidate-heldout": {
+      "status": "complete",
+      "completed": 40,
+      "summary": {
+        "scenarios": 40,
+        "answered": 30,
+        "not_executed": 0,
+        "generation_failed": 10,
+        "automatic_passed": 26,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 34,
+      "model_returned": 24,
+      "flagged": [
+        {
+          "id": "heldout-hardening-20261025-03",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C6:unproven_fact_disguised_as_advice"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-05",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C2:unsupported",
+            "C6:unproven_fact_disguised_as_advice",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-10",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "recipient"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-11",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unproven_fact_disguised_as_advice",
+            "C2:unsupported",
+            "C4:unproven_fact_disguised_as_advice",
+            "C8:unproven_fact_disguised_as_advice",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-14",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C7:unproven_fact_disguised_as_advice"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-18",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C9:unsupported",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-19",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C6:unproven_fact_disguised_as_advice"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-22",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C7:unproven_fact_disguised_as_advice",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-23",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-26",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "freshness"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-28",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C5:unproven_fact_disguised_as_advice",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-31",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C1:unsupported",
+            "C3:unproven_fact_disguised_as_advice",
+            "review_requested_revision"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-35",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "recipient",
+            "request"
+          ],
+          "usefulness_codes": []
+        },
+        {
+          "id": "heldout-hardening-20261025-36",
+          "error_class": null,
+          "validation_codes": [],
+          "missing_conditions": [
+            "conditions"
+          ],
+          "usefulness_codes": []
+        }
+      ],
+      "timings": {
+        "workflow_attempts": 66,
+        "repair_attempts": 64,
+        "workflow_p50_ms": 17487.228,
+        "workflow_p95_ms": 32429.978,
+        "stages": {
+          "audit": {
+            "executed": 66,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 5468,
+            "workflow_stage_p95_ms": 10552
+          },
+          "audit_repaired": {
+            "executed": 64,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4209,
+            "workflow_stage_p95_ms": 11953
+          },
+          "decision": {
+            "executed": 66,
+            "untimed": 66,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "draft": {
+            "executed": 66,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2936,
+            "workflow_stage_p95_ms": 3946
+          },
+          "gate": {
+            "executed": 66,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4,
+            "workflow_stage_p95_ms": 12
+          },
+          "gate_repaired": {
+            "executed": 64,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 6,
+            "workflow_stage_p95_ms": 13
+          },
+          "prepare": {
+            "executed": 66,
+            "untimed": 66,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "repair": {
+            "executed": 64,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2586,
+            "workflow_stage_p95_ms": 3508
+          },
+          "reply": {
+            "executed": 2,
+            "untimed": 2,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "reply_repaired": {
+            "executed": 64,
+            "untimed": 64,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "start": {
+            "executed": 66,
+            "untimed": 66,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "unitize": {
+            "executed": 66,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4,
+            "workflow_stage_p95_ms": 11
+          },
+          "unitize_repaired": {
+            "executed": 64,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 3,
+            "workflow_stage_p95_ms": 12
+          }
+        }
+      }
+    },
+    "candidate-format": {
+      "status": "complete",
+      "completed": 3,
+      "summary": {
+        "scenarios": 3,
+        "answered": 1,
+        "not_executed": 0,
+        "generation_failed": 2,
+        "automatic_passed": 1,
+        "specialist_scored": 0,
+        "expert_accuracy": null,
+        "expert_usefulness": null,
+        "expert_exceptions": null
+      },
+      "model_attempted": 3,
+      "model_returned": 1,
+      "flagged": [
+        {
+          "id": "format-credit-letter-repeat-2",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [
+            "C8:citation_mismatch"
+          ],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        },
+        {
+          "id": "format-credit-letter-repeat-3",
+          "error_class": "FlowiseReviewRejected",
+          "validation_codes": [],
+          "missing_conditions": [],
+          "usefulness_codes": []
+        }
+      ],
+      "timings": {
+        "workflow_attempts": 5,
+        "repair_attempts": 4,
+        "workflow_p50_ms": 16807.635,
+        "workflow_p95_ms": 18667.725,
+        "stages": {
+          "audit": {
+            "executed": 5,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 5251,
+            "workflow_stage_p95_ms": 5572
+          },
+          "audit_repaired": {
+            "executed": 4,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4296,
+            "workflow_stage_p95_ms": 5307
+          },
+          "decision": {
+            "executed": 5,
+            "untimed": 5,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "draft": {
+            "executed": 5,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 3015,
+            "workflow_stage_p95_ms": 3327
+          },
+          "gate": {
+            "executed": 5,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 8,
+            "workflow_stage_p95_ms": 15
+          },
+          "gate_repaired": {
+            "executed": 4,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 6,
+            "workflow_stage_p95_ms": 7
+          },
+          "prepare": {
+            "executed": 5,
+            "untimed": 5,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "repair": {
+            "executed": 4,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 2668,
+            "workflow_stage_p95_ms": 3296
+          },
+          "reply": {
+            "executed": 1,
+            "untimed": 1,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "reply_repaired": {
+            "executed": 4,
+            "untimed": 4,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "start": {
+            "executed": 5,
+            "untimed": 5,
+            "workflow_stage_p50_ms": null,
+            "workflow_stage_p95_ms": null
+          },
+          "unitize": {
+            "executed": 5,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 6,
+            "workflow_stage_p95_ms": 10
+          },
+          "unitize_repaired": {
+            "executed": 4,
+            "untimed": 0,
+            "workflow_stage_p50_ms": 4,
+            "workflow_stage_p95_ms": 7
+          }
+        }
+      }
+    },
+    "assessment-corrected-old-final-summary": {
+      "assessed": 4,
+      "assessment_errors": 0,
+      "finding_counts": {
+        "request_not_answered": 3,
+        "insufficient_evidence": 13,
+        "unsupported_rule": 1,
+        "unhelpful_handoff": 1
+      },
+      "cases": [
+        {
+          "id": "marriage",
+          "status": "assessed",
+          "finding_codes": [
+            "request_not_answered",
+            "insufficient_evidence",
+            "unsupported_rule"
+          ]
+        },
+        {
+          "id": "model-expanded-help-finance-credit-report",
+          "status": "assessed",
+          "finding_codes": [
+            "request_not_answered",
+            "unhelpful_handoff",
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "model-expanded-help-legal-construction",
+          "status": "assessed",
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "model-expanded-help-finance-auto-costs",
+          "status": "assessed",
+          "finding_codes": [
+            "request_not_answered",
+            "insufficient_evidence"
+          ]
+        }
+      ]
+    },
+    "assessment-corrected-old-additional-summary": {
+      "assessed": 2,
+      "assessment_errors": 0,
+      "finding_counts": {
+        "wrong_scope": 2,
+        "missing_condition": 1,
+        "insufficient_evidence": 2,
+        "unhelpful_handoff": 1,
+        "request_not_answered": 1
+      },
+      "cases": [
+        {
+          "id": "unseen-20261025-13",
+          "status": "assessed",
+          "finding_codes": [
+            "wrong_scope",
+            "missing_condition",
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "unseen-20261025-23",
+          "status": "assessed",
+          "finding_codes": [
+            "wrong_scope",
+            "unhelpful_handoff",
+            "insufficient_evidence",
+            "request_not_answered"
+          ]
+        }
+      ]
+    },
+    "unit-proof": {
+      "status": "passed",
+      "tests_passed": 1001,
+      "warnings": 20,
+      "elapsed_seconds": 222.78,
+      "javascript_runtime_checks_executed": true
+    },
+    "retrieval-proof": {
+      "legacy_queries_checked": 379,
+      "changed_legacy_ids": [],
+      "targeted_minor_employment_found": true,
+      "targeted_sections": [
+        {
+          "document": "labor",
+          "section": "Статья 31. Возраст, с которого допускается заключение трудового договора"
+        },
+        {
+          "document": "labor",
+          "section": "Статья 26. Запреты и ограничения на заключение трудового договора и трудоустройство"
+        },
+        {
+          "document": "labor",
+          "section": "Статья 69. Сокращенная продолжительность рабочего времени для отдельных категорий"
+        },
+        {
+          "document": "labor",
+          "section": "Статья 26. Запреты и ограничения на заключение трудового договора и трудоустройство"
+        },
+        {
+          "document": "labor",
+          "section": "Статья 26. Запреты и ограничения на заключение трудового договора и трудоустройство"
+        },
+        {
+          "document": "labor",
+          "section": "Статья 204. Порядок введения в действие настоящего Кодекса"
+        },
+        {
+          "document": "labor",
+          "section": "Статья 69. Сокращенная продолжительность рабочего времени для отдельных категорий"
+        },
+        {
+          "document": "labor",
+          "section": "Статья 68. Нормальная продолжительность рабочего времени"
+        }
+      ],
+      "corpus_changed": false
+    }
+  },
+  "limitations": [
+    "Automated wording checks are not legal accuracy.",
+    "Author-created reserved questions, not an external expert holdout.",
+    "Model review is fallible and uses the same family of local models.",
+    "Server does not publish durations for start/condition/direct replies; null is not zero.",
+    "No model weights, corpus, key scopes or Synapse rate limits changed."
+  ]
+}

@@ -106,6 +106,9 @@ def query_hints(question):
     if re.search(r'трудов.{0,20}договор',question,re.I) and re.search(r'гпх|подряд',question,re.I) and re.search(r'отлич|разниц|сравн',question,re.I):
         expansions.append('отличительные признаки трудового договора трудовая функция личное выполнение подчинение трудовому распорядку')
         documents.add('labor');sections.setdefault('labor',[]).append('Статья 27.')
+    if minor_employment_question(question):
+        expansions.append('заключение трудового договора несовершеннолетний возраст согласие ограничения продолжительность рабочего времени')
+        documents.add('labor');sections.setdefault('labor',[]).extend(['Статья 31.','Статья 26.','Статья 69.'])
     if colloquial_work_payment(question):
         expansions.append('работодатель заработная плата задолженность дата выплаты работнику')
         documents.add('labor');sections.setdefault('labor',[]).append('Статья 113.')
@@ -180,3 +183,14 @@ def auto_liability_definition(question):
 
 def collector_contact_question(question):
     return bool(re.search(r'коллектор|взыскател.{0,15}долг|звон.{0,20}чуж.{0,10}долг',question,re.I))
+
+
+def minor_employment_question(question):
+    """A minor asking about employment, not any financial product or contract."""
+    q=question.casefold().split('\nпредыдущий вопрос:')[0]
+    if re.search(r'кредит|за[её]м|ипотек|вклад|депозит|страх|алимент|брачн|гпх|подряд',q):return False
+    ages=[int(m[1]) for m in re.finditer(r'(?<!\d)(\d{1,2})\s*(?:лет|год)',q)]
+    minor=any(12<=age<18 for age in ages) or bool(re.search(r'несовершеннолет|подрост',q))
+    work=re.search(r'подработ|трудов|трудоустро|работодател|на работу|работать',q)
+    action=re.search(r'договор|подпис|устро|работать|при[её]м|наним',q)
+    return bool(minor and work and action)

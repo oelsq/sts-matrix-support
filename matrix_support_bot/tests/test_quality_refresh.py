@@ -52,3 +52,22 @@ def test_quality_refresh_refuses_unknown_or_independently_changed_workflows(chan
         else:graph['nodes'][2]['data']['inputs']['agentEnableMemory']=True
         flows['legal']['flowData']=json.dumps(graph)
     with pytest.raises(ValueError):refresh_plan(routes,api)
+
+
+def test_refresh_instruments_preparation_without_changing_models_or_layout():
+    routes,flows,api=fixtures()
+    for flow in flows.values():
+        graph=json.loads(flow['flowData']);prepare=graph['nodes'][1]['data']['inputs']
+        wrapped=prepare['customFunctionJavascriptFunction']
+        assert wrapped.count('const __sts_started=Date.now()')==1
+        prepare['customFunctionJavascriptFunction']=wrapped.split('const __sts_result=(()=>{\n',1)[1].split('\n})();',1)[0]
+        flow['flowData']=json.dumps(graph)
+    before=copy.deepcopy(flows);plan=refresh_plan(routes,api);apply_plan(plan,routes,api,lambda _:None)
+    for domain,flow in flows.items():
+        after=json.loads(flow['flowData']);old=json.loads(before[domain]['flowData'])
+        assert after['nodes'][1]['data']['inputs']['customFunctionJavascriptFunction'].count('const __sts_started=Date.now()')==1
+        assert after['nodes'][1]['position']==old['nodes'][1]['position']
+        assert after['nodes'][2]['data']['inputs']==old['nodes'][2]['data']['inputs']
+    stable=copy.deepcopy(flows);next_plan=refresh_plan(routes,api)
+    apply_plan(next_plan,routes,api,lambda _:None)
+    assert flows==stable

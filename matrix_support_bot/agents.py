@@ -423,6 +423,8 @@ def unsupported_quantities(answer, question, evidence, cited):
     establish that a real source was interpreted correctly.
     """
     def normalized(text):
+        from numeric_grounding import normalize_age_words
+        text=normalize_age_words(text)
         # «По нулевой ставке» is a percentage rate, not an untyped zero.
         text = re.sub(r"\bнулев(?:ая|ой|ую|ое|ые|ых|ым|ыми|ом)\s+(?:налогов\w+\s+)?ставк\w*", "0 процентов", text, flags=re.I)
         text = re.sub(r"\b(?:ноль|нуль|нулев(?:ая|ой|ую|ое|ые|ых|ым|ыми|ом))\b", "0", text, flags=re.I)

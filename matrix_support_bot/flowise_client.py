@@ -3,6 +3,11 @@ import hashlib
 import json
 import re
 import uuid
+import time
+import logging
+from workflow_metrics import PredictionText, execution_metrics
+
+log = logging.getLogger("support_bot.flowise_metrics")
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -82,9 +87,14 @@ class FlowiseClient:
             packet=workflow_packet(domain,draft_messages,review_messages)
         session=hashlib.sha256(('\0'.join([room,sender,event_id,'agentflow_v2'])).encode()).hexdigest()
         text=await self._prediction(http,self.routes[room]['flow_id'],json.dumps(packet,ensure_ascii=False),session,240 if quality else 150,max_bytes=8*1024*1024 if quality else 2*1024*1024)
+        metrics = dict(getattr(text, 'workflow_metrics', {}))
+        log.info('Flowise workflow summary: %s', json.dumps(dict(metrics, domain=domain), sort_keys=True))
         if quality:
             from agentflow_claims import accept_quality_response
-            try:return accept_quality_response(text,packet)
+            try:
+                accepted = accept_quality_response(text,packet)
+                accepted.workflow_metrics = metrics
+                return accepted
             except (ValueError,TypeError,KeyError) as exc:
                 hints=();codes=()
                 try:
@@ -101,7 +111,9 @@ class FlowiseClient:
                         raw=response.get('retrieval_hints',[])
                         if isinstance(raw,list) and len(raw)<=4 and all(isinstance(h,str) and len(h)<=400 for h in raw):hints=tuple(raw)
                 except (ValueError,TypeError):pass
-                raise FlowiseReviewRejected('Claim contract rejected: '+str(exc),retrieval_hints=hints,validation_errors=codes) from None
+                rejected = FlowiseReviewRejected('Claim contract rejected: '+str(exc),retrieval_hints=hints,validation_errors=codes)
+                rejected.workflow_metrics = metrics
+                raise rejected from None
         return text
 
     async def predict(self, http, domain, room, sender, event_id, messages, *, stage="draft"):
@@ -120,6 +132,7 @@ class FlowiseClient:
         return await self._prediction(http,flow_id,prompt,session,self.timeout)
 
     async def _prediction(self,http,flow_id,prompt,session,timeout,*,max_bytes=2*1024*1024):
+        started = time.perf_counter()
         body = {'question': prompt, 'streaming': False, 'overrideConfig': {'sessionId': session}}
         async with http.post(self.url + '/api/v1/prediction/' + flow_id,
                              json=body, headers={'Authorization': 'Bearer ' + self.api_key},
@@ -135,4 +148,6 @@ class FlowiseClient:
         text = result.get('text') if isinstance(result, dict) else None
         if not isinstance(text, str) or not text.strip() or len(text) > 60000:
             raise FlowiseError('Flowise returned an invalid answer')
-        return text.strip()
+        metrics = execution_metrics(result)
+        metrics["elapsed_ms"] = round((time.perf_counter() - started) * 1000, 3)
+        return PredictionText(text.strip(), metrics)
