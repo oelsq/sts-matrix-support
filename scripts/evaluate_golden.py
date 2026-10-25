@@ -24,7 +24,7 @@ async def run(args):
             prepared=prepare_local_reply(case['domain'],case['question'],store,search_question=search,previous_question=previous)
             answer=prepared.answer;mechanism=prepared.mechanism;error=None;error_detail=None
             forced=bool(getattr(args,'force_model',False))
-            attempted=False;validation_errors=[]
+            attempted=False;validation_errors=[];workflow_metrics=[]
             if forced and prepared.mechanism not in {'clarification','cashflow_calculator','no_evidence_fallback'}:
                 evidence=prepare_model_evidence(case['domain'],search,store)
                 if evidence:
@@ -36,9 +36,9 @@ async def run(args):
                 attempted=True
                 try:answer=await live_answer(case['domain'],case['question'],prepared.evidence,previous,args.live,case['id'],knowledge=store);mechanism='agentflow_v2' if args.live=='flowise' else 'direct_model'
                 except Exception as exc:
-                    error=type(exc).__name__;error_detail=str(exc)[:300];validation_errors=list(getattr(exc,'validation_errors',()))
+                    error=type(exc).__name__;error_detail=str(exc)[:300];validation_errors=list(getattr(exc,'validation_errors',()));workflow_metrics=list(getattr(exc,'workflow_metrics',[]))
             actual_evidence=getattr(answer,'evidence',prepared.evidence)
-            row={'validation_errors':validation_errors,'force_model_requested':forced,'model_attempted':attempted,'model_response_returned':attempted and answer is not None,'local_mechanism':prepared.mechanism,'research_attempts':getattr(answer,'research_attempts',0),'id':case['id'],'case_sha256':digest(case),'domain':case['domain'],'question':case['question'],'candidate_reference':case['candidate_reference'],'answer':answer,'mechanism':mechanism,'error':error,'error_detail':error_detail,
+            row={'workflow_metrics':getattr(answer,'workflow_metrics',workflow_metrics),'validation_errors':validation_errors,'force_model_requested':forced,'model_attempted':attempted,'model_response_returned':attempted and answer is not None,'local_mechanism':prepared.mechanism,'research_attempts':getattr(answer,'research_attempts',0),'id':case['id'],'case_sha256':digest(case),'domain':case['domain'],'question':case['question'],'candidate_reference':case['candidate_reference'],'answer':answer,'mechanism':mechanism,'error':error,'error_detail':error_detail,
                  'evidence':[{'id':p['id'],'document':p['document_id'],'source':p['source'],'version':p.get('version'),'section':p.get('section'),'text':p['text']} for p in actual_evidence or []],
                  'checks':automated_checks(case,answer,actual_evidence) if answer else None,
                  'reviews':current_reviews(case,fingerprint,answer,records),'milliseconds':round((time.monotonic()-started)*1000,2)}

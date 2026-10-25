@@ -33,8 +33,20 @@ AUDIT += "\nНе связывай похожие фрагменты по одн�
 REPAIR += "\nЕсли пропущена missing_qualification, внеси именно её смысл в текст ответа. Не меняй ссылку без повторного выбора подтверждающего фрагмента. Полевой заполнитель с ярлыком «Кредитор:», «Договор:», «Спорная запись:» или «Приложения:» не заполняй вымышленными сведениями."
 
 
+
+DRAFT += "\nПроверь роли: кто задаёт вопрос, кто должен выполнить действие и кому направляется просьба. Норма об обязанности поставщика сведений не является инструкцией заявителю. Для вопроса «как получить» дай применимый организационный шаг и адресата, если они подтверждены источником; отсутствие описания конкретного канала обозначь узко. При споре не объявляй нарушение уже доказанным."
+REPAIR += "\nВ claim_feedback перечислены конкретные строки, их ссылки и выбранные проверкой локаторы доказательств. Это ориентир для исправления, не готовое подтверждение вывода. Перечитай соответствующие выдержки: исправь либо смысл строки, либо неверный S, сохрани условия и повторно пройди проверку. Для неподтверждённого факта не добавляй случайную ссылку."
+
+
 def unit_code():
     return (ROOT/'claim_gate.js').read_text().split('const answer = $flow.state.draft;')[0]
+
+
+
+def timed_custom_function(code):
+    """Time our pure custom nodes without changing their state contract."""
+    return ('const __sts_started=Date.now();\nconst __sts_result=(()=>{\n' + code +
+            '\n})();\nconst __sts_ended=Date.now();\nreturn {...__sts_result,timeMetadata:{start:__sts_started,end:__sts_ended,delta:__sts_ended-__sts_started}};')
 
 
 def build_quality_agentflow(definitions, domain, model_config):
@@ -46,6 +58,9 @@ def build_quality_agentflow(definitions, domain, model_config):
         ident=name+'_'+str(index);definition=copy.deepcopy(definitions[name])
         if definition.get('name')!=name or definition.get('category')!='Agent Flows':raise ValueError('Unexpected node definition')
         anchors=[] if name=='directReplyAgentflow' else ([{'id':ident+'-output-'+str(i),'label':v,'name':str(i)} for i,v in enumerate(['Проверено','Нужна доработка'])] if name=='conditionAgentflow' else [{'id':ident+'-output-'+name,'label':label,'name':name}])
+        if name=='customFunctionAgentflow':
+            inputs=copy.deepcopy(inputs)
+            inputs['customFunctionJavascriptFunction']=timed_custom_function(inputs['customFunctionJavascriptFunction'])
         data=dict(definition,id=ident,label=label,inputs=inputs,outputs={},inputParams=[dict(p,id=ident+'-input-'+p['name']+'-'+p['type'],display=True) for p in definition.get('inputs',[])],inputAnchors=[],outputAnchors=anchors)
         nodes.append({'id':ident,'type':'agentFlow','position':{'x':x,'y':y},'data':data});return ident
     def edge(a,b,branch=None):
