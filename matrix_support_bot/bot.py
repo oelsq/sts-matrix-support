@@ -224,17 +224,14 @@ async def main():
             if feedback is not None:
                 await dispatcher.send(room_id=room.room_id, message_type="m.room.message", content=matrix_content(feedback))
                 return
-            if question.strip().casefold() == "!помощь":
-                await dispatcher.send(room_id=room.room_id, message_type="m.room.message", content=matrix_content(
-                    "**Как пользоваться**\n\nЗадайте вопрос обычными словами. Для продолжения напишите уточнение в этом же чате.\n\n"
-                    "- `!человек` — обратиться к сотруднику выбранного департамента.\n"
-                    "- `!сотрудники` — список сотрудников и команды выбора.\n"
-                    "- `!юрдеп2` или `!финдеп3` — выбрать конкретного сотрудника.\n"
-                    "- `!другой` — сменить сотрудника; используйте команду здесь, в чате ИИ.\n"
-                    "- `!новый` — начать новую тему.\n"
-                    "- `!оценка полезно` / `!оценка неполно` / `!оценка ошибка` / `!оценка не помогло` — оценить свой последний ответ.\n"
-                    "- `!база` — посмотреть доступные темы знаний.\n"
-                    "- `!расчёт` — шаблон точного расчёта переплаты по полному графику платежей."))
+            from bot_help import help_reply
+            help_domain = fixed_routes.get(room.room_id)
+            if help_domain is None and len(previous_routes.get(key, ())) == 1:
+                help_domain = previous_routes[key][0]
+            help_answer = help_reply(question, help_domain)
+            if help_answer is not None:
+                await dispatcher.send(room_id=room.room_id, message_type="m.room.message",
+                                       content=matrix_content(help_answer))
                 return
             if question.strip().casefold() == "!новый":
                 conversations.clear(room.room_id, event.sender)

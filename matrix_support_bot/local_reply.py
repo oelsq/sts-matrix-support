@@ -32,6 +32,10 @@ def prepare_model_evidence(domain, question, knowledge, evidence=None):
 
 
 def prepare_local_reply(domain, question, knowledge, *, search_question=None, previous_question=""):
+    from bot_help import help_reply
+    help_answer = help_reply(question, domain)
+    if help_answer is not None:
+        return PreparedReply(None, help_answer, "service_help")
     from cashflow_calculator import calculator_reply
     calculated=calculator_reply(question)
     if calculated:return PreparedReply(None,calculated,'cashflow_calculator')
