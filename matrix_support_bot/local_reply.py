@@ -39,6 +39,10 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
     from cashflow_calculator import calculator_reply
     calculated=calculator_reply(question)
     if calculated:return PreparedReply(None,calculated,'cashflow_calculator')
+    from arithmetic_reply import arithmetic_reply
+    arithmetic = arithmetic_reply(question, previous_question=previous_question)
+    if arithmetic is not None:
+        return PreparedReply(None, arithmetic, "arithmetic")
     search_question = search_question or question
     clarification = request_clarification(domain, search_question, previous_question)
     if clarification:
