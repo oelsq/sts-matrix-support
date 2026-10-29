@@ -151,3 +151,23 @@ def test_production_matrix_help_bypasses_model_and_preserves_context(monkeypatch
         expected = bot.matrix_content(help_reply(question, domain))["body"]
         assert any(item["room_id"] == room and item["content"]["body"] == expected for item in output)
     assert all("временно недоступен" not in item["content"]["body"] for item in output)
+
+
+@pytest.mark.parametrize('question',[
+    'Какие команды есть для выбора сотрудника?',
+    'Как перейти к другому сотруднику?',
+    'Как сменить сотрудника по номеру?',
+    'Как связаться с человеком?',
+])
+def test_employee_navigation_uses_implemented_help(question):
+    answer=help_reply(question,'legal')
+    assert answer and '!другой' in answer and '!сотрудники' in answer
+
+
+@pytest.mark.parametrize('question',[
+    'Работодатель заставляет выбрать другого сотрудника для увольнения. Что делать?',
+    'Как перейти к другому сотруднику и обжаловать судебное решение?',
+    'Какие команды есть у судебного исполнителя?',
+])
+def test_navigation_words_do_not_swallow_substantive_legal_questions(question):
+    assert help_reply(question,'legal') is None

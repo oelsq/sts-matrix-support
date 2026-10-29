@@ -1,0 +1,10 @@
+{
+  "sha256": "2387b81a497213f50adaa538b5cc1e73f408b5a90636626beb90c220146471d0",
+  "cases": 280,
+  "domains": {
+    "legal": 139,
+    "finance": 141
+  },
+  "contains_existing_regressions": true,
+  "frozen_before_execution": true
+}

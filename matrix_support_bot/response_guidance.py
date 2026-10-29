@@ -6,17 +6,21 @@ import re
 
 
 def is_document_request(question: str) -> bool:
-    """The current turn asks for an actual draft, not another action checklist."""
+    """Distinguish writing a document from collecting materials for one."""
     current = question.split("\nПредыдущий вопрос:")[0]
-    # Describing coercion to sign/write is not a request for our draft.
-    if re.search(r'застав|принужд|требует.{0,25}(?:напис|подпис)', current, re.I) and not re.search(
-            r'помоги.{0,20}(?:напис|состав)|(?:напиши|составь|подготовь)|как (?:мне )?(?:написать|составить)', current, re.I):
+    explicit = r'напиши(?:те)?|составь(?:те)?|подготовь(?:те)?|сформулируй(?:те)?|оформи(?:те)?|помоги.{0,25}(?:напис|состав|оформ)|как (?:мне )?(?:написать|составить|оформить|подготовить)'
+    if re.search(r'застав|принужд|требует.{0,25}(?:напис|подпис)', current, re.I) and not re.search(explicit, current, re.I):
         return False
-    return bool(re.search(
-        r"(?:напис|напиш|состав|сформулир|подготов|шаблон|черновик|образец|нужен\s+текст).*"
-        r"(?:требован|заявлен|претензи|обращен|письм|жалоб)|"
-        r"(?:требован|заявлен|претензи|обращен|письм|жалоб).*"
-        r"(?:напис|напиш|состав|сформулир|подготов|шаблон|черновик|образец)", current, re.I))
+    # "What documents should I prepare for an appeal?" asks for inputs,
+    # not the actual appeal. Do not manufacture a missing-draft failure.
+    if (re.search(r'(?:что|какие\w*.{0,25}(?:сведени|документ|доказательств|материал)).{0,35}подготов|подготов\w*.{0,25}(?:список|перечень).{0,20}(?:сведени|документ|доказательств)', current, re.I)
+            and not re.search(r'напиши|составь|черновик|шаблон|образец|нужен\s+текст', current, re.I)):
+        return False
+    if re.search(r'(?:напиши|составь|сформулируй|подготовь).{0,30}(?:работодателю|заказчику|продавцу|банку|для работодателя|для заказчика|для продавца)', current, re.I):
+        return True
+    artefact = r'требован|заявлен|претензи|обращен|письм|жалоб|просьб|запрос'
+    action = explicit + r'|(?:нужно|хочу).{0,20}(?:написать|составить|подготовить)|шаблон|черновик|образец|нужен\s+текст'
+    return bool(re.search(r'(?:'+action+r').*(?:'+artefact+r')|(?:'+artefact+r').*(?:'+action+r')', current, re.I))
 
 
 def request_clarification(domain: str, question: str, previous_question: str = "") -> str | None:

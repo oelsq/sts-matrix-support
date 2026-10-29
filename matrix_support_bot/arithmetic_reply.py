@@ -205,6 +205,29 @@ def arithmetic_reply(question,previous_question=''):
     try:
         with localcontext() as context:
             context.prec=50
+            # A follow-up operation can use only explicit user arithmetic.
+            # Never infer a tax rate, legal entitlement or a base from AI text.
+            operation = re.fullmatch(r'(?:а )?(?:(?:сколько )?(?:останется|получится)|(?:после (?:вычета|удержания|прибавления|добавления))(?: сколько (?:останется|получится))?)(?: после (?:вычета|удержания|прибавления|добавления))?[?!. ]*', q)
+            if operation and re.search(r'вычет|удержан|прибавлен|добавлен', q):
+                latest_rate = None
+                for previous in reversed(previous_question.splitlines()[-4:]):
+                    previous = previous.casefold().replace('ё', 'е').strip()
+                    if _NORMATIVE.search(previous): break
+                    tokens = list(_TOKEN.finditer(previous))
+                    rates = [m for m in tokens if m['percent']]
+                    amounts = [m for m in tokens if not m['percent']]
+                    bare = _PREFIX.sub('', previous).strip(' ?!.')
+                    if len(rates) == 1 and not amounts and bare == rates[0].group().strip():
+                        if latest_rate is None: latest_rate = rates[0].group()
+                        continue
+                    if (len(rates) == 1 and len(amounts) == 1 and _percent(previous)
+                            and not re.search(r'остан|остат|прибав|добав|выч|удерж|увелич|уменьш|скидк|вся сумма|от какой|это|составляет', previous)):
+                        sign = 'прибавь' if re.search(r'прибавлен|добавлен', q) else 'вычти'
+                        inherited = _percent(sign+' '+(latest_rate or rates[0].group())+' от '+amounts[0].group())
+                        if inherited:
+                            return inherited+'\n\nСумма и процент взяты из ваших предыдущих расчётных вопросов.'
+                    break
+                return 'Уточните исходную сумму и процент, который нужно вычесть или прибавить.'
             if '%' in q or re.search(r'процент(?:а|ов)?\b',q):
                 answer=_expression(q) or _percent(q) or _ratio(q)
                 if answer:return answer

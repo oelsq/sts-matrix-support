@@ -43,6 +43,10 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
     arithmetic = arithmetic_reply(question, previous_question=previous_question)
     if arithmetic is not None:
         return PreparedReply(None, arithmetic, "arithmetic")
+    from task_preparation import preparation_reply
+    preparation = preparation_reply(domain, question, previous_question=previous_question)
+    if preparation is not None:
+        return PreparedReply(None, preparation, "organizational_preparation")
     search_question = search_question or question
     clarification = request_clarification(domain, search_question, previous_question)
     if clarification:
