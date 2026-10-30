@@ -124,7 +124,8 @@ async def evaluate(cases, knowledge, live):
                'previous_questions':case.get('previous_questions', [])}
         urgent = urgent_finance_answer(case['question'], knowledge)
         prepared = prepare_local_reply(case['domain'], case['question'], knowledge,
-                                       search_question=search, previous_question=previous)
+                                       search_question=search, previous_question=previous,
+                                       allow_model_without_sources=live=='flowise')
         answer = urgent or prepared.answer
         mechanism = 'source_bound_urgent' if urgent else prepared.mechanism
         row['mechanism'] = mechanism

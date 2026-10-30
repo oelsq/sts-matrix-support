@@ -111,19 +111,48 @@ for (const unit of units) {
   } else errors.push(unit.id+':unsupported');
 }
 const constraints=quality.constraints||[];
-const scopeErrors=text=>constraints.filter(c=>c.patterns.some(p=>!(new RegExp(p,'i')).test(norm(text.replace(/[*_\u0060]+/g,''))))).map(c=>'missing_qualification:'+c.id);
-errors.push(...scopeErrors(answer));
+const actionConstraints=new Set(['immediate-threat-safety','stolen-phone-evidence-and-access','reported-civil-contract']);
+const scopeErrors=(text,checks)=>constraints.filter(c=>(actionConstraints.has(c.id)||(Array.isArray(checks)&&checks.some(r=>r && r.status==='supported')))&&c.patterns.some(p=>!(new RegExp(p,'i')).test(norm(text.replace(/[*_\u0060]+/g,''))))).map(c=>'missing_qualification:'+c.id);
+errors.push(...scopeErrors(answer,audit && audit.checks));
 if (audit && audit.verdict!=='approve') errors.push('review_requested_revision');
-let ok=errors.length===0, finalAnswer=answer, finalAudit=audit, partial=false;
-const canFilter=typeof $final!=='undefined' && $final==='yes' && quality.question_type!=='document' && audit && Array.isArray(audit.checks) && rows.size===units.length && audit.checks.length===units.length && !errors.some(e=>e.startsWith('missing_qualification:')) && !errors.some(e=>['invalid_audit_json','incomplete_audit','missing_or_duplicate_claims','invalid_answer_size'].includes(e));
+let ok=errors.length===0, finalAnswer=answer, finalAudit=audit, partial=false, omittedTopics=[];
+const canFilter=typeof $final!=='undefined' && $final==='yes' && audit && Array.isArray(audit.checks) && rows.size===units.length && audit.checks.length===units.length && !errors.some(e=>['invalid_audit_json','incomplete_audit','missing_or_duplicate_claims','invalid_answer_size'].includes(e));
 if(!ok && canFilter) {
- const kept=units.filter(u=>rows.get(u.id).standalone===true && !errors.some(e=>e.startsWith(u.id+':')));
- if(kept.length && (kept.some(u=>rows.get(u.id).status==='supported') || (quality.question_type==='calculation' && kept.length>=2 && kept.every(u=>rows.get(u.id).status==='advice')))) {
+ const missingConditions=errors.some(e=>e.startsWith('missing_qualification:'));
+ const cleanUnit=u=>u.text.replace(/^\s*(?:\d+[.)]|[-*])\s+/,'').replace(/\*\*/g,'').trim();
+ const validUnit=u=>!errors.some(e=>e.startsWith(u.id+':'));
+ // Preserve a COMPLETE neutral letter as a group, never disconnected fields.
+ // Only checked placeholder fields and self-contained requests are eligible.
+ const letterParts=quality.question_type==='document'?units.filter(u=>{
+  const text=cleanUnit(u),row=rows.get(u.id);
+  return validUnit(u) && row.status==='advice' && safeAdvice(text,true) &&
+   (/^(?:Кому|От|Дата|Подпись|Тема):\s*\[[^\]\n]+\][., ]*$/i.test(text) || /^Прошу(?![а-яё])/i.test(text));
+ }):[];
+ const completeLetter=['Кому','От','Дата','Подпись'].every(label=>letterParts.some(u=>cleanUnit(u).startsWith(label+':'))) &&
+  letterParts.some(u=>/^Прошу(?![а-яё])/i.test(cleanUnit(u)));
+ const kept=units.filter(u=>{
+  const row=rows.get(u.id), clean=cleanUnit(u);
+  if(!validUnit(u))return false;
+  if(completeLetter && letterParts.includes(u))return true;
+  if(row.standalone!==true)return false;
+  // A missing exception must never turn a conditional rule into an absolute one.
+  if(missingConditions && row.status==='supported')return false;
+  if(/^(?:в этом случае|тогда|поэтому|следовательно|иначе|после этого|при этом|это означает|такой|такая|такое|такие)(?![а-яёa-z])/iu.test(clean))return false;
+  // Do not deliver an incomplete letter after dropping its factual/legal basis.
+  if(quality.question_type==='document' && /^(?:кому:|адресат:|отправитель:|от:|дата:|подпись:|тема:|прошу|я[, ]|за период|приложени|требование|заявление|претензия|кредитор:|банк:|договор:|\[)/i.test(clean))return false;
+  return true;
+ });
+ if(kept.length && kept.length<units.length && kept.some(u=>['supported','advice'].includes(rows.get(u.id).status))) {
   finalAnswer=kept.map(u=>u.text).join('\n\n');
   finalAudit={verdict:'approve',feedback:'Unsupported or dependent units removed after one repair.',checks:kept.map((u,i)=>({...rows.get(u.id),unit_id:'C'+(i+1)}))};
   ok=true;partial=true;
+  const removed=units.filter(u=>!kept.includes(u)).map(u=>u.text).join(' ');
+  if(/срок|дней|дня|день|недел|месяц|не позднее|в течение|дата/i.test(removed))omittedTopics.push('deadline');
+  if(/сумм|тенге|комисси|ставк|процент|%|плат[её]ж|доллар/i.test(removed))omittedTopics.push('amount');
+  if(/обязан|вправе|запрещ|закон|стать[яие]|имеет право|подлежит/i.test(removed))omittedTopics.push('rule');
+  if(missingConditions)omittedTopics.push('conditions');
  }
 }
-if(ok && scopeErrors(finalAnswer).length){errors.push(...scopeErrors(finalAnswer));ok=false;}
+if(ok && scopeErrors(finalAnswer,finalAudit.checks).length){errors.push(...scopeErrors(finalAnswer,finalAudit.checks));ok=false;}
 return {audit_ok:ok?'yes':'no',audit_feedback:JSON.stringify({errors,feedback:(audit && audit.feedback || '')+' '+constraints.map(c=>c.guidance).join(' ')}),
- response:JSON.stringify({contract:'sts.claims.v1',question_type:quality.question_type,status:ok?'approved':'needs_revision',answer:ok?finalAnswer:'',audit:finalAudit || null,partial,validation_errors:errors.slice(0,16).map(e=>e.split(':').slice(0,2).join(':')),retrieval_hints:(!ok||partial)?units.filter(u=>errors.some(e=>e.startsWith(u.id+':'))).slice(0,4).map(u=>u.text.slice(0,400)):[]})};
+ response:JSON.stringify({contract:'sts.claims.v1',question_type:quality.question_type,status:ok?'approved':'needs_revision',answer:ok?finalAnswer:'',audit:finalAudit || null,partial,omitted_topics:omittedTopics,validation_errors:errors.slice(0,16).map(e=>e.split(':').slice(0,2).join(':')),retrieval_hints:(!ok||partial)?units.filter(u=>errors.some(e=>e.startsWith(u.id+':'))).slice(0,4).map(u=>u.text.slice(0,400)):[]})};

@@ -31,7 +31,7 @@ def prepare_model_evidence(domain, question, knowledge, evidence=None):
     return scope_evidence(domain, question, [p for p in evidence if accessible(p)])[:8]
 
 
-def prepare_local_reply(domain, question, knowledge, *, search_question=None, previous_question=""):
+def prepare_local_reply(domain, question, knowledge, *, search_question=None, previous_question="", allow_model_without_sources=False):
     from bot_help import help_reply
     help_answer = help_reply(question, domain)
     if help_answer is not None:
@@ -65,6 +65,10 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
     if knowledge is not None and domain != "general":
         evidence = scope_evidence(domain, search_question, knowledge.search(domain, search_question, limit=8))
         if not evidence:
+            # Only the claim-audited workflow can generate source-free guidance.
+            # Legacy/direct routes keep their existing conservative behaviour.
+            if allow_model_without_sources:
+                return PreparedReply([], None, "requires_guidance_model")
             return PreparedReply(evidence, practical_fallback(domain, search_question), "no_evidence_fallback")
         from checked_tariffs import checked_tariff_answer
         builders = [
@@ -81,5 +85,7 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
             answer = build()
             if answer and "Не удалось подготовить ответ с проверяемой" not in answer:
                 return PreparedReply(evidence, answer, mechanism)
+    if knowledge is None and domain in {'legal','finance'} and allow_model_without_sources:
+        return PreparedReply([], None, "requires_guidance_model")
     evidence = prepare_model_evidence(domain, search_question, knowledge, evidence)
     return PreparedReply(evidence, None, "requires_model")

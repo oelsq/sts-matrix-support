@@ -16,6 +16,26 @@ class ReviewDetails:
     partial: bool = False
     question_type: str = ''
     retrieval_hints: tuple[str, ...] = ()
+    omitted_topics: tuple[str, ...] = ()
+    user_context: tuple[str, ...] = ()
+
+
+OMITTED_TOPICS = {
+    'deadline': 'Точный срок пока не подтверждён; его нужно сверить для вашей ситуации.',
+    'amount': 'Точная сумма, ставка или комиссия пока не подтверждена.',
+    'rule': 'Правовое основание отдельного требования ещё нужно проверить.',
+    'conditions': 'Условия и исключения для окончательного вывода ещё нужно уточнить.',
+}
+
+
+def completeness_note(review):
+    """Explain only the gap, after the useful part; never echo a rejected claim."""
+    if review is None or not review.partial:
+        return ''
+    details = [OMITTED_TOPICS[key] for key in review.omitted_topics if key in OMITTED_TOPICS]
+    if not details:
+        details = ['Неподтверждённые детали исключены; выше сохранена самостоятельная проверенная часть ответа.']
+    return '\n\n**Ответ подтверждён частично**\n' + ' '.join(details)
 
 
 class ReviewedAnswer(str):

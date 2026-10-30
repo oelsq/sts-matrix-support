@@ -21,11 +21,12 @@ async def run(args):
     async def evaluate_index(index,case):
         async with semaphore:
             started=time.monotonic();search,previous=case_context(case)
-            prepared=prepare_local_reply(case['domain'],case['question'],store,search_question=search,previous_question=previous)
+            prepared=prepare_local_reply(case['domain'],case['question'],store,search_question=search,previous_question=previous,
+                                         allow_model_without_sources=args.live=='flowise')
             answer=prepared.answer;mechanism=prepared.mechanism;error=None;error_detail=None
             forced=bool(getattr(args,'force_model',False))
             attempted=False;validation_errors=[];workflow_metrics=[]
-            if forced and prepared.mechanism not in {'clarification','cashflow_calculator','no_evidence_fallback'}:
+            if forced and prepared.mechanism not in {'clarification','cashflow_calculator','no_evidence_fallback','requires_guidance_model'}:
                 evidence=prepare_model_evidence(case['domain'],search,store)
                 if evidence:
                     prepared.evidence=evidence;answer=None;mechanism='requires_model'

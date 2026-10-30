@@ -298,7 +298,7 @@ def grounded_answer(domain: str, answer: str, question: str) -> str:
 
 
 def render(domain: str, answer: str, question: str = "", local_evidence: list[dict[str, str | int]] | None = None, *, review=None) -> str:
-    from review_result import ReviewDetails, source_text
+    from review_result import ReviewDetails, source_text, completeness_note
     review = review if review is not None else getattr(answer,"review",None)
     if review is not None and not isinstance(review,ReviewDetails):
         raise ValueError("Invalid review metadata")
@@ -333,15 +333,14 @@ def render(domain: str, answer: str, question: str = "", local_evidence: list[di
                 return False
             return bool(re.search(r"\bS\d+\b|^ID\b|:", marker, re.I))
         cited = {marker for marker in markers if source_marker(marker)}
-        if review is not None and review.question_type in {'calculation','document'} and not cited and not review.quotes:
+        if review is not None and not cited and not review.quotes:
             # A checked request for missing inputs or a purely organizational letter
             # contains no legal assertion to cite. Fact-like lines remain blocked.
             from agentflow_claims import units, safe_advice
-            if not all(safe_advice(unit['text'],document=review.question_type=='document') for unit in units(answer)):
+            if not all(safe_advice(unit['text'],document=review.question_type=='document') or
+                       unit['text'] in review.user_context for unit in units(answer)):
                 raise ValueError("Uncited reviewed "+review.question_type+" contains a factual assertion")
-            completeness = ("**Ответ подтверждён частично**\n"
-                            "Часть выводов не прошла проверку. Ниже сохранены только подтверждённые сведения.\n\n") if review.partial else ""
-            return f"**{label}**\n{completeness}{answer}"
+            return f"**{label}**\n\n{answer}" + completeness_note(review)
         if not cited or not cited.issubset(allowed):
             return (
                 f"**{label}**\nНе удалось подготовить ответ с проверяемой "
@@ -404,11 +403,9 @@ def render(domain: str, answer: str, question: str = "", local_evidence: list[di
         from source_applicability import tariff_note
         notice=tariff_note(question,[p for p in local_evidence if p['id'] in cited])
         if notice:answer += '\n\n'+notice
-        completeness = ("**Ответ подтверждён частично**\n"
-                        "Часть выводов не прошла проверку. Ниже сохранены только подтверждённые сведения.\n\n") if review is not None and review.partial else ""
         return (
-            f"**{label}**\n{completeness}{answer}"
-            f"\n\nЛокальные материалы для проверки:\n{references}"
+            f"**{label}**\n\n{answer}" + completeness_note(review)
+            + f"\n\nЛокальные материалы для проверки:\n{references}"
         )
     sources = source_cards(domain, question)
     links = "\n".join(f"• {card['title']}: {card['url']}" for card in sources[:3])

@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 from agentflow_graphs import workflow_packet
 from numeric_grounding import numeric_relation_errors, normalize_age_words
-from review_result import ReviewDetails, ReviewedAnswer, source_text
+from review_result import ReviewDetails, ReviewedAnswer, source_text, OMITTED_TOPICS
 from response_guidance import is_document_request, is_reference_question
 
 CONTRACT = 'sts.claims.v1'
@@ -84,8 +84,8 @@ def make_quality_packet(domain, draft_messages, review_messages, context):
     if not q.strip() or len(q)>12000 or not isinstance(previous,str) or len(previous)>3000:
         raise ValueError('Invalid scoped conversation')
     evidence = context.get('evidence')
-    if not isinstance(evidence,list) or not 1<=len(evidence)<=8:
-        raise ValueError('Quality workflow requires 1–8 source fragments')
+    if not isinstance(evidence,list) or not 0<=len(evidence)<=8:
+        raise ValueError('Quality workflow requires 0–8 source fragments')
     sources=[]
     for i,p in enumerate(evidence,1):
         if not isinstance(p.get('text'),str) or not p['text'].strip() or len(p['text'])>20000:
@@ -227,6 +227,17 @@ def validate_audit(answer, audit, sources, question='', previous_question='', *,
     return errors
 
 
+def qualification_errors(answer, audit, quality):
+    # No legal conclusion survives in an advice-only answer. Do not require
+    # exceptions to a rule which the answer deliberately does not assert.
+    has_supported=any(row.get('status')=='supported' for row in audit['checks'])
+    action_constraints={'immediate-threat-safety','stolen-phone-evidence-and-access','reported-civil-contract'}
+    return ['missing_qualification:'+constraint['id']
+            for constraint in quality.get('constraints',[])
+            if has_supported or constraint['id'] in action_constraints
+            if any(not re.search(pattern,constraint_text(answer),re.I) for pattern in constraint['patterns'])]
+
+
 def accept_quality_response(text, packet):
     value=json.loads(text)
     if not isinstance(value,dict) or value.get('contract')!=CONTRACT or value.get('status')!='approved':
@@ -236,8 +247,8 @@ def accept_quality_response(text, packet):
     quality=packet['quality']
     if value.get('question_type')!=quality['question_type']:raise ValueError('Question type mismatch')
     errors=validate_audit(answer,audit,quality['sources'],quality['question'],quality['previous_question'],format_type=quality['question_type'])
-    for constraint in quality.get('constraints',[]):
-        if any(not re.search(pattern,constraint_text(answer),re.I) for pattern in constraint['patterns']):errors.append('missing_qualification:'+constraint['id'])
+    if not errors:
+        errors.extend(qualification_errors(answer,audit,quality))
     if errors:raise ValueError('Claim evidence validation failed: '+','.join(errors[:4]))
     partial=value.get('partial',False)
     if not isinstance(partial,bool):raise ValueError('Invalid partial status')
@@ -245,4 +256,11 @@ def accept_quality_response(text, packet):
                               if row['status']=='supported' for proof in row['proofs']))
     hints=value.get('retrieval_hints',[])
     if not isinstance(hints,list) or len(hints)>4 or any(not isinstance(h,str) or len(h)>400 for h in hints):raise ValueError('Invalid retrieval diagnostics')
-    return ReviewedAnswer(answer,ReviewDetails(quotes,partial,quality['question_type'],tuple(hints)))
+    omitted=value.get('omitted_topics',[])
+    if (not isinstance(omitted,list) or len(omitted)>4 or
+            any(not isinstance(key,str) or key not in OMITTED_TOPICS for key in omitted) or
+            len(set(omitted))!=len(omitted) or (omitted and not partial)):
+        raise ValueError('Invalid omitted topics')
+    user_context=tuple(unit['text'] for unit,row in zip(units(answer),sorted(audit['checks'],key=lambda r:int(r['unit_id'][1:])))
+                       if row['status']=='user_context')
+    return ReviewedAnswer(answer,ReviewDetails(quotes,partial,quality['question_type'],tuple(hints),tuple(omitted),user_context))

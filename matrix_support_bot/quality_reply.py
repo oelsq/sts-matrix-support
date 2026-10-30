@@ -38,7 +38,12 @@ async def quality_reply(flow,http,domain,room,sender,event_id,question,previous,
                 measurements.append(dict(text.workflow_metrics, attempt=attempt+1))
             review=getattr(text,'review',None)
             answer=render(domain,text.strip(),question,current,review=review)
-            if 'Не удалось подготовить ответ с проверяемой' in answer or usefulness_issues(question,answer):
+            issues=usefulness_issues(question,answer)
+            # A checked fragment is useful even when it is not yet the complete
+            # requested letter. Never discard it merely for that missing artefact.
+            if getattr(review,'partial',False):
+                issues=[issue for issue in issues if issue!='requested_draft_missing']
+            if 'Не удалось подготовить ответ с проверяемой' in answer or issues:
                 raise FlowiseReviewRejected('Reviewed reply did not pass response checks',retrieval_hints=(question,))
             result=QualityReply(answer,current,researches,list(measurements))
             if not getattr(review,'partial',False):return result

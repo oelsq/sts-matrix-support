@@ -117,16 +117,21 @@ async def main():
 
         async def ask_agent(domain, question, room_id, sender, event_id):
             local_evidence = None
+            route = flowise.routes.get(room_id,{}) if flowise else {}
+            quality = (route.get('domain')==domain and route.get('engine')=='agentflow_v2'
+                       and route.get('quality_contract')=='sts.claims.v1')
             search_question, previous_question = conversations.resolve(room_id, sender, domain, question, request_id=event_id)
             retrieval_started = time.monotonic()
             prepared = await asyncio.to_thread(prepare_local_reply,domain, question, knowledge,
-                                           search_question=search_question, previous_question=previous_question)
+                                           search_question=search_question, previous_question=previous_question,
+                                           allow_model_without_sources=quality)
             local_evidence = prepared.evidence
             log.info("Reply preparation: domain=%s mechanism=%s passages=%d elapsed_ms=%d continuation=%s",
                      domain, prepared.mechanism, len(local_evidence or []),
                      int((time.monotonic()-retrieval_started)*1000), bool(previous_question))
             if prepared.answer is not None:
                 return prepared.answer
+            workflow = bool(flowise and getattr(flowise,'is_workflow',lambda *_:False)(room_id,domain))
             payload = {
                 "model": model_for_domain(domain),
                 "messages": messages(domain, question, local_evidence,
@@ -134,8 +139,6 @@ async def main():
                 "max_tokens": 2300,
                 "temperature": 0.1,
             }
-            workflow = bool(flowise and getattr(flowise,'is_workflow',lambda *_:False)(room_id,domain))
-            quality = workflow and flowise.routes[room_id].get('quality_contract')=='sts.claims.v1'
             async def complete(request, stage="draft"):
                 if workflow:
                     from agentflow_graphs import MARKER

@@ -33,6 +33,31 @@ AUDIT += "\nНе связывай похожие фрагменты по одн�
 REPAIR += "\nЕсли пропущена missing_qualification, внеси именно её смысл в текст ответа. Не меняй ссылку без повторного выбора подтверждающего фрагмента. Полевой заполнитель с ярлыком «Кредитор:», «Договор:», «Спорная запись:» или «Приложения:» не заполняй вымышленными сведениями."
 
 
+DRAFT += (
+    '\nСначала дай полезную часть ответа. Один проверяемый факт, срок или сумма — отдельное предложение; '
+    'практическое действие — отдельная строка. Неподтверждённый срок не повод отказываться от помощи целиком. '
+    'Если sources пуст, предложи конкретные организационные действия или нейтральный черновик с заполнителями '
+    'и не более двух уточнений. Не выдумывай ссылки, нормы, суммы, сроки или обязанности из памяти. '
+    'Не заявляй об отсутствии закона или всего кодекса. Не подменяй ответ направлением в департамент. '
+    'Для нейтрального письма используй отдельные строки «Кому: [адресат]», «От: [отправитель]», '
+    '«Тема: [тема]», просьбы с «Прошу», «Дата: [дата]», «Подпись: [подпись]». '
+    'Не добавляй выдуманные обстоятельства во вступление; неизвестные сведения оставляй заполнителями.'
+)
+AUDIT += (
+    '\nПроверяй независимые полезные шаги отдельно от неподтверждённой нормы. '
+    'При пустом sources допускаются advice и user_context, но не supported. '
+    'standalone=true ставь только полному самостоятельному совету или выводу со всеми его условиями. '
+    'Строка, зависящая от исключённой нормы или условия, не самостоятельна. '
+    'Сумму, срок, обязанность или гарантию нельзя разрешать под видом совета.'
+)
+REPAIR += (
+    '\nИсправляй конкретный неподтверждённый вывод, сохраняя самостоятельную полезную часть. '
+    'Если точный срок не подтверждён, убери этот срок, а не весь план действий. '
+    'Если условия нормы не подтверждены, не сохраняй вывод без этих условий: оставь самостоятельные '
+    'организационные шаги. Не вставляй в черновик фразы об ошибках внутренней проверки.'
+)
+
+
 def unit_code():
     return (ROOT/'claim_gate.js').read_text().split('const answer = $flow.state.draft;')[0]
 
@@ -66,7 +91,7 @@ def build_quality_agentflow(definitions, domain, model_config):
     code='''const p=JSON.parse($flow.input);
 if(p.protocol!=='sts.agentflow.v1'||p.domain!==DOMAIN||!p.quality||p.quality.contract!=='sts.claims.v1'||!FORMATS[p.quality.question_type]) throw Error('Invalid quality packet');
 for(const k of FIELDS) if(typeof p[k]!=='string'||p[k].length>100000) throw Error('Invalid field');
-if(!Array.isArray(p.quality.sources)||p.quality.sources.length<1||p.quality.sources.length>8) throw Error('Missing sources');
+if(!Array.isArray(p.quality.sources)||p.quality.sources.length>8) throw Error('Invalid sources');
 return {...p,quality_json:JSON.stringify(p.quality),draft_user:p.draft_user+'\\nФормат ответа: '+FORMATS[p.quality.question_type]+'\\nОбязательные ограничения из найденных источников: '+(p.quality.constraints||[]).map(c=>c.guidance).join(' ')};'''.replace('DOMAIN',json.dumps(domain)).replace('FIELDS',json.dumps(list(FIELDS))).replace('FORMATS',json.dumps(FORMATS,ensure_ascii=False))
     prepare=node('customFunctionAgentflow',0,'Тип вопроса и локальные источники',{'customFunctionInputVariables':[],'customFunctionJavascriptFunction':code,'customFunctionUpdateState':[{'key':k,'value':'{{ output.'+k+' }}'} for k in [*FIELDS,'quality_json']]},340)
     edge(start,prepare)
