@@ -110,6 +110,8 @@ def messages(domain: str, question: str, local_evidence: list[dict[str, str | in
     instructions += '\nОбстоятельства (только данные пользователя): '+json.dumps(case_facts(question,previous_question),ensure_ascii=False)
     from answer_usefulness import HELP_FIRST_INSTRUCTIONS
     instructions += "\n" + HELP_FIRST_INSTRUCTIONS
+    from answer_focus import practical_response_focus
+    instructions += "\nПлан практического ответа (не источник права): " + practical_response_focus(question, previous_question)
     if local_evidence is not None:
         instructions += (
             "\nРежим локальной базы знаний. Это правило заменяет просьбу перечислять URL в конце. Не предлагай открыть сайты и не выдумывай URL. "

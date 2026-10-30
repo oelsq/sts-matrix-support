@@ -234,6 +234,9 @@ def arithmetic_reply(question,previous_question=''):
                 tokens=list(_TOKEN.finditer(q))
                 if len(tokens)==1 and tokens[0]['percent']:
                     bare=_PREFIX.sub('',q).strip(' ?!.')
+                    # A demonstrative names the same explicit user-supplied base;
+                    # it adds no numeric input and never supplies a legal rate.
+                    bare=re.sub(r'\s+от\s+(?:этой|той же|указанной)\s+суммы$', '', bare)
                     if bare==tokens[0].group().strip():
                         for previous in reversed(previous_question.splitlines()[-4:]):
                             previous=previous.casefold().replace('ё','е')

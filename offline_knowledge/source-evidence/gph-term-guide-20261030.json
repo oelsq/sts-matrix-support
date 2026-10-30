@@ -1,0 +1,13 @@
+{
+  "source": "https://www.gov.kz/org/zhetysu-lab/press/news/details/1205482?lang=ru",
+  "retrieved_on": "2026-10-30",
+  "publication_date": "2026-04-21",
+  "artifact_file": "documents/gph-term-guide.txt",
+  "extraction": "Single literal terminology paragraph from official gov.kz web page extraction. Not a full page snapshot. No text of other paragraphs retained.",
+  "excluded_subjects": [
+    "draft legislative changes",
+    "social guarantees",
+    "tax and contribution rules"
+  ],
+  "sha256": "502fb0154260ffe3d4a6cc44b8989a676f4c810a6f2ae9188db1460bdf76cbf6"
+}

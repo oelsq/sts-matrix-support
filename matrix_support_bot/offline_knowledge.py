@@ -509,7 +509,7 @@ class KnowledgeStore:
                     score += 100
                 # A family-budget question may mention salary without asking
                 # about wage non-payment. Prefer its selected educational guide.
-                if passage["document_id"] in intent_docs & {"family-budget-guide", "deposit-choice-guide", "collective-debt-guide"}:
+                if passage["document_id"] in intent_docs & {"family-budget-guide", "deposit-choice-guide", "collective-debt-guide", "gph-term-guide"}:
                     score += 400
                 # A suspicious loan-status notification is first a phishing
                 # warning; a generic credit-history article must not crowd it out.

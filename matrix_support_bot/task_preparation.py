@@ -6,18 +6,34 @@ legal conclusion or verification of a bank's current terms.
 import re
 
 
+def draft_task_text(question):
+    """Ignore only explicit presentation exclusions, not the requested remedy.
+
+    'Without articles and statutory deadlines' asks to omit legal references;
+    it must not itself trigger the route that looks up such references.
+    A positive legal demand elsewhere in the same request remains visible.
+    """
+    item = r'(?:законн\w*\s+срок\w*|номер\w*\s+стат\w*|стат(?:ьи|ей|ью|ья)|ссылок\s+на\s+статьи)'
+    items = item + r'(?:\s*(?:,|и)\s*' + item + r')*'
+    return re.sub(r'(?:\bбез\s+|\bне\s+(?:указывай(?:те)?|добавляй(?:те)?|назначай(?:те)?)\s+)'+items,
+                  ' ', question, flags=re.I)
+
+
 def preparation_reply(domain, question, *, previous_question=''):
     if domain not in {'legal', 'finance'}:
         return None
     current = question.split('\nПредыдущий вопрос:')[0].strip()
     context = current + '\n' + previous_question
     label = 'Юридический агент' if domain == 'legal' else 'Финансовый агент'
-    from response_guidance import is_document_request
+    from response_guidance import is_document_request, is_short_message_request
+    brief_reply = is_short_message_request(current)
+    task_context = context if brief_reply else current
 
     if is_document_request(current):
         # Do not substitute a neutral request for a lawsuit, legal demand,
         # statutory deadline or requested computation.
-        if re.search(r'\bсуд\w*|\bиск\w*|прокурат|полици|\bстать\w*|обяз\w*|\bсрок\w*|пен[яию]|штраф|неусто|рассчита|посчита', current, re.I):
+        task = draft_task_text(current)
+        if re.search(r'\bсуд\w*|\bиск\w*|прокурат|полици|обжалов|\bстать\w*|обяз\w*|\bсрок\w*|пен[яию]|штраф|неусто|рассчита|посчита', task, re.I):
             return None
         if (re.search(r'отпуск',context,re.I) and re.search(r'без содержан|без сохранени|за сво[йи] сч[её]т',context,re.I)
                 and re.search(r'застав|принужд|навяз|предлага',context,re.I)
@@ -27,6 +43,16 @@ def preparation_reply(domain, question, *, previous_question=''):
                        'его предполагаемый период, условия и основание. Прошу предоставить проект документа для ознакомления. '
                        'Моя позиция по предложению: [укажите свою позицию после проверки условий]. '
                        'Эта просьба о разъяснении сама по себе не выражает согласия на отпуск. '
+                       'Прошу направить письменный ответ по [способ получения].')
+        elif (re.search(r'банк|карт',context,re.I)
+              and re.search(r'списа|спиш|комисси|удерж|расшифровк.{0,30}операци',task_context,re.I)
+              and not re.search(r'работодателю|заказчику|продавцу',current,re.I)
+              and not re.search(r'верн|возврат|взыск|компенсац|призна',current,re.I)):
+            subject = 'О разъяснении списания'
+            request = ('По операции [дата, сумма и описание в выписке] прошу предоставить расшифровку списания: '
+                       'назначение платежа, основание начисления и использованную строку тарифа или условие договора. '
+                       'Прошу пояснить расчёт суммы и сообщить, какие сведения нужны для проверки операции. '
+                       'При подтверждении ошибки прошу сообщить порядок её исправления. '
                        'Прошу направить письменный ответ по [способ получения].')
         elif re.search(r'расч[её]т\w*.{0,35}(?:задолж|начисл|удерж|выплат)|расшифровк\w*.{0,30}(?:долг|плат[её]ж|сумм)', current, re.I):
             subject = 'О предоставлении расчёта'
@@ -40,12 +66,19 @@ def preparation_reply(domain, question, *, previous_question=''):
                        'прошу предоставить письменный ответ по существу заявленной просьбы: [что требуется разъяснить или сделать]. '
                        'Прошу указать принятое решение и его причины, а при необходимости дополнительных сведений — '
                        'сообщить, какие именно сведения нужны. Прошу направить ответ по [способ получения].')
-        elif re.search(r'(?:разъясн|объясн|сообщ).{0,35}(?:причин|основан).{0,20}отказ', current, re.I):
+        elif re.search(r'(?:разъясн|объясн|сообщ).{0,35}(?:причин|основан).{0,20}отказ|(?:разъясн|объясн).{0,25}отказ', current, re.I):
             subject = 'О разъяснении причин отказа'
             request = ('По обращению [дата, номер и предмет] прошу письменно разъяснить причины отказа, '
                        'указать использованные фактические обстоятельства и условия документа, на которые вы ссылаетесь. '
                        'Если для повторного рассмотрения нужны дополнительные сведения, прошу перечислить их. '
                        'Прошу направить ответ по [способ получения].')
+        elif (brief_reply and not re.search(r'банку|продавцу',current,re.I)
+              and re.search(r'не.{0,20}(?:плат|отда[её]т)|задолж|задерж.{0,20}(?:оплат|зарплат)|за работу',previous_question,re.I)):
+            subject = 'Об оплате работы'
+            request = ('По вопросу оплаты [работы / услуги, период или этап] прошу проверить состояние расчётов '
+                       'и сообщить сумму начислений, произведённых выплат и оставшейся задолженности. '
+                       'Прошу оплатить причитающуюся сумму; при наличии разногласий — письменно пояснить их основания '
+                       'и указать, какие сведения нужны для проверки. Прошу направить расчёт и ответ по [способ получения].')
         elif (re.search(r'кредит|истори|отч[её]т', context, re.I)
                 and re.search(r'не обещ|без обещ|не.{0,15}автоматич', current, re.I)):
             subject = 'О проверке записи кредитного отчёта'
@@ -69,8 +102,16 @@ def preparation_reply(domain, question, *, previous_question=''):
         recipient = '[организация / адресат]'
         if re.search(r'работодател|начальник|зарплат|за.{0,15}работ|работы', context, re.I):
             recipient = '[работодатель / заказчик — укажите по своему договору]'
+            from case_facts import case_facts
+            contract = case_facts(current, previous_question)['user_reported_facts'].get('contract_reported')
+            if contract == 'civil' or (re.search(r'\bзаказчик\b',context,re.I) and not re.search(r'работодател|начальник',context,re.I)):
+                recipient = '[заказчик]'
+            elif contract == 'labour':
+                recipient = '[работодатель]'
         elif re.search(r'магазин|продав|товар', context, re.I):
             recipient = '[продавец / магазин]'
+        elif re.search(r'банк|карт', context, re.I):
+            recipient = '[банк]'
         return (f'**{label}**\n\n**Черновик обращения**\n\n'
                 f'Кому: {recipient}\nОт: [ФИО]\nСпособ получения ответа: [контакт для адресата]\n\n'
                 f'**{subject}**\n\n{request}\n\n'

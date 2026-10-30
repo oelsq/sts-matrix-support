@@ -5,6 +5,13 @@ These are organisational suggestions, never substitute legal rules or tariffs.
 import re
 
 
+def is_short_message_request(question: str) -> bool:
+    recipient = r'(?:ему|ей|им|банку|работодателю|заказчику|продавцу)'
+    return bool(re.fullmatch(
+        r'(?:а\s+)?что\s+(?:мне\s+)?(?:' + recipient + r'\s+(?:конкретно\s+)?написать|'
+        r'(?:конкретно\s+)?написать\s+' + recipient + r')[?!.\s]*', question.strip(), re.I))
+
+
 def is_document_request(question: str) -> bool:
     """Distinguish writing a document from collecting materials for one."""
     current = question.split("\nПредыдущий вопрос:")[0]
@@ -16,6 +23,8 @@ def is_document_request(question: str) -> bool:
     if (re.search(r'(?:что|какие\w*.{0,25}(?:сведени|документ|доказательств|материал)).{0,35}подготов|подготов\w*.{0,25}(?:список|перечень).{0,20}(?:сведени|документ|доказательств)', current, re.I)
             and not re.search(r'напиши|составь|черновик|шаблон|образец|нужен\s+текст', current, re.I)):
         return False
+    if is_short_message_request(current):
+        return True
     if re.search(r'(?:напиши|составь|сформулируй|подготовь).{0,30}(?:работодателю|заказчику|продавцу|банку|для работодателя|для заказчика|для продавца)', current, re.I):
         return True
     artefact = r'требован|заявлен|претензи|обращен|письм|жалоб|просьб|запрос'
@@ -45,7 +54,8 @@ def request_clarification(domain: str, question: str, previous_question: str = "
     generic_letter=re.fullmatch(
         r"(?:а\s+)?(?:как\s+(?:мне\s+)?(?:написать|составить|оформить)|(?:напиши|составь|подготовь))"
         r"\s+(?:мне\s+)?(?:требование|заявление|жалобу|претензию|письмо)[?!.\s]*",current,re.I)
-    if generic_letter and not previous_question and '\nПредыдущий вопрос:' not in question:
+    short_reply = is_short_message_request(current)
+    if (generic_letter or short_reply) and not previous_question and '\nПредыдущий вопрос:' not in question:
         return (f'**{label}**\n\nКому адресовано обращение и что вы хотите получить: оплату за работу, '
                 'возврат денег, исправление сведений или другое действие?\n\n'
                 'Коротко опишите ситуацию без персональных данных — подготовлю текст с заполнителями.')

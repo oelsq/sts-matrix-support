@@ -112,7 +112,14 @@ def query_hints(question):
     if colloquial_work_payment(question):
         expansions.append('работодатель заработная плата задолженность дата выплаты работнику')
         documents.add('labor');sections.setdefault('labor',[]).append('Статья 113.')
-    if re.search(r'гпх|договор\w*\s+подряда',question,re.I):
+    gph_overview = bool(re.search(r'\bгпх\b|гражданско[ -]правов',question,re.I)
+                        and re.search(r'что такое|что означает|что значит|расшифр|отлич|разниц|сравн',question,re.I))
+    if gph_overview:
+        expansions.append('гражданско правовой договор соглашение установление изменение прекращение гражданских прав обязанностей')
+        documents.add('gph-term-guide')
+        documents.add('civil-general');sections.setdefault('civil-general',[]).extend(['Статья 378.','Статья 380.'])
+        documents.add('civil-special');sections.setdefault('civil-special',[]).extend(['Статья 616.','Статья 683.'])
+    if re.search(r'договор\w*\s+подряда',question,re.I) or (re.search(r'гпх',question,re.I) and not gph_overview):
         expansions.append('договор подряда заказчик подрядчик приемка выполненной работы оплата работы')
         documents.add('civil-special');sections.setdefault('civil-special',[]).extend(['Статья 616.','Статья 623.','Статья 630.'])
     if re.search(r'договор\w*\s+(?:на\s+)?оказани\w*\s+услуг',question,re.I):
