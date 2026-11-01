@@ -20,6 +20,10 @@ def scope_evidence(domain, question, evidence):
         evidence = [p for p in evidence if p['document_id'] != 'microfinance']
     elif mfo and not bank:
         evidence = [p for p in evidence if p['document_id'] != 'banks']
+    # A mortgage payment is not rent merely because the pledged asset is an apartment.
+    if re.search(r'ипотек|залог', q) and re.search(r'банк|кредит|за[её]м|займ', q) and not re.search(r'аренд|найм', q):
+        evidence = [p for p in evidence if not (p['document_id'] == 'housing' or
+            (p['document_id'] == 'civil-special' and str(p.get('section', '')).startswith(('Статья 546.', 'Статья 548.'))))]
     # Keep a wage non-payment answer focused on the payment rule. Other
     # articles mentioning wages do not establish a dispute procedure. Within
     # article 113, termination is a different case; don't feed its deadline to
@@ -34,7 +38,7 @@ def scope_evidence(domain, question, evidence):
             if p['document_id'] != 'labor' or not str(p.get('section', '')).startswith('Статья 113.'):
                 continue
             text = p['text']
-            if not re.search(r'увол|прекращ|расторж', q):
+            if not re.search(r'увол|сократ|сокращен|прекращ|расторж', q):
                 text = re.split(r'^\s*4\.\s', text, maxsplit=1, flags=re.M)[0].rstrip()
             if text.strip():
                 relevant.append({**p, 'text': text})

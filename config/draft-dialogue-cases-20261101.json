@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "frozen_before_execution": true,
+  "cases": [
+    {
+      "id": "draft-credit-values",
+      "domain": "finance",
+      "question": "Напиши само заявление. Сейчас могу платить 40 000 вместо 90 000 тенге.",
+      "previous_questions": [
+        "Я потерял работу, есть просрочка по банковскому кредиту. Как попросить реструктуризацию?"
+      ],
+      "required": {
+        "proposed": "40[\\s\\u00a0]?000",
+        "existing": "90[\\s\\u00a0]?000",
+        "period_placeholder": "Периодичность платежа: \\["
+      },
+      "forbidden": {
+        "assumed_monthly": "ежемесячн"
+      },
+      "sources": [],
+      "candidate_reference": "Сохранить роли данных пользователя и неизвестные сведения; в арифметике дать точный результат.",
+      "reference_status": "organisational_or_arithmetic_check_not_expert_opinion",
+      "criteria_scope": "draft_fact_roles_and_arithmetic",
+      "risk": "low"
+    },
+    {
+      "id": "draft-credit-currency",
+      "domain": "finance",
+      "question": "Напиши заявление о реструктуризации. Могу платить 400 вместо 900 долларов.",
+      "previous_questions": [],
+      "required": {
+        "currency_placeholder": "\\[валюта платежа\\]",
+        "draft": "Кому:"
+      },
+      "forbidden": {
+        "invented_tenge": "(?:400|900)\\s+тенге"
+      },
+      "sources": [],
+      "candidate_reference": "Сохранить роли данных пользователя и неизвестные сведения; в арифметике дать точный результат.",
+      "reference_status": "organisational_or_arithmetic_check_not_expert_opinion",
+      "criteria_scope": "draft_fact_roles_and_arithmetic",
+      "risk": "low"
+    },
+    {
+      "id": "draft-refund-role",
+      "domain": "legal",
+      "question": "Сделай претензию о возврате, сумма 200 000 тенге.",
+      "previous_questions": [
+        "Арендодатель удерживает обеспечительный платёж за квартиру."
+      ],
+      "required": {
+        "refund_amount": "возврату сумму.{0,20}200[\\s\\u00a0]?000",
+        "transferred_unknown": "передал.{0,15}\\[сумма\\] \\[валюта платежа\\]"
+      },
+      "forbidden": {
+        "invented_transfer": "передал.{0,15}200[\\s\\u00a0]?000"
+      },
+      "sources": [],
+      "candidate_reference": "Сохранить роли данных пользователя и неизвестные сведения; в арифметике дать точный результат.",
+      "reference_status": "organisational_or_arithmetic_check_not_expert_opinion",
+      "criteria_scope": "draft_fact_roles_and_arithmetic",
+      "risk": "low"
+    },
+    {
+      "id": "draft-arithmetic-control",
+      "domain": "finance",
+      "question": "Сколько будет 27% от 15 миллионов тенге?",
+      "previous_questions": [],
+      "required": {
+        "exact": "4[\\s\\u00a0]?050[\\s\\u00a0]?000"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Сохранить роли данных пользователя и неизвестные сведения; в арифметике дать точный результат.",
+      "reference_status": "organisational_or_arithmetic_check_not_expert_opinion",
+      "criteria_scope": "draft_fact_roles_and_arithmetic",
+      "risk": "low"
+    }
+  ]
+}

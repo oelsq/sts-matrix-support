@@ -1,0 +1,1420 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-11-01",
+  "scope": "finite authored synthetic regression, real Matrix/Flowise and bounded load; not specialist approval",
+  "local_tests": {
+    "passed": 1534,
+    "warnings": 20
+  },
+  "forced_model": {
+    "model_attempts": 60,
+    "runs": [
+      {
+        "label": "baseline",
+        "criteria_sha256": "ffd1c9929d58c6ede7394e74e777a8b5f28a0e845412738cebdd7cfb2e88e52f",
+        "status": "complete",
+        "scenarios": 20,
+        "accepted_responses": 19,
+        "automatic_passed": 11,
+        "seconds_p50": 39.489,
+        "seconds_p95": 56.174,
+        "workflow_records": 35,
+        "model_node_executions_observed": 138,
+        "stage_timings": {
+          "draft": {
+            "calls": 35,
+            "timed_calls": 35,
+            "p50_milliseconds": 3048,
+            "p95_milliseconds": 4307
+          },
+          "audit": {
+            "calls": 35,
+            "timed_calls": 35,
+            "p50_milliseconds": 5433,
+            "p95_milliseconds": 12602
+          },
+          "repair": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 2533,
+            "p95_milliseconds": 3770
+          },
+          "audit_repaired": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 4994,
+            "p95_milliseconds": 15598
+          },
+          "prepare": {
+            "calls": 35,
+            "timed_calls": 35,
+            "p50_milliseconds": 1,
+            "p95_milliseconds": 2
+          },
+          "unitize": {
+            "calls": 35,
+            "timed_calls": 35,
+            "p50_milliseconds": 4,
+            "p95_milliseconds": 12
+          },
+          "gate": {
+            "calls": 35,
+            "timed_calls": 35,
+            "p50_milliseconds": 5,
+            "p95_milliseconds": 18
+          },
+          "unitize_repaired": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 4,
+            "p95_milliseconds": 10
+          },
+          "gate_repaired": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 7,
+            "p95_milliseconds": 19
+          }
+        },
+        "issues": [
+          {
+            "id": "content-dismissal-3",
+            "error": null,
+            "codes": [
+              "missing_2"
+            ]
+          },
+          {
+            "id": "content-tax-2",
+            "error": null,
+            "codes": [
+              "missing_1"
+            ]
+          },
+          {
+            "id": "content-tax-3",
+            "error": null,
+            "codes": [
+              "missing_2"
+            ]
+          },
+          {
+            "id": "content-pledge-1",
+            "error": null,
+            "codes": [
+              "missing_3"
+            ]
+          },
+          {
+            "id": "content-pledge-4",
+            "error": null,
+            "codes": [
+              "missing_2"
+            ]
+          },
+          {
+            "id": "content-pledge-3",
+            "error": null,
+            "codes": [
+              "missing_1",
+              "missing_3"
+            ]
+          },
+          {
+            "id": "content-restructure-2",
+            "error": "FlowiseReviewRejected",
+            "codes": []
+          },
+          {
+            "id": "content-restructure-3",
+            "error": null,
+            "codes": [
+              "missing_1"
+            ]
+          },
+          {
+            "id": "content-restructure-4",
+            "error": null,
+            "codes": [
+              "missing_1"
+            ]
+          }
+        ]
+      },
+      {
+        "label": "first_candidate",
+        "criteria_sha256": "ffd1c9929d58c6ede7394e74e777a8b5f28a0e845412738cebdd7cfb2e88e52f",
+        "status": "complete",
+        "scenarios": 20,
+        "accepted_responses": 19,
+        "automatic_passed": 15,
+        "seconds_p50": 38.843,
+        "seconds_p95": 59.509,
+        "workflow_records": 32,
+        "model_node_executions_observed": 122,
+        "stage_timings": {
+          "draft": {
+            "calls": 32,
+            "timed_calls": 32,
+            "p50_milliseconds": 3141,
+            "p95_milliseconds": 4127
+          },
+          "audit": {
+            "calls": 32,
+            "timed_calls": 32,
+            "p50_milliseconds": 5330,
+            "p95_milliseconds": 33203
+          },
+          "repair": {
+            "calls": 29,
+            "timed_calls": 29,
+            "p50_milliseconds": 2814,
+            "p95_milliseconds": 3487
+          },
+          "audit_repaired": {
+            "calls": 29,
+            "timed_calls": 29,
+            "p50_milliseconds": 5055,
+            "p95_milliseconds": 8631
+          },
+          "prepare": {
+            "calls": 32,
+            "timed_calls": 32,
+            "p50_milliseconds": 1,
+            "p95_milliseconds": 2
+          },
+          "unitize": {
+            "calls": 32,
+            "timed_calls": 32,
+            "p50_milliseconds": 4,
+            "p95_milliseconds": 9
+          },
+          "gate": {
+            "calls": 32,
+            "timed_calls": 32,
+            "p50_milliseconds": 6,
+            "p95_milliseconds": 31
+          },
+          "unitize_repaired": {
+            "calls": 29,
+            "timed_calls": 29,
+            "p50_milliseconds": 3,
+            "p95_milliseconds": 13
+          },
+          "gate_repaired": {
+            "calls": 29,
+            "timed_calls": 29,
+            "p50_milliseconds": 8,
+            "p95_milliseconds": 26
+          }
+        },
+        "issues": [
+          {
+            "id": "content-dismissal-2",
+            "error": "FlowiseError",
+            "codes": []
+          },
+          {
+            "id": "content-tax-3",
+            "error": null,
+            "codes": [
+              "missing_2"
+            ]
+          },
+          {
+            "id": "content-insurance-3",
+            "error": null,
+            "codes": [
+              "missing_1"
+            ]
+          },
+          {
+            "id": "content-pledge-3",
+            "error": null,
+            "codes": [
+              "missing_3"
+            ]
+          },
+          {
+            "id": "content-restructure-2",
+            "error": null,
+            "codes": [
+              "missing_3",
+              "missing_4"
+            ]
+          }
+        ]
+      },
+      {
+        "label": "repeat_before_transport_fix",
+        "criteria_sha256": "ffd1c9929d58c6ede7394e74e777a8b5f28a0e845412738cebdd7cfb2e88e52f",
+        "status": "complete",
+        "scenarios": 20,
+        "accepted_responses": 17,
+        "automatic_passed": 11,
+        "seconds_p50": 43.914,
+        "seconds_p95": 84.227,
+        "workflow_records": 34,
+        "model_node_executions_observed": 136,
+        "stage_timings": {
+          "draft": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 3081,
+            "p95_milliseconds": 4180
+          },
+          "audit": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 6030,
+            "p95_milliseconds": 16571
+          },
+          "repair": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 2667,
+            "p95_milliseconds": 3455
+          },
+          "audit_repaired": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 5213,
+            "p95_milliseconds": 13506
+          },
+          "prepare": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 1,
+            "p95_milliseconds": 2
+          },
+          "unitize": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 4,
+            "p95_milliseconds": 12
+          },
+          "gate": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 7,
+            "p95_milliseconds": 20
+          },
+          "unitize_repaired": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 4,
+            "p95_milliseconds": 7
+          },
+          "gate_repaired": {
+            "calls": 34,
+            "timed_calls": 34,
+            "p50_milliseconds": 7,
+            "p95_milliseconds": 20
+          }
+        },
+        "issues": [
+          {
+            "id": "content-dismissal-1",
+            "error": "FlowiseReviewRejected",
+            "codes": []
+          },
+          {
+            "id": "content-tax-1",
+            "error": null,
+            "codes": [
+              "missing_2"
+            ]
+          },
+          {
+            "id": "content-tax-3",
+            "error": null,
+            "codes": [
+              "missing_2"
+            ]
+          },
+          {
+            "id": "content-insurance-3",
+            "error": null,
+            "codes": [
+              "missing_1"
+            ]
+          },
+          {
+            "id": "content-pledge-2",
+            "error": "ServerDisconnectedError",
+            "codes": []
+          },
+          {
+            "id": "content-pledge-4",
+            "error": null,
+            "codes": [
+              "missing_2"
+            ]
+          },
+          {
+            "id": "content-pledge-3",
+            "error": null,
+            "codes": [
+              "missing_3"
+            ]
+          },
+          {
+            "id": "content-restructure-2",
+            "error": null,
+            "codes": [
+              "missing_3"
+            ]
+          },
+          {
+            "id": "content-restructure-3",
+            "error": "FlowiseReviewRejected",
+            "codes": []
+          }
+        ]
+      }
+    ],
+    "answers_exported": false,
+    "expert_accuracy": null,
+    "limitations": [
+      "Same authored case set reused for debugging; not independent expert evaluation.",
+      "Observed stage executions exclude unreturned/unmeasured server work.",
+      "Keyword misses are not automatically errors of law.",
+      "Final production candidate includes a later bounded transport fix and narrowed dismissal guidance; its normal Matrix path is measured separately."
+    ]
+  },
+  "matrix": {
+    "main": {
+      "status": "complete",
+      "summary": {
+        "planned": 20,
+        "completed": 20,
+        "answered": 20,
+        "automatic_passed": 15,
+        "generation_unavailable": 0,
+        "validation_fallback": 0,
+        "duplicates": 0,
+        "errors": {},
+        "domains": {
+          "legal": 11,
+          "finance": 9
+        },
+        "p50_seconds": 43.941,
+        "p95_seconds": 70.861,
+        "expert_accuracy": null,
+        "human_specialist_approvals": 0
+      },
+      "question_messages": 50,
+      "content_messages": 30,
+      "history": [
+        {
+          "case_id": "content-dismissal-4",
+          "seconds": 21.859,
+          "automatic_passed": true
+        },
+        {
+          "case_id": "content-dismissal-2",
+          "seconds": 53.987,
+          "automatic_passed": true
+        },
+        {
+          "case_id": "content-tax-2",
+          "seconds": 59.257,
+          "automatic_passed": true
+        },
+        {
+          "case_id": "content-tax-4",
+          "seconds": 51.497,
+          "automatic_passed": false
+        },
+        {
+          "case_id": "content-insurance-2",
+          "seconds": 41.475,
+          "automatic_passed": true
+        },
+        {
+          "case_id": "content-pledge-2",
+          "seconds": 0.333,
+          "automatic_passed": true
+        },
+        {
+          "case_id": "content-insurance-4",
+          "seconds": 44.005,
+          "automatic_passed": false
+        },
+        {
+          "case_id": "content-pledge-4",
+          "seconds": 37.635,
+          "automatic_passed": false
+        },
+        {
+          "case_id": "content-restructure-2",
+          "seconds": 20.156,
+          "automatic_passed": true
+        },
+        {
+          "case_id": "content-restructure-4",
+          "seconds": 1.445,
+          "automatic_passed": true
+        }
+      ],
+      "rows": [
+        {
+          "id": "content-dismissal-1",
+          "domain": "legal",
+          "passed": false,
+          "missing_conditions": [
+            "voluntary"
+          ],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 57.531,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": true,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-dismissal-3",
+          "domain": "legal",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 18.034,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-dismissal-4",
+          "domain": "legal",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 1.843,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": false,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-dismissal-2",
+          "domain": "legal",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 70.861,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-tax-1",
+          "domain": "finance",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 55.881,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": false,
+            "contract_or_mortgage_terms": false,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-tax-3",
+          "domain": "finance",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 57.136,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": false,
+            "contract_or_mortgage_terms": false,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-tax-2",
+          "domain": "finance",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 64.727,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-tax-4",
+          "domain": "legal",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 44.319,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": false,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-insurance-1",
+          "domain": "finance",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 100.062,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": true,
+            "insurance_scope_terms": true,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-insurance-3",
+          "domain": "finance",
+          "passed": false,
+          "missing_conditions": [
+            "scope"
+          ],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 45.049,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": true,
+            "insurance_scope_terms": true,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-insurance-2",
+          "domain": "legal",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 47.167,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": true,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-pledge-1",
+          "domain": "legal",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 1.814,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-pledge-2",
+          "domain": "legal",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 0.338,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-pledge-3",
+          "domain": "finance",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 39.139,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": true,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-insurance-4",
+          "domain": "legal",
+          "passed": false,
+          "missing_conditions": [
+            "evidence"
+          ],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 43.737,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": true,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-restructure-1",
+          "domain": "finance",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 20.396,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-pledge-4",
+          "domain": "legal",
+          "passed": false,
+          "missing_conditions": [
+            "docs"
+          ],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 42.677,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-restructure-3",
+          "domain": "legal",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 6.329,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": true,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-restructure-2",
+          "domain": "finance",
+          "passed": false,
+          "missing_conditions": [
+            "proposal"
+          ],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 43.941,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "content-restructure-4",
+          "domain": "finance",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 45.537,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        }
+      ],
+      "tested_image": "sha256:a8f3fe4ded336401d4ee10ac7d9e0eda96d38814c32af2145c82479bfd03c4db",
+      "production_bot_stopped": false,
+      "preparation_mechanisms": {
+        "requires_model": 24,
+        "source_bound_work": 1,
+        "source_bound_legal": 2,
+        "organizational_draft": 1,
+        "source_bound_guidance": 2
+      },
+      "workflow_runs": 44,
+      "model_nodes_observed": 176,
+      "stage_timings": {
+        "draft": {
+          "calls": 44,
+          "timed_calls": 44,
+          "p95_milliseconds": 4024
+        },
+        "audit": {
+          "calls": 44,
+          "timed_calls": 44,
+          "p95_milliseconds": 31309
+        },
+        "repair": {
+          "calls": 44,
+          "timed_calls": 44,
+          "p95_milliseconds": 3454
+        },
+        "audit_repaired": {
+          "calls": 44,
+          "timed_calls": 44,
+          "p95_milliseconds": 10920
+        },
+        "prepare": {
+          "calls": 44,
+          "timed_calls": 44,
+          "p95_milliseconds": 2
+        },
+        "unitize": {
+          "calls": 44,
+          "timed_calls": 44,
+          "p95_milliseconds": 11
+        },
+        "gate": {
+          "calls": 44,
+          "timed_calls": 44,
+          "p95_milliseconds": 16
+        }
+      },
+      "answers_exported": false,
+      "expert_accuracy": null
+    },
+    "postfix": {
+      "status": "complete",
+      "summary": {
+        "planned": 4,
+        "completed": 4,
+        "answered": 4,
+        "automatic_passed": 4,
+        "generation_unavailable": 0,
+        "validation_fallback": 0,
+        "duplicates": 0,
+        "errors": {},
+        "domains": {
+          "finance": 3,
+          "legal": 1
+        },
+        "p50_seconds": 0.38,
+        "p95_seconds": 0.977,
+        "expert_accuracy": null,
+        "human_specialist_approvals": 0
+      },
+      "question_messages": 10,
+      "content_messages": 6,
+      "history": [
+        {
+          "case_id": "draft-refund-role",
+          "seconds": 1.829,
+          "automatic_passed": null
+        },
+        {
+          "case_id": "draft-credit-values",
+          "seconds": 39.273,
+          "automatic_passed": null
+        }
+      ],
+      "rows": [
+        {
+          "id": "draft-credit-currency",
+          "domain": "finance",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 0.977,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "draft-refund-role",
+          "domain": "legal",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 0.389,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "draft-arithmetic-control",
+          "domain": "finance",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 0.368,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": false,
+            "contract_or_mortgage_terms": false,
+            "specific_proposed_amount": false
+          }
+        },
+        {
+          "id": "draft-credit-values",
+          "domain": "finance",
+          "passed": true,
+          "missing_conditions": [],
+          "forbidden_claims": [],
+          "usefulness_issues": [],
+          "seconds": 0.38,
+          "html_present": true,
+          "diagnostic_flags": {
+            "voluntary_or_initiative_terms": false,
+            "insurance_scope_terms": false,
+            "documents_or_proof_terms": true,
+            "contract_or_mortgage_terms": true,
+            "specific_proposed_amount": true
+          }
+        }
+      ],
+      "tested_image": "sha256:70131e5a9002ac7513a3a1b5e433c85665d241013c5d212d8e4920ff961066c3",
+      "production_bot_stopped": false,
+      "preparation_mechanisms": {
+        "organizational_credit_draft": 2,
+        "requires_model": 1,
+        "source_bound_legal": 1,
+        "organizational_draft": 1,
+        "arithmetic": 1
+      },
+      "workflow_runs": 2,
+      "model_nodes_observed": 8,
+      "stage_timings": {
+        "draft": {
+          "calls": 2,
+          "timed_calls": 2,
+          "p95_milliseconds": 2478
+        },
+        "audit": {
+          "calls": 2,
+          "timed_calls": 2,
+          "p95_milliseconds": 8951
+        },
+        "repair": {
+          "calls": 2,
+          "timed_calls": 2,
+          "p95_milliseconds": 2044
+        },
+        "audit_repaired": {
+          "calls": 2,
+          "timed_calls": 2,
+          "p95_milliseconds": 6838
+        },
+        "prepare": {
+          "calls": 2,
+          "timed_calls": 2,
+          "p95_milliseconds": 1
+        },
+        "unitize": {
+          "calls": 2,
+          "timed_calls": 2,
+          "p95_milliseconds": 3
+        },
+        "gate": {
+          "calls": 2,
+          "timed_calls": 2,
+          "p95_milliseconds": 9
+        }
+      },
+      "answers_exported": false,
+      "expert_accuracy": null
+    }
+  },
+  "knowledge": {
+    "as_of": "2026-11-01",
+    "documents": 106,
+    "source_ids_attempted": 106,
+    "latest_counts": {
+      "check_unavailable": 87,
+      "snapshot_unchanged": 8,
+      "manual_page_comparison_required": 11
+    },
+    "errors_by_type": {
+      "TimeoutError": 78,
+      "HTTPError": 1,
+      "URLError": 7,
+      "RemoteDisconnected": 1
+    },
+    "inventory_counts": {
+      "within_review_interval": 100,
+      "review_due": 6
+    },
+    "review_due_ids": [
+      "consumer-law",
+      "personal-law",
+      "halyk-superapp",
+      "halyk-debit",
+      "halyk-annual",
+      "freedom-retail"
+    ],
+    "catalogs": [
+      {
+        "id": "freedom-retail",
+        "status": "catalog_baseline_requires_review",
+        "pdf_link_observed": true,
+        "pdf_link_count": 500
+      },
+      {
+        "id": "halyk-annual",
+        "status": "catalog_baseline_requires_review",
+        "pdf_link_observed": true,
+        "pdf_link_count": 15
+      },
+      {
+        "id": "halyk-debit",
+        "status": "catalog_baseline_requires_review",
+        "pdf_link_observed": false,
+        "pdf_link_count": 15
+      },
+      {
+        "id": "halyk-superapp",
+        "status": "catalog_baseline_requires_review",
+        "pdf_link_observed": true,
+        "pdf_link_count": 15
+      }
+    ],
+    "archived_artifacts": 20,
+    "archive_bytes": 11807955,
+    "archive_hashes_valid": true,
+    "run_manifests": 8,
+    "automatic_activation": false,
+    "review_dates_changed": false,
+    "expert_accuracy": null
+  },
+  "load": {
+    "cohorts": [
+      {
+        "label": "mixed_baseline",
+        "requests": 10,
+        "workers": 1,
+        "inference": "mixed_actual_agentflow_and_source_bound",
+        "ingress_seconds": 0.87,
+        "drain_seconds": 84.58,
+        "max_pending_observed": 10,
+        "latency_p50_seconds": 6.335,
+        "latency_p95_seconds": 84.473,
+        "queue_wait_p95_seconds": 32.151,
+        "service_p95_seconds": 51.073,
+        "preparation_p95_seconds": 50.905,
+        "delivery_p95_seconds": 0.205,
+        "delivery_attempts": 10,
+        "delivery_deferrals": 0,
+        "server_rate_limits": 0,
+        "answered": 10,
+        "duplicates": 0,
+        "generation_errors": 0
+      },
+      {
+        "label": "mixed_parallel",
+        "requests": 10,
+        "workers": 2,
+        "inference": "mixed_actual_agentflow_and_source_bound",
+        "ingress_seconds": 0.705,
+        "drain_seconds": 53.622,
+        "max_pending_observed": 10,
+        "latency_p50_seconds": 9.124,
+        "latency_p95_seconds": 53.52,
+        "queue_wait_p95_seconds": 51.51,
+        "service_p95_seconds": 45.337,
+        "preparation_p95_seconds": 45.099,
+        "delivery_p95_seconds": 0.456,
+        "delivery_attempts": 10,
+        "delivery_deferrals": 0,
+        "server_rate_limits": 0,
+        "answered": 10,
+        "duplicates": 0,
+        "generation_errors": 0
+      },
+      {
+        "label": "source_bound_burst",
+        "requests": 20,
+        "workers": 2,
+        "inference": "source_bound_no_new_model_calls",
+        "ingress_seconds": 1.12,
+        "drain_seconds": 55.977,
+        "max_pending_observed": 20,
+        "latency_p50_seconds": 6.944,
+        "latency_p95_seconds": 51.213,
+        "queue_wait_p95_seconds": 29.074,
+        "service_p95_seconds": 29.581,
+        "preparation_p95_seconds": 4.076,
+        "delivery_p95_seconds": 29.549,
+        "delivery_attempts": 45,
+        "delivery_deferrals": 25,
+        "server_rate_limits": 10,
+        "answered": 20,
+        "duplicates": 0,
+        "generation_errors": 0
+      }
+    ],
+    "recovery": {
+      "offline_answers": 2,
+      "reply_counts": [
+        1,
+        1
+      ],
+      "pending": 0
+    },
+    "feedback": {
+      "acknowledged": 4,
+      "saved_acknowledgements": 2,
+      "updated_acknowledgements": 1,
+      "duplicate_acknowledgements": 1,
+      "records": 2,
+      "categories": {
+        "finance": {
+          "helpful": 1
+        },
+        "legal": {
+          "suspected_error": 1
+        }
+      }
+    },
+    "preflight": {
+      "scenarios": 20,
+      "answered": 20,
+      "not_executed": 0,
+      "generation_failed": 0,
+      "automatic_passed": 20,
+      "specialist_scored": 0,
+      "expert_accuracy": null,
+      "expert_usefulness": null,
+      "expert_exceptions": null
+    },
+    "answer_checks": {
+      "answered_and_checked": 42,
+      "automatic_passed": 42,
+      "expert_accuracy": null
+    },
+    "cleanup_accounts_deactivated": 12,
+    "credentials_removed": true,
+    "working_bot_stopped": false,
+    "rate_limits_changed": false,
+    "answers_exported": false,
+    "observations": [
+      {
+        "phase": "mixed_baseline",
+        "preparation_mechanisms": {
+          "source_bound_gesv": 2,
+          "source_bound_legal": 4,
+          "source_bound_tariff": 1,
+          "requires_model": 2,
+          "source_bound_work": 1
+        },
+        "agentflow_completed": 2,
+        "rate_limit_log_lines": 0
+      },
+      {
+        "phase": "mixed_parallel",
+        "preparation_mechanisms": {
+          "source_bound_tariff": 1,
+          "source_bound_legal": 4,
+          "source_bound_gesv": 2,
+          "requires_model": 2,
+          "source_bound_work": 1
+        },
+        "agentflow_completed": 2,
+        "rate_limit_log_lines": 0
+      },
+      {
+        "phase": "source_bound_burst",
+        "preparation_mechanisms": {
+          "source_bound_work": 10,
+          "source_bound_gesv": 10
+        },
+        "agentflow_completed": 0,
+        "rate_limit_log_lines": 0
+      },
+      {
+        "phase": "recovery",
+        "preparation_mechanisms": {
+          "source_bound_tariff": 1,
+          "source_bound_work": 1
+        },
+        "agentflow_completed": 0,
+        "rate_limit_log_lines": 0
+      },
+      {
+        "phase": "recovery",
+        "preparation_mechanisms": {},
+        "agentflow_completed": 0,
+        "rate_limit_log_lines": 0
+      }
+    ]
+  },
+  "queue_simulation": {
+    "mode": "isolated_queue_simulation_not_live_model_capacity",
+    "cohorts": [
+      {
+        "requests": 20,
+        "workers": 1,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 19,
+        "delivered_unique": 20,
+        "remaining": 0,
+        "elapsed_seconds": 0.4632,
+        "queue_p50_seconds": 0.1973,
+        "queue_p95_seconds": 0.4128,
+        "total_p95_seconds": 0.4361,
+        "duplicates_observed": false
+      },
+      {
+        "requests": 20,
+        "workers": 2,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 18,
+        "delivered_unique": 20,
+        "remaining": 0,
+        "elapsed_seconds": 0.2364,
+        "queue_p50_seconds": 0.1001,
+        "queue_p95_seconds": 0.2081,
+        "total_p95_seconds": 0.2298,
+        "duplicates_observed": false
+      },
+      {
+        "requests": 50,
+        "workers": 1,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 49,
+        "delivered_unique": 50,
+        "remaining": 0,
+        "elapsed_seconds": 1.1733,
+        "queue_p50_seconds": 0.5395,
+        "queue_p95_seconds": 1.0931,
+        "total_p95_seconds": 1.1161,
+        "duplicates_observed": false
+      },
+      {
+        "requests": 50,
+        "workers": 2,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 48,
+        "delivered_unique": 50,
+        "remaining": 0,
+        "elapsed_seconds": 0.607,
+        "queue_p50_seconds": 0.2846,
+        "queue_p95_seconds": 0.5526,
+        "total_p95_seconds": 0.5739,
+        "duplicates_observed": false
+      },
+      {
+        "requests": 100,
+        "workers": 1,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 99,
+        "delivered_unique": 100,
+        "remaining": 0,
+        "elapsed_seconds": 2.3359,
+        "queue_p50_seconds": 1.1672,
+        "queue_p95_seconds": 2.1846,
+        "total_p95_seconds": 2.2067,
+        "duplicates_observed": false
+      },
+      {
+        "requests": 100,
+        "workers": 2,
+        "inference": "simulated_async_delay",
+        "delay_seconds": 0.02,
+        "pending_at_restart": 98,
+        "delivered_unique": 100,
+        "remaining": 0,
+        "elapsed_seconds": 1.1816,
+        "queue_p50_seconds": 0.5724,
+        "queue_p95_seconds": 1.096,
+        "total_p95_seconds": 1.118,
+        "duplicates_observed": false
+      }
+    ]
+  },
+  "deployment": {
+    "image": "sha256:70131e5a9002ac7513a3a1b5e433c85665d241013c5d212d8e4920ff961066c3",
+    "previous_image": "sha256:be280374b3c57b2f3f082a9474d16769984cb103b28fba9b2cebc2bd93e8bab8",
+    "project": "/home/admin_sts/sts-matrix-support/project",
+    "public_files_checked": 27,
+    "runtime_and_maintenance_files_checked": 15,
+    "knowledge_documents": 106,
+    "rate_limits_changed": false,
+    "flowise_graph_changes": 0,
+    "working_workers": 2,
+    "semantic_index_ready": true
+  },
+  "services": {
+    "services": [
+      {
+        "service": "sts-team-demo-bot-1",
+        "running": true,
+        "health": null,
+        "restarts": 0
+      },
+      {
+        "service": "sts-team-demo-homeserver-1",
+        "running": true,
+        "health": "healthy",
+        "restarts": 0
+      },
+      {
+        "service": "sts-team-demo-element-1",
+        "running": true,
+        "health": "healthy",
+        "restarts": 0
+      },
+      {
+        "service": "sts-team-demo-backend-1",
+        "running": true,
+        "health": "healthy",
+        "restarts": 0
+      },
+      {
+        "service": "sts-team-demo-frontend-1",
+        "running": true,
+        "health": null,
+        "restarts": 0
+      },
+      {
+        "service": "sts-team-demo-postgres-1",
+        "running": true,
+        "health": "healthy",
+        "restarts": 0
+      },
+      {
+        "service": "sts-flowise-pilot-flowise-1",
+        "running": true,
+        "health": null,
+        "restarts": 0
+      },
+      {
+        "service": "sts-flowise-pilot-flowise-postgres-1",
+        "running": true,
+        "health": "healthy",
+        "restarts": 0
+      },
+      {
+        "service": "litellm",
+        "running": true,
+        "health": null,
+        "restarts": 0
+      }
+    ],
+    "routes": {
+      "routes": 4,
+      "domains": {
+        "legal": 2,
+        "finance": 2
+      },
+      "unique_flows": 2,
+      "contracts": {
+        "sts.claims.v1": 4
+      }
+    },
+    "synthetic_credentials_removed": {
+      "matrix-content-20261101": true,
+      "matrix-drafts-20261101": true,
+      "load-20261101": true
+    },
+    "schedule_installed": true
+  },
+  "answers_exported": false,
+  "expert_accuracy": null,
+  "source_manifest_sha256": "7e9afc6ada1a007bdfac0e017a4aed624cefa2b6e693178798d1715d162f8daf"
+}

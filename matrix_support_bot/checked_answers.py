@@ -395,7 +395,7 @@ def checked_practical_guidance(domain, question, evidence):
     if drafting:
         answer=('Можно обратиться к кредитору с предложением изменить условия: '
                 'официальная памятка советует указать причины трудностей и предлагаемый вариант. '
-                'Согласие кредитора не гарантировано. [S1]\n\n'+credit_request_draft())
+                'Согласие кредитора не гарантировано. [S1]\n\n'+credit_request_draft(question))
         return render(domain,answer,question,[guide])
     if not re.search(r'нечем.*плат|нет денег.*кредит|снизить.*плат[её]ж',current,re.I):
         return None

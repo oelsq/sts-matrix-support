@@ -20,7 +20,7 @@ def case_facts(question,previous=''):
         if re.search(r'чем.{0,60}отлич|разниц|сравн',current,re.I):civil=False;labour=False;no_written=False
         facts['contract_reported']='mixed' if civil and labour else 'civil' if civil else 'labour' if labour else 'no_written_contract' if no_written else 'unknown'
         if facts['contract_reported']=='unknown':questions.append('У вас трудовой договор, договор на оказание услуг или работа без письменного оформления?')
-        facts['termination_reported']=bool(re.search(r'уволили|уволился|после увольнения|договор расторгнут',q))
+        facts['termination_reported']=bool(re.search(r'уволили|уволился|сократили|после увольнения|договор расторгнут',q))
         if re.search(r'рассчита|посчита|сколько.*пен',q):questions.append('Какие сумма задолженности, дата ожидаемой выплаты и дата фактической оплаты?')
     elif re.search(r'(?:телефон|товар|покупк).*(?:слом|дефект|неисправ)|(?:вернут|возврат).*(?:товар|телефон)',q):
         kind='consumer_defect'

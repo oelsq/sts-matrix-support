@@ -15,7 +15,7 @@ def is_short_message_request(question: str) -> bool:
 def is_document_request(question: str) -> bool:
     """Distinguish writing a document from collecting materials for one."""
     current = question.split("\nПредыдущий вопрос:")[0]
-    explicit = r'напиши(?:те)?|составь(?:те)?|подготовь(?:те)?|сформулируй(?:те)?|оформи(?:те)?|помоги.{0,25}(?:напис|состав|оформ)|как (?:мне )?(?:написать|составить|оформить|подготовить)'
+    explicit = r'напиши(?:те)?|составь(?:те)?|подготовь(?:те)?|сделай(?:те)?|сформулируй(?:те)?|оформи(?:те)?|помоги.{0,25}(?:напис|состав|оформ)|как (?:мне )?(?:написать|составить|оформить|подготовить)'
     if re.search(r'застав|принужд|требует.{0,25}(?:напис|подпис)', current, re.I) and not re.search(explicit, current, re.I):
         return False
     # "What documents should I prepare for an appeal?" asks for inputs,
@@ -96,15 +96,16 @@ def retrieval_question(question: str, previous_question: str = "") -> str:
     if re.search(r"super\s*app", question, re.I) and not re.search(r"super\s*app", previous_question, re.I):
         new_topic = True
     # Recognise a new problem, while retaining context for the same problem.
-    topics = [r"работодател|увольн|зарплат|заработн|отпуск|начальник", r"коллектор|чуж.*долг",
+    topics = [r"работодател|увол|сократ|сокращен|зарплат|заработн|отпуск|начальник|трудов", r"коллектор|чуж.*долг",
               r"банкрот", r"укра|похит|краж", r"арми|военкомат|призыв", r"\bкнб\b",
               r"алимент|развод|реб[её]нок", r"купил|неисправ|сломал.*телефон|магазин",
-              r"средн.*зарплат|медиан", r"аренд|квартир|найм"]
+              r"средн.*зарплат|медиан", r"аренд|квартир|найм",
+              r"НДС|налог", r"КАСКО|страхов|полис|ДТП", r"реструктур|кредит|микро(?:кредит|за[её]м)"]
     new_problem = any(re.search(pattern, question, re.I) and not re.search(pattern, previous_question, re.I)
                       for pattern in topics)
     fact_followup=bool(re.match(r'^(?:у меня |я работаю |работаю |)(?:договор (?:ГПХ|подряда|оказания услуг)|трудового договора нет|нет трудового договора|есть гарантия|гарантии нет)',question,re.I))
-    followup = re.match(r"^(а\b|и\b|тогда\b|если\b|это\b|почему\b|какой\b|какие\b|сколько\b|что дальше|поясни|объясни|уточни)", question, re.I)
-    if previous_question and len(question.split()) <= 18 and (followup or fact_followup or is_document_request(question)) and not new_topic and (not new_problem or fact_followup):
+    followup = re.match(r"^(а\b|и\b|тогда\b|если\b|это\b|почему\b|какой\b|какие\b|сколько\b|кому\b|что (?:дальше|подготовить|приложить|запросить)|мне (?:нужен|нужна|нужно)|поясни|объясни|уточни)", question, re.I)
+    if previous_question and len(question.split()) <= 28 and (followup or fact_followup or is_document_request(question)) and not new_topic and (not new_problem or fact_followup):
         return question + "\nПредыдущий вопрос: " + previous_question[:3000]
     return question
 
@@ -213,10 +214,10 @@ def practical_fallback(domain: str, question: str, *, validation_failed: bool = 
     from document_drafts import rental_refund_request, is_rental_refund_draft
     if is_rental_refund_draft(question):
         return (f"**{label}**\n\nНиже редактируемый пример обращения о возврате платежа. "
-                "Это предложение урегулировать вопрос по договору, а не вывод о том, что вся сумма подлежит возврату.\n\n" + rental_refund_request())
+                "Это предложение урегулировать вопрос по договору, а не вывод о том, что вся сумма подлежит возврату.\n\n" + rental_refund_request(question))
     if is_document_request(question) and credit_payment_problem(question) and not re.search(r'жалоб|иск|суд|омбуд|прокурат', question.split('\nПредыдущий вопрос:')[0], re.I):
         return (f"**{label}**\n\nНиже пример обращения с предложением пересмотреть платежи. "
-                "Это редактируемый текст без неподтверждённых статей и сроков, а не обещание одобрения.\n\n"+credit_request_draft())
+                "Это редактируемый текст без неподтверждённых статей и сроков, а не обещание одобрения.\n\n"+credit_request_draft(question))
     if is_document_request(question) and re.search(r'телефон|смартфон',q) and re.search(r'неисправ|недостат|слома',q) and re.search(r'возврат|вернут|вернуть',q) and not re.search(r'ремонт|замен|жалоб|иск|суд|министр|омбуд',question.split('\nПредыдущий вопрос:')[0],re.I):
         return (f"**{label}**\n\nМожно подготовить такой пример претензии; конкретные права зависят от обстоятельств покупки.\n\n"+consumer_refund_draft())
     if is_document_request(question) and work_payment_question(question) and not re.search(r'жалоб|иск|суд|инспекц|прокурат',question.split('\nПредыдущий вопрос:')[0],re.I):

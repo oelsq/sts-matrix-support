@@ -1,0 +1,13 @@
+{
+  "frozen_on": "2026-11-01",
+  "frozen_before_first_execution": true,
+  "cases": 20,
+  "followup_cases": 10,
+  "behavioral_criteria_sha256": "ffd1c9929d58c6ede7394e74e777a8b5f28a0e845412738cebdd7cfb2e88e52f",
+  "initial_file_sha256": "eb5f2011436488c79bf7e549084086816b3686db0186b5409412b277a6549e75",
+  "metadata_corrections": [
+    "social-code corrected to existing social document ID; source list is advisory, not a pass criterion",
+    "Added explicit criteria_scope metadata; questions, contexts and acceptance patterns unchanged"
+  ],
+  "specialist_approval": null
+}

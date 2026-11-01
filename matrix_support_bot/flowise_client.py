@@ -5,6 +5,8 @@ import re
 import uuid
 import time
 import logging
+import asyncio
+from aiohttp import ServerDisconnectedError
 from workflow_metrics import PredictionText, execution_metrics
 
 log = logging.getLogger("support_bot.flowise_metrics")
@@ -86,7 +88,7 @@ class FlowiseClient:
         else:
             packet=workflow_packet(domain,draft_messages,review_messages)
         session=hashlib.sha256(('\0'.join([room,sender,event_id,'agentflow_v2'])).encode()).hexdigest()
-        text=await self._prediction(http,self.routes[room]['flow_id'],json.dumps(packet,ensure_ascii=False),session,240 if quality else 150,max_bytes=8*1024*1024 if quality else 2*1024*1024)
+        text=await self._prediction(http,self.routes[room]['flow_id'],json.dumps(packet,ensure_ascii=False),session,240 if quality else 150,max_bytes=8*1024*1024 if quality else 2*1024*1024,retry_disconnect=quality)
         metrics = dict(getattr(text, 'workflow_metrics', {}))
         log.info('Flowise workflow summary: %s', json.dumps(dict(metrics, domain=domain), sort_keys=True))
         if quality:
@@ -131,23 +133,33 @@ class FlowiseClient:
         flow_id = route.get('review_flow_id', route['flow_id']) if stage == 'review' else route['flow_id']
         return await self._prediction(http,flow_id,prompt,session,self.timeout)
 
-    async def _prediction(self,http,flow_id,prompt,session,timeout,*,max_bytes=2*1024*1024):
+    async def _prediction(self,http,flow_id,prompt,session,timeout,*,max_bytes=2*1024*1024,retry_disconnect=False):
         started = time.perf_counter()
         body = {'question': prompt, 'streaming': False, 'overrideConfig': {'sessionId': session}}
-        async with http.post(self.url + '/api/v1/prediction/' + flow_id,
-                             json=body, headers={'Authorization': 'Bearer ' + self.api_key},
-                             allow_redirects=False, timeout=timeout) as response:
-            if response.status != 200:
-                raise FlowiseError('Flowise prediction failed (HTTP ' + str(response.status) + ')')
-            data = bytearray()
-            async for chunk in response.content.iter_chunked(65536):
-                data.extend(chunk)
-                if len(data) > max_bytes:
-                    raise FlowiseError('Flowise response exceeds size limit')
-            result = json.loads(data)
+        for attempt in range(2 if retry_disconnect else 1):
+            headers_received = False
+            try:
+                async with http.post(self.url + '/api/v1/prediction/' + flow_id,
+                                     json=body, headers={'Authorization': 'Bearer ' + self.api_key},
+                                     allow_redirects=False, timeout=timeout) as response:
+                    headers_received = True
+                    if response.status != 200:
+                        raise FlowiseError('Flowise prediction failed (HTTP ' + str(response.status) + ')')
+                    data = bytearray()
+                    async for chunk in response.content.iter_chunked(65536):
+                        data.extend(chunk)
+                        if len(data) > max_bytes:
+                            raise FlowiseError('Flowise response exceeds size limit')
+                    result = json.loads(data)
+                break
+            except ServerDisconnectedError:
+                if headers_received or not retry_disconnect or attempt:
+                    raise
+                await asyncio.sleep(.1)
         text = result.get('text') if isinstance(result, dict) else None
         if not isinstance(text, str) or not text.strip() or len(text) > 60000:
             raise FlowiseError('Flowise returned an invalid answer')
         metrics = execution_metrics(result)
+        metrics["transport_retries"] = attempt
         metrics["elapsed_ms"] = round((time.perf_counter() - started) * 1000, 3)
         return PredictionText(text.strip(), metrics)

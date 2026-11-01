@@ -63,6 +63,12 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
     from document_drafts import is_rental_refund_draft
     if is_rental_refund_draft(search_question):
         return PreparedReply(None, practical_fallback(domain, search_question), "organizational_draft")
+    from document_drafts import credit_payment_problem
+    from task_preparation import draft_task_text
+    current_task = draft_task_text(question.split("\nПредыдущий вопрос:")[0])
+    if (is_document_request(question) and credit_payment_problem(search_question)
+            and not re.search(r'жалоб|исков|\bиск\b|\bсуд\w*|омбуд|прокурат|\bстать\w*|\bсрок\w*|обяз|по закону|законн|пен[яию]|штраф|неусто|рассчита|посчита', current_task, re.I)):
+        return PreparedReply(None, practical_fallback(domain, search_question), "organizational_credit_draft")
     if knowledge is not None and domain != "general":
         evidence = scope_evidence(domain, search_question, knowledge.search(domain, search_question, limit=8))
         if not evidence:

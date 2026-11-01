@@ -1,0 +1,644 @@
+{
+  "schema_version": 1,
+  "purpose": "Frozen content regressions with multi-turn context; automatic criteria are not specialist approval",
+  "frozen_on": "2026-11-01",
+  "cases": [
+    {
+      "id": "content-dismissal-1",
+      "topic": "dismissal",
+      "domain": "legal",
+      "question": "Начальник требует сегодня подписать увольнение по собственному желанию, но я уходить не хочу. Что делать?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить добровольность собственного желания, сохранить документы, запросить письменное основание; не обещать автоматическое восстановление.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "voluntary": "собственн|доброволь|соглас",
+        "action": "письмен|копи|сохран"
+      },
+      "forbidden": {
+        "guarantee": "гарантированно восстанов"
+      },
+      "sources": [
+        "labor",
+        "court-labor"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "собственн|доброволь|соглас",
+        "письмен|копи|сохран"
+      ],
+      "forbidden_patterns": [
+        "гарантированно восстанов"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-dismissal-2",
+      "topic": "dismissal",
+      "domain": "legal",
+      "question": "А если уже подписал под давлением, можно что-то сделать?",
+      "previous_questions": [
+        "Начальник требует подписать увольнение по собственному желанию, но я уходить не хочу."
+      ],
+      "candidate_reference": "Учесть подписанное заявление, предложить оперативные действия и доказательства давления; не утверждать автоматическую недействительность.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "context": "заявлен|подпис",
+        "evidence": "давлен|принужд|переписк|доказ"
+      },
+      "forbidden": {
+        "automatic": "заявление автоматически недействительно"
+      },
+      "sources": [
+        "labor",
+        "court-labor"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "заявлен|подпис",
+        "давлен|принужд|переписк|доказ"
+      ],
+      "forbidden_patterns": [
+        "заявление автоматически недействительно"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-dismissal-3",
+      "topic": "dismissal",
+      "domain": "legal",
+      "question": "Меня сократили вчера, расчёт не выплатили и приказ не дали. Какие документы запросить?",
+      "previous_questions": [],
+      "candidate_reference": "Запросить акт прекращения и расчёт начислений/выплат, сохранить трудовые доказательства, различать основания и компенсации.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "termination": "приказ|акт|прекращ",
+        "payment": "расч[её]т|выплат",
+        "proof": "договор|переписк"
+      },
+      "forbidden": {},
+      "sources": [
+        "labor"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "приказ|акт|прекращ",
+        "расч[её]т|выплат",
+        "договор|переписк"
+      ],
+      "forbidden_patterns": [],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-dismissal-4",
+      "topic": "dismissal",
+      "domain": "legal",
+      "question": "Составь короткое требование работодателю об этих документах и невыплаченных деньгах.",
+      "previous_questions": [
+        "Меня сократили вчера, расчёт не выплатили и приказ не дали. Какие документы запросить?"
+      ],
+      "candidate_reference": "Дать сам черновик с заполнителями, без выдуманных дат и суммы.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "draft": "Кому:|Адресат:|Руководител",
+        "request": "Прошу|Требую",
+        "context": "расч[её]т|задолж|выплат",
+        "documents": "приказ|акт|документ"
+      },
+      "forbidden": {},
+      "sources": [
+        "labor"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "Кому:|Адресат:|Руководител",
+        "Прошу|Требую",
+        "расч[её]т|задолж|выплат",
+        "приказ|акт|документ"
+      ],
+      "forbidden_patterns": [],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-tax-1",
+      "topic": "tax",
+      "domain": "finance",
+      "question": "Мне начислили 300 000 тенге по трудовому договору. Это ровно столько же на руки или будут удержания?",
+      "previous_questions": [],
+      "candidate_reference": "Различить начисленную и выплаченную суммы, объяснить удержания и необходимые сведения; не выдавать точный нетто без условий.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "gross": "начислен|удержан",
+        "scope": "вычет|статус|расч[её]тн|льгот"
+      },
+      "forbidden": {
+        "net": "на руки ровно 300.?000"
+      },
+      "sources": [
+        "tax",
+        "social"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "начислен|удержан",
+        "вычет|статус|расч[её]тн|льгот"
+      ],
+      "forbidden_patterns": [
+        "на руки ровно 300.?000"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-tax-2",
+      "topic": "tax",
+      "domain": "finance",
+      "question": "Мне нужен точный расчёт: какие данные тебе сообщить, без ИИН?",
+      "previous_questions": [
+        "Мне начислили 300 000 тенге по трудовому договору. Это ровно столько же на руки или будут удержания?"
+      ],
+      "candidate_reference": "Удержать контекст зарплаты, запросить период/статус/вычеты; не требовать ИИН.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "context": "зарплат|начислен|трудов|удержан",
+        "inputs": "период|месяц|резидент|вычет"
+      },
+      "forbidden": {
+        "pii": "пришлите (?:свой )?ИИН|нужен ваш ИИН"
+      },
+      "sources": [
+        "tax",
+        "social"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "зарплат|начислен|трудов|удержан",
+        "период|месяц|резидент|вычет"
+      ],
+      "forbidden_patterns": [
+        "пришлите (?:свой )?ИИН|нужен ваш ИИН"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-tax-3",
+      "topic": "tax",
+      "domain": "finance",
+      "question": "В старом договоре указан НДС 12%, но счёт выставляют сейчас. Можно всегда применять старую ставку?",
+      "previous_questions": [],
+      "candidate_reference": "Объяснить временную применимость, дату оборота и переходные положения; не обещать универсальную ставку по дате договора.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "time": "дат|период|оборот",
+        "exception": "переход|услов|редакц"
+      },
+      "forbidden": {
+        "old_always": "всегда применяйте 12|всегда применяется 12"
+      },
+      "sources": [
+        "tax"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "дат|период|оборот",
+        "переход|услов|редакц"
+      ],
+      "forbidden_patterns": [
+        "всегда применяйте 12|всегда применяется 12"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-tax-4",
+      "topic": "tax",
+      "domain": "legal",
+      "question": "Какие документы попросить у бухгалтерии, чтобы проверить именно ставку в этом счёте?",
+      "previous_questions": [
+        "В старом договоре указан НДС 12%, но счёт выставляют сейчас. Можно всегда применять старую ставку?"
+      ],
+      "candidate_reference": "Сохранить тему НДС, предложить договор/счёт/акт/дату оборота и обоснование, не просить все персональные данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "tax": "НДС|налог|ставк",
+        "documents": "договор|сч[её]т|акт",
+        "date": "дат|период"
+      },
+      "forbidden": {},
+      "sources": [
+        "tax"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "НДС|налог|ставк",
+        "договор|сч[её]т|акт",
+        "дат|период"
+      ],
+      "forbidden_patterns": [],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-insurance-1",
+      "topic": "insurance",
+      "domain": "finance",
+      "question": "После ДТП страховщик отказал в выплате по обязательной автогражданке, объяснений почти нет. С чего начать?",
+      "previous_questions": [],
+      "candidate_reference": "Запросить мотивированный отказ, основание и материалы; проверить обстоятельства и процедуру оспаривания, не обещать выплату.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "refusal": "отказ|основан",
+        "written": "письмен|мотивирован|документ",
+        "scope": "страхов|договор"
+      },
+      "forbidden": {
+        "guarantee": "страховая обязана платить в любом случае"
+      },
+      "sources": [
+        "auto-insurance",
+        "insurance"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "отказ|основан",
+        "письмен|мотивирован|документ",
+        "страхов|договор"
+      ],
+      "forbidden_patterns": [
+        "страховая обязана платить в любом случае"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-insurance-2",
+      "topic": "insurance",
+      "domain": "legal",
+      "question": "Напиши запрос на письменное обоснование отказа и расчёт.",
+      "previous_questions": [
+        "После ДТП страховщик отказал в выплате по обязательной автогражданке, объяснений почти нет. С чего начать?"
+      ],
+      "candidate_reference": "Дать готовый запрос страховщику с заполнителями и контекстом отказа/ДТП.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "draft": "Кому:|Адресат:|страховую|страховщику",
+        "request": "Прошу|прошу",
+        "grounds": "основан|отказ",
+        "calculation": "расч[её]т"
+      },
+      "forbidden": {},
+      "sources": [
+        "auto-insurance"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "Кому:|Адресат:|страховую|страховщику",
+        "Прошу|прошу",
+        "основан|отказ",
+        "расч[её]т"
+      ],
+      "forbidden_patterns": [],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-insurance-3",
+      "topic": "insurance",
+      "domain": "finance",
+      "question": "По КАСКО мне отказали из-за исключения в договоре. Но я плачу страховку, разве выплатить обязаны всегда?",
+      "previous_questions": [],
+      "candidate_reference": "Различить добровольное покрытие и исключения, запросить точный пункт/редакцию и обстоятельства, не переносить автогражданку на КАСКО.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "scope": "КАСКО|доброволь",
+        "exception": "исключен|услови|пункт",
+        "evidence": "договор|отказ|полис"
+      },
+      "forbidden": {
+        "guarantee": "обязаны выплатить всегда"
+      },
+      "sources": [
+        "civil-special",
+        "insurance"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "КАСКО|доброволь",
+        "исключен|услови|пункт",
+        "договор|отказ|полис"
+      ],
+      "forbidden_patterns": [
+        "обязаны выплатить всегда"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-insurance-4",
+      "topic": "insurance",
+      "domain": "legal",
+      "question": "А если этот пункт мне не объясняли при покупке полиса?",
+      "previous_questions": [
+        "По КАСКО мне отказали из-за исключения в договоре. Но я плачу страховку, разве выплатить обязаны всегда?"
+      ],
+      "candidate_reference": "Сохранить контекст КАСКО, предложить проверить предоставление условий и подтверждения, не объявлять исключение автоматически недействительным.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "context": "страхов|полис|договор",
+        "evidence": "подпис|ознаком|переписк|доказ|услови"
+      },
+      "forbidden": {
+        "automatic": "исключение автоматически недействительно"
+      },
+      "sources": [
+        "civil-special",
+        "insurance"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "страхов|полис|договор",
+        "подпис|ознаком|переписк|доказ|услови"
+      ],
+      "forbidden_patterns": [
+        "исключение автоматически недействительно"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-pledge-1",
+      "topic": "pledge",
+      "domain": "legal",
+      "question": "Арендодатель удерживает мой обеспечительный платёж за квартиру, хотя долгов нет. Что запросить?",
+      "previous_questions": [],
+      "candidate_reference": "Различить обеспечительный платёж/задаток и основание удержания, сохранить договор, акт и подтверждение оплаты.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "documents": "договор|акт",
+        "reason": "удержан|основан|расч[её]т",
+        "evidence": "оплат|перевод|квитанц"
+      },
+      "forbidden": {},
+      "sources": [
+        "civil-general",
+        "civil-special"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "договор|акт",
+        "удержан|основан|расч[её]т",
+        "оплат|перевод|квитанц"
+      ],
+      "forbidden_patterns": [],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-pledge-2",
+      "topic": "pledge",
+      "domain": "legal",
+      "question": "Сделай претензию о возврате, сумма 200 000 тенге.",
+      "previous_questions": [
+        "Арендодатель удерживает мой обеспечительный платёж за квартиру, хотя долгов нет. Что запросить?"
+      ],
+      "candidate_reference": "Дать черновик о возврате платежа за аренду с данной суммой, без выдуманного универсального срока.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "draft": "Кому:|Адресат:|Арендодател",
+        "request": "Прошу|Требую",
+        "amount": "200[\\s ]?000",
+        "context": "обеспечительн|аренд|плат[её]ж"
+      },
+      "forbidden": {},
+      "sources": [
+        "civil-general",
+        "civil-special"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "Кому:|Адресат:|Арендодател",
+        "Прошу|Требую",
+        "200[\\s ]?000",
+        "обеспечительн|аренд|плат[её]ж"
+      ],
+      "forbidden_patterns": [],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-pledge-3",
+      "topic": "pledge",
+      "domain": "finance",
+      "question": "Квартира в залоге у банка. Если один платёж просрочен, банк сразу становится собственником?",
+      "previous_questions": [],
+      "candidate_reference": "Залог сам по себе не передаёт собственность, объяснить процедуры взыскания и проверить договор/уведомления; не обещать невозможность взыскания.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "scope": "залог|ипотек",
+        "procedure": "процедур|взыскан|уведомлен",
+        "ownership": "собственност|собственник|переход"
+      },
+      "forbidden": {
+        "automatic": "банк сразу становится собственником"
+      },
+      "sources": [
+        "mortgage",
+        "civil-general",
+        "banks"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "залог|ипотек",
+        "процедур|взыскан|уведомлен",
+        "собственност|собственник|переход"
+      ],
+      "forbidden_patterns": [
+        "банк сразу становится собственником"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-pledge-4",
+      "topic": "pledge",
+      "domain": "legal",
+      "question": "Что подготовить, если уже прислали уведомление об обращении взыскания?",
+      "previous_questions": [
+        "Квартира в залоге у банка. Если один платёж просрочен, банк сразу становится собственником?"
+      ],
+      "candidate_reference": "Удержать ипотечный контекст, запросить дату получения/текст уведомления, договор и график, объяснить срочность проверки стадий.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "notice": "уведомлен",
+        "docs": "договор|график",
+        "time": "дат|срок|получен"
+      },
+      "forbidden": {},
+      "sources": [
+        "mortgage",
+        "civil-general",
+        "banks"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "уведомлен",
+        "договор|график",
+        "дат|срок|получен"
+      ],
+      "forbidden_patterns": [],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-restructure-1",
+      "topic": "restructure",
+      "domain": "finance",
+      "question": "Я потерял работу, есть просрочка по банковскому кредиту. Как попросить реструктуризацию?",
+      "previous_questions": [],
+      "candidate_reference": "Дать шаги обращения, документы об ухудшении положения и варианты изменения условий; не обещать автоматическое согласие банка.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "application": "заявлен|обращен",
+        "hardship": "доход|работ|финансов",
+        "options": "отсроч|график|срок|плат[её]ж"
+      },
+      "forbidden": {
+        "guarantee": "банк обязан одобрить|реструктуризация гарантирована"
+      },
+      "sources": [
+        "banks",
+        "bankruptcy"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "заявлен|обращен",
+        "доход|работ|финансов",
+        "отсроч|график|срок|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "банк обязан одобрить|реструктуризация гарантирована"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-restructure-2",
+      "topic": "restructure",
+      "domain": "finance",
+      "question": "Напиши само заявление. Сейчас могу платить 40 000 вместо 90 000 тенге.",
+      "previous_questions": [
+        "Я потерял работу, есть просрочка по банковскому кредиту. Как попросить реструктуризацию?"
+      ],
+      "candidate_reference": "Подготовить заявление с реальным предложением и причиной; не гарантировать принятие.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "draft": "Кому:|Адресат:|банк",
+        "request": "Прошу|прошу",
+        "proposal": "40[\\s ]?000",
+        "reason": "работ|доход|финансов"
+      },
+      "forbidden": {
+        "guarantee": "банк обязан принять предложенный график"
+      },
+      "sources": [
+        "banks"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "Кому:|Адресат:|банк",
+        "Прошу|прошу",
+        "40[\\s ]?000",
+        "работ|доход|финансов"
+      ],
+      "forbidden_patterns": [
+        "банк обязан принять предложенный график"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-restructure-3",
+      "topic": "restructure",
+      "domain": "legal",
+      "question": "Банк отказал в реструктуризации. Значит ли это, что долг можно просто не платить?",
+      "previous_questions": [],
+      "candidate_reference": "Отказ не прекращает обязательство, предложить письменные основания/пересмотр/применимый порядок урегулирования; не обещать списание.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "obligation": "долг|обязательств|плат",
+        "next": "отказ|заявлен|обжал|омбудс"
+      },
+      "forbidden": {
+        "ignore": "можете просто не платить|долг автоматически списан"
+      },
+      "sources": [
+        "banks",
+        "civil-general"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "долг|обязательств|плат",
+        "отказ|заявлен|обжал|омбудс"
+      ],
+      "forbidden_patterns": [
+        "можете просто не платить|долг автоматически списан"
+      ],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    },
+    {
+      "id": "content-restructure-4",
+      "topic": "restructure",
+      "domain": "finance",
+      "question": "Кому жаловаться и что приложить к обращению после этого отказа?",
+      "previous_questions": [
+        "Банк отказал в реструктуризации. Значит ли это, что долг можно просто не платить?"
+      ],
+      "candidate_reference": "Удержать кредитный контекст, предложить компетентный маршрут и комплект документов; учитывать тип кредитора.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "scope": "банк|кредит|за[её]м",
+        "docs": "договор|заявлен|отказ",
+        "route": "омбудс|регулятор|жалоб|обращен"
+      },
+      "forbidden": {},
+      "sources": [
+        "banks"
+      ],
+      "risk": "high",
+      "force_model": true,
+      "required_patterns": [
+        "банк|кредит|за[её]м",
+        "договор|заявлен|отказ",
+        "омбудс|регулятор|жалоб|обращен"
+      ],
+      "forbidden_patterns": [],
+      "max_body_words": 650,
+      "criteria_scope": "complex_dialogue_regression_not_expert_accuracy"
+    }
+  ]
+}

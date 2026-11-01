@@ -105,3 +105,49 @@ def test_malformed_flow_id_rejected():
     with pytest.raises(FlowiseError):
         FlowiseClient('http://flowise', {'flowise'},
                       {ROOM: {'domain': 'legal', 'flow_id': '-' * 36}}, 'test')
+
+
+def test_protected_prediction_retries_one_pre_header_disconnect_with_same_session():
+    from aiohttp import ServerDisconnectedError
+    class Flaky(HTTP):
+        def post(self,url,**kwargs):
+            self.calls.append((url,kwargs))
+            if len(self.calls)==1:raise ServerDisconnectedError('synthetic disconnect')
+            return Response()
+    http=Flaky()
+    result=asyncio.run(client()._prediction(http,FLOW,'prompt','opaque-session',20,retry_disconnect=True))
+    assert result=='answer' and len(http.calls)==2
+    assert http.calls[0]==http.calls[1]
+    assert result.workflow_metrics['transport_retries']==1
+
+
+def test_disconnect_retry_is_bounded_and_legacy_default_does_not_retry():
+    from aiohttp import ServerDisconnectedError
+    class Down(HTTP):
+        def post(self,url,**kwargs):
+            self.calls.append((url,kwargs));raise ServerDisconnectedError('synthetic')
+    for enabled,expected in [(True,2),(False,1)]:
+        http=Down()
+        with pytest.raises(ServerDisconnectedError):
+            asyncio.run(client()._prediction(http,FLOW,'prompt','session',20,retry_disconnect=enabled))
+        assert len(http.calls)==expected
+
+
+def test_http_failure_and_invalid_response_are_not_retried():
+    for response in [Response(500),Response(401),Response(chunks=[b'{"text":""}'])]:
+        http=HTTP(response)
+        with pytest.raises(FlowiseError):
+            asyncio.run(client()._prediction(http,FLOW,'prompt','session',20,retry_disconnect=True))
+        assert len(http.calls)==1
+
+
+def test_disconnect_after_headers_never_replays_an_ambiguous_completed_request():
+    from aiohttp import ServerDisconnectedError
+    class Partial(Response):
+        async def iter_chunked(self,size):
+            yield b'{"text":'
+            raise ServerDisconnectedError('synthetic partial response')
+    http=HTTP(Partial())
+    with pytest.raises(ServerDisconnectedError):
+        asyncio.run(client()._prediction(http,FLOW,'prompt','session',20,retry_disconnect=True))
+    assert len(http.calls)==1

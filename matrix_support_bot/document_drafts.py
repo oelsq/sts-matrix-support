@@ -6,15 +6,38 @@ def credit_payment_problem(question):
     return bool(re.search(r'реструктур|нечем.*плат|нет денег.*кредит|снизить.*плат[её]ж|измен.*услов.*(?:кредит|займ)', question, re.I))
 
 
-def credit_request_draft():
+def _reported_amount(value):
+    # Copy an explicitly labelled user amount; never calculate an entitlement.
+    value = re.sub(r'[\s\u00a0\u202f]+', '', value)
+    if not re.fullmatch(r'\d{1,12}(?:[.,]\d{1,2})?', value):
+        return None
+    whole, *fraction = value.replace(',', '.').split('.')
+    return f'{int(whole):,}'.replace(',', ' ') + (',' + fraction[0] if fraction else '')
+
+
+_AMOUNT = r'(?:\d{1,3}(?:[ \u00a0\u202f]\d{3})+|\d+)(?:[.,]\d{1,2})?'
+
+
+def credit_payment_values(question):
+    current = question.split('\nПредыдущий вопрос:')[0]
+    proposed, existing = '[сумма]', '[сумма]'
+    pair = re.search(r'(?:могу|готов\w*)\s+платить\s+(' + _AMOUNT + r')\s*(?:тенге\s*)?вместо\s+(' + _AMOUNT + r')\s*тенге\b', current, re.I)
+    if pair and not re.search(r'не\s+(?:могу|готов\w*)\s+платить', current, re.I) and _reported_amount(pair[1]) and _reported_amount(pair[2]):
+        proposed, existing = _reported_amount(pair[1]), _reported_amount(pair[2])
+    return proposed, existing
+
+
+def credit_request_draft(question=''):
+    proposed, existing = credit_payment_values(question)
+    currency = 'тенге' if proposed != '[сумма]' else '[валюта платежа]'
     return (
         '**Черновик заявления**\n'
         'Кому: [банк / МФО]\nОт: [имя]\n\n'
         '**О пересмотре условий погашения займа**\n\n'
         'Прошу рассмотреть изменение условий по договору [номер и дата договора]. '
         'Возникли трудности с погашением из-за [причина — изменение дохода, рост расходов или иное]. '
-        'Текущий ежемесячный платёж составляет [сумма] тенге; '
-        'посильный для меня платёж — [сумма] тенге.\n\n'
+        f'По моим данным, текущий платёж составляет {existing} {currency}; '
+        f'посильный для меня платёж — {proposed} {currency}. Периодичность платежа: [укажите по договору].\n\n'
         'Предлагаю рассмотреть [увеличение срока / временную отсрочку / иной вариант]. '
         'Прошу предоставить предлагаемый график, полную стоимость и условия изменения договора. '
         'Если мой вариант не подходит, прошу сообщить причины и предложить возможную альтернативу.\n\n'
@@ -52,15 +75,19 @@ def is_rental_refund_draft(question):
                 and not re.search(r"суд|исков|иск\b|прокурат|полици", current, re.I))
 
 
-def rental_refund_request():
+def rental_refund_request(question=''):
+    current = question.split('\nПредыдущий вопрос:')[0]
+    match = re.search(r'\bсумма\s+(' + _AMOUNT + r')\s*тенге\b', current, re.I)
+    amount = _reported_amount(match[1]) if match else None
+    requested = f'заявленную мной к возврату сумму — {amount} тенге' if amount else 'причитающуюся сумму'
     return (
         "**Черновик обращения**\n"
         "Кому: [арендодатель]\nОт: [имя арендатора]\n\n"
         "**О возврате переданного платежа**\n\n"
-        "По договору найма от [дата договора] я передал(а) вам [сумма] тенге в качестве "
+        "По договору найма от [дата договора] я передал(а) вам [сумма] [валюта платежа] в качестве "
         "[название платежа в договоре]. По моим данным, жильё возвращено [дата], "
         "что подтверждается [акт передачи / переписка / другое подтверждение].\n\n"
-        "Прошу проверить взаиморасчёты и вернуть причитающуюся сумму либо письменно объяснить основания "
+        f"Прошу проверить взаиморасчёты и вернуть {requested} либо письменно объяснить основания "
         "удержания со ссылкой на условия договора и подтверждающие документы. "
         "Если вы считаете, что есть задолженность или повреждения, прошу предоставить их расчёт и подтверждения.\n\n"
         "Прошу письменно сообщить результат рассмотрения и предлагаемую дату расчёта.\n\n"

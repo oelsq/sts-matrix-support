@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "batch_size": 20,
+  "timeout_seconds": 10,
+  "legislation_interval_days": 7,
+  "tariff_interval_days": 1,
+  "failure_retry_days": 1,
+  "priority_documents": [
+    "halyk-superapp",
+    "halyk-debit",
+    "halyk-annual",
+    "freedom-retail",
+    "labor",
+    "tax",
+    "civil-general",
+    "civil-special",
+    "banks",
+    "mortgage",
+    "auto-insurance",
+    "insurance",
+    "regulator-restructure",
+    "regulator-refusal",
+    "gesv-rules-2026",
+    "bank-fees-2026"
+  ]
+}

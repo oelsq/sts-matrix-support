@@ -5,13 +5,13 @@ A successful HTTP request is not specialist review, legal currency or activation
 from datetime import date,datetime,timezone
 import hashlib,json,re
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urlunsplit, quote
 from urllib.request import Request,build_opener,HTTPRedirectHandler
 from official_sources import parse_official_page,SourceError,MAX_SOURCE_BYTES
 from evaluation_core import private_json,digest
 
 HOSTS={'adilet.zan.kz','old.adilet.zan.kz','www.adilet.zan.kz','nationalbank.kz','www.nationalbank.kz',
-       'halykbank.kz','bankffin.kz','www.gov.kz','gov.kz','egov.kz','www.enpf.kz','enpf.kz','stat.gov.kz'}
+       'halykbank.kz','bankffin.kz','fingramota.kz','live.fingramota.kz','www.gov.kz','gov.kz','egov.kz','www.enpf.kz','enpf.kz','stat.gov.kz'}
 
 
 def validate_url(url):
@@ -19,14 +19,21 @@ def validate_url(url):
     if u.scheme!='https' or u.hostname not in HOSTS or u.username or u.password or u.port not in {None,443}:raise SourceError('Unapproved official source URL')
     return url
 
+def request_url(url):
+    # Official PDF links may contain spaces/Cyrillic; preserve existing escapes.
+    u = urlsplit(validate_url(url))
+    return urlunsplit((u.scheme, u.netloc, quote(u.path, safe="/%:@!$&'()*+,;=-._~"),
+                       quote(u.query, safe="=&%:@/?+;,-._~"), ''))
+
+
 class OfficialRedirect(HTTPRedirectHandler):
     def redirect_request(self,req,fp,code,msg,headers,newurl):
         validate_url(newurl)
-        return super().redirect_request(req,fp,code,msg,headers,newurl)
+        return super().redirect_request(req,fp,code,msg,headers,request_url(newurl))
 
 
 def download(url,timeout=20):
-    req=Request(validate_url(url),headers={'User-Agent':'STS knowledge monitor/1.0'})
+    req=Request(request_url(url),headers={'User-Agent':'STS knowledge monitor/1.0'})
     with build_opener(OfficialRedirect()).open(req,timeout=timeout) as r:
         validate_url(r.geturl());body=r.read(MAX_SOURCE_BYTES+1)
         if len(body)>MAX_SOURCE_BYTES:raise SourceError('Source exceeds size limit')
@@ -49,7 +56,10 @@ def inventory(root,*,today=None):
 
 def check_source(item,staging,*,fetch=download):
     if not re.fullmatch(r'[a-z][a-z0-9-]{1,79}',item['id']):raise ValueError('Invalid source identifier')
-    staging=Path(staging);url=item['source'];row={'id':item['id'],'checked_at':datetime.now(timezone.utc).isoformat(),'url':url,
+    staging=Path(staging)
+    if any((staging/(item['id']+suffix)).exists() for suffix in ['.pdf','.txt','.html','.check.json']):
+        raise ValueError('Use a fresh staging directory; previous source checks are immutable')
+    url=item['source'];row={'id':item['id'],'checked_at':datetime.now(timezone.utc).isoformat(),'url':url,
         'active_sha256':item['sha256'],'specialist_review':'not_performed','automatic_activation':False}
     try:
         body=fetch(validate_url(url))
@@ -83,6 +93,8 @@ def check_source(item,staging,*,fetch=download):
         row['comparison_note']='Snapshot comparison only. A full text may differ from an intentionally curated excerpt; changed bytes do not prove a new legal edition.'
     except Exception as exc:
         row.update(status='check_unavailable',error_type=type(exc).__name__,legal_currency_certified=False)
+        status=getattr(exc,'code',None)
+        if type(status) is int and 400<=status<=599:row['http_status']=status
     private_json(staging/(item['id']+'.check.json'),row)
     return row
 
