@@ -112,6 +112,9 @@ def retrieval_question(question: str, previous_question: str = "") -> str:
 def is_reference_question(question: str) -> bool:
     """Identify short requests for a fact or overview, not an action plan."""
     q = question.split("\nПредыдущий вопрос:")[0].strip()
+    from term_definitions import definition_term
+    if definition_term(q):
+        return True
     if re.search(r"что (?:мне )?делать|как (?:мне )?(?:поступить|обжаловать|оформить)|помоги|угрож|срочно", q, re.I):
         return False
     return len(q.split()) <= 28 and bool(re.search(

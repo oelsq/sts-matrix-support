@@ -1,0 +1,431 @@
+{
+  "purpose": "Frozen definition reformulations; primary and held-out are distinguished. Model runs must bypass local templates explicitly. Text criteria are not legal certification.",
+  "cases": [
+    {
+      "id": "primary-gph-legal-1",
+      "domain": "legal",
+      "question": "Что такое договор ГПХ? Объясни простыми словами.",
+      "term": "gph",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gph-finance-1",
+      "domain": "finance",
+      "question": "Что такое договор ГПХ? Объясни простыми словами.",
+      "term": "gph",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gph-legal-2",
+      "domain": "legal",
+      "question": "ГПХ — это что?",
+      "term": "gph",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gph-finance-2",
+      "domain": "finance",
+      "question": "ГПХ — это что?",
+      "term": "gph",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gph-legal-3",
+      "domain": "legal",
+      "question": "Расшифруй ГПХ.",
+      "term": "gph",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gph-finance-3",
+      "domain": "finance",
+      "question": "Расшифруй ГПХ.",
+      "term": "gph",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gph-legal-4",
+      "domain": "legal",
+      "question": "Что означает договор ГПХ?",
+      "term": "gph",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gph-finance-4",
+      "domain": "finance",
+      "question": "Что означает договор ГПХ?",
+      "term": "gph",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gesv-legal-1",
+      "domain": "legal",
+      "question": "Что такое ГЭСВ? Объясни простыми словами.",
+      "term": "gesv",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gesv-finance-1",
+      "domain": "finance",
+      "question": "Что такое ГЭСВ? Объясни простыми словами.",
+      "term": "gesv",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gesv-legal-2",
+      "domain": "legal",
+      "question": "ГЭСВ — это что?",
+      "term": "gesv",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gesv-finance-2",
+      "domain": "finance",
+      "question": "ГЭСВ — это что?",
+      "term": "gesv",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gesv-legal-3",
+      "domain": "legal",
+      "question": "Расшифруй ГЭСВ.",
+      "term": "gesv",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gesv-finance-3",
+      "domain": "finance",
+      "question": "Расшифруй ГЭСВ.",
+      "term": "gesv",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gesv-legal-4",
+      "domain": "legal",
+      "question": "Что значит ГЭСВ?",
+      "term": "gesv",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "primary-gesv-finance-4",
+      "domain": "finance",
+      "question": "Что значит ГЭСВ?",
+      "term": "gesv",
+      "split": "primary",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "heldout-gph-legal-1",
+      "domain": "legal",
+      "question": "Объясни ГПХ для новичка.",
+      "term": "gph",
+      "split": "heldout",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "heldout-gph-finance-1",
+      "domain": "finance",
+      "question": "Объясни ГПХ для новичка.",
+      "term": "gph",
+      "split": "heldout",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "heldout-gph-legal-2",
+      "domain": "legal",
+      "question": "Как расшифровывается ГПХ в договоре?",
+      "term": "gph",
+      "split": "heldout",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "heldout-gph-finance-2",
+      "domain": "finance",
+      "question": "Как расшифровывается ГПХ в договоре?",
+      "term": "gph",
+      "split": "heldout",
+      "force_model": true,
+      "required_patterns": [
+        "гражданско[\\s\\-‐‑‒–—]+правов",
+        "соглашени|договор"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "heldout-gesv-legal-1",
+      "domain": "legal",
+      "question": "Как расшифровывается ГЭСВ в банковском предложении?",
+      "term": "gesv",
+      "split": "heldout",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "heldout-gesv-finance-1",
+      "domain": "finance",
+      "question": "Как расшифровывается ГЭСВ в банковском предложении?",
+      "term": "gesv",
+      "split": "heldout",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "heldout-gesv-legal-2",
+      "domain": "legal",
+      "question": "Объясни, пожалуйста, термин ГЭСВ человеческим языком.",
+      "term": "gesv",
+      "split": "heldout",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    },
+    {
+      "id": "heldout-gesv-finance-2",
+      "domain": "finance",
+      "question": "Объясни, пожалуйста, термин ГЭСВ человеческим языком.",
+      "term": "gesv",
+      "split": "heldout",
+      "force_model": true,
+      "required_patterns": [
+        "годов[а-яё]*[\\s\\-‐‑‒–—]+эффективн[а-яё]*[\\s\\-‐‑‒–—]+ставк",
+        "стоимост|затрат|расход|плат[её]ж"
+      ],
+      "forbidden_patterns": [
+        "не прошёл проверку подтверждений",
+        "Уточните банк и продукт"
+      ],
+      "max_body_words": 140
+    }
+  ],
+  "negative_definition_intents": [
+    "Заказчик по ГПХ не платит, что делать?",
+    "Чем отличается трудовой договор от ГПХ?",
+    "Что такое ГПХ и какие налоги мне платить?",
+    "Рассчитай пеню по договору ГПХ.",
+    "Напиши претензию заказчику по ГПХ.",
+    "Может ли работодатель заменить трудовой договор на ГПХ?",
+    "ГПХ или трудовой договор: какой мне выбрать?",
+    "Я работаю по ГПХ, заказчик задержал оплату.",
+    "Рассчитай ГЭСВ кредита по графику.",
+    "Чем отличается ГЭСВ от номинальной ставки?",
+    "Какие страховки включаются в ГЭСВ?",
+    "Какая ГЭСВ в Kaspi сегодня?",
+    "Что такое ГЭСВ микрокредита МФО?",
+    "ГЭСВ выше ставки, что мне делать?",
+    "Напиши запрос банку о расчёте ГЭСВ.",
+    "Что означает отказ банка и как его обжаловать?"
+  ]
+}

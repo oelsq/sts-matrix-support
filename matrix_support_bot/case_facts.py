@@ -6,6 +6,10 @@ def case_facts(question,previous=''):
     current,_,inherited=question.partition('\nПредыдущий вопрос:')
     previous=previous or inherited
     q=(current+'\n'+previous).casefold();facts={};questions=[];kind='general'
+    from term_definitions import definition_term
+    if definition_term(current):
+        return {'kind':'reference','user_reported_facts':{},'clarifications':[],
+                'instruction':'Запрошено значение термина. Само упоминание договора не сообщает, что пользователь его заключил.'}
     role_text=current.casefold() if re.search(r'гпх|подряд|оказани.{0,12}услуг|трудов.{0,15}договор|без договора',current,re.I) else q
     from retrieval_intents import colloquial_work_payment
     if colloquial_work_payment(q) or re.search(r'зарплат|начальник|работодател|ден[ье]г.*за работу|оплат.*(?:работ|услуг)|подряд|гпх|оказани.{0,12}услуг',q):

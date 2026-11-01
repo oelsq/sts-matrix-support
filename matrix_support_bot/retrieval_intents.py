@@ -112,7 +112,13 @@ def query_hints(question):
     if colloquial_work_payment(question):
         expansions.append('работодатель заработная плата задолженность дата выплаты работнику')
         documents.add('labor');sections.setdefault('labor',[]).append('Статья 113.')
-    gph_overview = bool(re.search(r'\bгпх\b|гражданско[ -]правов',question,re.I)
+    from term_definitions import definition_term
+    term = definition_term(question)
+    if term == 'gesv':
+        expansions.append('годовая эффективная ставка вознаграждения реальная стоимость понятия услуг банка')
+        documents.add('gesv-term-guide')
+        sections['gesv-rules-2026'] = ['Пункт 1.'] if re.search(r'вклад|депозит', question, re.I) else ['Пункт 1.','Пункт 12.','Пункт 15.']
+    gph_overview = term == 'gph' or bool(re.search(r'\bгпх\b|гражданско[ -]правов',question,re.I)
                         and re.search(r'что такое|что означает|что значит|расшифр|отлич|разниц|сравн',question,re.I))
     if gph_overview:
         expansions.append('гражданско правовой договор соглашение установление изменение прекращение гражданских прав обязанностей')

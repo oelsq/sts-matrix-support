@@ -1,7 +1,7 @@
 {
-  "as_of": "2026-10-30",
+  "as_of": "2026-11-01",
   "complete_legal_system": false,
-  "documents_total": 105,
+  "documents_total": 106,
   "pdf_count": 30,
   "full_text_count": 85,
   "added_sources": 62,
@@ -17,9 +17,9 @@
     "Отсутствует непрерывная онлайн-проверка законов и тарифов в закрытой сети"
   ],
   "source_catalog": "legal-catalog.json",
-  "official_guidance_count": 10,
+  "official_guidance_count": 11,
   "statistical_bulletin_count": 1,
-  "txt_count": 75,
+  "txt_count": 76,
   "educational_summary_count": 3,
   "source_catalogs": [
     "legal-catalog.json",
@@ -32,10 +32,10 @@
     "source_evidence_directory": "source-evidence",
     "originals_preserved": true
   },
-  "catalog_update_note": "Counts recomputed from the manifest. Only the new terminology excerpt was checked on 2026-10-30; earlier sources retain their own review dates.",
+  "catalog_update_note": "Only the added terminology excerpt was checked on 2026-11-01; all 105 prior document review dates and contents are preserved.",
   "latest_guidance": {
-    "as_of": "2026-10-30",
-    "id": "gph-term-guide",
-    "scope": "terminology only; no new rights or deadlines"
+    "as_of": "2026-11-01",
+    "id": "gesv-term-guide",
+    "scope": "terminology only; no new rights, rates or deadlines"
   }
 }

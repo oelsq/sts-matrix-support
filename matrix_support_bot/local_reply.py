@@ -1,5 +1,6 @@
 """Shared pre-inference path used by the Matrix bot and answer evaluation."""
 from dataclasses import dataclass
+from term_definitions import checked_term_definition
 from agents import legal_aid_eligibility_answer
 from checked_answers import checked_legal_answer, checked_work_payment_answer, checked_practical_guidance
 from evidence_scope import scope_evidence
@@ -73,6 +74,7 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
         from checked_tariffs import checked_tariff_answer
         builders = [
             ('source_bound_tariff',lambda:checked_tariff_answer(domain,search_question,evidence)),
+            ("source_bound_definition", lambda: checked_term_definition(domain, question, evidence)),
             ("source_bound_gesv", lambda: checked_gesv_answer(domain, search_question, evidence)),
             ("source_bound_public_rights", lambda: checked_public_rights_answer(domain, search_question, evidence)),
             ("source_bound_guidance", lambda: checked_practical_guidance(domain, search_question, evidence)),

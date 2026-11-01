@@ -320,6 +320,8 @@ class KnowledgeStore:
             return []
         question=re.sub(r'[\u2010-\u2015\u2212]','-',question)
         expansion, intent_docs, intent_sections = query_hints(question)
+        from term_definitions import definition_term
+        definition = definition_term(question)
         normalized = question + " " + expansion
         # Colloquial queries often omit the vocabulary used in legislation.
         # These expansions influence retrieval only; they never assert facts.
@@ -509,7 +511,7 @@ class KnowledgeStore:
                     score += 100
                 # A family-budget question may mention salary without asking
                 # about wage non-payment. Prefer its selected educational guide.
-                if passage["document_id"] in intent_docs & {"family-budget-guide", "deposit-choice-guide", "collective-debt-guide", "gph-term-guide"}:
+                if passage["document_id"] in intent_docs & {"family-budget-guide", "deposit-choice-guide", "collective-debt-guide", "gph-term-guide", "gesv-term-guide"}:
                     score += 400
                 # A suspicious loan-status notification is first a phishing
                 # warning; a generic credit-history article must not crowd it out.
@@ -517,6 +519,11 @@ class KnowledgeStore:
                         and loan_status_notification(question)):
                     score += 700
                 section = str(passage.get("section", ""))
+                if definition == 'gph' and passage['document_id'] == 'civil-general' and section.startswith('Статья 378.'):
+                    score += 300
+                if (definition == 'gesv' and passage['document_id'] == 'gesv-rules-2026'
+                        and section.startswith('Пункт 1.') and 'годовая эффективная ставка вознаграждения' in passage['text'].casefold()):
+                    score += 300
                 guide_intents = [
                     ('consumer-claim-guide', r'(?:состав|напиш|напис|подготов).*претензи.*(?:продав|магазин|товар)|претензи.*(?:продав|магазин|товар)'),
                     ('labor-wage-guide', r'(?:куда|жалоб|жалова|инспекц).*(?:зарплат|работодател|начальник)|(?:зарплат|работодател|начальник).*(?:куда|жалоб|жалова|инспекц)'),
