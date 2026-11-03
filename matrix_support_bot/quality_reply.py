@@ -44,7 +44,7 @@ async def quality_reply(flow,http,domain,room,sender,event_id,question,previous,
             if getattr(review,'partial',False):
                 issues=[issue for issue in issues if issue!='requested_draft_missing']
             if 'Не удалось подготовить ответ с проверяемой' in answer or issues:
-                raise FlowiseReviewRejected('Reviewed reply did not pass response checks',retrieval_hints=(question,))
+                raise FlowiseReviewRejected('Reviewed reply did not pass response checks',retrieval_hints=(question,),validation_errors=tuple('reply_'+issue for issue in issues) or ('render_rejected',))
             result=QualityReply(answer,current,researches,list(measurements))
             if not getattr(review,'partial',False):return result
             best=result;hints=getattr(review,'retrieval_hints',())

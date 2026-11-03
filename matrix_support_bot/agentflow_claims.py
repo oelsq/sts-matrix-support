@@ -73,6 +73,17 @@ def source_excerpts(text):
             quote=line[:end].strip()
             if len(quote)>=16:chunks.append({'id':'Q'+str(len(chunks)+1),'quote':quote})
             line=line[end:].strip()
+    # PDF line wraps can separate a rule from its exception, or leave a
+    # short final word without any selectable Q-ID. Add bounded exact
+    # sentence windows; preserve previous Q-IDs and never cross sources.
+    seen={normalized(q['quote']) for q in chunks}
+    added=0
+    for sentence in re.split(r'(?<=[.!?])\s+(?=[А-ЯЁA-Z])',text):
+        quote=sentence.strip()
+        if '\n' not in quote or not 16<=len(quote)<=550 or normalized(quote) in seen:continue
+        chunks.append({'id':'Q'+str(len(chunks)+1),'quote':quote})
+        seen.add(normalized(quote));added+=1
+        if added==8:break
     return chunks
 
 
@@ -118,6 +129,12 @@ def make_quality_packet(domain, draft_messages, review_messages, context):
         if collector_contact_question(q) and re.search(r'угро|шантаж|насили|запугива',q,re.I):
             constraints.append({'id':'immediate-threat-safety','patterns':['безопасност|экстренн'],
                 'guidance':'Сначала предложи обеспечить безопасность и экстренную помощь при непосредственной угрозе жизни или здоровью. Это организационный совет; не выдумывай полномочия ведомств.'})
+    if (re.search(r'магазин|ценник|товар|витрин',q,re.I)
+            and re.search(r'фото|видео|съ[её]м|камер|снима',q,re.I)
+            and any(p.get('document_id')=='consumer-law' and str(p.get('section','')).startswith('Статья 24.') for p in evidence)
+            and 'ограничивать права потребителей в отношении применения фото' in source_body):
+        constraints.append({'id':'consumer-recording-law-exception','patterns':['продав|изготовител|исполнител','предусмотрен|законодательств|исключен','фото|видео|съ[её]м'],
+            'guidance':'Объясни запрет продавцу/изготовителю/исполнителю ограничивать применение потребителем фото- и видеосъёмки с исключением случаев, предусмотренных законодательством. Не объявляй отсутствие любых ограничений и не подменяй съёмку ценников публикацией чужого лица. Сохрани субъект и исключение в одном выводе.'})
     if re.search(r'укра|краж|похит',q,re.I) and re.search(r'телефон|смартфон',q,re.I):
         constraints.append({'id':'stolen-phone-evidence-and-access','patterns':['сохран|зафиксир|запишите','доступ|SIM|оператор|банк'],
             'guidance':'Помимо правовой квалификации предложи сохранить обстоятельства/доказательства и защитить доступ к SIM, аккаунтам и банковским приложениям через официальные каналы. Это организационные советы, не неподтверждённые обязательные процедуры. Не обещай блокировку аппарата по IMEI.'})
@@ -167,7 +184,16 @@ def make_quality_packet(domain, draft_messages, review_messages, context):
     for unused in ('review_system','review_prefix','review_suffix'):packet[unused]=''
     from case_facts import case_facts
     from source_applicability import tariff_review_due
-    packet['quality']={'case_facts':facts,'tariffs_requiring_review':tariff_review_due(evidence),'contract':CONTRACT,'question':q,'previous_question':previous,
+    from response_goal import response_goal
+    from explanation_guides import explanation_guides
+    goal=response_goal(q,previous,format_type=question_type(q))
+    if not sources:goal['requires_explanation']=False
+    guides=explanation_guides(q,previous,evidence)
+    packet['draft_system'] += '\nГлавная задача ответа: '+goal['instruction']
+    if guides:
+        packet['draft_user'] += ('\nРедакторские планы объяснения; НЕ источники права и НЕ доказательства. '
+                                 'Проверяй выводы только по исходным S/Q, не цитируй этот план.\n'+json.dumps(guides,ensure_ascii=False))
+    packet['quality']={'response_goal':goal,'explanation_guides':guides,'case_facts':facts,'tariffs_requiring_review':tariff_review_due(evidence),'contract':CONTRACT,'question':q,'previous_question':previous,
                        'question_type':question_type(q),'sources':sources,'constraints':constraints}
     if len(json.dumps(packet,ensure_ascii=False).encode())>256000:
         raise ValueError('Quality packet too large')
@@ -260,6 +286,9 @@ def accept_quality_response(text, packet):
     if not errors:
         errors.extend(qualification_errors(answer,audit,quality))
     if errors:raise ValueError('Claim evidence validation failed: '+','.join(errors[:4]))
+    from response_goal import coverage_errors
+    errors=coverage_errors(audit,units(answer),require='response_goal' in quality,explanation=quality.get('response_goal',{}).get('requires_explanation',False))
+    if errors:raise ValueError('Answer coverage validation failed: '+','.join(errors))
     partial=value.get('partial',False)
     if not isinstance(partial,bool):raise ValueError('Invalid partial status')
     quotes=tuple(dict.fromkeys((proof['source_id'],proof['quote']) for row in audit['checks']
@@ -273,4 +302,6 @@ def accept_quality_response(text, packet):
         raise ValueError('Invalid omitted topics')
     user_context=tuple(unit['text'] for unit,row in zip(units(answer),sorted(audit['checks'],key=lambda r:int(r['unit_id'][1:])))
                        if row['status']=='user_context')
-    return ReviewedAnswer(answer,ReviewDetails(quotes,partial,quality['question_type'],tuple(hints),tuple(omitted),user_context))
+    guide_ids={g['id'] for g in quality.get('explanation_guides',[])}
+    subject=next((name for ident,name in [('image-use','image'),('wage-demand','wage'),('apr-cost-boundary','apr')] if ident in guide_ids),'')
+    return ReviewedAnswer(answer,ReviewDetails(quotes,partial,quality['question_type'],tuple(hints),tuple(omitted),user_context,subject))

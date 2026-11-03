@@ -47,6 +47,21 @@ def usefulness_issues(question, answer):
     substantive = re.sub(r"\[(?:S\d+|[^\[\] ]*:[^\[\] ]*)\]|[\W\d_]+", " ", " ".join(remaining))
     if delegated and len(substantive.split()) < 8:
         issues.append("handoff_only")
+    if re.search(r'можно ли|имею ли право|разрешено ли|какие.{0,25}права', question.split('\nПредыдущий вопрос:')[0], re.I) and not is_document_request(question):
+        # Reject a list consisting solely of instructions/questions where the
+        # user asked for an explanation of permission. A qualified answer or
+        # a concrete statement of uncertainty is allowed; this is not a law test.
+        explanatory = []
+        for line in body.splitlines():
+            clean = re.sub(r'^[\s*#>\d.)-]+', '', line).strip()
+            if not clean or clean.endswith('?') or re.match(r'Сохраните|Уточните|Запросите|Подготовьте|Напишите|Составьте|Проверьте|Обратитесь|Зафиксируйте', clean, re.I):
+                continue
+            if re.match(r'Ответ подтвержд|Неподтвержд|Выше сохран|Правовое основание|Что (?:сделать|подготовить)', clean, re.I):
+                continue
+            if len(clean.split()) >= 5 or re.match(r'(?:Да|Нет|Можно|Нельзя|Зависит|Не всегда)\b', clean, re.I):
+                explanatory.append(clean)
+        if not explanatory:
+            issues.append('direct_explanation_missing')
     if is_document_request(question):
         # This does not establish the legal validity/completeness of a letter.
         # It only rejects a checklist offered instead of the requested text.

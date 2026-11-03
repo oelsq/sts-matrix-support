@@ -114,9 +114,19 @@ const constraints=quality.constraints||[];
 const actionConstraints=new Set(['immediate-threat-safety','stolen-phone-evidence-and-access','reported-civil-contract']);
 const scopeErrors=(text,checks)=>constraints.filter(c=>(actionConstraints.has(c.id)||(Array.isArray(checks)&&checks.some(r=>r && r.status==='supported')))&&c.patterns.some(p=>!(new RegExp(p,'i')).test(norm(text.replace(/[*_\u0060]+/g,''))))).map(c=>'missing_qualification:'+c.id);
 errors.push(...scopeErrors(answer,audit && audit.checks));
+// Task coverage is distinct from provenance. IDs are revalidated after filtering.
+const answerIds=typeof audit?.answer_unit_ids==='string'?audit.answer_unit_ids.split(',').map(x=>x.trim()).filter(Boolean):[];
+const coverageErrors=(ids,claimUnits,checks)=>{
+ if(!quality.response_goal)return [];
+ if(typeof audit?.answer_unit_ids!=='string'||audit.answer_unit_ids.length>160||new Set(ids).size!==ids.length||ids.some(id=>!claimUnits.some(u=>u.id===id)))return ['invalid_answer_coverage'];
+ if(!ids.length)return ['main_question_unanswered'];
+ if(quality.response_goal.requires_explanation && !ids.some(id=>checks.some(r=>r.unit_id===id && r.status==='supported')))return ['main_question_unanswered'];
+ return [];
+};
+errors.push(...coverageErrors(answerIds,units,audit?.checks||[]));
 if (audit && audit.verdict!=='approve') errors.push('review_requested_revision');
 let ok=errors.length===0, finalAnswer=answer, finalAudit=audit, partial=false, omittedTopics=[];
-const canFilter=typeof $final!=='undefined' && $final==='yes' && audit && Array.isArray(audit.checks) && rows.size===units.length && audit.checks.length===units.length && !errors.some(e=>['invalid_audit_json','incomplete_audit','missing_or_duplicate_claims','invalid_answer_size'].includes(e));
+const canFilter=typeof $final!=='undefined' && $final==='yes' && audit && Array.isArray(audit.checks) && rows.size===units.length && audit.checks.length===units.length && !errors.some(e=>['invalid_audit_json','incomplete_audit','missing_or_duplicate_claims','invalid_answer_size','invalid_answer_coverage','main_question_unanswered'].includes(e));
 if(!ok && canFilter) {
  const missingConditions=errors.some(e=>e.startsWith('missing_qualification:'));
  const cleanUnit=u=>u.text.replace(/^\s*(?:\d+[.)]|[-*])\s+/,'').replace(/\*\*/g,'').trim();
@@ -142,9 +152,10 @@ if(!ok && canFilter) {
   if(quality.question_type==='document' && /^(?:кому:|адресат:|отправитель:|от:|дата:|подпись:|тема:|прошу|я[, ]|за период|приложени|требование|заявление|претензия|кредитор:|банк:|договор:|\[)/i.test(clean))return false;
   return true;
  });
- if(kept.length && kept.length<units.length && kept.some(u=>['supported','advice'].includes(rows.get(u.id).status))) {
+ const keptAnswerIds=answerIds.filter(id=>kept.some(u=>u.id===id));
+ if(!coverageErrors(keptAnswerIds,kept,kept.map(u=>rows.get(u.id))).length && kept.length && kept.length<units.length && kept.some(u=>['supported','advice'].includes(rows.get(u.id).status))) {
   finalAnswer=kept.map(u=>u.text).join('\n\n');
-  finalAudit={verdict:'approve',feedback:'Unsupported or dependent units removed after one repair.',checks:kept.map((u,i)=>({...rows.get(u.id),unit_id:'C'+(i+1)}))};
+  finalAudit={answer_unit_ids:kept.map((u,i)=>answerIds.includes(u.id)?'C'+(i+1):null).filter(Boolean).join(','),verdict:'approve',feedback:'Unsupported or dependent units removed after one repair.',checks:kept.map((u,i)=>({...rows.get(u.id),unit_id:'C'+(i+1)}))};
   ok=true;partial=true;
   const removed=units.filter(u=>!kept.includes(u)).map(u=>u.text).join(' ');
   if(/срок|дней|дня|день|недел|месяц|не позднее|в течение|дата/i.test(removed))omittedTopics.push('deadline');

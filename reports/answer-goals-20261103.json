@@ -1,0 +1,1180 @@
+{
+  "date": "2026-11-03",
+  "local_tests": {
+    "passed": 1585,
+    "warnings": 20
+  },
+  "phases": {
+    "baseline": {
+      "summary": {
+        "attempts": 10,
+        "accepted": 10,
+        "pattern_passed": 9,
+        "partial": 9,
+        "min_seconds": 21.08,
+        "max_seconds": 84.33,
+        "median_seconds": 38.57
+      },
+      "cases": [
+        {
+          "id": "legal-photo",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 2356,
+          "seconds": 32.02
+        },
+        {
+          "id": "legal-photo-followup",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 1579,
+          "seconds": 30.13
+        },
+        {
+          "id": "legal-wage",
+          "domain": "legal",
+          "prepared_mechanism": "source_bound_work",
+          "source_ids": [
+            "labor"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 2001,
+          "seconds": 24.87
+        },
+        {
+          "id": "legal-wage-letter",
+          "domain": "legal",
+          "prepared_mechanism": "source_bound_work",
+          "source_ids": [
+            "labor"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 1505,
+          "seconds": 24.16
+        },
+        {
+          "id": "legal-consumer",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "consumer-law",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            false,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1335,
+          "seconds": 45.12
+        },
+        {
+          "id": "finance-apr",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_gesv",
+          "source_ids": [
+            "banks",
+            "deposit-choice-guide",
+            "gesv-rules-2026",
+            "gesv-term-guide",
+            "tax"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 3494,
+          "seconds": 56.78
+        },
+        {
+          "id": "finance-apr-followup",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_gesv",
+          "source_ids": [
+            "banks",
+            "gesv-rules-2026",
+            "gesv-term-guide",
+            "tax"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 3391,
+          "seconds": 49.91
+        },
+        {
+          "id": "finance-restructure",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_guidance",
+          "source_ids": [
+            "arrears",
+            "banks",
+            "regulator-refusal",
+            "regulator-restructure"
+          ],
+          "accepted": true,
+          "partial": false,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 6,
+          "researches": 1,
+          "characters": 2297,
+          "seconds": 84.33
+        },
+        {
+          "id": "finance-deposit",
+          "domain": "finance",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "banks",
+            "deposit-guarantee",
+            "nationalbank-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 2636,
+          "seconds": 64.59
+        },
+        {
+          "id": "finance-insurance",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_legal",
+          "source_ids": [
+            "auto-insurance"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 2473,
+          "seconds": 21.08
+        }
+      ]
+    },
+    "candidate": {
+      "summary": {
+        "attempts": 10,
+        "accepted": 10,
+        "pattern_passed": 8,
+        "partial": 7,
+        "min_seconds": 13.93,
+        "max_seconds": 61.62,
+        "median_seconds": 27.64
+      },
+      "cases": [
+        {
+          "id": "legal-photo",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 2538,
+          "seconds": 31.91
+        },
+        {
+          "id": "legal-photo-followup",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 1903,
+          "seconds": 26.82
+        },
+        {
+          "id": "legal-wage",
+          "domain": "legal",
+          "prepared_mechanism": "source_bound_work",
+          "source_ids": [
+            "labor"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            false
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 1854,
+          "seconds": 25.14
+        },
+        {
+          "id": "legal-wage-letter",
+          "domain": "legal",
+          "prepared_mechanism": "source_bound_work",
+          "source_ids": [
+            "labor"
+          ],
+          "accepted": true,
+          "partial": false,
+          "criterion_results": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 1770,
+          "seconds": 27.05
+        },
+        {
+          "id": "legal-consumer",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "consumer-law",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            false,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1983,
+          "seconds": 51.95
+        },
+        {
+          "id": "finance-apr",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_gesv",
+          "source_ids": [
+            "banks",
+            "deposit-choice-guide",
+            "gesv-rules-2026",
+            "gesv-term-guide",
+            "tax"
+          ],
+          "accepted": true,
+          "partial": false,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 2,
+          "researches": 0,
+          "characters": 3725,
+          "seconds": 13.93
+        },
+        {
+          "id": "finance-apr-followup",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_gesv",
+          "source_ids": [
+            "banks",
+            "gesv-rules-2026",
+            "gesv-term-guide",
+            "tax"
+          ],
+          "accepted": true,
+          "partial": false,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 2263,
+          "seconds": 27.55
+        },
+        {
+          "id": "finance-restructure",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_guidance",
+          "source_ids": [
+            "arrears",
+            "banks",
+            "regulator-refusal",
+            "regulator-restructure"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 2367,
+          "seconds": 60.91
+        },
+        {
+          "id": "finance-deposit",
+          "domain": "finance",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "banks",
+            "deposit-guarantee",
+            "nationalbank-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 2501,
+          "seconds": 61.62
+        },
+        {
+          "id": "finance-insurance",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_legal",
+          "source_ids": [
+            "auto-insurance"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 2021,
+          "seconds": 27.73
+        }
+      ]
+    },
+    "candidate-final": {
+      "summary": {
+        "attempts": 15,
+        "accepted": 14,
+        "pattern_passed": 14,
+        "partial": 11,
+        "min_seconds": 24.74,
+        "max_seconds": 93.18,
+        "median_seconds": 48.91
+      },
+      "cases": [
+        {
+          "id": "legal-photo",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 1813,
+          "seconds": 27.73
+        },
+        {
+          "id": "legal-photo-followup",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 2274,
+          "seconds": 32.54
+        },
+        {
+          "id": "legal-wage",
+          "domain": "legal",
+          "prepared_mechanism": "source_bound_work",
+          "source_ids": [
+            "labor"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 2024,
+          "seconds": 24.74
+        },
+        {
+          "id": "legal-wage-letter",
+          "domain": "legal",
+          "prepared_mechanism": "source_bound_work",
+          "source_ids": [
+            "labor"
+          ],
+          "accepted": true,
+          "partial": false,
+          "criterion_results": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 1719,
+          "seconds": 25.15
+        },
+        {
+          "id": "legal-consumer",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "consumer-law",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 2154,
+          "seconds": 48.91
+        },
+        {
+          "id": "finance-apr",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_gesv",
+          "source_ids": [
+            "banks",
+            "deposit-choice-guide",
+            "gesv-rules-2026",
+            "gesv-term-guide",
+            "tax"
+          ],
+          "accepted": true,
+          "partial": false,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 6,
+          "researches": 1,
+          "characters": 4177,
+          "seconds": 41.2
+        },
+        {
+          "id": "finance-apr-followup",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_gesv",
+          "source_ids": [
+            "banks",
+            "gesv-rules-2026",
+            "gesv-term-guide",
+            "tax"
+          ],
+          "accepted": true,
+          "partial": false,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 3246,
+          "seconds": 53.34
+        },
+        {
+          "id": "finance-restructure",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_guidance",
+          "source_ids": [
+            "arrears",
+            "banks",
+            "regulator-refusal",
+            "regulator-restructure"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 2789,
+          "seconds": 59.0
+        },
+        {
+          "id": "finance-deposit",
+          "domain": "finance",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "banks",
+            "deposit-guarantee",
+            "nationalbank-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1752,
+          "seconds": 63.01
+        },
+        {
+          "id": "finance-insurance",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_legal",
+          "source_ids": [
+            "auto-insurance"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 2293,
+          "seconds": 24.83
+        },
+        {
+          "id": "new-store-product",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "consumer-law",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": false,
+          "error": "FlowiseReviewRejected",
+          "validation_codes": [],
+          "model_nodes": 8,
+          "seconds": 53.25
+        },
+        {
+          "id": "new-store-followup",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "consumer-law",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1884,
+          "seconds": 66.94
+        },
+        {
+          "id": "new-work-action",
+          "domain": "legal",
+          "prepared_mechanism": "source_bound_work",
+          "source_ids": [
+            "labor"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 1966,
+          "seconds": 31.37
+        },
+        {
+          "id": "new-apr-costs",
+          "domain": "finance",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "banks",
+            "gesv-rules-2026",
+            "gesv-term-guide"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 3364,
+          "seconds": 53.29
+        },
+        {
+          "id": "new-insurance-followup",
+          "domain": "finance",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "auto-insurance",
+            "civil-special",
+            "insurance"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1251,
+          "seconds": 93.18
+        }
+      ]
+    },
+    "candidate-confirmed": {
+      "summary": {
+        "attempts": 6,
+        "accepted": 6,
+        "pattern_passed": 6,
+        "partial": 5,
+        "min_seconds": 49.43,
+        "max_seconds": 74.31,
+        "median_seconds": 58.81
+      },
+      "cases": [
+        {
+          "id": "legal-consumer",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "consumer-law",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": false,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1819,
+          "seconds": 50.49
+        },
+        {
+          "id": "new-store-product",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "consumer-law",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1921,
+          "seconds": 49.43
+        },
+        {
+          "id": "new-store-followup",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "consumer-law",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 2092,
+          "seconds": 62.56
+        },
+        {
+          "id": "new-insurance-followup",
+          "domain": "finance",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "auto-insurance",
+            "civil-special",
+            "insurance"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1602,
+          "seconds": 63.41
+        },
+        {
+          "id": "fresh-store-right",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "consumer-law",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1841,
+          "seconds": 55.07
+        },
+        {
+          "id": "fresh-finance-right",
+          "domain": "finance",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "banks",
+            "gesv-rules-2026",
+            "gesv-term-guide",
+            "tax"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 2451,
+          "seconds": 74.31
+        }
+      ]
+    },
+    "candidate-code-check": {
+      "summary": {
+        "attempts": 2,
+        "accepted": 2,
+        "pattern_passed": 2,
+        "partial": 1,
+        "min_seconds": 22.51,
+        "max_seconds": 54.1,
+        "median_seconds": 38.3
+      },
+      "cases": [
+        {
+          "id": "new-store-product",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "consumer-law",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": false,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 2062,
+          "seconds": 22.51
+        },
+        {
+          "id": "fresh-finance-right",
+          "domain": "finance",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "banks",
+            "gesv-rules-2026",
+            "gesv-term-guide",
+            "tax"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1964,
+          "seconds": 54.1
+        }
+      ]
+    },
+    "installed": {
+      "summary": {
+        "attempts": 4,
+        "accepted": 4,
+        "pattern_passed": 3,
+        "partial": 4,
+        "min_seconds": 32.12,
+        "max_seconds": 59.26,
+        "median_seconds": 56.75
+      },
+      "cases": [
+        {
+          "id": "legal-photo",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 4,
+          "researches": 0,
+          "characters": 2765,
+          "seconds": 32.12
+        },
+        {
+          "id": "legal-consumer",
+          "domain": "legal",
+          "prepared_mechanism": "requires_model",
+          "source_ids": [
+            "civil-general",
+            "constitution",
+            "consumer-law",
+            "online-platforms",
+            "personal-law"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            false,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1283,
+          "seconds": 54.85
+        },
+        {
+          "id": "finance-apr",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_gesv",
+          "source_ids": [
+            "banks",
+            "deposit-choice-guide",
+            "gesv-rules-2026",
+            "gesv-term-guide",
+            "tax"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 3345,
+          "seconds": 59.26
+        },
+        {
+          "id": "finance-apr-followup",
+          "domain": "finance",
+          "prepared_mechanism": "source_bound_gesv",
+          "source_ids": [
+            "banks",
+            "gesv-rules-2026",
+            "gesv-term-guide",
+            "tax"
+          ],
+          "accepted": true,
+          "partial": true,
+          "criterion_results": [
+            true,
+            true,
+            true
+          ],
+          "usefulness_issues": [],
+          "model_nodes": 8,
+          "researches": 1,
+          "characters": 1582,
+          "seconds": 58.66
+        }
+      ]
+    }
+  },
+  "deployment": {
+    "image": "sha256:111fa0bda1d4282d6d747ee5c30866fe1052a80ad30673ff9874cf9898b7b681",
+    "rollback_image": "sha256:8684dc9a5614c1ddd323719cedc3f3537bff21d7c9cd19030fbd303c44d8ed2a",
+    "rollback_tag": "sts-matrix-support-bot:rollback",
+    "runtime_files_verified": 16,
+    "public_files_verified": 27,
+    "model_route": "sts-qwen-gpu0",
+    "environment_mounts_logging_preserved": true,
+    "production_flow_ids_and_rooms_preserved": true,
+    "full_tests_passed": 1585,
+    "candidate_cases": 15,
+    "confirmation_cases": 6
+  },
+  "verification": {
+    "flows": {
+      "legal": {
+        "nodes": 13,
+        "auditors_with_coverage": 2,
+        "model_nodes": 4,
+        "production_id_preserved": true,
+        "protected": true
+      },
+      "finance": {
+        "nodes": 13,
+        "auditors_with_coverage": 2,
+        "model_nodes": 4,
+        "production_id_preserved": true,
+        "protected": true
+      }
+    },
+    "runtime_files_verified": 16,
+    "temporary_test_flows_removed": 2,
+    "production_routes_digest_preserved": true,
+    "own_services_running": 8,
+    "healthchecks_ok": true,
+    "http": {
+      "element": 200,
+      "flowise": 200
+    }
+  },
+  "human_specialist_approvals": 0,
+  "expert_accuracy": null,
+  "limits": "Synthetic cases, some repeated. Pattern checks and model review do not certify legal accuracy. Actual Flowise calls; no Matrix messages were sent in this campaign. Only metrics and public source IDs are exported."
+}

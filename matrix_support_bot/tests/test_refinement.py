@@ -100,7 +100,7 @@ def test_python_and_actual_flowise_gate_keep_conditions_through_presentation_mar
     packet=make_quality_packet('legal',*pair,{'question':'Что регулирует соглашение?','previous_question':'','evidence':[source]})
     packet['quality']['constraints']=[{'id':'formatting-test','patterns':[r'имущественн[а-яё ]{0,60}дет'],'guidance':'Synthetic formatting check'}]
     answer='Договор определяет '+phrase+' детей. [S1]'
-    audit={'verdict':'approve','checks':[{'unit_id':'C1','status':'supported','proofs':[{'source_id':'S1','quote':source['text']}]}]}
+    audit={'answer_unit_ids':'C1','verdict':'approve','checks':[{'unit_id':'C1','status':'supported','proofs':[{'source_id':'S1','quote':source['text']}]}]}
     gate=Path(__file__).resolve().parents[1]/'agents/quality/claim_gate.js'
     script='const $flow='+json.dumps({'state':{'draft':answer,'quality_json':json.dumps(packet['quality'])}})+';const $audit='+json.dumps(audit)+';console.log(JSON.stringify((function(){'+gate.read_text()+'})()));'
     result=json.loads(subprocess.check_output(['node','-e',script],text=True))

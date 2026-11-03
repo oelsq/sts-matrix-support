@@ -16,7 +16,7 @@ SOURCE={'id':'tariff:1:1','title':'Проверочный тариф','text':'К
 PAIR=([{'role':'system','content':'system'},{'role':'user','content':'user'}],[{'role':'system','content':'review'},{'role':'user','content':'__STS_DRAFT_TO_REVIEW__'}])
 
 def gate(answer,source,*,partial=False):
-    audit={'verdict':'approve','checks':[{'unit_id':'C1','status':'supported','proofs':[{'source_id':'S1','quote':source}]}]}
+    audit={'answer_unit_ids':'C1','verdict':'approve','checks':[{'unit_id':'C1','status':'supported','proofs':[{'source_id':'S1','quote':source}]}]}
     quality={'sources':[{'id':'S1','text':source}],'question':'Уточните значение','previous_question':'','question_type':'definition'}
     script='const $flow='+json.dumps({'state':{'draft':answer,'quality_json':json.dumps(quality)}})+';const $audit='+json.dumps(json.dumps(audit))+';console.log(JSON.stringify((function(){'+GATE.read_text()+'})()));'
     result=json.loads(subprocess.check_output(['node','-e',script],text=True))
@@ -53,7 +53,7 @@ def test_numeric_parsers_and_shared_metric_spec_agree():
 def reviewed(answer,quote,partial=False,source=None):
     source=source or SOURCE
     packet=make_quality_packet('finance',*PAIR,{'question':'Какая комиссия?','evidence':[source]})
-    response={'contract':'sts.claims.v1','question_type':packet['quality']['question_type'],'status':'approved','answer':answer,'partial':partial,'audit':{'verdict':'approve','checks':[{'unit_id':'C1','status':'supported','proofs':[{'source_id':'S1','quote':quote}]}]}}
+    response={'contract':'sts.claims.v1','question_type':packet['quality']['question_type'],'status':'approved','answer':answer,'partial':partial,'audit':{'answer_unit_ids':'C1','verdict':'approve','checks':[{'unit_id':'C1','status':'supported','proofs':[{'source_id':'S1','quote':quote}]}]}}
     return accept_quality_response(json.dumps(response),packet)
 
 def test_exact_approved_quote_survives_transport_render_and_matrix_html():
@@ -108,7 +108,7 @@ def test_short_regulatory_definition_does_not_request_a_situation_action_plan():
 
 def test_verified_calculation_clarification_preserves_partial_status_without_fake_citations():
     packet=make_quality_packet('finance',*PAIR,{'question':'Рассчитай переплату кредита','evidence':[SOURCE]})
-    response={'contract':'sts.claims.v1','question_type':'calculation','status':'approved','answer':'Пришлите график платежей.\nУточните комиссии.','partial':True,'audit':{'verdict':'approve','checks':[{'unit_id':'C1','status':'advice'},{'unit_id':'C2','status':'advice'}]}}
+    response={'contract':'sts.claims.v1','question_type':'calculation','status':'approved','answer':'Пришлите график платежей.\nУточните комиссии.','partial':True,'audit':{'answer_unit_ids':'C1','verdict':'approve','checks':[{'unit_id':'C1','status':'advice'},{'unit_id':'C2','status':'advice'}]}}
     answer=accept_quality_response(json.dumps(response),packet)
     output=render('finance',answer,local_evidence=[SOURCE])
     assert 'Ответ подтверждён частично' in output and 'Пришлите график платежей' in output

@@ -54,6 +54,9 @@ def refresh_plan(routes, api):
             else:
                 continue
             node['data']['inputs'][key] = copy.deepcopy(expected[node_id]['data']['inputs'][key])
+        for node in after_graph['nodes']:
+            if node['id'] in {'llmAgentflow_0','llmAgentflow_2'}:
+                node['data']['inputs']['llmStructuredOutput']=copy.deepcopy(expected[node['id']]['data']['inputs']['llmStructuredOutput'])
         after_graph['nodes'][-1]['data']['label']='Итог или запрос повторного поиска'
         plan['flows'][domain] = {'id': ident, 'before': before, 'after': dict(before, flowData=json.dumps(after_graph, ensure_ascii=False))}
     return plan

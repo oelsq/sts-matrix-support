@@ -81,6 +81,12 @@ def colloquial_work_payment(question):
 
 def query_hints(question):
     expansions, documents, sections = [], set(), {}
+    image_sections = image_recording_sections(question)
+    if image_sections:
+        expansions.append('биометрические персональные данные распознавание идентификация лица согласие обработка' if biometric_image_question(question) else 'право на собственное изображение фотография видеосъемка получение распространение информации частная жизнь согласие личные семейные нужды')
+        documents.update(image_sections)
+        for document, headings in image_sections.items():
+            sections.setdefault(document, []).extend(headings)
     for pattern, expansion, docs, headings in RULES:
         if pattern.search(question):
             expansions.append(expansion)
@@ -223,3 +229,46 @@ def minor_employment_question(question):
     work=re.search(r'подработ|трудов|трудоустро|работодател|на работу|работать',q)
     action=re.search(r'договор|подпис|устро|работать|при[её]м|наним',q)
     return bool(minor and work and action)
+
+
+# Ordinary photography is not biometric identification. These helpers only
+# select source sections; they never assert a permission or a legal exception.
+def image_recording_question(question):
+    q = question.casefold().replace('ё', 'е')
+    photo = bool(re.search(r'фото|видео|с[ъь]емк|камер', q))
+    portrait = bool(re.search(r'изображени[ея].{0,25}(?:челов|лиц|граждан)|собственн.{0,12}изображени|чуж.{0,12}изображени', q))
+    context = bool(re.search(r'люд|человек|прохож|лиц|полици|полице|охран|соглас|публик|распростран|вылож|выклад|опубликов|магазин|ценник|товар|улиц|парк|обществен|биометр|распознаван|авторск|частн.{0,15}жизн', q))
+    return portrait or (photo and context) or bool(re.search(r'(?:снимать|снимаю|снял|сняли|записывать).{0,45}(?:людей|человек|прохож|полице|полици|охранник|улиц|общественн|ценник|товар)', q))
+
+
+
+def biometric_image_question(question):
+    q = question.casefold().replace('ё', 'е')
+    # An explicit absence of recognition must not turn a phone video into a
+    # question about an operator's face-identification equipment.
+    q = re.sub(r'без (?:автоматического )?распознавания лиц|не использую (?:биометрию|распознавание лиц)', '', q)
+    return image_recording_question(question) and bool(re.search(r'биометр|распознаван|идентификаци.{0,20}(?:лиц|личност)', q))
+
+
+def image_recording_sections(question):
+    if not image_recording_question(question):
+        return {}
+    if biometric_image_question(question):
+        return {'personal-law': ('Статья 1.', 'Статья 3.', 'Статья 7.', 'Статья 8.'),
+                'constitution': ('Статья 21',)}
+    sections = {'civil-general': ('Статья 144.', 'Статья 145.'),
+                'constitution': ('Статья 21', 'Статья 23'),
+                'online-platforms': ('Статья 18.',),
+                'personal-law': ('Статья 3.',)}
+    if re.search(r'магазин|торгов|товар|ценник|продав|потребител|кафе|ресторан', question, re.I):
+        sections['consumer-law'] = ('Статья 24.',)
+    if re.search(r'персональн|обработк.{0,15}данн', question, re.I):
+        sections['personal-law'] = ('Статья 3.', 'Статья 7.', 'Статья 15.')
+    return sections
+
+
+def ordinary_image_scope(question):
+    if not image_recording_question(question) or biometric_image_question(question):
+        return False
+    # Keep specialised/mixed cases open to their own procedural sources.
+    return not re.search(r'судебн|заседани|допрос|следствен|военн|режимн|гостайн|государственн.{0,10}секрет|медицин|больниц|трудов|зарплат|налог|кредит|аренд|авторск|товарн.{0,12}знак|логотип', question, re.I)

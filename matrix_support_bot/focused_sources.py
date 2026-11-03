@@ -2,6 +2,7 @@
 import re
 
 PATTERNS = {
+    'consumer-recording-law-exception':[r'Запрещается продавцу.{0,400}видеосъемки'],
     'marriage-child-property-vs-parent-duties':[
         r'имущественное положение детей', r'права и обязанности супругов в отношении детей'],
     'child-opinion-not-sole-residence-decision':[

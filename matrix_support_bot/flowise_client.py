@@ -106,7 +106,7 @@ class FlowiseClient:
                             and response.get('question_type')==packet['quality']['question_type']):
                         raw_codes=response.get('validation_errors',[])
                         unit_errors={'missing','missing_proof','invalid_proof','invalid_quote','citation_mismatch','unsupported','unproven_quantity','unproven_fact_disguised_as_advice','invalid_user_context','invented_user_quantity','user_text_is_not_law','unproven_numeric_relation'}
-                        general_errors={'invalid_audit_json','incomplete_audit','missing_or_duplicate_claims','invalid_answer_size','review_requested_revision'}
+                        general_errors={'invalid_audit_json','incomplete_audit','missing_or_duplicate_claims','invalid_answer_size','review_requested_revision','invalid_answer_coverage','main_question_unanswered'}
                         qualifications={'missing_qualification:'+c['id'] for c in packet['quality'].get('constraints',[])}
                         if isinstance(raw_codes,list) and len(raw_codes)<=16:
                             codes=tuple(c for c in raw_codes if isinstance(c,str) and (c in general_errors or c in qualifications or re.fullmatch(r'C(?:[1-9]|[12][0-9]|3[0-2]):[a-z_]+',c) and c.split(':')[1] in unit_errors))

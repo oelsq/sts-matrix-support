@@ -18,6 +18,7 @@ class ReviewDetails:
     retrieval_hints: tuple[str, ...] = ()
     omitted_topics: tuple[str, ...] = ()
     user_context: tuple[str, ...] = ()
+    gap_subject: str = ''
 
 
 OMITTED_TOPICS = {
@@ -33,6 +34,12 @@ def completeness_note(review):
     if review is None or not review.partial:
         return ''
     details = [OMITTED_TOPICS[key] for key in review.omitted_topics if key in OMITTED_TOPICS]
+    scoped={
+        'image':{'rule':'Отдельное основание использования изображения не подтверждено; не считайте его разрешением на публикацию.','conditions':'Условия конкретного исключения для использования изображения ещё нужно проверить.'},
+        'wage':{'deadline':'Отдельный срок выплаты или ответа ещё нужно сверить для вашего вида отношений.','amount':'Точная сумма долга или пени без исходных данных не установлена.'},
+        'apr':{'amount':'Точная ставка или сумма расходов здесь не установлена.','conditions':'Включение отдельного расхода в ГЭСВ зависит от условий займа и применимых правил.'},
+    }.get(getattr(review,'gap_subject',''),{})
+    details=[scoped.get(key,OMITTED_TOPICS[key]) for key in review.omitted_topics if key in OMITTED_TOPICS]
     if not details:
         details = ['Неподтверждённые детали исключены; выше сохранена самостоятельная проверенная часть ответа.']
     return '\n\n**Ответ подтверждён частично**\n' + ' '.join(details)

@@ -58,6 +58,33 @@ REPAIR += (
 )
 
 
+DRAFT += (
+    '\nОтвечай на response_goal: сначала вывод по главному вопросу, затем необходимые условия и следующий шаг. '
+    'Сложное правило объясни обычными словами; редакторский план помогает структуре, но не доказывает факт. '
+    'Разделяй самостоятельное правило, срок его реализации и практический совет на отдельные предложения. '
+    'Существенное условие или исключение держи вместе с выводом: не отделяй «можно» от условия, без которого нельзя. '
+    'Не начинай со сбора доказательств, если пользователь спрашивает, разрешено ли действие. '
+    'Не перечисляй все возможные нормы: выбери относящиеся к вопросу и объясни их связь.'
+)
+AUDIT += (
+    '\nДополнительно оцени ответ на ГЛАВНЫЙ вопрос по response_goal, независимо от совпадения цитат. '
+    'В answer_unit_ids верни строку C-ID через запятую: только предложения, которые непосредственно решают задачу, '
+    'а не вступления, ссылки и отвлечённые советы. Для вопроса о разрешении/определении/различии это объясняющие '
+    'утверждения; одних просьб сохранить документы недостаточно. Для ситуации допустим применимый конкретный шаг; '
+    'для документа — просьбы внутри готового черновика. Если подтверждён лишь частный вывод, выбери его, не требуй '
+    'полной определённости. Конкретное объяснение границы знания допускается; не требуй выдумать ответ. '
+    'Если таких строк нет, верни пустую строку и объясни в feedback, чего не хватает. '
+    'Выбирай ID из проверяемого черновика; не добавляй правовые факты в feedback. '
+    'Редакторские планы объяснения не являются доказательством: подтверждай только sources.excerpts.'
+)
+REPAIR += (
+    '\nПри main_question_unanswered восстанови прямое объяснение по найденным нормам либо конкретно назови '
+    'неподтверждённую часть и сохрани применимый ответ. Не заменяй ответ общими советами. '
+    'Для составного неподтверждённого предложения раздели независимые факты и повторно подтверди каждый. '
+    'Удаление числа не делает зависимый от него вывод доказанным. Не теряй существенные условия и исключения.'
+)
+
+
 def unit_code():
     return (ROOT/'claim_gate.js').read_text().split('const answer = $flow.state.draft;')[0]
 
@@ -104,7 +131,7 @@ answer=answer.split('\\n').map(line=>{const clean=line.replace(/\\[S\\d+\\]/g,''
 if(typeof answer!=='string'||!answer.trim()||answer.length>14000) throw Error('Invalid draft');
 return {draft:answer,units_json:JSON.stringify(unitize(answer).map(u=>({...u,safe_action:safeAdvice(u.text,typeof $flow!=='undefined' && JSON.parse($flow.state.quality_json).question_type==='document'),has_source_refs:/\\[S\\d+\\]/.test(u.text)})))};'''
         return node('customFunctionAgentflow',1+index*2,'Утверждения черновика' if not index else 'Утверждения после доработки',{'customFunctionInputVariables':[{'variableName':'draft','variableValue':'{{ '+previous+' }}'}],'customFunctionJavascriptFunction':code,'customFunctionUpdateState':[{'key':k,'value':'{{ output.'+k+' }}'} for k in ['draft','units_json']]},x,y)
-    audit_schema=[{'key': 'feedback', 'type': 'string', 'description': 'Concrete errors to repair; empty if none.'}, {'key': 'checks', 'type': 'jsonArray', 'jsonSchema': '{"unit_id": {"type": "string"}, "status": {"type": "string"}, "proofs": {"type": "array", "items": {"source_id": {"type": "string"}, "quote_id": {"type": "string"}}}, "user_quote": {"type": "string"}, "standalone": {"type": "boolean"}}', 'description': 'Exactly one row per C-ID. Never omit a unit.'}]
+    audit_schema=[{'key':'answer_unit_ids','type':'string','description':'Comma-separated C-IDs that directly answer the current question; empty if unanswered. Select from existing units only.'}, {'key': 'feedback', 'type': 'string', 'description': 'Concrete errors to repair; empty if none.'}, {'key': 'checks', 'type': 'jsonArray', 'jsonSchema': '{"unit_id": {"type": "string"}, "status": {"type": "string"}, "proofs": {"type": "array", "items": {"source_id": {"type": "string"}, "quote_id": {"type": "string"}}}, "user_quote": {"type": "string"}, "standalone": {"type": "boolean"}}', 'description': 'Exactly one row per C-ID. Never omit a unit.'}]
     def auditor(index,x,y=120):
         return node('llmAgentflow',0 if index==0 else 2,'Проверка каждого утверждения' if index==0 else 'Повторная проверка утверждений',{'llmModel':'chatOpenAI','llmModelConfig':dict(model,llmModel='chatOpenAI',maxTokens=3500),'llmEnableMemory':False,'llmReturnResponseAs':'assistantMessage','llmStructuredOutput':audit_schema,'llmUpdateState':[],
           'llmMessages':[{'role':'system','content':AUDIT},{'role':'user','content':'Данные запроса и источники:\n'+state('quality_json')+'\nУтверждения для проверки:\n'+state('units_json')}]},x,y)
