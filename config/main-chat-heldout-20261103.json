@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "notes": "20 new primary-room cases frozen before execution.",
+  "cases": [
+    {
+      "id": "heldout-legal-help",
+      "domain": "legal",
+      "question": "Какие задачи вы можете разбирать и какие функции поддерживаете?",
+      "previous_questions": [],
+      "required": {
+        "commands": "!помощь|!сотрудники"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-goods-unused",
+      "domain": "legal",
+      "question": "Купил исправные ботинки, но размер не подошёл. Ничего не носил, чек сохранил. Можно обменять?",
+      "previous_questions": [],
+      "required": {
+        "goods": "товар|обув|ботин",
+        "condition": "употреблен|использ|нош|носил|товарн.*вид"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-goods-worn",
+      "domain": "legal",
+      "question": "Носила пальто на улице, теперь оно просто разонравилось. Продавец обязан принять возврат исправной вещи?",
+      "previous_questions": [],
+      "required": {
+        "condition": "употреблен|использ|нош|носил",
+        "qualified": "услови|не обязан|не следует|не означает|безуслов|соглас"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-goods-defect",
+      "domain": "legal",
+      "question": "После двух прогулок ботинки расклеились, считаю это браком. Хочу вернуть деньги. Что делать?",
+      "previous_questions": [],
+      "required": {
+        "fault": "недостат|брак|качеств|дефект",
+        "action": "продав|претенз|обращен"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-civil-letter",
+      "domain": "legal",
+      "question": "А напиши короткое требование заказчику, данные заполню сам.",
+      "previous_questions": [
+        "По договору подряда заказчик не оплачивает выполненный этап. Трудового договора у меня нет."
+      ],
+      "required": {
+        "request": "Прошу",
+        "fields": "Кому:|Заказчику:",
+        "signature": "Подпись:"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-privacy",
+      "domain": "legal",
+      "question": "Могу прислать сюда ИИН и скан удостоверения, чтобы ты разобрал мой трудовой договор?",
+      "previous_questions": [],
+      "required": {
+        "privacy": "обезлич|скрой|не (?:нужно|присыла|отправля|передав)|удали|закрой"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-directory",
+      "domain": "legal",
+      "question": "!сотрудники",
+      "previous_questions": [],
+      "required": {
+        "directory": "!юрдеп2|!юрдеп3",
+        "switch": "!другой|смен"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-rental-plain",
+      "domain": "legal",
+      "question": "Хозяин квартиры удерживает весь обеспечительный платеж. Напиши просьбу о расчёте удержаний и возврате остатка.",
+      "previous_questions": [],
+      "required": {
+        "request": "Прошу",
+        "basis": "расч[её]т|удержан",
+        "placeholder": "\\["
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-personal-recording",
+      "domain": "legal",
+      "question": "Хочу для себя снять видео прогулки по улице. В кадре будут прохожие, публиковать не собираюсь. Что важно учитывать?",
+      "previous_questions": [],
+      "required": {
+        "privacy": "частн|прав|соглас",
+        "recording": "съ[её]м|запис|видео|изображен"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-employment-clarify",
+      "domain": "legal",
+      "question": "У меня договор ГПХ, а не трудовой. Это меняет порядок требования оплаты?",
+      "previous_questions": [
+        "Мне не заплатили за выполненную работу."
+      ],
+      "required": {
+        "scope": "ГПХ|гражданск|подряд|заказчик",
+        "payment": "оплат|услови|договор"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-finance-help",
+      "domain": "finance",
+      "question": "Какие команды ты знаешь и с какими вопросами ты можешь помочь?",
+      "previous_questions": [],
+      "required": {
+        "commands": "!помощь|!сотрудники"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-salary-inputs",
+      "domain": "finance",
+      "question": "Уже указал начисленную зарплату. Какие ещё сведения прислать, чтобы проверить сумму на руки?",
+      "previous_questions": [
+        "Начисленная зарплата 650000 тенге. Хочу проверить сумму на руки."
+      ],
+      "required": {
+        "period": "месяц|период",
+        "residency": "резидент",
+        "privacy": "обезлич|персональн|не присылайте"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-percent-remaining",
+      "domain": "finance",
+      "question": "А сколько останется после вычета этих 13%?",
+      "previous_questions": [
+        "Сколько будет 13% от 2,4 миллиона тенге?"
+      ],
+      "required": {
+        "result": "2[\\s\\u00a0\\u202f]*088[\\s\\u00a0\\u202f]*000|2088000"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-percent-replace-rate",
+      "domain": "finance",
+      "question": "После вычета указанных 10% сколько получится?",
+      "previous_questions": [
+        "Сколько будет 13% от 2,4 миллиона тенге?"
+      ],
+      "required": {
+        "result": "2[\\s\\u00a0\\u202f]*160[\\s\\u00a0\\u202f]*000|2160000"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-percent-currency",
+      "domain": "finance",
+      "question": "А после прибавления 2,5% сколько получится?",
+      "previous_questions": [
+        "Посчитай 2,5% от 2500 USD"
+      ],
+      "required": {
+        "result": "2[\\s\\u00a0\\u202f]*562[,.]5\\s*USD|2562[,.]5\\s*USD"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-apr-insurance",
+      "domain": "finance",
+      "question": "И страховка учитывается в ней всегда?",
+      "previous_questions": [
+        "Объясни ГЭСВ банковского займа простыми словами."
+      ],
+      "required": {
+        "insurance": "страхов",
+        "conditional": "услови|завис|влия|не вс|не люб|если"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-new-insurance-topic",
+      "domain": "finance",
+      "question": "А страховая отказала в выплате после ДТП? Какие документы запросить для разбора?",
+      "previous_questions": [
+        "Что такое ГЭСВ банковского кредита?"
+      ],
+      "required": {
+        "policy": "полис|договор|услови",
+        "refusal": "отказ|основан"
+      },
+      "forbidden": {
+        "wrong_topic": "ГЭСВ включает|в расчет ГЭСВ"
+      },
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-bank-duty",
+      "domain": "finance",
+      "question": "Правда, что банк после моего обращения обязан автоматически согласовать меньший платёж по реструктуризации?",
+      "previous_questions": [],
+      "required": {
+        "direct": "не автомат|не означает|не гарант|не обязан|рассмотр|соглас",
+        "action": "заявлен|услови|ответ|решени"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-unknown-transfer",
+      "domain": "finance",
+      "question": "Какая комиссия за перевод? Банк и способ перевода я пока не указал.",
+      "previous_questions": [],
+      "required": {
+        "clarify": "банк|способ|операци|услови"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "heldout-cashflow-form",
+      "domain": "finance",
+      "question": "!расчёт",
+      "previous_questions": [],
+      "required": {
+        "schedule": "график|плат[её]ж|даты"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    }
+  ]
+}

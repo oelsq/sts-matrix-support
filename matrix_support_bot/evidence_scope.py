@@ -12,6 +12,10 @@ def scope_evidence(domain, question, evidence):
         sections = image_recording_sections(question)
         evidence = [p for p in evidence if p['document_id'] in sections
                     and str(p.get('section', '')).startswith(sections[p['document_id']])]
+    from retrieval_intents import consumer_quality_return_question
+    if consumer_quality_return_question(question):
+        evidence=[p for p in evidence if p['document_id']=='consumer-law'
+                  and str(p.get('section','')).startswith(('Статья 14.','Статья 30.'))]
     from case_facts import case_facts
     facts=case_facts(question)
     if (facts['kind']=='work_payment' and facts['user_reported_facts'].get('contract_reported')=='civil'

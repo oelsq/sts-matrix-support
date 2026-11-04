@@ -21,6 +21,8 @@ def _find(evidence, document, article, *conditions):
 
 def checked_public_rights_answer(domain, question, evidence):
     current = question.split('\nПредыдущий вопрос:')[0]
+    mortgage=checked_mortgage_status_answer(domain,question,evidence)
+    if mortgage is not None:return mortgage
     q = question.casefold()
     draft = is_document_request(current)
     # Do not answer a calculation, statutory deadline, or court filing request
@@ -184,3 +186,32 @@ def checked_public_rights_answer(domain, question, evidence):
                 'вашего оценщика. Для такого требования нужны отдельные основания. '
                 'Что именно указано в расчёте как удержание?', question, [rule])
     return None
+
+
+def checked_mortgage_status_answer(domain,question,evidence):
+    """Explain statutory stages without determining an individual's title."""
+    from retrieval_intents import mortgage_ownership_question
+    current=question.split('\nПредыдущий вопрос:')[0]
+    if (not mortgage_ownership_question(question) or is_document_request(current)
+            or re.search(r'срок|сколько|обжалов|оспор|исков|\bиск\b|госпошлин|рассчита|продать|подарить|переписать|переоформить|отменить|признать|доказать',current,re.I)):
+        return None
+    rule=next((p for p in evidence if p['document_id']=='mortgage'
+               and str(p.get('section','')).startswith('Статья 20.')
+               and all(t in ' '.join(p['text'].split()) for t in [
+                   'неисполнения должником', 'реализации ипотеки в судебном порядке',
+                   'реализации ипотеки во внесудебном порядке',
+                   'если это предусмотрено законами Республики Казахстан либо в ипотечном договоре',
+                   'обращения в свою собственность заложенного имущества в случае объявления торгов несостоявшимися'])),None)
+    if rule is None:return None
+    return render(domain,
+        '**По одному уведомлению о просрочке нельзя установить, что квартира уже стала собственностью банка.** '
+        'Нужно различать залог, обращение взыскания и переход права собственности.\n\n'
+        'Статья 20 связывает обращение взыскания с неисполнением обеспеченного ипотекой обязательства и предусматривает разные способы реализации: '
+        'судебный; внесудебный, если он предусмотрен законом, ипотечным договором или последующим соглашением; '
+        'а также обращение имущества в собственность залогодержателя при объявлении торгов несостоявшимися согласно статье 32. [S1]\n\n'
+        '**Что проверить сейчас**\n'
+        '- Какой именно документ прислан: о долге, начале взыскания, реализации или результатах торгов.\n'
+        '- Ипотечный договор, дату получения уведомления, сведения о проведённой процедуре и документы о правах на квартиру.\n'
+        '- Какое действие и до какой даты указано в самом документе. Точный срок нужно сверять по соответствующему основанию.\n\n'
+        'Если торги или переход права уже оформлены, это другая стадия; по одному сообщению о просрочке её установить нельзя. '
+        'Можно показать обезличенную часть уведомления — помогу определить, что именно требует проверки.',question,[rule])

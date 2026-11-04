@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "notes": "22 cases after the last input-comparison fix: 20 fixed cases and 2 new paraphrases.",
+  "cases": [
+    {
+      "id": "confirm-employment-pressure",
+      "domain": "legal",
+      "question": "Работодатель просит подписать заявление по собственному желанию, хотя уходить не хочу. Что проверить перед подписью?",
+      "previous_questions": [],
+      "required": {
+        "choice": "заявлен|собственн",
+        "practical": "подпис|сохран|запрос|письмен|договор"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Содержательный ответ на текущий вопрос с сохранением вида отношений, условий и исключений; без выдуманных гарантий, ставок и сроков.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "confirm-defect-vs-change-of-mind",
+      "domain": "legal",
+      "question": "Ботинки расклеились после прогулки, продавец говорит: раз носили, возврата нет. Это тот же случай, что исправный товар не подошёл?",
+      "previous_questions": [],
+      "required": {
+        "distinction": "недостат|дефект|брак|ненадлежащ",
+        "condition": "качеств|употреблен|использ|носил"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Содержательный ответ на текущий вопрос с сохранением вида отношений, условий и исключений; без выдуманных гарантий, ставок и сроков.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "confirm-photo-vs-publication",
+      "domain": "legal",
+      "question": "Съёмка ценников в магазине и публикация крупного плана другого покупателя — это одно разрешение?",
+      "previous_questions": [],
+      "required": {
+        "shop": "ценник|продав|товар|магазин",
+        "image": "изображен|публикац|использован|соглас"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Содержательный ответ на текущий вопрос с сохранением вида отношений, условий и исключений; без выдуманных гарантий, ставок и сроков.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "confirm-rental-hold",
+      "domain": "legal",
+      "question": "Договор аренды закончился, собственник удержал весь обеспечительный платёж на всякий случай. Какие факты и документы влияют на спор об удержании?",
+      "previous_questions": [],
+      "required": {
+        "rental": "аренд|найм|обеспечительн",
+        "basis": "услови|договор|удержан",
+        "facts": "поврежден|акт|расчёт|расчет|долг|состояни"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Содержательный ответ на текущий вопрос с сохранением вида отношений, условий и исключений; без выдуманных гарантий, ставок и сроков.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "confirm-consent-with-loan",
+      "domain": "legal",
+      "question": "Отзываю согласие на обработку данных, но у меня остался невыплаченный банковский займ. Можно требовать немедленно всё удалить?",
+      "previous_questions": [],
+      "required": {
+        "exception": "неисполнен|обязательств|противореч|непогашен",
+        "scope": "соглас|обработк|удал"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Содержательный ответ на текущий вопрос с сохранением вида отношений, условий и исключений; без выдуманных гарантий, ставок и сроков.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "confirm-restructure-cost",
+      "domain": "finance",
+      "question": "После реструктуризации платёж меньше, но срок кредита длиннее. Какие цифры сравнить, чтобы понять общую переплату, без выдуманных тарифов?",
+      "previous_questions": [],
+      "required": {
+        "schedule": "график|срок",
+        "costs": "переплат|общ.{0,20}сумм|сумм.{0,20}выплат|процент|комисси",
+        "inputs": "договор|услови|платеж|платёж"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Содержательный ответ на текущий вопрос с сохранением вида отношений, условий и исключений; без выдуманных гарантий, ставок и сроков.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "confirm-insurance-two-types",
+      "domain": "finance",
+      "question": "КАСКО отказало из-за нарушения условия хранения ключей. ОГПО у меня тоже есть. Нужно ли считать, что ОГПО покроет повреждение моей машины?",
+      "previous_questions": [],
+      "required": {
+        "types": "КАСКО|добровольн",
+        "liability": "треть|ответственност|потерпевш",
+        "policy": "услови|договор|полис|отказ"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Содержательный ответ на текущий вопрос с сохранением вида отношений, условий и исключений; без выдуманных гарантий, ставок и сроков.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "confirm-insurance-rate-condition",
+      "domain": "finance",
+      "question": "При отказе от страховки банк повышает ставку по займу. Достаточно назвать страховку добровольной, чтобы автоматически исключить её из ГЭСВ?",
+      "previous_questions": [],
+      "required": {
+        "condition": "услови|влия|связ",
+        "insurance": "страхов",
+        "apr": "ГЭСВ|эффективн"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Содержательный ответ на текущий вопрос с сохранением вида отношений, условий и исключений; без выдуманных гарантий, ставок и сроков.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "confirm-tax-income-types",
+      "domain": "finance",
+      "question": "Доход от продажи имущества и оплата работы по договору услуг — можно автоматически применить к ним одинаковое налоговое удержание? Какие детали нужны?",
+      "previous_questions": [],
+      "required": {
+        "income": "доход|имуществ|услуг",
+        "condition": "вид|источник|резидент|период|статус|услови",
+        "next": "уточн|проверь|сообщ|нужно|необходимо"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Содержательный ответ на текущий вопрос с сохранением вида отношений, условий и исключений; без выдуманных гарантий, ставок и сроков.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "confirm-mortgage-ownership",
+      "domain": "finance",
+      "question": "Есть просрочка по ипотеке, банк прислал уведомление. Квартира уже автоматически стала собственностью банка или нужно проверить процедуру?",
+      "previous_questions": [],
+      "required": {
+        "ownership": "собствен|залог",
+        "process": "уведом|договор|взыск|процедур"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Содержательный ответ на текущий вопрос с сохранением вида отношений, условий и исключений; без выдуманных гарантий, ставок и сроков.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "main-finance-help",
+      "domain": "finance",
+      "question": "Какие вопросы ты можешь решать и какие команды поддерживаешь?",
+      "previous_questions": [],
+      "required": {
+        "help": "!помощь|!сотрудники|!новый|!человек"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Прямой полезный ответ с применимыми условиями; конкретные нормы, суммы и сроки подтверждать первоисточниками.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "main-after-percent",
+      "domain": "finance",
+      "question": "А сколько останется после вычета этих 27%?",
+      "previous_questions": [
+        "Если бухгалтерия начислила 15 миллионов тенге, сколько будет 27% от этого?"
+      ],
+      "required": {
+        "result": "10[\\s\\u00a0\\u202f]*950[\\s\\u00a0\\u202f]*000|10950000"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Прямой полезный ответ с применимыми условиями; конкретные нормы, суммы и сроки подтверждать первоисточниками.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "main-consumer-used",
+      "domain": "legal",
+      "question": "Я носил купленную куртку неделю, она исправна. Магазин обязан безусловно вернуть деньги?",
+      "previous_questions": [],
+      "required": {
+        "conditions": "товарн|использ|нош|состояни|услови"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Прямой полезный ответ с применимыми условиями; конкретные нормы, суммы и сроки подтверждать первоисточниками.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "main-net-salary",
+      "domain": "finance",
+      "question": "Начислено 500000 тенге зарплаты. Какие данные нужны для точного расчёта суммы на руки?",
+      "previous_questions": [],
+      "required": {
+        "scope": "период|резидент|вычет|льгот|вид договора|удержан",
+        "privacy": "без.*(?:персональн|ИИН)|обезлич|не.*ИИН|реквизит"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Прямой полезный ответ с применимыми условиями; конкретные нормы, суммы и сроки подтверждать первоисточниками.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "main-insurance-apr",
+      "domain": "finance",
+      "question": "А страховка входит всегда?",
+      "previous_questions": [
+        "Чем ГЭСВ банковского займа отличается от номинальной ставки?"
+      ],
+      "required": {
+        "insurance": "страхов",
+        "conditional": "услови|завис|влия|если|не люб|не вс"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Прямой полезный ответ с применимыми условиями; конкретные нормы, суммы и сроки подтверждать первоисточниками.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "main-restructure",
+      "domain": "finance",
+      "question": "Банк отказал в реструктуризации. Разве он не обязан уменьшить мой платёж?",
+      "previous_questions": [],
+      "required": {
+        "response": "отказ|ответ|решени",
+        "action": "заявлен|договор|услови|жалоб",
+        "conditional": "не обязан|не гарант|не означает|обоснован|соглас|рассмотр"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Прямой полезный ответ с применимыми условиями; конкретные нормы, суммы и сроки подтверждать первоисточниками.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "main-public-photo",
+      "domain": "legal",
+      "question": "Можно ли снимать людей в общественных местах?",
+      "previous_questions": [],
+      "required": {
+        "image": "изображен|частн",
+        "publication": "публи|распростран|использован"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Прямой полезный ответ с применимыми условиями; конкретные нормы, суммы и сроки подтверждать первоисточниками.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "main-unknown-tariff",
+      "domain": "finance",
+      "question": "Какая комиссия за перевод с карты?",
+      "previous_questions": [],
+      "candidate_reference": "Уточнить банк, продукт и канал; не подставлять комиссию другого банка.",
+      "reference_status": "awaiting_specialist",
+      "sources": [],
+      "required": {
+        "bank": "банк",
+        "product": "продукт|приложени"
+      },
+      "forbidden": {
+        "invented-zero": "комиссия составляет 0"
+      },
+      "risk": "high"
+    },
+    {
+      "id": "main-new-topic",
+      "domain": "finance",
+      "question": "А какая комиссия в Freedom?",
+      "previous_questions": [
+        "Какая комиссия Halyk SuperApp за коммунальные услуги?"
+      ],
+      "candidate_reference": "Новый банк требует нового источника и уточнения продукта, не наследовать тариф Halyk.",
+      "reference_status": "awaiting_specialist",
+      "sources": [
+        "freedom-retail"
+      ],
+      "required": {
+        "product": "продукт|карт|перевод|операци"
+      },
+      "forbidden": {
+        "wrong-bank": "по тарифу Halyk"
+      },
+      "risk": "high"
+    },
+    {
+      "id": "heldout-percent-replace-rate",
+      "domain": "finance",
+      "question": "После вычета указанных 10% сколько получится?",
+      "previous_questions": [
+        "Сколько будет 13% от 2,4 миллиона тенге?"
+      ],
+      "required": {
+        "result": "2[\\s\\u00a0\\u202f]*160[\\s\\u00a0\\u202f]*000|2160000"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Полезный ответ по текущей задаче с сохранением условий и пользовательского контекста; нормы, суммы и сроки подтверждать.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "confirm-comparison-data-paraphrase",
+      "domain": "finance",
+      "question": "Какие сведения нужны, чтобы сравнить общую сумму выплат до и после изменения графика займа? Не придумывайте тарифы.",
+      "previous_questions": [],
+      "required": {
+        "schedule": "график",
+        "date": "дат",
+        "costs": "расход|переплат|сумм",
+        "privacy": "обезлич"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Практический метод сравнения на общей дате; без выдуманных цен и обязательных норм.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "confirm-comparison-method-paraphrase",
+      "domain": "finance",
+      "question": "Что сравнить в старом и новом графиках кредита, чтобы оценить переплату без неподтверждённых комиссий?",
+      "previous_questions": [],
+      "required": {
+        "schedule": "график",
+        "date": "дат",
+        "costs": "расход|переплат|сумм",
+        "privacy": "обезлич"
+      },
+      "forbidden": {},
+      "sources": [],
+      "candidate_reference": "Практический метод сравнения на общей дате; без выдуманных цен и обязательных норм.",
+      "reference_status": "awaiting_specialist"
+    }
+  ]
+}

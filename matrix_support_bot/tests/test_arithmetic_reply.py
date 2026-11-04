@@ -205,3 +205,31 @@ def test_production_matrix_arithmetic_bypasses_retrieval_and_model(monkeypatch, 
         expected = bot.matrix_content(arithmetic_reply(question, previous_question=CASES[0][0] if question == "А 10%?" else ""))["body"]
         assert any(item["room_id"] == room and item["content"]["body"] == expected for item in output)
     assert all("временно недоступен" not in item["content"]["body"] for item in output)
+
+
+@pytest.mark.parametrize('followup,expected',[
+    ('А сколько останется после вычета этих 27%?', '10 950 000 тенге'),
+    ('Сколько останется после удержания 27 процентов?', '10 950 000 тенге'),
+    ('А после вычета указанных 10%?', '13 500 000 тенге'),
+    ('После прибавления 10% сколько получится?', '16 500 000 тенге'),
+])
+def test_followup_operation_can_name_its_percentage(followup,expected):
+    prior='Если бухгалтерия начислила 15 миллионов тенге, сколько будет 27% от этого?'
+    assert expected in arithmetic_reply(followup,previous_question=prior)
+
+def test_followup_operation_preserves_user_boundaries_and_does_not_infer_legal_rates():
+    from conversation import ConversationMemory
+    from local_reply import prepare_local_reply
+    class NoSearch:
+        def search(self,*args,**kwargs):raise AssertionError('Pure arithmetic must not search laws')
+    memory=ConversationMemory();prior='Сколько будет 27% от 15 миллионов тенге?'
+    memory.resolve('main','tester','finance',prior)
+    q='А сколько останется после вычета этих 27%?'
+    search,previous=memory.resolve('main','tester','finance',q)
+    p=prepare_local_reply('finance',q,NoSearch(),search_question=search,previous_question=previous)
+    assert p.mechanism=='arithmetic' and '10 950 000 тенге' in p.answer
+    assert 'Уточните исходную сумму' in arithmetic_reply(q,previous_question='У меня кредит 15 млн под 27% годовых')
+    assert 'Уточните исходную сумму' in arithmetic_reply(q,previous_question='')
+    assert arithmetic_reply('Законно ли удержать 27%?',previous_question=prior) is None
+    assert arithmetic_reply('После вычета -27% сколько останется?',previous_question=prior) is None
+    assert memory.resolve('other','tester','finance',q)[1]==''

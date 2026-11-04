@@ -103,9 +103,17 @@ def retrieval_question(question: str, previous_question: str = "") -> str:
               r"НДС|налог", r"КАСКО|страхов|полис|ДТП", r"реструктур|кредит|микро(?:кредит|за[её]м)"]
     new_problem = any(re.search(pattern, question, re.I) and not re.search(pattern, previous_question, re.I)
                       for pattern in topics)
+    apr_component_followup=bool(re.search(r'гэ[сc]в|эффективн.{0,25}ставк',previous_question,re.I)
+                                and re.search(r'страхов|комисси',question,re.I)
+                                and re.search(r'входит|входят|включ|учитыв',question,re.I)
+                                and not re.search(r'ДТП|страхов.{0,8}случа|отказ.{0,20}выплат|выплат.{0,20}страхов',question,re.I))
+    # Explicit bounded continuation, including one without the leading «А».
+    # The calculator itself still requires an unambiguous user-supplied base.
+    arithmetic_followup=bool(re.match(r'^(?:после (?:вычета|удержания|прибавления|добавления)|сколько (?:останется|получится))\b',question,re.I)
+                             and re.search(r'%|процент',previous_question,re.I))
     fact_followup=bool(re.match(r'^(?:у меня |я работаю |работаю |)(?:договор (?:ГПХ|подряда|оказания услуг)|трудового договора нет|нет трудового договора|есть гарантия|гарантии нет)',question,re.I))
     followup = re.match(r"^(а\b|и\b|тогда\b|если\b|это\b|почему\b|какой\b|какие\b|сколько\b|кому\b|что (?:дальше|подготовить|приложить|запросить)|мне (?:нужен|нужна|нужно)|поясни|объясни|уточни)", question, re.I)
-    if previous_question and len(question.split()) <= 28 and (followup or fact_followup or is_document_request(question)) and not new_topic and (not new_problem or fact_followup):
+    if previous_question and len(question.split()) <= 28 and (followup or fact_followup or arithmetic_followup or apr_component_followup or is_document_request(question)) and not new_topic and (not new_problem or fact_followup or apr_component_followup):
         return question + "\nПредыдущий вопрос: " + previous_question[:3000]
     return question
 

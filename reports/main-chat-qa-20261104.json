@@ -1,0 +1,1313 @@
+{
+  "campaign": {
+    "date": "2026-11-04",
+    "mode": "existing_primary_rooms",
+    "primary_rooms": 2,
+    "parallel_questions_max": 2,
+    "timeline_read": false,
+    "answers_exported": false,
+    "human_specialist_approvals": 0,
+    "phases": {
+      "baseline": {
+        "status": "complete",
+        "cases": 40,
+        "answered": 40,
+        "criteria_passed": 36,
+        "validation_fallbacks": 1,
+        "generation_unavailable": 0,
+        "rich_html": 40,
+        "followup_cases": 6,
+        "previous_turn_answers": 6,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 40,
+          "median_seconds": 4.936,
+          "p95_seconds": 62.633,
+          "max_seconds": 68.266
+        },
+        "queue": {
+          "count": 40,
+          "median_seconds": 0.004,
+          "p95_seconds": 0.005,
+          "max_seconds": 0.017
+        },
+        "processing": {
+          "count": 40,
+          "median_seconds": 0.922,
+          "p95_seconds": 62.281,
+          "max_seconds": 67.462
+        },
+        "delivery": {
+          "count": 40,
+          "median_seconds": 0.15,
+          "p95_seconds": 8.165,
+          "max_seconds": 8.915
+        },
+        "failed_cases": [
+          {
+            "id": "main-finance-help",
+            "missing": [
+              "help"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "main-after-percent",
+            "missing": [
+              "result"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "main-consumer-used",
+            "missing": [
+              "conditions"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "main-net-salary",
+            "missing": [
+              "privacy"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          }
+        ],
+        "flowise": {
+          "cases_with_workflow": 13,
+          "executions": 22,
+          "repair_executions": 21,
+          "model_stage_times": {
+            "draft": {
+              "count": 22,
+              "median_seconds": 3.388,
+              "p95_seconds": 4.376,
+              "max_seconds": 4.754
+            },
+            "audit": {
+              "count": 22,
+              "median_seconds": 9.658,
+              "p95_seconds": 13.734,
+              "max_seconds": 14.74
+            },
+            "repair": {
+              "count": 21,
+              "median_seconds": 3.636,
+              "p95_seconds": 4.935,
+              "max_seconds": 5.019
+            },
+            "audit_repaired": {
+              "count": 21,
+              "median_seconds": 8.792,
+              "p95_seconds": 12.019,
+              "max_seconds": 14.104
+            }
+          },
+          "response_latency": {
+            "count": 13,
+            "median_seconds": 53.827,
+            "p95_seconds": 68.266,
+            "max_seconds": 68.266
+          },
+          "other_response_latency": {
+            "count": 27,
+            "median_seconds": 1.734,
+            "p95_seconds": 9.741,
+            "max_seconds": 9.773
+          }
+        }
+      },
+      "recheck": {
+        "status": "complete",
+        "cases": 8,
+        "answered": 8,
+        "criteria_passed": 6,
+        "validation_fallbacks": 1,
+        "generation_unavailable": 0,
+        "rich_html": 8,
+        "followup_cases": 2,
+        "previous_turn_answers": 2,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 8,
+          "median_seconds": 2.031,
+          "p95_seconds": 66.702,
+          "max_seconds": 66.702
+        },
+        "queue": {
+          "count": 8,
+          "median_seconds": 0.004,
+          "p95_seconds": 0.014,
+          "max_seconds": 0.014
+        },
+        "processing": {
+          "count": 8,
+          "median_seconds": 0.421,
+          "p95_seconds": 61.961,
+          "max_seconds": 61.961
+        },
+        "delivery": {
+          "count": 8,
+          "median_seconds": 0.139,
+          "p95_seconds": 0.162,
+          "max_seconds": 0.162
+        },
+        "failed_cases": [
+          {
+            "id": "main-insurance-apr",
+            "missing": [
+              "insurance"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "main-consumer-used",
+            "missing": [
+              "conditions"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          }
+        ],
+        "flowise": {
+          "cases_with_workflow": 3,
+          "executions": 4,
+          "repair_executions": 4,
+          "model_stage_times": {
+            "draft": {
+              "count": 4,
+              "median_seconds": 3.944,
+              "p95_seconds": 4.802,
+              "max_seconds": 4.802
+            },
+            "audit": {
+              "count": 4,
+              "median_seconds": 10.175,
+              "p95_seconds": 11.716,
+              "max_seconds": 11.716
+            },
+            "repair": {
+              "count": 4,
+              "median_seconds": 4.046,
+              "p95_seconds": 4.45,
+              "max_seconds": 4.45
+            },
+            "audit_repaired": {
+              "count": 4,
+              "median_seconds": 9.395,
+              "p95_seconds": 11.84,
+              "max_seconds": 11.84
+            }
+          },
+          "response_latency": {
+            "count": 3,
+            "median_seconds": 38.603,
+            "p95_seconds": 66.702,
+            "max_seconds": 66.702
+          },
+          "other_response_latency": {
+            "count": 5,
+            "median_seconds": 0.935,
+            "p95_seconds": 3.078,
+            "max_seconds": 3.078
+          }
+        }
+      },
+      "holdout": {
+        "status": "complete",
+        "cases": 20,
+        "answered": 20,
+        "criteria_passed": 17,
+        "validation_fallbacks": 0,
+        "generation_unavailable": 0,
+        "rich_html": 20,
+        "followup_cases": 8,
+        "previous_turn_answers": 8,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 20,
+          "median_seconds": 0.996,
+          "p95_seconds": 73.122,
+          "max_seconds": 75.473
+        },
+        "queue": {
+          "count": 20,
+          "median_seconds": 0.004,
+          "p95_seconds": 0.009,
+          "max_seconds": 0.02
+        },
+        "processing": {
+          "count": 20,
+          "median_seconds": 0.026,
+          "p95_seconds": 69.526,
+          "max_seconds": 74.588
+        },
+        "delivery": {
+          "count": 20,
+          "median_seconds": 0.136,
+          "p95_seconds": 0.183,
+          "max_seconds": 0.278
+        },
+        "failed_cases": [
+          {
+            "id": "heldout-percent-replace-rate",
+            "missing": [
+              "result"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "heldout-apr-insurance",
+            "missing": [
+              "insurance"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "heldout-privacy",
+            "missing": [
+              "privacy"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          }
+        ],
+        "flowise": {
+          "cases_with_workflow": 8,
+          "executions": 14,
+          "repair_executions": 13,
+          "model_stage_times": {
+            "draft": {
+              "count": 14,
+              "median_seconds": 3.396,
+              "p95_seconds": 4.276,
+              "max_seconds": 4.276
+            },
+            "audit": {
+              "count": 14,
+              "median_seconds": 11.364,
+              "p95_seconds": 13.264,
+              "max_seconds": 13.264
+            },
+            "repair": {
+              "count": 13,
+              "median_seconds": 3.313,
+              "p95_seconds": 4.49,
+              "max_seconds": 4.49
+            },
+            "audit_repaired": {
+              "count": 13,
+              "median_seconds": 10.104,
+              "p95_seconds": 13.247,
+              "max_seconds": 13.247
+            }
+          },
+          "response_latency": {
+            "count": 8,
+            "median_seconds": 57.834,
+            "p95_seconds": 75.473,
+            "max_seconds": 75.473
+          },
+          "other_response_latency": {
+            "count": 12,
+            "median_seconds": 0.939,
+            "p95_seconds": 5.011,
+            "max_seconds": 5.011
+          }
+        }
+      },
+      "final": {
+        "status": "complete",
+        "cases": 60,
+        "answered": 60,
+        "criteria_passed": 60,
+        "validation_fallbacks": 0,
+        "generation_unavailable": 0,
+        "rich_html": 60,
+        "followup_cases": 14,
+        "previous_turn_answers": 14,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 60,
+          "median_seconds": 5.012,
+          "p95_seconds": 66.666,
+          "max_seconds": 80.316
+        },
+        "queue": {
+          "count": 60,
+          "median_seconds": 0.004,
+          "p95_seconds": 0.016,
+          "max_seconds": 0.094
+        },
+        "processing": {
+          "count": 60,
+          "median_seconds": 0.849,
+          "p95_seconds": 65.861,
+          "max_seconds": 75.603
+        },
+        "delivery": {
+          "count": 60,
+          "median_seconds": 0.153,
+          "p95_seconds": 8.827,
+          "max_seconds": 9.841
+        },
+        "failed_cases": [],
+        "flowise": {
+          "cases_with_workflow": 17,
+          "executions": 28,
+          "repair_executions": 27,
+          "model_stage_times": {
+            "draft": {
+              "count": 28,
+              "median_seconds": 3.482,
+              "p95_seconds": 4.679,
+              "max_seconds": 5.183
+            },
+            "audit": {
+              "count": 28,
+              "median_seconds": 9.611,
+              "p95_seconds": 12.722,
+              "max_seconds": 14.99
+            },
+            "repair": {
+              "count": 27,
+              "median_seconds": 3.436,
+              "p95_seconds": 4.542,
+              "max_seconds": 5.162
+            },
+            "audit_repaired": {
+              "count": 27,
+              "median_seconds": 9.614,
+              "p95_seconds": 16.531,
+              "max_seconds": 17.995
+            }
+          },
+          "response_latency": {
+            "count": 17,
+            "median_seconds": 58.62,
+            "p95_seconds": 80.316,
+            "max_seconds": 80.316
+          },
+          "other_response_latency": {
+            "count": 43,
+            "median_seconds": 2.523,
+            "p95_seconds": 10.518,
+            "max_seconds": 10.541
+          }
+        }
+      },
+      "confirmation": {
+        "status": "complete",
+        "cases": 10,
+        "answered": 10,
+        "criteria_passed": 9,
+        "validation_fallbacks": 0,
+        "generation_unavailable": 0,
+        "rich_html": 10,
+        "followup_cases": 0,
+        "previous_turn_answers": 0,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 10,
+          "median_seconds": 65.475,
+          "p95_seconds": 85.093,
+          "max_seconds": 85.093
+        },
+        "queue": {
+          "count": 10,
+          "median_seconds": 0.005,
+          "p95_seconds": 0.035,
+          "max_seconds": 0.035
+        },
+        "processing": {
+          "count": 10,
+          "median_seconds": 65.065,
+          "p95_seconds": 84.175,
+          "max_seconds": 84.175
+        },
+        "delivery": {
+          "count": 10,
+          "median_seconds": 0.142,
+          "p95_seconds": 0.246,
+          "max_seconds": 0.246
+        },
+        "failed_cases": [
+          {
+            "id": "confirm-restructure-cost",
+            "missing": [
+              "schedule",
+              "inputs"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          }
+        ],
+        "flowise": {
+          "cases_with_workflow": 8,
+          "executions": 15,
+          "repair_executions": 15,
+          "model_stage_times": {
+            "draft": {
+              "count": 15,
+              "median_seconds": 3.989,
+              "p95_seconds": 4.987,
+              "max_seconds": 4.987
+            },
+            "audit": {
+              "count": 15,
+              "median_seconds": 12.98,
+              "p95_seconds": 16.205,
+              "max_seconds": 16.205
+            },
+            "repair": {
+              "count": 15,
+              "median_seconds": 3.772,
+              "p95_seconds": 4.659,
+              "max_seconds": 4.659
+            },
+            "audit_repaired": {
+              "count": 15,
+              "median_seconds": 11.222,
+              "p95_seconds": 15.75,
+              "max_seconds": 15.75
+            }
+          },
+          "response_latency": {
+            "count": 8,
+            "median_seconds": 69.053,
+            "p95_seconds": 85.093,
+            "max_seconds": 85.093
+          },
+          "other_response_latency": {
+            "count": 2,
+            "median_seconds": 1.786,
+            "p95_seconds": 2.538,
+            "max_seconds": 2.538
+          }
+        }
+      },
+      "retest": {
+        "status": "complete",
+        "cases": 22,
+        "answered": 22,
+        "criteria_passed": 20,
+        "validation_fallbacks": 0,
+        "generation_unavailable": 0,
+        "rich_html": 22,
+        "followup_cases": 4,
+        "previous_turn_answers": 4,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 22,
+          "median_seconds": 18.968,
+          "p95_seconds": 73.878,
+          "max_seconds": 75.481
+        },
+        "queue": {
+          "count": 22,
+          "median_seconds": 0.004,
+          "p95_seconds": 0.008,
+          "max_seconds": 0.151
+        },
+        "processing": {
+          "count": 22,
+          "median_seconds": 18.249,
+          "p95_seconds": 72.525,
+          "max_seconds": 74.486
+        },
+        "delivery": {
+          "count": 22,
+          "median_seconds": 0.138,
+          "p95_seconds": 0.208,
+          "max_seconds": 4.658
+        },
+        "failed_cases": [
+          {
+            "id": "confirm-rental-hold",
+            "missing": [
+              "facts"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "confirm-mortgage-ownership",
+            "missing": [
+              "ownership"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          }
+        ],
+        "flowise": {
+          "cases_with_workflow": 11,
+          "executions": 19,
+          "repair_executions": 19,
+          "model_stage_times": {
+            "draft": {
+              "count": 19,
+              "median_seconds": 4.017,
+              "p95_seconds": 4.575,
+              "max_seconds": 4.575
+            },
+            "audit": {
+              "count": 19,
+              "median_seconds": 11.031,
+              "p95_seconds": 15.539,
+              "max_seconds": 15.539
+            },
+            "repair": {
+              "count": 19,
+              "median_seconds": 3.885,
+              "p95_seconds": 4.639,
+              "max_seconds": 4.639
+            },
+            "audit_repaired": {
+              "count": 19,
+              "median_seconds": 9.585,
+              "p95_seconds": 12.685,
+              "max_seconds": 12.685
+            }
+          },
+          "response_latency": {
+            "count": 11,
+            "median_seconds": 65.056,
+            "p95_seconds": 75.481,
+            "max_seconds": 75.481
+          },
+          "other_response_latency": {
+            "count": 11,
+            "median_seconds": 0.938,
+            "p95_seconds": 9.746,
+            "max_seconds": 9.746
+          }
+        }
+      },
+      "closure": {
+        "status": "complete",
+        "cases": 27,
+        "answered": 27,
+        "criteria_passed": 27,
+        "validation_fallbacks": 0,
+        "generation_unavailable": 0,
+        "rich_html": 27,
+        "followup_cases": 5,
+        "previous_turn_answers": 5,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 27,
+          "median_seconds": 4.943,
+          "p95_seconds": 78.685,
+          "max_seconds": 85.06
+        },
+        "queue": {
+          "count": 27,
+          "median_seconds": 0.004,
+          "p95_seconds": 0.009,
+          "max_seconds": 0.024
+        },
+        "processing": {
+          "count": 27,
+          "median_seconds": 0.961,
+          "p95_seconds": 78.311,
+          "max_seconds": 84.662
+        },
+        "delivery": {
+          "count": 27,
+          "median_seconds": 0.14,
+          "p95_seconds": 4.133,
+          "max_seconds": 4.134
+        },
+        "failed_cases": [],
+        "flowise": {
+          "cases_with_workflow": 10,
+          "executions": 16,
+          "repair_executions": 16,
+          "model_stage_times": {
+            "draft": {
+              "count": 16,
+              "median_seconds": 3.823,
+              "p95_seconds": 5.12,
+              "max_seconds": 5.12
+            },
+            "audit": {
+              "count": 16,
+              "median_seconds": 9.268,
+              "p95_seconds": 28.373,
+              "max_seconds": 28.373
+            },
+            "repair": {
+              "count": 16,
+              "median_seconds": 3.614,
+              "p95_seconds": 4.651,
+              "max_seconds": 4.651
+            },
+            "audit_repaired": {
+              "count": 16,
+              "median_seconds": 9.764,
+              "p95_seconds": 13.617,
+              "max_seconds": 13.617
+            }
+          },
+          "response_latency": {
+            "count": 10,
+            "median_seconds": 55.823,
+            "p95_seconds": 85.06,
+            "max_seconds": 85.06
+          },
+          "other_response_latency": {
+            "count": 17,
+            "median_seconds": 0.947,
+            "p95_seconds": 4.986,
+            "max_seconds": 4.986
+          }
+        }
+      },
+      "mixed": {
+        "status": "complete",
+        "cases": 13,
+        "answered": 13,
+        "criteria_passed": 11,
+        "validation_fallbacks": 0,
+        "generation_unavailable": 0,
+        "rich_html": 13,
+        "followup_cases": 1,
+        "previous_turn_answers": 1,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 13,
+          "median_seconds": 25.859,
+          "p95_seconds": 110.711,
+          "max_seconds": 110.711
+        },
+        "queue": {
+          "count": 13,
+          "median_seconds": 0.004,
+          "p95_seconds": 0.019,
+          "max_seconds": 0.019
+        },
+        "processing": {
+          "count": 13,
+          "median_seconds": 24.909,
+          "p95_seconds": 109.853,
+          "max_seconds": 109.853
+        },
+        "delivery": {
+          "count": 13,
+          "median_seconds": 0.133,
+          "p95_seconds": 0.167,
+          "max_seconds": 0.167
+        },
+        "failed_cases": [
+          {
+            "id": "mixed-detached-sole",
+            "missing": [
+              "condition"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "mixed-shop-publication",
+            "missing": [
+              "shop"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          }
+        ],
+        "flowise": {
+          "cases_with_workflow": 7,
+          "executions": 12,
+          "repair_executions": 11,
+          "model_stage_times": {
+            "draft": {
+              "count": 12,
+              "median_seconds": 3.739,
+              "p95_seconds": 5.32,
+              "max_seconds": 5.32
+            },
+            "audit": {
+              "count": 12,
+              "median_seconds": 10.669,
+              "p95_seconds": 57.635,
+              "max_seconds": 57.635
+            },
+            "repair": {
+              "count": 11,
+              "median_seconds": 3.622,
+              "p95_seconds": 4.734,
+              "max_seconds": 4.734
+            },
+            "audit_repaired": {
+              "count": 11,
+              "median_seconds": 10.917,
+              "p95_seconds": 16.945,
+              "max_seconds": 16.945
+            }
+          },
+          "response_latency": {
+            "count": 7,
+            "median_seconds": 67.475,
+            "p95_seconds": 110.711,
+            "max_seconds": 110.711
+          },
+          "other_response_latency": {
+            "count": 6,
+            "median_seconds": 0.935,
+            "p95_seconds": 1.733,
+            "max_seconds": 1.733
+          }
+        }
+      }
+    },
+    "total_scenario_executions": 200,
+    "total_previous_turn_answers": 40,
+    "distinct_frozen_cases": 82
+  },
+  "deployment": {
+    "image": "sha256:cc2aede72e2faf5e85e88dfd4eb5576c215a67b67e3587764a4f2d638155418d",
+    "rollback_image": "sha256:0eb93a70cf529a2f6fca6a99053896dcb893d52b441fac67d76f2399b2ccabc3",
+    "runtime_files_verified": 16,
+    "public_files_verified": 29,
+    "local_tests": 1709,
+    "gpu_route": "sts-qwen-gpu0",
+    "environment_mounts_log_rotation_preserved": true,
+    "flow_routes_unchanged": true,
+    "pending_requests_before_update": 0
+  },
+  "postcheck": {
+    "source_files_verified": 29,
+    "runtime_files_verified": 16,
+    "local_tests_passed": 1709,
+    "services": [
+      {
+        "name": "sts-team-demo-bot-1",
+        "running": true,
+        "health": "not_configured"
+      },
+      {
+        "name": "sts-team-demo-element-1",
+        "running": true,
+        "health": "healthy"
+      },
+      {
+        "name": "sts-team-demo-frontend-1",
+        "running": true,
+        "health": "not_configured"
+      },
+      {
+        "name": "sts-team-demo-homeserver-1",
+        "running": true,
+        "health": "healthy"
+      },
+      {
+        "name": "sts-team-demo-backend-1",
+        "running": true,
+        "health": "healthy"
+      },
+      {
+        "name": "sts-team-demo-postgres-1",
+        "running": true,
+        "health": "healthy"
+      },
+      {
+        "name": "sts-flowise-pilot-flowise-1",
+        "running": true,
+        "health": "not_configured"
+      },
+      {
+        "name": "sts-flowise-pilot-flowise-postgres-1",
+        "running": true,
+        "health": "healthy"
+      }
+    ],
+    "http_status": {
+      "element": 200,
+      "flowise": 200
+    },
+    "active_agentflows": 2,
+    "nodes_per_flow": [
+      13,
+      13
+    ],
+    "all_active_flow_models_sts_gpu0": true,
+    "bot_model_routes_sts_gpu0": true,
+    "bot_image": "sha256:cc2aede72e2faf5e85e88dfd4eb5576c215a67b67e3587764a4f2d638155418d",
+    "real_user_history_read": false
+  },
+  "cleanup": {
+    "synthetic_account_deactivated": true,
+    "token_invalidated": true,
+    "primary_rooms_left": 2,
+    "own_contexts_cleared": 2,
+    "real_accounts_modified": 0,
+    "staff_notifications_requested": 0,
+    "container_credentials_removed": true,
+    "host_test_credentials_removed": true,
+    "container_test_directory_removed": true
+  },
+  "source_assessment": {
+    "latest": {
+      "reviewer_type": "ai_source_assessment",
+      "rubric_version": 2,
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 9,
+      "unavailable_answers": 0,
+      "assessment_errors": 0,
+      "assessment_structure_retries": 0,
+      "finding_counts": {
+        "insufficient_evidence": 1
+      },
+      "cases": [
+        {
+          "id": "confirm-defect-vs-change-of-mind",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "confirm-insurance-two-types",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "closure-mortgage-contest",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "confirm-photo-vs-publication",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "mixed-detached-sole",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "mixed-casco-own-ogpo",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "mixed-auction-packet",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "mixed-phone-stopped",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "mixed-shop-publication",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        }
+      ]
+    },
+    "previous_after_fixes": {
+      "reviewer_type": "ai_source_assessment",
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 15,
+      "unavailable_answers": 0,
+      "assessment_errors": 1,
+      "finding_counts": {
+        "insufficient_evidence": 3,
+        "wrong_scope": 1
+      },
+      "cases": [
+        {
+          "id": "main-public-photo",
+          "status": "assessment_error",
+          "assessment_error_code": "Normative finding needs a source identifier",
+          "finding_codes": []
+        },
+        {
+          "id": "main-insurance-apr",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "main-restructure",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "main-deposit-guarantee",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "main-dismissal",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "main-marriage",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "main-child-opinion",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "main-consent",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "main-rental-letter",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "main-consumer-used",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "heldout-bank-duty",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "heldout-goods-unused",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "heldout-goods-worn",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "wrong_scope"
+          ]
+        },
+        {
+          "id": "heldout-goods-defect",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "heldout-personal-recording",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "heldout-employment-clarify",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        }
+      ]
+    },
+    "previous_closure_rubric_v1": {
+      "reviewer_type": "ai_source_assessment",
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 10,
+      "unavailable_answers": 0,
+      "assessment_errors": 0,
+      "assessment_structure_retries": 0,
+      "finding_counts": {
+        "request_not_answered": 3,
+        "insufficient_evidence": 6,
+        "unhelpful_handoff": 5
+      },
+      "cases": [
+        {
+          "id": "confirm-restructure-cost",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "confirm-employment-pressure",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "confirm-defect-vs-change-of-mind",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "request_not_answered",
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "confirm-insurance-two-types",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence",
+            "unhelpful_handoff"
+          ]
+        },
+        {
+          "id": "confirm-photo-vs-publication",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "request_not_answered",
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "confirm-rental-hold",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "confirm-insurance-rate-condition",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "confirm-tax-income-types",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "confirm-mortgage-ownership",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "closure-mortgage-contest",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "request_not_answered",
+            "insufficient_evidence"
+          ]
+        }
+      ]
+    },
+    "photo_structure_retry": {
+      "reviewer_type": "ai_source_assessment",
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 1,
+      "unavailable_answers": 0,
+      "assessment_errors": 0,
+      "assessment_structure_retries": 1,
+      "finding_counts": {
+        "insufficient_evidence": 3
+      },
+      "cases": [
+        {
+          "id": "main-public-photo",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        }
+      ]
+    },
+    "consumer_context_triage": {
+      "reviewer_type": "ai_context_triage",
+      "human_approvals": 0,
+      "answers_exported": false,
+      "rows": [
+        {
+          "id": "heldout-goods-unused",
+          "code": "no_material_error_found",
+          "flags": {
+            "use_condition_applied": true,
+            "defect_alternative_preserved": true,
+            "unconditional_obligation_claimed": false,
+            "states_unreported_defect": false,
+            "all_remedies_denied": false
+          }
+        },
+        {
+          "id": "heldout-goods-worn",
+          "code": "no_material_error_found",
+          "flags": {
+            "use_condition_applied": true,
+            "defect_alternative_preserved": true,
+            "unconditional_obligation_claimed": false,
+            "states_unreported_defect": false,
+            "all_remedies_denied": false
+          }
+        }
+      ]
+    }
+  },
+  "limitations": {
+    "human_specialist_approvals": 0,
+    "criteria_are_not_legal_accuracy": true,
+    "independent_expert_review": false,
+    "max_parallel_questions": 2,
+    "corpus_materials": 106,
+    "model_weights_changed": false
+  },
+  "latest_flowise_node_timings": {
+    "start": {
+      "executions": 12,
+      "calls": 12,
+      "timed_calls": 0,
+      "median_seconds": null,
+      "p95_seconds": null,
+      "max_seconds": null
+    },
+    "prepare": {
+      "executions": 12,
+      "calls": 12,
+      "timed_calls": 12,
+      "median_seconds": 0.001,
+      "p95_seconds": 0.001,
+      "max_seconds": 0.001
+    },
+    "draft": {
+      "executions": 12,
+      "calls": 12,
+      "timed_calls": 12,
+      "median_seconds": 3.739,
+      "p95_seconds": 5.32,
+      "max_seconds": 5.32
+    },
+    "unitize": {
+      "executions": 12,
+      "calls": 12,
+      "timed_calls": 12,
+      "median_seconds": 0.005,
+      "p95_seconds": 0.018,
+      "max_seconds": 0.018
+    },
+    "audit": {
+      "executions": 12,
+      "calls": 12,
+      "timed_calls": 12,
+      "median_seconds": 10.669,
+      "p95_seconds": 57.635,
+      "max_seconds": 57.635
+    },
+    "gate": {
+      "executions": 12,
+      "calls": 12,
+      "timed_calls": 12,
+      "median_seconds": 0.007,
+      "p95_seconds": 0.026,
+      "max_seconds": 0.026
+    },
+    "decision": {
+      "executions": 12,
+      "calls": 12,
+      "timed_calls": 0,
+      "median_seconds": null,
+      "p95_seconds": null,
+      "max_seconds": null
+    },
+    "reply": {
+      "executions": 1,
+      "calls": 1,
+      "timed_calls": 0,
+      "median_seconds": null,
+      "p95_seconds": null,
+      "max_seconds": null
+    },
+    "repair": {
+      "executions": 11,
+      "calls": 11,
+      "timed_calls": 11,
+      "median_seconds": 3.622,
+      "p95_seconds": 4.734,
+      "max_seconds": 4.734
+    },
+    "unitize_repaired": {
+      "executions": 11,
+      "calls": 11,
+      "timed_calls": 11,
+      "median_seconds": 0.004,
+      "p95_seconds": 0.005,
+      "max_seconds": 0.005
+    },
+    "audit_repaired": {
+      "executions": 11,
+      "calls": 11,
+      "timed_calls": 11,
+      "median_seconds": 10.917,
+      "p95_seconds": 16.945,
+      "max_seconds": 16.945
+    },
+    "gate_repaired": {
+      "executions": 11,
+      "calls": 11,
+      "timed_calls": 11,
+      "median_seconds": 0.009,
+      "p95_seconds": 0.029,
+      "max_seconds": 0.029
+    },
+    "reply_repaired": {
+      "executions": 11,
+      "calls": 11,
+      "timed_calls": 0,
+      "median_seconds": null,
+      "p95_seconds": null,
+      "max_seconds": null
+    }
+  }
+}

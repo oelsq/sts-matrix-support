@@ -135,6 +135,16 @@ def make_quality_packet(domain, draft_messages, review_messages, context):
             and 'ограничивать права потребителей в отношении применения фото' in source_body):
         constraints.append({'id':'consumer-recording-law-exception','patterns':['продав|изготовител|исполнител','предусмотрен|законодательств|исключен','фото|видео|съ[её]м'],
             'guidance':'Объясни запрет продавцу/изготовителю/исполнителю ограничивать применение потребителем фото- и видеосъёмки с исключением случаев, предусмотренных законодательством. Не объявляй отсутствие любых ограничений и не подменяй съёмку ценников публикацией чужого лица. Сохрани субъект и исключение в одном выводе.'})
+    from retrieval_intents import mortgage_ownership_question
+    if (not is_document_request(q) and mortgage_ownership_question(q+'\n'+previous)
+            and any(p.get('document_id')=='mortgage' and str(p.get('section','')).startswith('Статья 20.') for p in evidence)
+            and 'обращения в свою собственность заложенного имущества' in source_body):
+        constraints.append({'id':'mortgage-security-enforcement-title','patterns':['собствен','взыскан|реализац|торг'],
+            'guidance':'Ответь на вопрос о праве собственности: различи залог, обращение взыскания и оформленный переход права. Сохрани судебный и условный внесудебный способы из переданной статьи 20, а также основание обращения имущества в собственность при несостоявшихся торгах. Не выводи переход права только из уведомления и не подменяй ответ перечнем документов. Не определяй фактического собственника без документов о состоявшейся процедуре.'})
+    from retrieval_intents import consumer_quality_return_question
+    if consumer_quality_return_question(q+'\n'+previous) and 'не был в употреблении' in source_body:
+        constraints.append({'id':'quality-return-unused-condition','patterns':['употреблен|использ|ношен|носил'],
+            'guidance':'Для требования о возврате исправной вещи сохрани условие неиспользования из переданной статьи 30. Не подменяй этот вопрос правами при неисправности и не обещай безусловный возврат. Использование само по себе не исключает иных оснований при обнаруженном недостатке/несоответствии или добровольных условиях продавца; не выдумывай эти основания как установленные факты.'})
     if re.search(r'укра|краж|похит',q,re.I) and re.search(r'телефон|смартфон',q,re.I):
         constraints.append({'id':'stolen-phone-evidence-and-access','patterns':['сохран|зафиксир|запишите','доступ|SIM|оператор|банк'],
             'guidance':'Помимо правовой квалификации предложи сохранить обстоятельства/доказательства и защитить доступ к SIM, аккаунтам и банковским приложениям через официальные каналы. Это организационные советы, не неподтверждённые обязательные процедуры. Не обещай блокировку аппарата по IMEI.'})
@@ -187,6 +197,15 @@ def make_quality_packet(domain, draft_messages, review_messages, context):
     from response_goal import response_goal
     from explanation_guides import explanation_guides
     goal=response_goal(q,previous,format_type=question_type(q))
+    from retrieval_intents import ordinary_image_scope
+    if (ordinary_image_scope(q+'\n'+previous)
+            and re.search(r'сним|съ[её]м|фотограф|видеозапис',q,re.I)
+            and not re.search(r'публи|распростран|вылож|TikTok|Instagram',q,re.I)):
+        goal['instruction'] += (' Пользователь спрашивает о самой фиксации изображения. '
+            'Один запрет на публикацию не отвечает на этот вопрос. '
+            'Объясни подтверждённые границы обычной/личной съёмки и отдельные условия использования изображения; '
+            'не выводи из права на информацию безусловное разрешение снимать любого человека в любом месте. '
+            'Если обстоятельства меняют вывод, обозначь именно их после полезного общего объяснения.')
     if not sources:goal['requires_explanation']=False
     guides=explanation_guides(q,previous,evidence)
     packet['draft_system'] += '\nГлавная задача ответа: '+goal['instruction']

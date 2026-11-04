@@ -60,6 +60,11 @@ def is_rights_question(question: str) -> bool:
 
 
 def is_tariff_question(question: str) -> bool:
+    # Presentation constraints are not a request for a product price. Keep
+    # actual zero-fee terms and any positive pricing request elsewhere intact.
+    term=r'(?:тариф(?:ов|ы)?|комисси(?:й|и))'
+    question=re.sub(r'\b(?:без\s+(?:выдуманных|придуманных|неподтвержд[её]нных)\s+|не\s+(?:выдумывай|придумывай)(?:те)?\s+)'+term+r'(?:\s+и\s+'+term+r')?',
+                    ' ',question,flags=re.I)
     # Which costs the APR calculation includes is a method/rules question,
     # not a request for the price of an unspecified bank product.
     if (re.search(r'гэ[сc]в|эффективн.*ставк', question, re.I)
@@ -295,7 +300,7 @@ class KnowledgeStore:
         return cache.get(key, lambda: self._search_uncached(domain, question, limit))
 
     def _search_uncached(self, domain, question, limit):
-        lexical=self._lexical_search(domain,question,limit)
+        lexical=self._ensure_source_coverage(domain,question,self._lexical_search(domain,question,limit),limit)
         semantic=getattr(self,'semantic',None)
         if semantic is None or not lexical or limit<3 or domain not in DOMAINS or needs_bank(question) or is_tariff_question(question) or explicit_article(question):return lexical
         selected={bank for bank,names in BANK_NAMES.items() if any(n in question.casefold() for n in names)}
@@ -308,11 +313,30 @@ class KnowledgeStore:
             eligible={p['id'] for p in scope_evidence(domain,question,cached[0])}
             dense=semantic.search(question,eligible,limit=8)
             combined=scope_evidence(domain,question,merge_hits(lexical,dense,limit))
-            return combined
+            return self._ensure_source_coverage(domain,question,combined,limit)
         except Exception as exc:
             import logging
             logging.getLogger('support_bot.semantic').warning('Semantic query unavailable (%s); lexical results retained',type(exc).__name__)
             return lexical
+
+    def _ensure_source_coverage(self,domain,question,chosen,limit):
+        from retrieval_intents import required_source_anchors
+        anchors=required_source_anchors(question)
+        if not anchors or not chosen or limit<len(anchors) or explicit_article(question):return chosen
+        banks={bank for bank,names in BANK_NAMES.items() if any(n in question.casefold() for n in names)}
+        product='halyk-superapp' if 'halyk' in banks and re.search(r'super\s*app|супер\s*апп',question,re.I) and not is_rights_question(question) else None
+        cached=getattr(self,'_candidate_cache',{}).get((domain,tuple(sorted(banks)),is_tariff_question(question),product))
+        if cached is None:return chosen
+        from evidence_scope import scope_evidence
+        eligible=scope_evidence(domain,question,cached[0]);seen=set();required=[]
+        # Prefer already ranked fragments. Missing anchors may only come from
+        # the existing domain/product/edition-filtered candidate set.
+        pool=list(chosen)+eligible
+        for document,section,phrase in anchors:
+            passage=next((p for p in pool if p['document_id']==document and str(p.get('section','')).startswith(section)
+                          and phrase in ' '.join(p['text'].split()).casefold()),None)
+            if passage and passage['id'] not in seen:required.append(passage);seen.add(passage['id'])
+        return (required+[p for p in chosen if p['id'] not in seen])[:limit]
 
     def _lexical_search(self, domain: str, question: str, limit: int = 6) -> list[dict[str, str | int]]:
 

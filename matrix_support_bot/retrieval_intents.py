@@ -11,7 +11,7 @@ RULES = [
     (r'брачн\w*.*договор|договор\w*.*брачн', 'брачный договор имущественные права супругов имущественное положение детей права обязанности в отношении детей', ('family',), ('Статья 39.','Статья 41.')),
     (r"(?=.*(?:гэ[сc]в|эффективн.*ставк))(?=.*(?:рассчита|посчита|вычисли|переплат)).+", "даты суммы график платежей расчет годовой эффективной ставки", ("gesv-rules-2026",), ("Пункт 11.", "Пункт 22.")),
     (r"гэ[сc]в|эффективн.*ставк|полная.*стоимост.*кредит", "годовая эффективная ставка расчет платежи включаются не включаются неустойка страхование комиссия", ("gesv-rules-2026",), ("Пункт 12.", "Пункт 14.", "Пункт 15.")),
-    (r"(?:гэ[сc]в|эффективн.*ставк).*(?:страхов|комисси)|(?:страхов|комисси).*(?:гэ[сc]в|эффективн.*ставк)", "перечень комиссии страхование договор условия займа физическое лицо", ("bank-fees-2026",), ("Пункт 2.",)),
+    (r"(?s:(?:гэ[сc]в|эффективн.*ставк).*(?:страхов|комисси)|(?:страхов|комисси).*(?:гэ[сc]в|эффективн.*ставк))", "перечень комиссии страхование договор условия займа физическое лицо", ("bank-fees-2026",), ("Пункт 2.",)),
     (r"больничн|временн.*нетрудоспособ|еңбекке.*жарамсыз", "пособие по временной нетрудоспособности работодатель", ("labor",), ("Статья 133.",)),
     (r"наследств.*срок|срок.*наследств", "принятие наследства истечение срока", ("civil-special",), ("Статья 1072-2.", "Статья 1072-3.")),
     (r"наслед|завещан", "наследование принятие наследства", ("civil-special",), ()),
@@ -94,6 +94,12 @@ def query_hints(question):
             if headings:
                 for doc in docs:
                     sections.setdefault(doc, []).extend(headings)
+    if consumer_defect_remedy_question(question):
+        expansions.append('возможный недостаток товара причина повреждения требования потребителя проверка качества отличие от товара надлежащего качества')
+        documents.add('consumer-law');sections.setdefault('consumer-law',[]).extend(['Статья 15.','Статья 30.'])
+    if consumer_quality_return_question(question):
+        expansions.append('обмен возврат непродовольственного товара надлежащего качества не был в употреблении товарный вид потребительские свойства')
+        documents.add('consumer-law');sections.setdefault('consumer-law',[]).extend(['Статья 14.','Статья 30.'])
     if deposit_guarantee_question(question):
         expansions.append('гарантируемый депозит предел возмещения сберегательные иные иностранная валюта совокупное банк участник')
         documents.add('deposit-guarantee');sections.setdefault('deposit-guarantee',[]).append('Статья 18.')
@@ -134,6 +140,9 @@ def query_hints(question):
     if re.search(r'квартир|жиль|недвижим|ипотек', question, re.I) and re.search(r'залог|ипотек|взыскан', question, re.I) and re.search(r'банк|кредит|за[её]м|ипотек', question, re.I):
         expansions.append('ипотека залог недвижимого имущества обращение взыскания уведомление залогодателя')
         documents.add('mortgage'); sections.setdefault('mortgage', []).extend(['Статья 1.', 'Статья 20.', 'Статья 24.'])
+    if mortgage_ownership_question(question):
+        expansions.append('способы реализации ипотеки обращение в свою собственность заложенного имущества торги несостоявшиеся')
+        documents.add('mortgage');sections['mortgage']=['Статья 20.','Статья 1.','Статья 32.']+sections.get('mortgage',[])
     from term_definitions import definition_term
     term = definition_term(question)
     if term == 'gesv':
@@ -272,3 +281,49 @@ def ordinary_image_scope(question):
         return False
     # Keep specialised/mixed cases open to their own procedural sources.
     return not re.search(r'судебн|заседани|допрос|следствен|военн|режимн|гостайн|государственн.{0,10}секрет|медицин|больниц|трудов|зарплат|налог|кредит|аренд|авторск|товарн.{0,12}знак|логотип', question, re.I)
+
+
+def consumer_quality_return_question(question):
+    """Change-of-mind/used but sound goods; never settle a disputed defect."""
+    q=question.casefold().replace('ё','е')
+    if consumer_reported_defect(q):return False
+    if re.search(r'кредит|депозит|вклад|облигац|ценн.{0,12}бумаг|акци[юи]',q):return False
+    retail=re.search(r'магазин|продав|покуп|\bкупил[аи]?|товар|куртк|пальто|одежд|обув|ботин|туфл|кроссов|плать|рубаш|костюм',q)
+    returning=re.search(r'верн|возврат|обмен|поменя|не подош|разонрав',q)
+    no_defect=re.search(r'без (?:каких[- ]либо )?(?:дефект|недостат)|дефектов нет|недостатков нет',q)
+    sound=re.search(r'(?<!не)исправ|(?<!не)надлежащ|носил|носила|ношен|пользовал|не подош|размер|расцвет|фасон|разонрав',q)
+    fault=re.search(r'неисправ|ненадлежащ|слом|брак|порвал|дефект|недостат',q)
+    return bool(retail and returning and (sound or no_defect) and (not fault or no_defect))
+
+
+def mortgage_ownership_question(question):
+    q=question.casefold().replace('ё','е')
+    return bool(re.search(r'ипотек|залог',q) and re.search(r'квартир|жиль|недвижим|\bдом\b',q)
+                and re.search(r'собственност|принадлеж|стал.{0,20}владельц',q))
+
+
+def consumer_reported_defect(question):
+    """A reported symptom guides search; it never proves a manufacturing defect."""
+    q=question.casefold().replace('ё','е')
+    if not re.search(r'товар|покуп|продав|магазин|ботин|обув|кроссов|куртк|пальто|телефон|смартфон|ноутбук|холодильник|планшет',q):return False
+    q=re.sub(r'без (?:каких[- ]либо )?(?:недостатк|дефект)\w*|(?:недостатк|дефект)\w* нет',' ',q)
+    return bool(re.search(r'раскле|откле|тр[её]снул|порвал|оторвал|шов.{0,20}разош|разош.{0,20}шов|перестал.{0,15}работ|перестал.{0,15}включ|не (?:включа|работа)|слом|неисправ|недостат|дефект|\bбрак(?:ом|а|е|у)?\b',q))
+
+
+def consumer_defect_remedy_question(question):
+    return (consumer_reported_defect(question) and not image_recording_question(question)
+            and bool(re.search(r'возврат|верн|обмен|ремонт|гарант|претенз|отказ|требова|тот же случай|что делать',question,re.I)))
+
+
+def required_source_anchors(question):
+    """Bounded coverage for explicit multi-part questions, not new legal claims."""
+    anchors=[]
+    if consumer_defect_remedy_question(question):
+        anchors.extend([('consumer-law','Статья 15.',''),('consumer-law','Статья 30.','не был в употреблении')])
+    if (image_recording_question(question) and not biometric_image_question(question)
+            and re.search(r'магазин|ценник|продав|товар|потребител',question,re.I)
+            and re.search(r'публи|распростран|вылож|соцсет',question,re.I)):
+        anchors.extend([('consumer-law','Статья 24.','фото'),('civil-general','Статья 145.','изображени')])
+    if re.search(r'КАСКО',question,re.I) and re.search(r'ОГПО|ОСАГО|обязательн.{0,30}ответственност',question,re.I):
+        anchors.extend([('auto-insurance','Статья 3.','третьих лиц'),('civil-special','Статья 839.','')])
+    return list(dict.fromkeys(anchors))

@@ -375,6 +375,10 @@ def checked_practical_guidance(domain, question, evidence):
             return render(domain,answer,question,[definition,rights])
     if not credit_payment_problem(question):
         return None
+    # The complaint checklist does not answer whether a requested change is
+    # legally obligatory. Let the claim-audited path consider all sources.
+    if re.search(r'реструктур',current,re.I) and re.search(r'обязан|должен|вправе|автоматич',current,re.I):
+        return None
     if re.search(r'отказ',current,re.I) and re.search(r'реструктур',current,re.I) and not drafting:
         guide=next((p for p in evidence if p['document_id']=='regulator-refusal' and 'банковскому омбудсману' in str(p['text']) and 'микрофинансовому омбудсману' in str(p['text'])),None)
         if guide:

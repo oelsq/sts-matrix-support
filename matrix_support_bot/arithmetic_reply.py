@@ -207,9 +207,20 @@ def arithmetic_reply(question,previous_question=''):
             context.prec=50
             # A follow-up operation can use only explicit user arithmetic.
             # Never infer a tax rate, legal entitlement or a base from AI text.
-            operation = re.fullmatch(r'(?:а )?(?:(?:сколько )?(?:останется|получится)|(?:после (?:вычета|удержания|прибавления|добавления))(?: сколько (?:останется|получится))?)(?: после (?:вычета|удержания|прибавления|добавления))?[?!. ]*', q)
+            operation_text=q
+            explicit_rate=None
+            current_tokens=list(_TOKEN.finditer(q))
+            if len(current_tokens)==1 and current_tokens[0]['percent']:
+                token=current_tokens[0];prefix=q[:token.start()]
+                # Strip only a demonstrative immediately before an explicit
+                # percentage. Do not remove a sign or arbitrary user words.
+                if not prefix.rstrip().endswith(('-', '+')):
+                    prefix=re.sub(r'(?:этих|указанных|тех же)\s*$', '', prefix)
+                    operation_text=' '.join((prefix+q[token.end():]).split())
+                    explicit_rate=token.group()
+            operation = re.fullmatch(r'(?:а )?(?:(?:сколько )?(?:останется|получится)|(?:после (?:вычета|удержания|прибавления|добавления))(?: сколько (?:останется|получится))?)(?: после (?:вычета|удержания|прибавления|добавления))?[?!. ]*', operation_text)
             if operation and re.search(r'вычет|удержан|прибавлен|добавлен', q):
-                latest_rate = None
+                latest_rate = explicit_rate
                 for previous in reversed(previous_question.splitlines()[-4:]):
                     previous = previous.casefold().replace('ё', 'е').strip()
                     if _NORMATIVE.search(previous): break
@@ -221,7 +232,7 @@ def arithmetic_reply(question,previous_question=''):
                         if latest_rate is None: latest_rate = rates[0].group()
                         continue
                     if (len(rates) == 1 and len(amounts) == 1 and _percent(previous)
-                            and not re.search(r'остан|остат|прибав|добав|выч|удерж|увелич|уменьш|скидк|вся сумма|от какой|это|составляет', previous)):
+                            and not re.search(r'остан|остат|прибав|добав|выч|удерж|увелич|уменьш|скидк|вся сумма|от какой|(?:^|\s)это\s+\d|составляет', previous)):
                         sign = 'прибавь' if re.search(r'прибавлен|добавлен', q) else 'вычти'
                         inherited = _percent(sign+' '+(latest_rate or rates[0].group())+' от '+amounts[0].group())
                         if inherited:

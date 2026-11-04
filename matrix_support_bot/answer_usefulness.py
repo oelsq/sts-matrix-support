@@ -47,7 +47,8 @@ def usefulness_issues(question, answer):
     substantive = re.sub(r"\[(?:S\d+|[^\[\] ]*:[^\[\] ]*)\]|[\W\d_]+", " ", " ".join(remaining))
     if delegated and len(substantive.split()) < 8:
         issues.append("handoff_only")
-    if re.search(r'можно ли|имею ли право|разрешено ли|какие.{0,25}права', question.split('\nПредыдущий вопрос:')[0], re.I) and not is_document_request(question):
+    from response_goal import response_goal
+    if response_goal(question)['kind'] in {'permission','comparison'} and not is_document_request(question):
         # Reject a list consisting solely of instructions/questions where the
         # user asked for an explanation of permission. A qualified answer or
         # a concrete statement of uncertainty is allowed; this is not a law test.
