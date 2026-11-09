@@ -77,6 +77,7 @@ def usefulness_issues(question, answer):
 def should_offer_department(question, answer):
     """A normal helpful answer must not carry an automatic department footer."""
     current = question.split("\nПредыдущий вопрос:")[0]
+    if 'Сервис генерации временно недоступен' in answer_body(answer):return True
     if HUMAN_REQUEST.search(current) or SERIOUS_RISK.search(current):
         return True
     return bool(re.search(r"(?:ответ|совет|помощь).{0,25}не помог|не помог(?:ло|ает)|не устраивает.*ответ|хочу (?:другую|вторую) оценку", current, re.I))

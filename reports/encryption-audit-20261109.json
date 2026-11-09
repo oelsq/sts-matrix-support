@@ -1,0 +1,420 @@
+{
+  "audit_date": "2026-11-09",
+  "scope": "own_sts_services_only",
+  "port_bindings": [
+    {
+      "service": "sts-team-demo-bot-1",
+      "published": []
+    },
+    {
+      "service": "sts-team-demo-homeserver-1",
+      "published": [
+        {
+          "container_port": "8008/tcp",
+          "host_ip": "",
+          "host_port": "8008"
+        }
+      ]
+    },
+    {
+      "service": "sts-team-demo-element-1",
+      "published": [
+        {
+          "container_port": "80/tcp",
+          "host_ip": "",
+          "host_port": "8081"
+        }
+      ]
+    },
+    {
+      "service": "sts-team-demo-backend-1",
+      "published": [
+        {
+          "container_port": "8000/tcp",
+          "host_ip": "127.0.0.1",
+          "host_port": "8010"
+        }
+      ]
+    },
+    {
+      "service": "sts-team-demo-frontend-1",
+      "published": [
+        {
+          "container_port": "80/tcp",
+          "host_ip": "",
+          "host_port": "8080"
+        }
+      ]
+    },
+    {
+      "service": "sts-team-demo-postgres-1",
+      "published": [
+        {
+          "container_port": "5432/tcp",
+          "host_ip": "",
+          "host_port": "5432"
+        }
+      ]
+    },
+    {
+      "service": "sts-flowise-pilot-flowise-1",
+      "published": [
+        {
+          "container_port": "3000/tcp",
+          "host_ip": "127.0.0.1",
+          "host_port": "13001"
+        }
+      ]
+    },
+    {
+      "service": "sts-flowise-pilot-flowise-postgres-1",
+      "published": []
+    }
+  ],
+  "bot": {
+    "urls": {
+      "MATRIX_HOMESERVER": {
+        "scheme": "http",
+        "host": "homeserver",
+        "port": 8008,
+        "embedded_credentials": false
+      },
+      "FLOWISE_URL": {
+        "scheme": "http",
+        "host": "flowise",
+        "port": 3000,
+        "embedded_credentials": false
+      },
+      "LLM_ENDPOINT": {
+        "scheme": "http",
+        "host": "litellm",
+        "port": 4000,
+        "embedded_credentials": false
+      }
+    },
+    "files": {
+      "inbox": {
+        "mode": "0o600",
+        "group_or_other_readable": false,
+        "group_or_other_writable": false,
+        "plain_sqlite_header": true
+      },
+      "handoff": {
+        "mode": "0o644",
+        "group_or_other_readable": true,
+        "group_or_other_writable": false,
+        "plain_sqlite_header": true
+      },
+      "flowise_key": {
+        "mode": "0o600",
+        "group_or_other_readable": false,
+        "group_or_other_writable": false
+      },
+      "llm_key": {
+        "mode": "0o600",
+        "group_or_other_readable": false,
+        "group_or_other_writable": false
+      }
+    },
+    "python_olm_available": false
+  },
+  "synapse": {
+    "database_kind": "sqlite3",
+    "registration_enabled": false,
+    "listeners": [
+      {
+        "tls": false,
+        "port": 8008,
+        "type": "http"
+      }
+    ],
+    "room_states": [
+      {
+        "domain": "legal",
+        "kind": "ai",
+        "e2ee": false,
+        "algorithm": null,
+        "join_rule": "invite",
+        "history_visibility": "invited",
+        "guest_access": "can_join",
+        "federation_enabled": true,
+        "state_available": true
+      },
+      {
+        "domain": "finance",
+        "kind": "ai",
+        "e2ee": false,
+        "algorithm": null,
+        "join_rule": "invite",
+        "history_visibility": "invited",
+        "guest_access": "can_join",
+        "federation_enabled": true,
+        "state_available": true
+      },
+      {
+        "domain": "finance",
+        "kind": "primary_ai",
+        "e2ee": false,
+        "algorithm": null,
+        "join_rule": "invite",
+        "history_visibility": "shared",
+        "guest_access": "can_join",
+        "federation_enabled": true,
+        "state_available": true
+      },
+      {
+        "domain": "legal",
+        "kind": "primary_ai",
+        "e2ee": false,
+        "algorithm": null,
+        "join_rule": "invite",
+        "history_visibility": "shared",
+        "guest_access": "can_join",
+        "federation_enabled": true,
+        "state_available": true
+      },
+      {
+        "domain": "legal",
+        "kind": "staff",
+        "e2ee": false,
+        "algorithm": null,
+        "join_rule": "invite",
+        "history_visibility": "invited",
+        "guest_access": "can_join",
+        "federation_enabled": false,
+        "state_available": true
+      },
+      {
+        "domain": "finance",
+        "kind": "staff",
+        "e2ee": false,
+        "algorithm": null,
+        "join_rule": "invite",
+        "history_visibility": "invited",
+        "guest_access": "can_join",
+        "federation_enabled": false,
+        "state_available": true
+      },
+      {
+        "domain": "finance",
+        "kind": "staff",
+        "e2ee": false,
+        "algorithm": null,
+        "join_rule": "invite",
+        "history_visibility": "invited",
+        "guest_access": "can_join",
+        "federation_enabled": false,
+        "state_available": true
+      },
+      {
+        "domain": "legal",
+        "kind": "staff",
+        "e2ee": null,
+        "algorithm": null,
+        "join_rule": null,
+        "history_visibility": null,
+        "guest_access": null,
+        "federation_enabled": null,
+        "state_available": false
+      },
+      {
+        "domain": "finance",
+        "kind": "staff",
+        "e2ee": null,
+        "algorithm": null,
+        "join_rule": null,
+        "history_visibility": null,
+        "guest_access": null,
+        "federation_enabled": null,
+        "state_available": false
+      },
+      {
+        "domain": "legal",
+        "kind": "staff",
+        "e2ee": null,
+        "algorithm": null,
+        "join_rule": null,
+        "history_visibility": null,
+        "guest_access": null,
+        "federation_enabled": null,
+        "state_available": false
+      },
+      {
+        "domain": "finance",
+        "kind": "staff",
+        "e2ee": null,
+        "algorithm": null,
+        "join_rule": null,
+        "history_visibility": null,
+        "guest_access": null,
+        "federation_enabled": null,
+        "state_available": false
+      },
+      {
+        "domain": "legal",
+        "kind": "staff",
+        "e2ee": null,
+        "algorithm": null,
+        "join_rule": null,
+        "history_visibility": null,
+        "guest_access": null,
+        "federation_enabled": null,
+        "state_available": false
+      }
+    ],
+    "message_events_read": false
+  },
+  "flowise": {
+    "node_env": "development",
+    "secure_cookies": "false",
+    "telemetry_disabled": "true"
+  },
+  "configuration_changed": false,
+  "messages_read": false,
+  "tokens_exported": false,
+  "disk_encryption_verified": false,
+  "followup": {
+    "actual_port_bindings": {
+      "sts-team-demo-homeserver-1": {
+        "19090/tcp": null,
+        "8008/tcp": [
+          {
+            "HostIp": "0.0.0.0",
+            "HostPort": "8008"
+          },
+          {
+            "HostIp": "::",
+            "HostPort": "8008"
+          }
+        ],
+        "8448/tcp": null
+      },
+      "sts-team-demo-element-1": {
+        "80/tcp": [
+          {
+            "HostIp": "0.0.0.0",
+            "HostPort": "8081"
+          },
+          {
+            "HostIp": "::",
+            "HostPort": "8081"
+          }
+        ],
+        "8080/tcp": null
+      },
+      "sts-team-demo-frontend-1": {
+        "80/tcp": [
+          {
+            "HostIp": "0.0.0.0",
+            "HostPort": "8080"
+          },
+          {
+            "HostIp": "::",
+            "HostPort": "8080"
+          }
+        ]
+      },
+      "sts-team-demo-postgres-1": {
+        "5432/tcp": [
+          {
+            "HostIp": "0.0.0.0",
+            "HostPort": "5432"
+          },
+          {
+            "HostIp": "::",
+            "HostPort": "5432"
+          }
+        ]
+      },
+      "sts-flowise-pilot-flowise-1": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "13001"
+          }
+        ]
+      }
+    },
+    "bot_state_permissions": {
+      "effective_uid": 0,
+      "paths": [
+        {
+          "label": "handoff_file",
+          "mode": "0o644",
+          "uid": 0,
+          "gid": 0
+        },
+        {
+          "label": "state_directory",
+          "mode": "0o700",
+          "uid": 1000,
+          "gid": 1000
+        },
+        {
+          "label": "app_directory",
+          "mode": "0o755",
+          "uid": 0,
+          "gid": 0
+        }
+      ]
+    },
+    "host_state_ancestors": [
+      {
+        "level_from_state": 0,
+        "mode": "0o700",
+        "other_can_traverse": false
+      },
+      {
+        "level_from_state": 1,
+        "mode": "0o755",
+        "other_can_traverse": true
+      },
+      {
+        "level_from_state": 2,
+        "mode": "0o755",
+        "other_can_traverse": true
+      },
+      {
+        "level_from_state": 3,
+        "mode": "0o755",
+        "other_can_traverse": true
+      },
+      {
+        "level_from_state": 4,
+        "mode": "0o750",
+        "other_can_traverse": false
+      },
+      {
+        "level_from_state": 5,
+        "mode": "0o755",
+        "other_can_traverse": true
+      }
+    ],
+    "synapse_access_settings": {
+      "guest_registration_allowed": false,
+      "federation_domain_whitelist_present": false,
+      "federation_whitelist_empty": false,
+      "client_port_serves_federation": true
+    },
+    "project_postgres_tls_enabled": false,
+    "configuration_changed": false,
+    "messages_read": false
+  },
+  "summary": {
+    "primary_ai_rooms_checked": 2,
+    "primary_ai_rooms_encrypted": 0,
+    "other_ai_rooms_checked": 2,
+    "available_staff_rooms_checked": 3,
+    "available_staff_rooms_encrypted": 0,
+    "unavailable_archived_room_states": 5,
+    "host_firewall_reachability_tested": false,
+    "disk_encryption_verified": false,
+    "local_tsh_listener_addresses": [
+      "127.0.0.1:18081",
+      "127.0.0.1:13001"
+    ],
+    "messages_read": false,
+    "tokens_exported": false,
+    "server_configuration_changed": false
+  }
+}

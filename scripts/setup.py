@@ -20,6 +20,7 @@ def settings():
 def compose(*args):
     env = settings() if ENV.exists() else {}
     command = ['docker', 'compose', '-f', 'docker-compose.yml']
+    if env.get('MATRIX_E2EE_ENABLED')=='1':command += ['-f','compose.secure.yml']
     if env.get('OFFLINE_MODE') == '1':
         command += ['-f', 'compose.offline.yml']
         # Avoid an implicit registry pull during account provisioning/init.
@@ -55,6 +56,11 @@ def initialize():
     # The virtual key is provisioned before the bot is started. Ensure a file mount.
     key_path=RUNTIME/'secrets/litellm_key'
     if not key_path.exists():private_write(key_path,'')
+    state_key=RUNTIME/'secrets/state_key'
+    if not state_key.exists():
+        import base64
+        private_write(state_key,base64.urlsafe_b64encode(secrets.token_bytes(32)).decode())
+    (RUNTIME/'bot').chmod(0o700)
     env=settings()
     element={'default_server_config':{'m.homeserver':{'base_url':env['ELEMENT_PUBLIC_URL'],'server_name':env['MATRIX_SERVER_NAME']}},'brand':'STS Support','disable_guests':True}
     (RUNTIME/'element-config.json').write_text(json.dumps(element,ensure_ascii=False,indent=2))
@@ -161,6 +167,7 @@ def start():
         if not env.get('NITEC_API_KEY'):
             raise RuntimeError('Fill NITEC_API_KEY in .env or configure OFFLINE_MODE=1; see docs/OFFLINE.md.')
         compose('up','-d','--build',*services)
+        if env.get('MATRIX_E2EE_ENABLED')=='1':compose('build','bot')
     provision()
 
 def main():

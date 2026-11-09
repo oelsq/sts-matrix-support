@@ -223,6 +223,25 @@ def work_payment_draft() -> str:
 
 
 def practical_fallback(domain: str, question: str, *, validation_failed: bool = False) -> str:
+    # An answer-validation failure must not turn greetings or missing inputs
+    # into a request for a law. Use the same intake as the normal reply path.
+    from bot_help import help_reply
+    service=help_reply(question,domain)
+    if service is not None:return service
+    from conversation_intake import intake_reply
+    intake=intake_reply(domain,question)
+    if intake is not None:return intake.answer
+    answer=_practical_fallback_body(domain,question,validation_failed=validation_failed)
+    missing_topic='В локальной базе пока не найден источник по вопросу' in answer
+    if (validation_failed or missing_topic) and not re.search(r'!человек|!юрдеп|!финдеп',answer):
+        command='!юрдеп' if domain=='legal' else '!финдеп'
+        answer+=('\n\nНе удалось надёжно закрыть вопрос? Напишите **'+command+'** или **!человек** — '
+                 'бот предложит связь с сотрудником и передачу контекста по вашей команде. '
+                 'Без команды переписка сотруднику не передаётся.')
+    return answer
+
+
+def _practical_fallback_body(domain: str, question: str, *, validation_failed: bool = False) -> str:
     label = "Юридический агент" if domain == "legal" else "Финансовый агент"
     q = question.casefold()
     from document_drafts import credit_payment_problem, credit_request_draft, consumer_refund_draft
@@ -304,9 +323,9 @@ def practical_fallback(domain: str, question: str, *, validation_failed: bool = 
         # ask what "result" the user wants instead of admitting the exact gap.
         topic = question.split("\nПредыдущий вопрос:")[0].strip()[:240]
         if validation_failed:
-            return (f"**{label}**\n\nПо вопросу «{topic}» нашлись материалы, но ответ не прошёл проверку подтверждений. "
-                    "Я не буду выдавать непроверенные детали за установленный факт.\n\n"
-                    "Можно сузить вопрос до одного пункта или прислать относящийся к нему текст нормы — разберу, что он подтверждает.")
+            return (f"**{label}**\n\nМне не удалось надёжно подтвердить конкретный вывод по этому вопросу. "
+                    "Нормы, суммы и сроки наугад я не называю.\n\n"
+                    "Если у вас есть относящийся к ситуации документ, можно привести нужный пункт без личных данных — помогу его разобрать. Для индивидуальной проверки доступен сотрудник поддержки.")
         return (f"**{label}**\n\nВ локальной базе пока не найден источник по вопросу «{topic}». "
                 "Поэтому сейчас я не могу надёжно назвать правило или условия.\n\n"
                 "Если у вас есть текст соответствующего закона или документа, пришлите нужный фрагмент — помогу его объяснить. "

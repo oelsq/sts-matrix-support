@@ -5,7 +5,7 @@ import logging
 from contextvars import ContextVar
 from types import SimpleNamespace
 
-from nio import RoomMessageText, RoomSendResponse, RoomMemberEvent
+from nio import MegolmEvent, RoomMessageText, RoomSendResponse, RoomMemberEvent
 from matrix_transport import DeliveryDeferred
 
 log = logging.getLogger('support_bot.inbox')
@@ -104,13 +104,14 @@ def event_id(event):
     return getattr(event,'event_id',None) or getattr(event,'source',{}).get('event_id')
 
 
-async def sync_batch(client, response, store, eligible_room, eligible_event, *, page_limit=500):
+async def sync_batch(client, response, store, eligible_room, eligible_event, *, page_limit=500, crypto=None):
     """Recover a limited timeline before atomically saving requests and next_batch.
 
     A missing anchor or a failed history request stops checkpoint advancement.
     Human-department rooms are excluded before any history request is made.
     """
     events,anchors=[],{}
+    secure_events={}
     for room_id,joined in response.rooms.join.items():
         if not eligible_room(room_id):continue
         timeline=joined.timeline
@@ -154,7 +155,13 @@ async def sync_batch(client, response, store, eligible_room, eligible_event, *, 
                    and e.membership=='join']
         cutoff=max([store.bootstrap_ms]+own_joins)
         for event in recovered+tail:
-            if isinstance(event,RoomMessageText) and event.server_timestamp>=cutoff and eligible_event(room_id,event):
+            if isinstance(event,(RoomMessageText,MegolmEvent)) and event.server_timestamp>=cutoff and eligible_event(room_id,event):
+                if isinstance(event,MegolmEvent) and crypto is None:
+                    raise RuntimeError('Encrypted room requires configured E2EE; cursor not advanced')
+                protected=crypto.classify(room_id,event) if crypto else None
+                if protected is False:continue
+                if protected is not None:secure_events[event.event_id]=protected
                 events.append((room_id,event))
         if tail and event_id(tail[-1]):anchors[room_id]=event_id(tail[-1])
-    store.commit_sync(response.next_batch,events,anchors)
+    if crypto:store.commit_sync(response.next_batch,events,anchors,secure_events=secure_events)
+    else:store.commit_sync(response.next_batch,events,anchors)

@@ -36,7 +36,7 @@ def test_bot_calls_one_complete_workflow_per_attempt(monkeypatch,tmp_path,invali
     class Login:pass
     class Matrix:
         user='@bot:demo.local'
-        def __init__(self,*args):self.callback=None
+        def __init__(self,*args,**kwargs):self.callback=None
         def add_event_callback(self,c,k):
             if k==bot.RoomMessageText:self.callback=c
         async def login(self,*args,**kwargs):return Login()

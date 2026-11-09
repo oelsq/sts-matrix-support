@@ -1,0 +1,25 @@
+# Native E2EE. Generate the key with setup.py init; keep the state volume.
+# Existing rooms keep their old encryption state. !лично creates new rooms.
+services:
+  bot:
+    build:
+      args:
+        WITH_MATRIX_E2EE: "1"
+    environment:
+      MATRIX_E2EE_ENABLED: "1"
+      MATRIX_PRIVATE_AI_MODE: ${MATRIX_PRIVATE_AI_MODE:-optional}
+      STATE_ENCRYPTION_KEY_FILE: /run/secrets/state_key
+      HANDOFF_CONTEXT_RETENTION_DAYS: ${HANDOFF_CONTEXT_RETENTION_DAYS:-30}
+    volumes:
+      - ./runtime/secrets/state_key:/run/secrets/state_key:ro
+  homeserver:
+    ports: !override
+      - "127.0.0.1:${MATRIX_PORT:-8008}:8008"
+  element:
+    ports: !override
+      - "127.0.0.1:${ELEMENT_PORT:-8081}:80"
+  frontend:
+    ports: !override
+      - "127.0.0.1:${FRONTEND_PORT:-8080}:80"
+  postgres:
+    ports: !reset []

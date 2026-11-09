@@ -117,7 +117,7 @@ def test_actual_matrix_callback_retries_deflection_and_keeps_help_without_routin
     class Login:pass
     class Matrix:
         user="@bot:demo.local"
-        def __init__(self,*args):self.callback=None
+        def __init__(self,*args,**kwargs):self.callback=None
         def add_event_callback(self,callback,kind):
             if kind==bot.RoomMessageText:self.callback=callback
         async def login(self,*args,**kwargs):return Login()
@@ -136,7 +136,11 @@ def test_actual_matrix_callback_retries_deflection_and_keeps_help_without_routin
     assert len(calls)==(1 if mode=="transport_failure" else 2)
     result=output[-1]
     assert "Обратитесь в юридический департамент" not in result and "Нужна проверка сотрудника?" not in result
-    assert "!человек" not in result
+    if mode in {"deflect_twice","transport_failure"}:
+        assert "!человек" in result
+        if mode=="deflect_twice":assert ("!юрдеп" if domain=="legal" else "!финдеп") in result
+    else:
+        assert "!человек" not in result
     if mode in {"deflect_once","draft_missing_once"}:
         assert ("Кому:" if mode=="draft_missing_once" else "Сохраните договор") in result
         assert any(item["role"]=="assistant" for item in calls[1])

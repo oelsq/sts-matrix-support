@@ -98,6 +98,7 @@ services:
       LLM_API_KEY_FILE: /run/secrets/litellm_key
       KNOWLEDGE_DIR: /app/offline_knowledge
       MATRIX_ROOM_ROUTES_FILE: /app/state/room_routes.json
+      MATRIX_FREE_REPLY_ROOMS_FILE: ${MATRIX_FREE_REPLY_ROOMS_FILE-/app/state/room_routes.json}
       HANDOFF_DB: /app/state/handoff.sqlite3
       MATRIX_INBOX_DB: /app/state/matrix_inbox.sqlite3
       MATRIX_REQUEST_WORKERS: ${MATRIX_REQUEST_WORKERS:-1}

@@ -1,0 +1,426 @@
+{
+  "schema_version": 1,
+  "purpose": "Intent, bounded arithmetic and next-step checks; not legal-expert certification",
+  "human_specialist_approvals": 0,
+  "cases": [
+    {
+      "id": "greeting-legal",
+      "domain": "legal",
+      "question": "привет",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "greet": "привет|здравств|добрый|помо[гч]"
+      },
+      "forbidden": {
+        "legal-gate-refusal": "не прош[её]л проверку|неподтвержд[её]н|правов.{0,20}основан"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "capabilities-legal",
+      "domain": "legal",
+      "question": "На какие вопросы ты можешь отвечать?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "profile": "трудов|договор|прав|кредит|плат[её]ж|расч[её]т",
+        "commands": "!помощь|!сотрудники|!человек"
+      },
+      "forbidden": {
+        "inappropriate-proof": "подтвержд[её]н частично|сохраните.{0,25}переписк"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "salary-intake-legal",
+      "domain": "legal",
+      "question": "сколько выходит моя зарплата?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "inputs": "оклад|начисл|сумм",
+        "scope": "период|месяц|на руки|удержан"
+      },
+      "forbidden": {
+        "wrong-problem": "что произошло и когда|увольнен|задержка выплат|написать.{0,30}работодател"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "fight-intake-legal",
+      "domain": "legal",
+      "question": "Сотрудник попал в больницу из за драки",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "recognize-injury": "травм|медицин|больниц|больничн|пострада",
+        "next-step": "сохран|уточн|зафиксир|помощь|полици|заявлен"
+      },
+      "forbidden": {
+        "refusal": "не прош[её]л проверку|пришлите.{0,30}текст нормы",
+        "assumed-guilt": "уволить.{0,10}прогул|сотрудник виновен"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "greeting-finance",
+      "domain": "finance",
+      "question": "привет",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "greet": "привет|здравств|добрый|помо[гч]"
+      },
+      "forbidden": {
+        "legal-gate-refusal": "не прош[её]л проверку|неподтвержд[её]н|правов.{0,20}основан"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "capabilities-finance",
+      "domain": "finance",
+      "question": "На какие вопросы ты можешь отвечать?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "profile": "трудов|договор|прав|кредит|плат[её]ж|расч[её]т",
+        "commands": "!помощь|!сотрудники|!человек"
+      },
+      "forbidden": {
+        "inappropriate-proof": "подтвержд[её]н частично|сохраните.{0,25}переписк"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "salary-intake-finance",
+      "domain": "finance",
+      "question": "сколько выходит моя зарплата?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "inputs": "оклад|начисл|сумм",
+        "scope": "период|месяц|на руки|удержан"
+      },
+      "forbidden": {
+        "wrong-problem": "что произошло и когда|увольнен|задержка выплат|написать.{0,30}работодател"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "fight-intake-finance",
+      "domain": "finance",
+      "question": "Сотрудник попал в больницу из за драки",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "recognize-injury": "травм|медицин|больниц|больничн|пострада",
+        "next-step": "сохран|уточн|зафиксир|помощь|полици|заявлен"
+      },
+      "forbidden": {
+        "refusal": "не прош[её]л проверку|пришлите.{0,30}текст нормы",
+        "assumed-guilt": "уволить.{0,10}прогул|сотрудник виновен"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "salary-net-amount",
+      "domain": "finance",
+      "question": "Начислено 300000 тенге, удержано всего 42000. Сколько получу на руки?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "net-result": "258[\\s ]?000"
+      },
+      "forbidden": {
+        "invented-rates": "\b10\\s*%|\b20\\s*%"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "salary-followup",
+      "domain": "finance",
+      "question": "А какие данные тебе нужны?",
+      "previous_questions": [
+        "сколько выходит моя зарплата?"
+      ],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "data": "оклад|начисл|сумм",
+        "scope": "период|месяц|на руки|удержан"
+      },
+      "forbidden": {},
+      "risk": "medium"
+    },
+    {
+      "id": "fight-victim-followup",
+      "domain": "legal",
+      "question": "Его избили после работы. Какие первые действия?",
+      "previous_questions": [
+        "Сотрудник попал в больницу из за драки"
+      ],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "evidence": "медицин|травм|фиксац|зафиксир",
+        "report": "полици|заявлен|правоохран"
+      },
+      "forbidden": {
+        "assumed-workplace": "производственн.{0,15}травм.{0,12}является|уволить"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "gesv-explanation",
+      "domain": "finance",
+      "question": "Что такое ГЭСВ?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "definition": "эффективн|стоимост|расход|ставк"
+      },
+      "forbidden": {
+        "no-help": "не прош[её]л проверку"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "legal-employment",
+      "domain": "legal",
+      "question": "Чем трудовой договор отличается от договора услуг?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "both": "трудов",
+        "contract": "услуг|гражданск|подряд"
+      },
+      "forbidden": {
+        "blanket-contract-label": "по ГПХ трудовые права не действуют"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "finance-guarantor",
+      "domain": "finance",
+      "question": "Я поручитель по кредиту брата, он перестал платить. Какие документы запросить у банка и как проверить предел моей ответственности?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "scope": "поруч|ответственност",
+        "practical": "договор|расч[её]т|документ"
+      },
+      "forbidden": {
+        "automatic-liability": "обязаны погасить весь кредит"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-hello-legal",
+      "domain": "legal",
+      "question": "Добрый вечер! Помощь нужна.",
+      "required": {
+        "relevant": "помо|вопрос|ситуац"
+      },
+      "forbidden": {
+        "refusal": "не прош[её]л проверку"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-help-legal",
+      "domain": "legal",
+      "question": "Подскажи, чем ты можешь помочь мне?",
+      "required": {
+        "commands": "!помощь|!сотрудники|!человек"
+      },
+      "forbidden": {},
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-salary-legal",
+      "domain": "legal",
+      "question": "Хочу понять, сколько получу зарплаты за месяц",
+      "required": {
+        "inputs": "оклад|начисл|сумм",
+        "scope": "удержан|на руки|период"
+      },
+      "forbidden": {
+        "dispute": "задержка выплат|увольнен|что произошло и когда"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-math-legal",
+      "domain": "legal",
+      "question": "Бухгалтерия начислила 15 миллионов тенге. Сколько будет 27% от этой суммы?",
+      "required": {
+        "result": "4[ \\u00a0]?050[ \\u00a0]?000"
+      },
+      "forbidden": {
+        "refusal": "не прош[её]л проверку"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-hello-finance",
+      "domain": "finance",
+      "question": "Добрый вечер! Помощь нужна.",
+      "required": {
+        "relevant": "помо|вопрос|ситуац"
+      },
+      "forbidden": {
+        "refusal": "не прош[её]л проверку"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-help-finance",
+      "domain": "finance",
+      "question": "Подскажи, чем ты можешь помочь мне?",
+      "required": {
+        "commands": "!помощь|!сотрудники|!человек"
+      },
+      "forbidden": {},
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-salary-finance",
+      "domain": "finance",
+      "question": "Хочу понять, сколько получу зарплаты за месяц",
+      "required": {
+        "inputs": "оклад|начисл|сумм",
+        "scope": "удержан|на руки|период"
+      },
+      "forbidden": {
+        "dispute": "задержка выплат|увольнен|что произошло и когда"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-math-finance",
+      "domain": "finance",
+      "question": "Бухгалтерия начислила 15 миллионов тенге. Сколько будет 27% от этой суммы?",
+      "required": {
+        "result": "4[ \\u00a0]?050[ \\u00a0]?000"
+      },
+      "forbidden": {
+        "refusal": "не прош[её]л проверку"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-employer-incident",
+      "domain": "legal",
+      "question": "Я работодатель. Работника госпитализировали после избиения вне работы. С чего начать?",
+      "required": {
+        "medical": "медицин|травм",
+        "report": "полици|заявлен"
+      },
+      "forbidden": {
+        "repeat-role": "Вы обращаетесь как",
+        "repeat-place": "Драка произошла на работе или"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-finance-incident",
+      "domain": "finance",
+      "question": "Коллега после драки оказался в больнице. Что теперь с зарплатой?",
+      "required": {
+        "input": "начисл|оклад|период|выплат|нетрудоспособност"
+      },
+      "forbidden": {
+        "assumed": "автоматически.{0,15}оплат|всегда.{0,15}оплат"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-currency-net",
+      "domain": "finance",
+      "question": "Начислено 420 тыс тенге, удержано всего 50 тыс тенге. Сколько получу?",
+      "required": {
+        "net": "370[ \\u00a0]?000"
+      },
+      "forbidden": {},
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-net-followup",
+      "domain": "finance",
+      "question": "Начислено 280000 тенге, удержано 35000 тенге. Сколько на руки?",
+      "required": {
+        "net": "245[ \\u00a0]?000"
+      },
+      "forbidden": {},
+      "previous_questions": [
+        "Хочу рассчитать мою зарплату"
+      ],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-gesv",
+      "domain": "finance",
+      "question": "Объясни ГЭСВ простыми словами",
+      "required": {
+        "definition": "эффективн|стоимост|расход|ставк"
+      },
+      "forbidden": {
+        "refusal": "не прош[её]л проверку"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "unseen-contract-comparison",
+      "domain": "legal",
+      "question": "В чём разница между трудовым договором и ГПХ на услуги?",
+      "required": {
+        "principle": "одного|один",
+        "terms": "трудов|распоряд|лично"
+      },
+      "forbidden": {
+        "refusal": "не прош[её]л проверку"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    }
+  ]
+}

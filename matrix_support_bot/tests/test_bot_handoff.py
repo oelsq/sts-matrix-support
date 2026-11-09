@@ -17,7 +17,7 @@ def test_bot_employee_selection_commands_and_archived_rooms_are_isolated(monkeyp
     class Login: pass
     class Matrix:
         user = '@bot:demo.local'
-        def __init__(self, *args): self.callback = None
+        def __init__(self, *args, **kwargs): self.callback = None
         async def login(self, *args, **kwargs): return Login()
         def add_event_callback(self, callback, kind):
             if kind == bot.RoomMessageText: self.callback = callback

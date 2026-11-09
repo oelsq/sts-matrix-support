@@ -10,7 +10,8 @@ class DeliveryDeferred(RuntimeError):
 
 
 class MatrixSender:
-    def __init__(self,http,client,origin,*,clock=time.monotonic):
+    def __init__(self,http,client,origin,*,clock=time.monotonic,secure_room=None):
+        self.secure_room=secure_room or (lambda _:False)
         self.http,self.client,self.origin=http,client,origin.rstrip('/');self.clock=clock;self.not_before=0.;self.lock=asyncio.Lock()
         self.metrics={'sent':0,'rate_limited':0,'cooldown_deferred':0}
 
@@ -22,6 +23,22 @@ class MatrixSender:
         async with self.lock:
             wait=self.not_before-self.clock()
             if wait>0:self.metrics['cooldown_deferred']+=1;raise DeliveryDeferred(wait)
+            room=getattr(self.client,'rooms',{}).get(room_id)
+            encrypted=bool(room and getattr(room,'encrypted',False))
+            if encrypted or self.secure_room(room_id):
+                if not encrypted or getattr(self.client,'olm',None) is None:
+                    raise RuntimeError('Encrypted delivery state is unavailable; no plaintext fallback')
+                result=await self.client.room_send(room_id=room_id,message_type=message_type,content=content,
+                                                  tx_id=tx_id,ignore_unverified_devices=False)
+                if isinstance(result,RoomSendResponse):
+                    self.metrics['sent']+=1
+                    return result
+                if getattr(result,'status_code',None)=='M_LIMIT_EXCEEDED':
+                    raw=getattr(result,'retry_after_ms',1000)
+                    delay=max(.05,min(300,float(raw)/1000)) if isinstance(raw,(int,float)) and math.isfinite(raw) else 5
+                    self.not_before=self.clock()+delay;self.metrics['rate_limited']+=1
+                    raise DeliveryDeferred(delay,server_rate_limit=True)
+                raise RuntimeError('Encrypted Matrix delivery was not confirmed')
             token=getattr(self.client,'access_token',None)
             if not token:raise RuntimeError('Matrix session is unavailable for delivery')
             url=self.origin+'/_matrix/client/v3/rooms/'+quote(room_id,safe='')+'/send/'+quote(message_type,safe='')+'/'+quote(tx_id,safe='')

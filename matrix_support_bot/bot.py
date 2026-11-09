@@ -1,7 +1,7 @@
 """Matrix support bot with legal, financial and general response routes.
 
 The specialists are separate prompt/source packs using a shared LLM gateway.
-They work only in unencrypted demonstration rooms.
+Native E2EE is opt-in; encrypted rooms require verified client devices.
 """
 import asyncio
 import json
@@ -22,6 +22,7 @@ from answer_usefulness import usefulness_issues, department_note
 from conversation import ConversationMemory
 from agents import messages, render, route_for_room, review_messages
 from local_reply import prepare_local_reply
+from free_reply import FreeReplyMode
 from knowledge_coverage import coverage_answer
 from offline_knowledge import KnowledgeStore, validate_llm_endpoint, validate_local_endpoint
 from urgent_help import urgent_finance_answer, legal_urgent_notice
@@ -34,6 +35,7 @@ log = logging.getLogger("support_bot")
 
 
 async def main():
+    os.umask(0o077)
     required = (
         "MATRIX_HOMESERVER", "MATRIX_USER", "MATRIX_PASSWORD",
         "LLM_ENDPOINT", "LLM_MODEL",
@@ -73,22 +75,27 @@ async def main():
         ):
             raise RuntimeError("Invalid Matrix room routes file")
     log.info("Dedicated specialist rooms configured: %d", len(fixed_routes))
-    client = AsyncClient(os.environ["MATRIX_HOMESERVER"], os.environ["MATRIX_USER"])
+    from state_cipher import StateCipher,private_directory
+    from matrix_crypto import client_options,MatrixCrypto
+    state_path=Path(os.getenv('HANDOFF_DB') or os.getenv('MATRIX_ROOM_ROUTES_FILE','/app/handoff_state/room_routes.json')).parent
+    private_directory(state_path)
+    cipher=StateCipher.from_env(os.environ)
+    client = AsyncClient(os.environ["MATRIX_HOMESERVER"], os.environ["MATRIX_USER"],**client_options(os.environ,cipher,state_path))
+    crypto=MatrixCrypto(client,state_path/'crypto') if os.getenv('MATRIX_E2EE_ENABLED')=='1' else None
     departments = department_roster(os.environ)
     department_users = {user for roster in departments.values() for user in roster}
+    identity=hashlib.sha256((os.environ['MATRIX_HOMESERVER'].rstrip('/')+'\0'+os.environ['MATRIX_USER']).encode()).hexdigest()
+    inbox=InboxStore(os.getenv('MATRIX_INBOX_DB',str(state_path/'matrix_inbox.sqlite3')),identity,cipher=cipher)
+    conversations = ConversationMemory(persistent_store=inbox)
     handoff = None
     if departments:
         handoff = HumanHandoff(
             client,
-            HandoffStore(os.getenv("HANDOFF_DB", "/app/handoff_state/handoff.sqlite3")),
+            HandoffStore(os.getenv("HANDOFF_DB", "/app/handoff_state/handoff.sqlite3"),cipher=cipher,retention_days=int(os.getenv("HANDOFF_CONTEXT_RETENTION_DAYS","30"))),
             departments,
-            os.environ["ELEMENT_PUBLIC_URL"],
+            os.environ["ELEMENT_PUBLIC_URL"],secure=bool(crypto),
         )
     latest_context = {}
-    state_path=Path(os.getenv('HANDOFF_DB') or os.getenv('MATRIX_ROOM_ROUTES_FILE','/app/handoff_state/room_routes.json')).parent
-    identity=hashlib.sha256((os.environ['MATRIX_HOMESERVER'].rstrip('/')+'\0'+os.environ['MATRIX_USER']).encode()).hexdigest()
-    inbox=InboxStore(os.getenv('MATRIX_INBOX_DB',str(state_path/'matrix_inbox.sqlite3')),identity)
-    conversations = ConversationMemory(persistent_store=inbox)
     previous_routes = {}
     from flowise_client import FlowiseClient, FlowiseReviewRejected
     flowise = FlowiseClient.from_env(os.environ)
@@ -98,6 +105,17 @@ async def main():
                 raise RuntimeError("Flowise domain conflicts with room route")
             fixed_routes[room_id] = entry["domain"]
         log.info("Flowise pilot rooms configured: %d", len(flowise.routes))
+    free_mode = FreeReplyMode.from_env(os.environ, fixed_routes)
+    log.info("Free model rooms configured: %d", len(free_mode.routes) if free_mode else 0)
+    private_rooms=None
+    if os.getenv('MATRIX_PRIVATE_AI_MODE') in {'1','optional'}:
+        if crypto is None:raise RuntimeError('Private AI mode requires native E2EE')
+        from private_rooms import PrivateRooms
+        private_rooms=PrivateRooms(inbox,client,fixed_routes,flowise,os.environ['ELEMENT_PUBLIC_URL'],cipher)
+    verification=None
+    if crypto:
+        from matrix_verification import DeviceVerification
+        verification=DeviceVerification(client,state_path/'crypto',lambda user:user in department_users or bool(private_rooms and private_rooms.known_peer(user)) or any(user in room.users for ident,room in client.rooms.items() if ident in fixed_routes))
     timeout = aiohttp.ClientTimeout(total=90)
 
     async with aiohttp.ClientSession(timeout=timeout) as http:
@@ -121,6 +139,10 @@ async def main():
             quality = (route.get('domain')==domain and route.get('engine')=='agentflow_v2'
                        and route.get('quality_contract')=='sts.claims.v1')
             search_question, previous_question = conversations.resolve(room_id, sender, domain, question, request_id=event_id)
+            if free_mode and free_mode.selected(room_id, domain):
+                return await free_mode.reply(http, domain, question, knowledge,
+                    previous_question=previous_question, search_question=search_question,
+                    endpoint=os.environ["LLM_ENDPOINT"], model=model_for_domain(domain), api_key=api_key)
             retrieval_started = time.monotonic()
             prepared = await asyncio.to_thread(prepare_local_reply,domain, question, knowledge,
                                            search_question=search_question, previous_question=previous_question,
@@ -220,6 +242,9 @@ async def main():
                 or (handoff and handoff.store.contains_room(room.room_id))
             ):
                 return
+            if private_rooms and not private_rooms.permitted(room.room_id,event.sender):
+                log.warning('Private AI room ownership or membership check rejected request')
+                return
             key = (room.room_id, event.sender)
             question = event.body[:12000]
             from answer_feedback import feedback_reply
@@ -231,7 +256,11 @@ async def main():
             help_domain = fixed_routes.get(room.room_id)
             if help_domain is None and len(previous_routes.get(key, ())) == 1:
                 help_domain = previous_routes[key][0]
-            help_answer = help_reply(question, help_domain)
+            # Explicit commands stay deterministic. Natural-language requests
+            # in free rooms are answered by the model, including capabilities.
+            natural_free = bool(free_mode and free_mode.selected(room.room_id, help_domain)
+                                and not question.lstrip().startswith("!"))
+            help_answer = None if natural_free else help_reply(question, help_domain)
             if help_answer is not None:
                 await dispatcher.send(room_id=room.room_id, message_type="m.room.message",
                                        content=matrix_content(help_answer))
@@ -246,6 +275,11 @@ async def main():
             if question.strip().casefold() in {"!темы", "!база"}:
                 await dispatcher.send(room_id=room.room_id, message_type="m.room.message",
                                        content=matrix_content(coverage_answer(knowledge)))
+                return
+            if private_rooms and (question.strip().casefold()=='!лично' or (os.getenv('MATRIX_PRIVATE_AI_MODE')=='1' and room.room_id not in private_rooms.records)):
+                domain=None if question.strip().casefold()=='!лично' else fixed_routes.get(room.room_id)
+                link=await private_rooms.invitation(event.sender,domain)
+                await dispatcher.send(room_id=room.room_id,message_type='m.room.message',content=matrix_content(link))
                 return
             command = handoff_command(question)
             if command:
@@ -324,11 +358,12 @@ async def main():
             log.info("Send result: %s", type(result).__name__)
 
         durable_sync=hasattr(client,'add_response_callback')
-        sender=MatrixSender(http,client,os.environ['MATRIX_HOMESERVER']) if durable_sync and hasattr(client,'access_token') else None
+        sender=MatrixSender(http,client,os.environ['MATRIX_HOMESERVER'],secure_room=private_rooms.required_encryption if private_rooms else None) if durable_sync and hasattr(client,'access_token') else None
         dispatcher=RequestDispatcher(inbox,client,process_event,allow_unconfirmed=not durable_sync,sender=sender)
         ready=asyncio.Event()
         worker=None
         knowledge_monitor=None
+        security_worker=None
 
         def eligible_room(room_id):
             return not (handoff and handoff.store.contains_room(room_id))
@@ -344,8 +379,25 @@ async def main():
             while await dispatcher.process_next():pass
 
         async def checkpoint(response):
-            await sync_batch(client,response,inbox,eligible_room,eligible_event)
+            await sync_batch(client,response,inbox,eligible_room,eligible_event,crypto=crypto)
+            if crypto:await crypto.resume(inbox,eligible_room,eligible_event)
             ready.set();dispatcher.wake.set()
+
+        async def security_maintenance():
+            last_cleanup=0.
+            last_handoff=0.
+            while True:
+                try:
+                    if verification:await verification.step()
+                    if private_rooms:await private_rooms.operator_step(state_path/'crypto')
+                    if crypto and await crypto.resume(inbox,eligible_room,eligible_event):dispatcher.wake.set()
+                    if handoff and handoff.secure and time.monotonic()-last_handoff>10:
+                        await handoff.flush_secure();last_handoff=time.monotonic()
+                    if handoff and time.monotonic()-last_cleanup>300:
+                        handoff.store.expire_context();last_cleanup=time.monotonic()
+                except asyncio.CancelledError:raise
+                except Exception as exc:log.warning('Security maintenance deferred (%s)',type(exc).__name__)
+                await asyncio.sleep(1)
 
         try:
             if knowledge_dir:
@@ -353,6 +405,7 @@ async def main():
                 knowledge_monitor=asyncio.create_task(monitor(knowledge_dir,str(state_path/'knowledge-freshness.json')))
             session=inbox.meta('matrix_session')
             restored=False
+            if crypto:crypto.guard_existing_store(json.loads(session) if session else None)
             if session and hasattr(client,'restore_login'):
                 saved=json.loads(session)
                 client.restore_login(saved['user_id'],saved['device_id'],saved['access_token'])
@@ -367,7 +420,12 @@ async def main():
                     raise RuntimeError("Matrix login failed: " + type(response).__name__)
                 if all(getattr(response,k,None) for k in ['user_id','device_id','access_token']):
                     with inbox.db:inbox.set_meta('matrix_session',json.dumps({k:getattr(response,k) for k in ['user_id','device_id','access_token']}))
+            if crypto:crypto.remember_identity()
             log.info("Matrix session ready; durable cursor=%s pending=%d",bool(inbox.cursor),inbox.pending())
+            if verification:
+                from nio import ToDeviceEvent
+                client.add_to_device_callback(verification.callback,ToDeviceEvent)
+                security_worker=asyncio.create_task(security_maintenance())
             client.add_event_callback(invite, InviteMemberEvent)
             client.add_event_callback(human_member, RoomMemberEvent)
             client.add_event_callback(message, RoomMessageText)
@@ -380,6 +438,9 @@ async def main():
                 while await dispatcher.process_next():pass
                 await client.sync_forever(timeout=30000)
         finally:
+            if security_worker:
+                security_worker.cancel()
+                with contextlib.suppress(asyncio.CancelledError):await security_worker
             if knowledge_monitor:
                 knowledge_monitor.cancel()
                 with contextlib.suppress(asyncio.CancelledError):await knowledge_monitor

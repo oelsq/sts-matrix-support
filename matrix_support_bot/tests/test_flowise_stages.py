@@ -156,7 +156,7 @@ def test_bot_uses_review_flow_and_does_not_send_unreviewed_draft(monkeypatch,tmp
     class Login:pass
     class Matrix:
         user='@bot:demo.local'
-        def __init__(self,*args):self.callback=None
+        def __init__(self,*args,**kwargs):self.callback=None
         def add_event_callback(self,callback,kind):
             if kind==bot.RoomMessageText:self.callback=callback
         async def login(self,*args,**kwargs):return Login()

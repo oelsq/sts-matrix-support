@@ -155,7 +155,7 @@ def test_real_sync_callback_path_restores_session_and_uses_persisted_cursor(monk
         user_id='@bot:test';device_id='DEVICE';access_token='synthetic-secret'
     class Matrix:
         user='@bot:test';rooms={}
-        def __init__(self,*args):self.index=len(clients);clients.append(self)
+        def __init__(self,*args,**kwargs):self.index=len(clients);clients.append(self)
         def add_event_callback(self,*args):pass
         def add_response_callback(self,callback,*args):self.checkpoint=callback
         def restore_login(self,*args):restore_count.append(args)

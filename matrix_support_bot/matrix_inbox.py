@@ -13,8 +13,9 @@ import time
 
 
 class InboxStore:
-    def __init__(self, filename, identity, *, clock=time.time):
+    def __init__(self, filename, identity, *, clock=time.time, cipher=None):
         self.clock = clock
+        self.identity, self.cipher = identity, cipher
         self.path = Path(filename)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         fd = os.open(str(self.path)+'.lock', os.O_CREAT|os.O_RDWR, 0o600)
@@ -31,7 +32,10 @@ class InboxStore:
         self.db.row_factory = sqlite3.Row
         self.db.execute('PRAGMA journal_mode=WAL')
         self.db.execute('PRAGMA synchronous=FULL')
+        self.db.execute('PRAGMA secure_delete=ON')
         self.db.executescript('''
+        CREATE TABLE IF NOT EXISTS secure_pending (
+          event_id TEXT PRIMARY KEY, payload TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS inbox_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS inbox_requests (
           seq INTEGER PRIMARY KEY AUTOINCREMENT, event_id TEXT UNIQUE NOT NULL,
@@ -78,13 +82,16 @@ class InboxStore:
             self.db.execute('DELETE FROM answer_feedback WHERE day<?', (cutoff,))
         self.identity = identity
         self.bootstrap_ms = int(self.meta('bootstrap_ms'))
+        try:self._configure_encryption()
+        except Exception:self.close();raise
 
     def meta(self, key):
         row = self.db.execute('SELECT value FROM inbox_meta WHERE key=?', (key,)).fetchone()
-        return row[0] if row else None
+        if row is None:return None
+        return self._open('inbox_meta','value',key,row[0]) if key=='matrix_session' else row[0]
 
     def set_meta(self, key, value):
-        self.db.execute('INSERT INTO inbox_meta VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value', (key, value))
+        self.db.execute('INSERT INTO inbox_meta VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value', (key, self._seal('inbox_meta','value',key,value) if key=='matrix_session' else value))
 
     @property
     def cursor(self):
@@ -98,13 +105,15 @@ class InboxStore:
             return False
         result = self.db.execute('''INSERT OR IGNORE INTO inbox_requests
           (event_id,room_id,sender,body,timestamp,received) VALUES(?,?,?,?,?,?)''',
-          (event.event_id, room_id, event.sender, event.body[:12000], event.server_timestamp,self.clock()))
+          (event.event_id, room_id, event.sender, self._seal('inbox_requests','body',event.event_id,event.body[:12000]), event.server_timestamp,self.clock()))
         return result.rowcount == 1
 
-    def commit_sync(self, cursor, events, anchors):
+    def commit_sync(self, cursor, events, anchors, *, secure_events=None):
         with self.db:
             for room_id, event in events:
-                self.enqueue(room_id, event)
+                if secure_events and event.event_id in secure_events:
+                    self.defer_secure(room_id,event,secure_events[event.event_id])
+                else:self.enqueue(room_id, event)
             for room_id, anchor in anchors.items():
                 self.db.execute('INSERT INTO inbox_rooms VALUES(?,?) ON CONFLICT(room_id) DO UPDATE SET anchor=excluded.anchor', (room_id,anchor))
             self.set_meta('sync_cursor', cursor)
@@ -122,7 +131,8 @@ class InboxStore:
                 ORDER BY r.seq LIMIT 1""", (self.clock(),int(delivery_blocked))).fetchone()
             if row:
                 self.db.execute("UPDATE inbox_requests SET state='processing',attempts=attempts+1,started=COALESCE(started,?) WHERE seq=?", (self.clock(),row['seq']))
-        return dict(row) if row else None
+        if row is None:return None
+        value=dict(row);value['body']=self._open('inbox_requests','body',value['event_id'],value['body']);return value
 
     def retry(self, event_id, attempts, *, delay=None):
         with self.db:
@@ -190,13 +200,13 @@ class InboxStore:
     def prepare_reply(self, event_id, kind, content, final):
         with self.db:
             self.db.execute('INSERT OR IGNORE INTO inbox_outbox(event_id,kind,content,final) VALUES(?,?,?,?)',
-                            (event_id,kind,json.dumps(content,ensure_ascii=False),int(final)))
+                            (event_id,kind,self._seal('inbox_outbox','content',event_id+'\0'+kind,json.dumps(content,ensure_ascii=False)),int(final)))
         if final:
             with self.db:self.db.execute('UPDATE inbox_requests SET response_ready=COALESCE(response_ready,?) WHERE event_id=?',(self.clock(),event_id))
-        return dict(self.db.execute('SELECT * FROM inbox_outbox WHERE event_id=? AND kind=?', (event_id,kind)).fetchone())
+        return self._reply_row(self.db.execute('SELECT * FROM inbox_outbox WHERE event_id=? AND kind=?', (event_id,kind)).fetchone())
 
     def replies(self, event_id):
-        return [dict(r) for r in self.db.execute('SELECT * FROM inbox_outbox WHERE event_id=? ORDER BY final,kind', (event_id,))]
+        return [self._reply_row(r) for r in self.db.execute('SELECT * FROM inbox_outbox WHERE event_id=? ORDER BY final,kind', (event_id,))]
 
     def sent(self, event_id, kind, sent_id):
         with self.db:
@@ -207,24 +217,92 @@ class InboxStore:
 
     def load_history(self, room, sender, domain, ttl):
         row=self.db.execute('SELECT history,updated FROM inbox_context WHERE room_id=? AND sender=? AND domain=?',(room,sender,domain)).fetchone()
-        return json.loads(row[0]) if row and self.clock()-row[1]<ttl else []
+        return json.loads(self._open('inbox_context','history','\0'.join((room,sender,domain)),row[0])) if row and self.clock()-row[1]<ttl else []
 
     def save_history(self, room, sender, domain, history, *, request_id=None, context=None):
         with self.db:
             self.db.execute('DELETE FROM inbox_context WHERE updated<?',(self.clock()-1800,))
-            self.db.execute('INSERT INTO inbox_context VALUES(?,?,?,?,?) ON CONFLICT(room_id,sender,domain) DO UPDATE SET history=excluded.history,updated=excluded.updated',(room,sender,domain,json.dumps(history,ensure_ascii=False),self.clock()))
+            self.db.execute('INSERT INTO inbox_context VALUES(?,?,?,?,?) ON CONFLICT(room_id,sender,domain) DO UPDATE SET history=excluded.history,updated=excluded.updated',(room,sender,domain,self._seal('inbox_context','history','\0'.join((room,sender,domain)),json.dumps(history,ensure_ascii=False)),self.clock()))
             self.db.execute('DELETE FROM inbox_context WHERE rowid IN (SELECT rowid FROM inbox_context ORDER BY updated DESC,rowid DESC LIMIT -1 OFFSET 1000)')
             if request_id is not None:self.save_context(request_id,domain,*context)
 
     def prepared_context(self, event_id, domain):
         row=self.db.execute('SELECT effective,previous FROM inbox_prepared_context WHERE event_id=? AND domain=?',(event_id,domain)).fetchone()
-        return tuple(row) if row else None
+        if row is None:return None
+        return tuple(self._open('inbox_prepared_context',field,event_id+'\0'+domain,value) for field,value in zip(('effective','previous'),row))
 
     def save_context(self, event_id, domain, effective, previous):
-        self.db.execute('INSERT OR IGNORE INTO inbox_prepared_context VALUES(?,?,?,?)',(event_id,domain,effective,previous))
+        self.db.execute('INSERT OR IGNORE INTO inbox_prepared_context VALUES(?,?,?,?)',(event_id,domain,self._seal('inbox_prepared_context','effective',event_id+'\0'+domain,effective),self._seal('inbox_prepared_context','previous',event_id+'\0'+domain,previous)))
 
     def clear_history(self, room, sender):
         with self.db:self.db.execute('DELETE FROM inbox_context WHERE room_id=? AND sender=?',(room,sender))
+
+
+    def _purpose(self, table, field, row_key):
+        return '\0'.join((self.identity,table,field,row_key))
+
+    def _seal(self, table, field, row_key, text):
+        return self.cipher.seal(text,self._purpose(table,field,row_key)) if self.cipher else text
+
+    def _open(self, table, field, row_key, text):
+        return self.cipher.open(text,self._purpose(table,field,row_key)) if self.cipher else text
+
+    def _reply_row(self, row):
+        value=dict(row)
+        value['content']=self._open('inbox_outbox','content',value['event_id']+'\0'+value['kind'],value['content'])
+        return value
+
+    def _configure_encryption(self):
+        from state_cipher import StateEncryptionError
+        row=self.db.execute("SELECT value FROM inbox_meta WHERE key='state_key_id'").fetchone()
+        if row:
+            if self.cipher is None or row[0]!=self.cipher.key_id:
+                raise StateEncryptionError('Inbox encryption key is missing or changed')
+            return
+        if self.cipher is None:return
+        fields=[('inbox_requests',('event_id',),('body',)),
+                ('inbox_outbox',('event_id','kind'),('content',)),
+                ('inbox_context',('room_id','sender','domain'),('history',)),
+                ('inbox_prepared_context',('event_id','domain'),('effective','previous')),
+                ('secure_pending',('event_id',),('payload',))]
+        with self.db:
+            for table,keys,columns in fields:
+                for data in self.db.execute('SELECT '+','.join((*keys,*columns))+' FROM '+table).fetchall():
+                    ident='\0'.join(str(data[k]) for k in keys)
+                    for field in columns:
+                        self.db.execute('UPDATE '+table+' SET '+field+'=? WHERE '+' AND '.join(k+'=?' for k in keys),
+                                        (self._seal(table,field,ident,data[field]),*[data[k] for k in keys]))
+            old=self.db.execute("SELECT value FROM inbox_meta WHERE key='matrix_session'").fetchone()
+            if old:self.db.execute("UPDATE inbox_meta SET value=? WHERE key='matrix_session'",(self._seal('inbox_meta','value','matrix_session',old[0]),))
+            self.db.execute("INSERT INTO inbox_meta VALUES('state_key_id',?)",(self.cipher.key_id,))
+        self.db.execute('PRAGMA wal_checkpoint(TRUNCATE)')
+        self.db.execute('VACUUM')
+        self.db.execute('PRAGMA wal_checkpoint(TRUNCATE)')
+
+    def defer_secure(self, room, event, payload):
+        if event.server_timestamp<self.bootstrap_ms:return False
+        if self.cipher is None:
+            from state_cipher import StateEncryptionError
+            raise StateEncryptionError('Deferred E2EE requires encrypted storage')
+        row=self.db.execute("INSERT OR IGNORE INTO inbox_requests(event_id,room_id,sender,body,timestamp,received,state) VALUES(?,?,?,'',?,?,'waiting_key')",(event.event_id,room,event.sender,event.server_timestamp,self.clock()))
+        if row.rowcount:
+            value=self._seal('secure_pending','payload',event.event_id,json.dumps(payload,ensure_ascii=False))
+            self.db.execute('INSERT INTO secure_pending VALUES(?,?)',(event.event_id,value))
+        return bool(row.rowcount)
+
+    def secure_pending(self, limit=100):
+        if not 1<=limit<=500:raise ValueError('Invalid encrypted retry limit')
+        rows=self.db.execute("SELECT r.event_id,r.room_id,r.sender,p.payload FROM inbox_requests r JOIN secure_pending p ON r.event_id=p.event_id WHERE r.state='waiting_key' ORDER BY r.seq LIMIT ?",(limit,)).fetchall()
+        return [dict(row,payload=json.loads(self._open('secure_pending','payload',row['event_id'],row['payload']))) for row in rows]
+
+    def resolve_secure(self, room, event):
+        with self.db:
+            row=self.db.execute("SELECT room_id,sender FROM inbox_requests WHERE event_id=? AND state='waiting_key'",(event.event_id,)).fetchone()
+            if row is None:return False
+            if (row['room_id'],row['sender'])!=(room,event.sender):raise ValueError('Encrypted event identity changed')
+            self.db.execute("UPDATE inbox_requests SET body=?,state='pending' WHERE event_id=?",(self._seal('inbox_requests','body',event.event_id,event.body[:12000]),event.event_id))
+            self.db.execute('DELETE FROM secure_pending WHERE event_id=?',(event.event_id,))
+        return True
 
     def close(self):
         if getattr(self,'db',None):self.db.close();self.db=None

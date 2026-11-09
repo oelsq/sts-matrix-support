@@ -44,6 +44,10 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
     arithmetic = arithmetic_reply(question, previous_question=previous_question)
     if arithmetic is not None:
         return PreparedReply(None, arithmetic, "arithmetic")
+    from conversation_intake import intake_reply
+    intake=intake_reply(domain,question,previous_question)
+    if intake is not None:
+        return PreparedReply(None,intake.answer,intake.mechanism)
     from task_preparation import preparation_reply
     preparation = preparation_reply(domain, question, previous_question=previous_question)
     if preparation is not None:
@@ -78,7 +82,9 @@ def prepare_local_reply(domain, question, knowledge, *, search_question=None, pr
                 return PreparedReply([], None, "requires_guidance_model")
             return PreparedReply(evidence, practical_fallback(domain, search_question), "no_evidence_fallback")
         from checked_tariffs import checked_tariff_answer
+        from checked_employment import employment_comparison
         builders = [
+            ('source_bound_employment_comparison',lambda:employment_comparison(domain,question,evidence)),
             ('source_bound_tariff',lambda:checked_tariff_answer(domain,search_question,evidence)),
             ("source_bound_definition", lambda: checked_term_definition(domain, question, evidence)),
             ("source_bound_gesv", lambda: checked_gesv_answer(domain, search_question, evidence)),

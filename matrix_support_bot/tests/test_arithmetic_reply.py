@@ -167,7 +167,7 @@ def test_production_matrix_arithmetic_bypasses_retrieval_and_model(monkeypatch, 
 
     class Matrix:
         user = "@bot:demo.local"
-        def __init__(self, *args):
+        def __init__(self, *args, **kwargs):
             self.callback = None
         async def login(self, *args, **kwargs):
             return Login()

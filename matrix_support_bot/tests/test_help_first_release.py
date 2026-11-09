@@ -222,7 +222,7 @@ def test_matrix_event_reaches_protected_workflow_despite_empty_search(domain,mon
     class Login:pass
     class Matrix:
         user='@bot:test'
-        def __init__(self,*args):self.callback=None
+        def __init__(self,*args,**kwargs):self.callback=None
         def add_event_callback(self,callback,kind):
             if kind==bot.RoomMessageText:self.callback=callback
         async def login(self,*args,**kwargs):return Login()

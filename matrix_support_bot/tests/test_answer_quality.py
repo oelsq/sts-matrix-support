@@ -263,7 +263,7 @@ def test_actual_bot_callback_preserves_finance_conversation_and_draft(knowledge,
     class Login: pass
     class Client:
         user = '@bot:demo.local'
-        def __init__(self, *args): self.callback = None
+        def __init__(self, *args, **kwargs): self.callback = None
         async def login(self, *args, **kwargs): return Login()
         def add_event_callback(self, callback, event_class):
             if event_class == bot.RoomMessageText: self.callback = callback

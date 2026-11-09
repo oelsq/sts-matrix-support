@@ -1,0 +1,291 @@
+{
+  "cases": [
+    {
+      "id": "greeting-legal",
+      "domain": "legal",
+      "question": "привет",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "greet": "привет|здравств|добрый|помо[гч]"
+      },
+      "forbidden": {
+        "legal-gate-refusal": "не прош[её]л проверку|неподтвержд[её]н|правов.{0,20}основан",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "capabilities-legal",
+      "domain": "legal",
+      "question": "На какие вопросы ты можешь отвечать?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "profile": "трудов|договор|прав|кредит|плат[её]ж|расч[её]т",
+        "commands": "!помощь|!сотрудники|!человек"
+      },
+      "forbidden": {
+        "inappropriate-proof": "подтвержд[её]н частично|сохраните.{0,25}переписк",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "salary-intake-legal",
+      "domain": "legal",
+      "question": "сколько выходит моя зарплата?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "inputs": "оклад|начисл|сумм",
+        "scope": "период|месяц|на руки|удержан"
+      },
+      "forbidden": {
+        "wrong-problem": "что произошло и когда|увольнен|задержка выплат|написать.{0,30}работодател",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "fight-intake-legal",
+      "domain": "legal",
+      "question": "Сотрудник попал в больницу из за драки",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "recognize-injury": "травм|медицин|больниц|больничн|пострада",
+        "next-step": "сохран|уточн|зафиксир|помощь|полици|заявлен"
+      },
+      "forbidden": {
+        "refusal": "не прош[её]л проверку|пришлите.{0,30}текст нормы",
+        "assumed-guilt": "уволить.{0,10}прогул|сотрудник виновен",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "greeting-finance",
+      "domain": "finance",
+      "question": "привет",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "greet": "привет|здравств|добрый|помо[гч]"
+      },
+      "forbidden": {
+        "legal-gate-refusal": "не прош[её]л проверку|неподтвержд[её]н|правов.{0,20}основан",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "capabilities-finance",
+      "domain": "finance",
+      "question": "На какие вопросы ты можешь отвечать?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "profile": "трудов|договор|прав|кредит|плат[её]ж|расч[её]т",
+        "commands": "!помощь|!сотрудники|!человек"
+      },
+      "forbidden": {
+        "inappropriate-proof": "подтвержд[её]н частично|сохраните.{0,25}переписк",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "salary-intake-finance",
+      "domain": "finance",
+      "question": "сколько выходит моя зарплата?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "inputs": "оклад|начисл|сумм",
+        "scope": "период|месяц|на руки|удержан"
+      },
+      "forbidden": {
+        "wrong-problem": "что произошло и когда|увольнен|задержка выплат|написать.{0,30}работодател",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "fight-intake-finance",
+      "domain": "finance",
+      "question": "Сотрудник попал в больницу из за драки",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "recognize-injury": "травм|медицин|больниц|больничн|пострада",
+        "next-step": "сохран|уточн|зафиксир|помощь|полици|заявлен"
+      },
+      "forbidden": {
+        "refusal": "не прош[её]л проверку|пришлите.{0,30}текст нормы",
+        "assumed-guilt": "уволить.{0,10}прогул|сотрудник виновен",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "salary-net-amount",
+      "domain": "finance",
+      "question": "Начислено 300000 тенге, удержано всего 42000. Сколько получу на руки?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "net-result": "258[\\s ]?000"
+      },
+      "forbidden": {
+        "invented-rates": "\b10\\s*%|\b20\\s*%",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "salary-followup",
+      "domain": "finance",
+      "question": "А какие данные тебе нужны?",
+      "previous_questions": [
+        "сколько выходит моя зарплата?"
+      ],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "data": "оклад|начисл|сумм",
+        "scope": "период|месяц|на руки|удержан"
+      },
+      "forbidden": {
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "fight-victim-followup",
+      "domain": "legal",
+      "question": "Его избили после работы. Какие первые действия?",
+      "previous_questions": [
+        "Сотрудник попал в больницу из за драки"
+      ],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "evidence": "медицин|травм|фиксац|зафиксир",
+        "report": "полици|заявлен|правоохран"
+      },
+      "forbidden": {
+        "assumed-workplace": "производственн.{0,15}травм.{0,12}является|уволить",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "gesv-explanation",
+      "domain": "finance",
+      "question": "Что такое ГЭСВ?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "definition": "эффективн|стоимост|расход|ставк"
+      },
+      "forbidden": {
+        "no-help": "не прош[её]л проверку",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "legal-employment",
+      "domain": "legal",
+      "question": "Чем трудовой договор отличается от договора услуг?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "both": "трудов",
+        "contract": "услуг|гражданск|подряд"
+      },
+      "forbidden": {
+        "blanket-contract-label": "по ГПХ трудовые права не действуют",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "finance-guarantor",
+      "domain": "finance",
+      "question": "Я поручитель по кредиту брата, он перестал платить. Какие документы запросить у банка и как проверить предел моей ответственности?",
+      "previous_questions": [],
+      "candidate_reference": "Распознать намерение, помочь по существу и уточнить только недостающие данные.",
+      "reference_status": "awaiting_specialist",
+      "required": {
+        "scope": "поруч|ответственност",
+        "practical": "договор|расч[её]т|документ"
+      },
+      "forbidden": {
+        "automatic-liability": "обязаны погасить весь кредит",
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "risk": "medium"
+    },
+    {
+      "id": "free-photo",
+      "domain": "legal",
+      "question": "Можно ли снимать людей в общественных местах в Казахстане? И можно ли потом выложить видео?",
+      "required": {
+        "distinction": "публикац|распростран|согласи|изображен"
+      },
+      "forbidden": {
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "free-budget",
+      "domain": "finance",
+      "question": "Как мне начать вести бюджет, если доход каждый месяц разный?",
+      "required": {
+        "practical": "расход|резерв|бюджет|доход"
+      },
+      "forbidden": {
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "previous_questions": [],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    },
+    {
+      "id": "free-wage-draft",
+      "domain": "legal",
+      "question": "А как написать требование?",
+      "required": {
+        "draft": "Прошу|Требую",
+        "placeholder": "\\[.*\\]"
+      },
+      "forbidden": {
+        "blanket-refusal": "ответ не прош[её]л проверку|в предоставленных локальных документах нет норм"
+      },
+      "previous_questions": [
+        "Начальник не отдаёт деньги за работу"
+      ],
+      "reference_status": "awaiting_specialist",
+      "risk": "medium"
+    }
+  ],
+  "schema_version": 1,
+  "human_specialist_approvals": 0,
+  "purpose": "Free mode intent and response checks, not expert legal certification"
+}
