@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "notes": "Frozen before the final deployment. Ten unchanged regressions and one new wording. No specialist approval.",
+  "cases": [
+    {
+      "id": "nov08-civil-payment-followup",
+      "domain": "legal",
+      "question": "У меня договор оказания услуг как у самозанятого. Это всё равно задолженность по зарплате?",
+      "previous_questions": [
+        "За работу не заплатили. Как определить, с чего начать?"
+      ],
+      "required": {
+        "contract": "гражданск|ГПХ|услуг|заказчик",
+        "distinction": "трудов|зарплат"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "civil-special",
+          "section": "Статья 683."
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-copyright-versus-image",
+      "domain": "legal",
+      "question": "Фотограф разрешил мне использовать снимок, но на фото узнаваемый другой человек. Разрешения автора достаточно для любой публикации?",
+      "previous_questions": [],
+      "required": {
+        "author": "автор|фотограф",
+        "person": "изображен|соглас|личн"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "copyright",
+          "section": "Статья 16."
+        },
+        {
+          "document": "civil-general",
+          "section": "Статья 145."
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-human-choice-help",
+      "domain": "legal",
+      "question": "Если мне не понравился сотрудник юрдепа, как выбрать другого и какие команды у тебя есть?",
+      "previous_questions": [],
+      "required": {
+        "commands": "!сотрудники",
+        "change": "!другой|!юрдеп"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-topic-reset-mortgage-to-rent",
+      "domain": "legal",
+      "question": "А теперь другой вопрос: хозяин съёмной квартиры удержал депозит. Какие документы собрать для проверки?",
+      "previous_questions": [
+        "Квартира в ипотеке. Может ли уведомление банка само означать переход собственности?"
+      ],
+      "required": {
+        "rent": "аренд|найм|хозяин",
+        "packet": "договор|акт|расч[её]т"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-income-tax-versus-revenue",
+      "domain": "finance",
+      "question": "На карту пришло 900000 тенге: часть за работу, часть вернул друг как долг. Можно считать всё одной зарплатой и удержать одинаковый налог?",
+      "previous_questions": [],
+      "required": {
+        "distinction": "доход|основан|источник|назначен|вид",
+        "condition": "долг|зарплат|оплат|договор"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "tax",
+          "section": ""
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-original-base-eight-percent",
+      "domain": "finance",
+      "question": "Вычти из исходной суммы 8%, сколько останется?",
+      "previous_questions": [
+        "Сколько будет 19% от 3,25 миллиона тенге?"
+      ],
+      "required": {
+        "result": "2[ \\u00a0\\u202f]?990[ \\u00a0\\u202f]?000"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-photo-author-and-person",
+      "domain": "legal",
+      "question": "Автор фотоснимка дал разрешение на публикацию. На снимке узнаваем незнакомый человек. Разрешение автора снимает вопрос согласия изображённого лица?",
+      "previous_questions": [],
+      "required": {
+        "author": "автор",
+        "person": "изображен|соглас|человек"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-explicit-civil-contract",
+      "domain": "legal",
+      "question": "Заказчик не оплатил работу по договору подряда. Трудового договора у нас нет. Нужно ли требовать именно зарплату или учитывать вид договора?",
+      "previous_questions": [],
+      "required": {
+        "civil": "гражданск|подряд|заказчик|ГПХ",
+        "difference": "зарплат|трудов"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-receipts-income-or-debt",
+      "domain": "finance",
+      "question": "Мне перечислили оплату услуги, а отдельным переводом вернули личный долг. Какие факты нужны, чтобы не смешать виды поступлений при проверке налога?",
+      "previous_questions": [],
+      "required": {
+        "kind": "основан|назначен|договор|источник|характер",
+        "receipts": "доход|долг|поступлен"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-family-video-identification",
+      "domain": "legal",
+      "question": "Снимаю прогулку в парке на обычный телефон для семейного альбома. Чем такая запись отличается от обработки лица для установления личности?",
+      "previous_questions": [],
+      "required": {
+        "difference": "идентификац|личност|распознаван|биометр",
+        "scope": "личн|семейн|обработк"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-receipts-new-wording",
+      "domain": "finance",
+      "question": "За месяц на карту поступили оплата услуг и возврат займа от знакомого. Нужно ли смешивать эти суммы в одну зарплату при проверке налога?",
+      "previous_questions": [],
+      "required": {
+        "categories": "виды доходов|основан|трудов",
+        "help": "договор|разделите|операци"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Различить основание поступления и доход работника, дать проверяемую часть объяснения и способ сбора данных. Не устанавливать неизвестную налоговую ставку или освобождение конкретного перевода.",
+      "reference_status": "awaiting_specialist"
+    }
+  ]
+}

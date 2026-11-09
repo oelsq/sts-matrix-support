@@ -94,6 +94,23 @@ def query_hints(question):
             if headings:
                 for doc in docs:
                     sections.setdefault(doc, []).extend(headings)
+    if missing_written_employment_contract(question):
+        expansions.append('отсутствие письменного трудового договора допуск к работе оформление по вине работодателя')
+        documents.add('labor')
+        sections.setdefault('labor', []).extend(['Статья 33.', 'Статья 113.'])
+    if civil_employment_comparison(question):
+        expansions.append('отличие трудового договора от иных договоров признаки трудовых отношений услуги подряд гражданское обязательство')
+        documents.add('labor')
+        sections.setdefault('labor', []).append('Статья 27.')
+    if income_receipts_question(question):
+        expansions.append('индивидуальный подоходный налог виды доходов физического лица экономические выгоды оплата труда услуги основание поступления')
+        documents.add('tax')
+        sections.setdefault('tax', []).extend(['Статья 365.', 'Статья 371.', 'Статья 372.'])
+    if image_author_rights_question(question):
+        expansions.append('авторское право фотографа право использования произведения право на собственное изображение согласие')
+        documents.update({'copyright', 'civil-general'})
+        sections.setdefault('copyright', []).append('Статья 16.')
+        sections.setdefault('civil-general', []).append('Статья 145.')
     if consumer_defect_remedy_question(question):
         expansions.append('возможный недостаток товара причина повреждения требования потребителя проверка качества отличие от товара надлежащего качества')
         documents.add('consumer-law');sections.setdefault('consumer-law',[]).extend(['Статья 15.','Статья 30.'])
@@ -247,7 +264,7 @@ def image_recording_question(question):
     photo = bool(re.search(r'фото|видео|с[ъь]емк|камер', q))
     portrait = bool(re.search(r'изображени[ея].{0,25}(?:челов|лиц|граждан)|собственн.{0,12}изображени|чуж.{0,12}изображени', q))
     context = bool(re.search(r'люд|человек|прохож|лиц|полици|полице|охран|соглас|публик|распростран|вылож|выклад|опубликов|магазин|ценник|товар|улиц|парк|обществен|биометр|распознаван|авторск|частн.{0,15}жизн', q))
-    return portrait or (photo and context) or bool(re.search(r'(?:снимать|снимаю|снял|сняли|записывать).{0,45}(?:людей|человек|прохож|полице|полици|охранник|улиц|общественн|ценник|товар)', q))
+    return portrait or (photo and context) or bool(re.search(r'(?:снимать|снимаю|снял|сняли|записывать).{0,45}(?:людей|человек|прохож|полице|полици|охранник|улиц|общественн|ценник|товар|парк|прогулк)', q))
 
 
 
@@ -256,7 +273,7 @@ def biometric_image_question(question):
     # An explicit absence of recognition must not turn a phone video into a
     # question about an operator's face-identification equipment.
     q = re.sub(r'без (?:автоматического )?распознавания лиц|не использую (?:биометрию|распознавание лиц)', '', q)
-    return image_recording_question(question) and bool(re.search(r'биометр|распознаван|идентификаци.{0,20}(?:лиц|личност)', q))
+    return image_recording_question(question) and bool(re.search(r'биометр|распознаван|идентификаци.{0,20}(?:лиц|личност)|установлен.{0,15}личност', q))
 
 
 def image_recording_sections(question):
@@ -277,7 +294,8 @@ def image_recording_sections(question):
 
 
 def ordinary_image_scope(question):
-    if not image_recording_question(question) or biometric_image_question(question):
+    if (not image_recording_question(question) or biometric_image_question(question)
+            or image_author_rights_question(question)):
         return False
     # Keep specialised/mixed cases open to their own procedural sources.
     return not re.search(r'судебн|заседани|допрос|следствен|военн|режимн|гостайн|государственн.{0,10}секрет|медицин|больниц|трудов|зарплат|налог|кредит|аренд|авторск|товарн.{0,12}знак|логотип', question, re.I)
@@ -318,6 +336,19 @@ def consumer_defect_remedy_question(question):
 def required_source_anchors(question):
     """Bounded coverage for explicit multi-part questions, not new legal claims."""
     anchors=[]
+    if missing_written_employment_contract(question):
+        anchors.extend([('labor', 'Статья 33.', ''), ('labor', 'Статья 113.', 'дата выплаты')])
+    if civil_employment_comparison(question):
+        anchors.append(('labor', 'Статья 27.', ''))
+    if income_receipts_question(question):
+        anchors.extend([('tax', 'Статья 371.', 'виды'), ('tax', 'Статья 372.', 'трудовых отношений')])
+    if image_author_rights_question(question):
+        anchors.extend([('copyright', 'Статья 16.', ''), ('civil-general', 'Статья 145.', 'изображени')])
+    if (biometric_image_question(question)
+            and re.search(r'личн|семейн|архив|прогулк', question, re.I)):
+        anchors.extend([('personal-law', 'Статья 3.', 'личных'),
+                        ('personal-law', 'Статья 6.', 'идентификации'),
+                        ('personal-law', 'Статья 7.', 'технологических средств')])
     if consumer_defect_remedy_question(question):
         anchors.extend([('consumer-law','Статья 15.',''),('consumer-law','Статья 30.','не был в употреблении')])
     if (image_recording_question(question) and not biometric_image_question(question)
@@ -327,3 +358,41 @@ def required_source_anchors(question):
     if re.search(r'КАСКО',question,re.I) and re.search(r'ОГПО|ОСАГО|обязательн.{0,30}ответственност',question,re.I):
         anchors.extend([('auto-insurance','Статья 3.','третьих лиц'),('civil-special','Статья 839.','')])
     return list(dict.fromkeys(anchors))
+
+
+def image_author_rights_question(question):
+    """The author's licence and the depicted person's rights need both sources."""
+    return bool(
+        re.search(r'фото|снимок|снимк|изображени', question, re.I)
+        and re.search(r'автор|фотограф', question, re.I)
+        and re.search(r'разреш|лицензи|соглас|использован', question, re.I)
+        and re.search(r'друг[а-яё ]{0,12}человек|лиц[оа]|узнаваем|публикац', question, re.I)
+    )
+
+
+def missing_written_employment_contract(question):
+    """Select formation evidence without assuming a labour relationship exists."""
+    return bool(
+        re.search(r'работал|работаю|работодател|зарплат|смен', question, re.I)
+        and re.search(r'(?:бумажн|письменн|трудов)[а-яё ]{0,15}договор[а-яё ]{0,8}нет|договор[а-яё ]{0,12}не подпис|без (?:письменного |трудового )?договора', question, re.I)
+        and not re.search(r'гпх|подряд|оказани.{0,12}услуг', question, re.I)
+    )
+
+
+def income_receipts_question(question):
+    """Select tax classification evidence without treating every receipt as wages."""
+    return bool(
+        re.search(r'налог|ипн', question, re.I)
+        and re.search(r'поступлен|перевод|на карт|перечислили', question, re.I)
+        and re.search(r'долг|за[её]м|услуг|вид[ыа] поступлен', question, re.I)
+    )
+
+
+def civil_employment_comparison(question):
+    """Retain the distinction rule without importing wage-dispute procedures."""
+    current = question.split('\nПредыдущий вопрос:')[0]
+    return bool(
+        re.search(r'ГПХ|оказания услуг|договор[а-яё ]{0,15}подряд|самозанят', current, re.I)
+        and re.search(r'это вс[её] равно|отлич|разниц|сравн|считать.{0,25}зарплат|именно зарплат|учитывать вид договора', current, re.I)
+        and not re.search(r'напиши|составь|\bиск\b|\bсуд\w*|признать|взыск|срок', current, re.I)
+    )

@@ -1,0 +1,873 @@
+{
+  "date": "2026-11-09",
+  "campaign": {
+    "date": "2026-11-09",
+    "mode": "existing_primary_rooms",
+    "primary_rooms": 2,
+    "parallel_questions_max": 2,
+    "timeline_read": false,
+    "answers_exported": false,
+    "human_specialist_approvals": 0,
+    "phases": {
+      "baseline": {
+        "status": "complete",
+        "cases": 32,
+        "answered": 32,
+        "criteria_passed": 26,
+        "validation_fallbacks": 2,
+        "generation_unavailable": 0,
+        "rich_html": 32,
+        "followup_cases": 8,
+        "previous_turn_answers": 8,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 32,
+          "median_seconds": 50.594,
+          "p95_seconds": 77.101,
+          "max_seconds": 85.907
+        },
+        "queue": {
+          "count": 32,
+          "median_seconds": 0.004,
+          "p95_seconds": 0.004,
+          "max_seconds": 0.012
+        },
+        "processing": {
+          "count": 32,
+          "median_seconds": 49.897,
+          "p95_seconds": 76.655,
+          "max_seconds": 84.881
+        },
+        "delivery": {
+          "count": 31,
+          "median_seconds": 0.144,
+          "p95_seconds": 0.198,
+          "max_seconds": 3.634
+        },
+        "failed_cases": [
+          {
+            "id": "nov08-percentage-replace-followup",
+            "missing": [
+              "result"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "nov08-percentage-add-followup",
+            "missing": [
+              "result"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "nov08-income-tax-versus-revenue",
+            "missing": [
+              "distinction"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "nov08-personal-camera-not-biometric",
+            "missing": [
+              "distinction"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "nov08-human-choice-help",
+            "missing": [
+              "commands",
+              "change"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "nov08-topic-reset-mortgage-to-rent",
+            "missing": [
+              "rent"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          }
+        ],
+        "flowise": {
+          "cases_with_workflow": 21,
+          "executions": 39,
+          "repair_executions": 37,
+          "model_stage_times": {
+            "draft": {
+              "count": 39,
+              "median_seconds": 3.536,
+              "p95_seconds": 4.639,
+              "max_seconds": 4.778
+            },
+            "audit": {
+              "count": 39,
+              "median_seconds": 9.73,
+              "p95_seconds": 15.93,
+              "max_seconds": 25.827
+            },
+            "repair": {
+              "count": 37,
+              "median_seconds": 3.504,
+              "p95_seconds": 4.859,
+              "max_seconds": 5.007
+            },
+            "audit_repaired": {
+              "count": 37,
+              "median_seconds": 9.165,
+              "p95_seconds": 16.441,
+              "max_seconds": 17.94
+            }
+          },
+          "response_latency": {
+            "count": 21,
+            "median_seconds": 59.454,
+            "p95_seconds": 77.101,
+            "max_seconds": 85.907
+          },
+          "other_response_latency": {
+            "count": 11,
+            "median_seconds": 1.709,
+            "p95_seconds": 4.143,
+            "max_seconds": 4.143
+          }
+        }
+      },
+      "recheck": {
+        "status": "complete",
+        "cases": 26,
+        "answered": 26,
+        "criteria_passed": 22,
+        "validation_fallbacks": 0,
+        "generation_unavailable": 0,
+        "rich_html": 26,
+        "followup_cases": 9,
+        "previous_turn_answers": 9,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 26,
+          "median_seconds": 59.85,
+          "p95_seconds": 85.115,
+          "max_seconds": 118.764
+        },
+        "queue": {
+          "count": 26,
+          "median_seconds": 0.004,
+          "p95_seconds": 0.005,
+          "max_seconds": 0.119
+        },
+        "processing": {
+          "count": 26,
+          "median_seconds": 59.249,
+          "p95_seconds": 84.677,
+          "max_seconds": 117.813
+        },
+        "delivery": {
+          "count": 26,
+          "median_seconds": 0.129,
+          "p95_seconds": 0.15,
+          "max_seconds": 0.296
+        },
+        "failed_cases": [
+          {
+            "id": "nov08-civil-payment-followup",
+            "missing": [
+              "distinction"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "nov08-income-tax-versus-revenue",
+            "missing": [
+              "distinction"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "nov09-explicit-civil-contract",
+            "missing": [
+              "difference"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          },
+          {
+            "id": "nov09-family-video-identification",
+            "missing": [
+              "difference"
+            ],
+            "forbidden": [],
+            "usefulness": [],
+            "error_code": null
+          }
+        ],
+        "flowise": {
+          "cases_with_workflow": 18,
+          "executions": 34,
+          "repair_executions": 34,
+          "model_stage_times": {
+            "draft": {
+              "count": 34,
+              "median_seconds": 3.676,
+              "p95_seconds": 4.724,
+              "max_seconds": 4.817
+            },
+            "audit": {
+              "count": 34,
+              "median_seconds": 10.764,
+              "p95_seconds": 15.883,
+              "max_seconds": 56.84
+            },
+            "repair": {
+              "count": 34,
+              "median_seconds": 3.706,
+              "p95_seconds": 4.793,
+              "max_seconds": 4.839
+            },
+            "audit_repaired": {
+              "count": 34,
+              "median_seconds": 10.385,
+              "p95_seconds": 14.761,
+              "max_seconds": 22.096
+            }
+          },
+          "response_latency": {
+            "count": 18,
+            "median_seconds": 67.866,
+            "p95_seconds": 118.764,
+            "max_seconds": 118.764
+          },
+          "other_response_latency": {
+            "count": 8,
+            "median_seconds": 0.934,
+            "p95_seconds": 1.74,
+            "max_seconds": 1.74
+          }
+        }
+      },
+      "closure": {
+        "status": "complete",
+        "cases": 11,
+        "answered": 11,
+        "criteria_passed": 11,
+        "validation_fallbacks": 0,
+        "generation_unavailable": 0,
+        "rich_html": 11,
+        "followup_cases": 3,
+        "previous_turn_answers": 3,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 11,
+          "median_seconds": 7.415,
+          "p95_seconds": 62.633,
+          "max_seconds": 62.633
+        },
+        "queue": {
+          "count": 11,
+          "median_seconds": 0.004,
+          "p95_seconds": 0.021,
+          "max_seconds": 0.021
+        },
+        "processing": {
+          "count": 11,
+          "median_seconds": 6.201,
+          "p95_seconds": 62.266,
+          "max_seconds": 62.266
+        },
+        "delivery": {
+          "count": 11,
+          "median_seconds": 0.147,
+          "p95_seconds": 0.177,
+          "max_seconds": 0.177
+        },
+        "failed_cases": [],
+        "flowise": {
+          "cases_with_workflow": 5,
+          "executions": 10,
+          "repair_executions": 10,
+          "model_stage_times": {
+            "draft": {
+              "count": 10,
+              "median_seconds": 3.067,
+              "p95_seconds": 4.112,
+              "max_seconds": 4.112
+            },
+            "audit": {
+              "count": 10,
+              "median_seconds": 8.882,
+              "p95_seconds": 9.497,
+              "max_seconds": 9.497
+            },
+            "repair": {
+              "count": 10,
+              "median_seconds": 3.167,
+              "p95_seconds": 4.134,
+              "max_seconds": 4.134
+            },
+            "audit_repaired": {
+              "count": 10,
+              "median_seconds": 8.833,
+              "p95_seconds": 14.126,
+              "max_seconds": 14.126
+            }
+          },
+          "response_latency": {
+            "count": 5,
+            "median_seconds": 57.024,
+            "p95_seconds": 62.633,
+            "max_seconds": 62.633
+          },
+          "other_response_latency": {
+            "count": 6,
+            "median_seconds": 1.744,
+            "p95_seconds": 7.415,
+            "max_seconds": 7.415
+          }
+        }
+      },
+      "confirmation": {
+        "status": "complete",
+        "cases": 2,
+        "answered": 2,
+        "criteria_passed": 2,
+        "validation_fallbacks": 0,
+        "generation_unavailable": 0,
+        "rich_html": 2,
+        "followup_cases": 0,
+        "previous_turn_answers": 0,
+        "delivery_errors": 0,
+        "latency": {
+          "count": 2,
+          "median_seconds": 56.231,
+          "p95_seconds": 61.851,
+          "max_seconds": 61.851
+        },
+        "queue": {
+          "count": 2,
+          "median_seconds": 0.004,
+          "p95_seconds": 0.004,
+          "max_seconds": 0.004
+        },
+        "processing": {
+          "count": 2,
+          "median_seconds": 55.732,
+          "p95_seconds": 61.181,
+          "max_seconds": 61.181
+        },
+        "delivery": {
+          "count": 2,
+          "median_seconds": 0.142,
+          "p95_seconds": 0.145,
+          "max_seconds": 0.145
+        },
+        "failed_cases": [],
+        "flowise": {
+          "cases_with_workflow": 2,
+          "executions": 4,
+          "repair_executions": 4,
+          "model_stage_times": {
+            "draft": {
+              "count": 4,
+              "median_seconds": 2.96,
+              "p95_seconds": 3.525,
+              "max_seconds": 3.525
+            },
+            "audit": {
+              "count": 4,
+              "median_seconds": 8.351,
+              "p95_seconds": 10.365,
+              "max_seconds": 10.365
+            },
+            "repair": {
+              "count": 4,
+              "median_seconds": 3.131,
+              "p95_seconds": 3.487,
+              "max_seconds": 3.487
+            },
+            "audit_repaired": {
+              "count": 4,
+              "median_seconds": 9.03,
+              "p95_seconds": 11.302,
+              "max_seconds": 11.302
+            }
+          },
+          "response_latency": {
+            "count": 2,
+            "median_seconds": 56.231,
+            "p95_seconds": 61.851,
+            "max_seconds": 61.851
+          },
+          "other_response_latency": {
+            "count": 0,
+            "median_seconds": null,
+            "p95_seconds": null,
+            "max_seconds": null
+          }
+        }
+      }
+    },
+    "total_scenario_executions": 71,
+    "final_answers_with_recorded_workflow": 46,
+    "final_answers_without_recorded_workflow": 25,
+    "total_previous_turn_answers": 20,
+    "distinct_frozen_cases": 41
+  },
+  "deployment": {
+    "image": "sha256:6e3c62d7c70fa65d5831816eb0cfd29117ac587e115f4634d1b7393308d27ce6",
+    "rollback_image": "sha256:2db1b3381cc5c4104b9897f211d079b70eb5a57120c96dbb2b302552578cfcdf",
+    "runtime_files_verified": 10,
+    "public_files_verified": 14,
+    "local_tests": 1749,
+    "gpu_route": "sts-qwen-gpu0",
+    "environment_mounts_log_rotation_preserved": true,
+    "flow_routes_unchanged": true,
+    "pending_requests_before_update": 0
+  },
+  "postcheck": {
+    "source_files_verified": 14,
+    "runtime_files_verified": 10,
+    "local_tests_passed": 1749,
+    "services": [
+      {
+        "name": "sts-team-demo-bot-1",
+        "running": true,
+        "health": "not_configured"
+      },
+      {
+        "name": "sts-team-demo-element-1",
+        "running": true,
+        "health": "healthy"
+      },
+      {
+        "name": "sts-team-demo-frontend-1",
+        "running": true,
+        "health": "not_configured"
+      },
+      {
+        "name": "sts-team-demo-homeserver-1",
+        "running": true,
+        "health": "healthy"
+      },
+      {
+        "name": "sts-team-demo-backend-1",
+        "running": true,
+        "health": "healthy"
+      },
+      {
+        "name": "sts-team-demo-postgres-1",
+        "running": true,
+        "health": "healthy"
+      },
+      {
+        "name": "sts-flowise-pilot-flowise-1",
+        "running": true,
+        "health": "not_configured"
+      },
+      {
+        "name": "sts-flowise-pilot-flowise-postgres-1",
+        "running": true,
+        "health": "healthy"
+      }
+    ],
+    "http_status": {
+      "element": 200,
+      "flowise": 200
+    },
+    "active_agentflows": 2,
+    "nodes_per_flow": [
+      13,
+      13
+    ],
+    "all_active_flow_models_sts_gpu0": true,
+    "bot_model_routes_sts_gpu0": true,
+    "bot_image": "sha256:6e3c62d7c70fa65d5831816eb0cfd29117ac587e115f4634d1b7393308d27ce6",
+    "real_user_history_read": false
+  },
+  "cleanup": {
+    "synthetic_account_deactivated": true,
+    "token_invalidated": true,
+    "primary_rooms_left": 2,
+    "own_contexts_cleared": 2,
+    "real_accounts_modified": 0,
+    "staff_notifications_requested": 0,
+    "container_credentials_removed": true,
+    "host_test_credentials_removed": true,
+    "container_test_directory_removed": true
+  },
+  "offline_static_check": {
+    "portable_offline_profile_accepts_local_inference": true,
+    "external_upstream_rejected": true,
+    "configuration_only": true,
+    "disconnected_network_runtime_test": false
+  },
+  "ai_source_assessment": {
+    "baseline": {
+      "reviewer_type": "ai_source_assessment",
+      "rubric_version": 2,
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 12,
+      "unavailable_answers": 0,
+      "assessment_errors": 0,
+      "assessment_structure_retries": 0,
+      "finding_counts": {
+        "insufficient_evidence": 4,
+        "request_not_answered": 2,
+        "wrong_scope": 2,
+        "unhelpful_handoff": 1
+      },
+      "cases": [
+        {
+          "id": "nov08-labor-unpaid-no-contract",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "nov08-civil-payment-followup",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-restructure-obligation",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-goods-fault-after-use",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-casco-versus-own-ogpo",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-goods-sound-exchange",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-shop-image-two-rights",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "nov08-income-tax-versus-revenue",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "request_not_answered",
+            "wrong_scope",
+            "unhelpful_handoff"
+          ]
+        },
+        {
+          "id": "nov08-personal-camera-not-biometric",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "wrong_scope"
+          ]
+        },
+        {
+          "id": "nov08-rental-normal-wear",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence",
+            "request_not_answered"
+          ]
+        },
+        {
+          "id": "nov08-child-opinion",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-copyright-versus-image",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        }
+      ]
+    },
+    "recheck": {
+      "reviewer_type": "ai_source_assessment",
+      "rubric_version": 2,
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 14,
+      "unavailable_answers": 0,
+      "assessment_errors": 0,
+      "assessment_structure_retries": 0,
+      "finding_counts": {
+        "insufficient_evidence": 13,
+        "request_not_answered": 4,
+        "unsupported_rule": 2
+      },
+      "cases": [
+        {
+          "id": "nov08-labor-unpaid-no-contract",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "nov08-civil-payment-followup",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-goods-fault-after-use",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-casco-versus-own-ogpo",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-goods-sound-exchange",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "nov08-shop-image-two-rights",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-personal-camera-not-biometric",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence",
+            "request_not_answered"
+          ]
+        },
+        {
+          "id": "nov08-income-tax-versus-revenue",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "request_not_answered",
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "nov08-rental-normal-wear",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "nov08-copyright-versus-image",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "unsupported_rule"
+          ]
+        },
+        {
+          "id": "nov09-receipts-income-or-debt",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence",
+            "request_not_answered"
+          ]
+        },
+        {
+          "id": "nov09-photo-author-and-person",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "nov09-explicit-civil-contract",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "insufficient_evidence"
+          ]
+        },
+        {
+          "id": "nov09-family-video-identification",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "request_not_answered",
+            "insufficient_evidence"
+          ]
+        }
+      ]
+    },
+    "closure": {
+      "reviewer_type": "ai_source_assessment",
+      "rubric_version": 2,
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 8,
+      "unavailable_answers": 0,
+      "assessment_errors": 0,
+      "assessment_structure_retries": 0,
+      "finding_counts": {
+        "missing_condition": 1,
+        "unsupported_rule": 1
+      },
+      "cases": [
+        {
+          "id": "nov08-income-tax-versus-revenue",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov09-receipts-income-or-debt",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov09-receipts-new-wording",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-civil-payment-followup",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov08-copyright-versus-image",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov09-photo-author-and-person",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "missing_condition"
+          ]
+        },
+        {
+          "id": "nov09-explicit-civil-contract",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov09-family-video-identification",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "unsupported_rule"
+          ]
+        }
+      ]
+    },
+    "confirmation": {
+      "reviewer_type": "ai_source_assessment",
+      "rubric_version": 2,
+      "human_specialist_approvals_created": 0,
+      "answers_exported": false,
+      "assessed": 2,
+      "unavailable_answers": 0,
+      "assessment_errors": 0,
+      "assessment_structure_retries": 0,
+      "finding_counts": {
+        "unsupported_rule": 1
+      },
+      "cases": [
+        {
+          "id": "nov09-photo-author-and-person",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": []
+        },
+        {
+          "id": "nov09-family-video-identification",
+          "status": "assessed",
+          "assessment_error_code": null,
+          "finding_codes": [
+            "unsupported_rule"
+          ]
+        }
+      ]
+    }
+  },
+  "rating": {
+    "score": 7.5,
+    "scale": 10,
+    "scope": "internal_pilot_with_future_closed_network_deployment",
+    "expert_legal_or_financial_certification": false
+  },
+  "limits": {
+    "human_specialist_approvals": 0,
+    "disconnected_network_runtime_tested": false,
+    "stress_test_hundreds": false,
+    "maximum_parallel_questions": 2,
+    "corpus_materials": 106,
+    "new_documents_added": 0,
+    "model_weights_changed": false,
+    "source_editions_refreshed": false,
+    "reviewer_same_model_family": true,
+    "controlled_flowise_ab_test": false
+  },
+  "criteria_integrity": {
+    "original_baseline_unchanged": true,
+    "recheck_unchanged_cases": 18,
+    "recheck_new_wordings": 8,
+    "closure_new_wordings": 1,
+    "retrieval_metadata_alias_corrected_in_recheck_only": true,
+    "text_checks_are_not_legal_accuracy": true
+  }
+}

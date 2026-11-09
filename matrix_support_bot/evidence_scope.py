@@ -18,9 +18,15 @@ def scope_evidence(domain, question, evidence):
                   and str(p.get('section','')).startswith(('Статья 14.','Статья 30.'))]
     from case_facts import case_facts
     facts=case_facts(question)
-    if (facts['kind']=='work_payment' and facts['user_reported_facts'].get('contract_reported')=='civil'
+    from retrieval_intents import civil_employment_comparison
+    comparing_contracts = civil_employment_comparison(question)
+    if (facts['user_reported_facts'].get('contract_reported') == 'civil'
+            and (comparing_contracts or facts['kind'] == 'work_payment')
             and not re.search(r'фактическ|признать.*трудов|подмен|притвор|трудовые отношения|маскир',q)):
-        evidence=[p for p in evidence if p['document_id'] not in {'labor','labor-wage-guide','labor-esutd-guide'}]
+        evidence = [p for p in evidence
+                    if p['document_id'] not in {'labor', 'labor-wage-guide', 'labor-esutd-guide'}
+                    or (comparing_contracts and p['document_id'] == 'labor'
+                        and str(p.get('section', '')).startswith('Статья 27.'))]
     # Bank and microcredit legislation have different subjects. Do not feed a
     # single-creditor question the other institution's special procedure.
     bank = bool(re.search(r'\bбанк(?:а|е|у|ом|и|ов|ах)?\b|банковск', q))
@@ -40,7 +46,12 @@ def scope_evidence(domain, question, evidence):
     if work_payment_question(question) and any(
             p['document_id'] == 'labor' and str(p.get('section', '')).startswith('Статья 113.') for p in evidence):
         relevant = []
+        from retrieval_intents import missing_written_employment_contract
+        needs_formation = missing_written_employment_contract(question)
         for p in evidence:
+            if needs_formation and p['document_id'] == 'labor' and str(p.get('section', '')).startswith('Статья 33.'):
+                relevant.append(p)
+                continue
             if p['document_id'] == 'labor-wage-guide' and re.search(r'куда|жалоб|жалова|инспекц|что дальше|не ответ', q):
                 relevant.append(p)
                 continue

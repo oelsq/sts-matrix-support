@@ -39,3 +39,45 @@ def checked_gesv_answer(domain,question,evidence):
               +text)
     text+='\n\nСохраните договор и график платежей. Уточните, речь о банковском займе или микрокредите МФО: это объяснение относится к банковским займам.'
     return render(domain,text,question,sources)
+
+
+def checked_receipt_classification(domain, question, evidence):
+    """Explain two source-backed categories without deciding a receipt's tax."""
+    from retrieval_intents import income_receipts_question
+
+    current = question.split('\nПредыдущий вопрос:')[0]
+    if (domain not in {'legal', 'finance'} or not income_receipts_question(current)
+            or is_document_request(current)
+            or not re.search(r'вс[её].{0,35}(?:одн|зарплат)|смеш|разн|вид[ыа].{0,15}поступ|часть.{0,60}часть', current, re.I)
+            or re.search(r'рассч|посчит|вычисл|сколько|ставк|декларац|срок|жалоб|обжалов|штраф|корпоративн', current, re.I)):
+        return None
+
+    def clause(section, *phrases):
+        return next((passage for passage in evidence
+                     if passage['document_id'] == 'tax'
+                     and str(passage.get('section', '')).startswith(section)
+                     and all(phrase in ' '.join(passage['text'].split()) for phrase in phrases)), None)
+
+    employment = clause('Статья 372.', 'полученные от работодателя', 'в связи с наличием трудовых отношений')
+    categories = clause('Статья 371.', 'все виды его доходов', 'доход от реализации товаров, выполнения работ, оказания услуг')
+    if employment is None or categories is None:
+        return None
+
+    answer = (
+        '**По одному зачислению на карту нельзя автоматически считать все поступления зарплатой.** '
+        'Сначала нужно различить основания каждой суммы.\n\n'
+        'Налоговый кодекс связывает доход работника с получением оплаты и иной материальной выгоды '
+        'от работодателя в связи с трудовыми отношениями. [S1] '
+        'Отдельно перечисляются виды доходов, включая доход работника и доход от реализации товаров, '
+        'выполнения работ, оказания услуг. [S2]\n\n'
+        '**Как разобрать ваши поступления**\n'
+        '- Разделите операции: дата, сумма, отправитель и назначение каждой.\n'
+        '- Для оплаты работы проверьте договор и основание выплаты: трудовые отношения, услуги или подряд.\n'
+        '- Для возврата личного долга сохраните подтверждение первоначальной передачи денег, '
+        'условий возврата и обратного перевода.\n\n'
+        'По этим сведениям можно отдельно проверить каждое основание. Точный налог и налоговый режим '
+        'конкретного возврата долга по этим двум положениям ещё не установлены.\n\n'
+        'За какой период поступили деньги и по какому договору оплачена работа? '
+        'Достаточно обезличенных сведений, без ИИН и номеров счетов.'
+    )
+    return render(domain, answer, question, [employment, categories])

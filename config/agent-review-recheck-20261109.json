@@ -1,0 +1,487 @@
+{
+  "schema_version": 1,
+  "notes": "Frozen before the candidate campaign. Eighteen unchanged baseline questions/answer criteria, eight new formulations. Retrieval-only alias tax-2026 corrected to tax, the original baseline packet is retained.",
+  "cases": [
+    {
+      "id": "nov08-labor-unpaid-no-contract",
+      "domain": "legal",
+      "question": "Три недели работал в кафе, деньги не заплатили. Бумажного договора нет, есть переписка и график смен. Получается, требовать оплату бесполезно?",
+      "previous_questions": [],
+      "required": {
+        "work": "работ|труд",
+        "evidence": "переписк|график|доказательств|подтвержд"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "labor",
+          "section": "Статья 33."
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-civil-payment-followup",
+      "domain": "legal",
+      "question": "У меня договор оказания услуг как у самозанятого. Это всё равно задолженность по зарплате?",
+      "previous_questions": [
+        "За работу не заплатили. Как определить, с чего начать?"
+      ],
+      "required": {
+        "contract": "гражданск|ГПХ|услуг|заказчик",
+        "distinction": "трудов|зарплат"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "civil-special",
+          "section": "Статья 683."
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-goods-fault-after-use",
+      "domain": "legal",
+      "question": "У зимней куртки разошёлся шов на второй день. Магазин говорит, что раз надел, то возврата нет. Как отличить правила обмена исправной вещи от требований по недостатку?",
+      "previous_questions": [],
+      "required": {
+        "fault": "недостат|дефект|ненадлежащ|брак",
+        "distinction": "исправ|надлежащ|неиспольз|употреблен"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "consumer-law",
+          "section": "Статья 15."
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-goods-sound-exchange",
+      "domain": "legal",
+      "question": "Купил исправную рубашку, дома понял, что размер велик. Бирки целы, не носил. Это безусловный возврат денег или есть условия и порядок обмена?",
+      "previous_questions": [],
+      "required": {
+        "condition": "услови|размер|употреблен",
+        "exchange": "обмен|замен"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "consumer-law",
+          "section": "Статья 14."
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-shop-image-two-rights",
+      "domain": "legal",
+      "question": "В магазине снимаю цену на полке. Заодно в кадре покупатель крупным планом, видео хочу выложить. Разрешение снимать товары автоматически разрешает публикацию чужого лица?",
+      "previous_questions": [],
+      "required": {
+        "shop": "товар|цен|магазин|продав",
+        "image": "соглас|изображен|публикац"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "consumer-law",
+          "section": "Статья 24."
+        },
+        {
+          "document": "civil-general",
+          "section": "Статья 145."
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-personal-camera-not-biometric",
+      "domain": "legal",
+      "question": "Я обычным телефоном снимаю прогулку в парке для семейного архива. Это уже биометрическая идентификация прохожих или нужно различать эти ситуации?",
+      "previous_questions": [],
+      "required": {
+        "distinction": "биометр|идентификац|распознаван",
+        "context": "личн|семейн|обработк|цель"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "personal-law",
+          "section": "Статья 3."
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-rental-normal-wear",
+      "domain": "legal",
+      "question": "Хозяин удержал депозит за потёртости на старом диване. В акте въезда уже есть отметка о его износе. Какие обстоятельства меняют оценку удержания?",
+      "previous_questions": [],
+      "required": {
+        "comparison": "акт|состоян|износ",
+        "basis": "договор|основан|расч[её]т"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "civil-special",
+          "section": "Статья 561."
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-copyright-versus-image",
+      "domain": "legal",
+      "question": "Фотограф разрешил мне использовать снимок, но на фото узнаваемый другой человек. Разрешения автора достаточно для любой публикации?",
+      "previous_questions": [],
+      "required": {
+        "author": "автор|фотограф",
+        "person": "изображен|соглас|личн"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "copyright",
+          "section": "Статья 16."
+        },
+        {
+          "document": "civil-general",
+          "section": "Статья 145."
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-human-choice-help",
+      "domain": "legal",
+      "question": "Если мне не понравился сотрудник юрдепа, как выбрать другого и какие команды у тебя есть?",
+      "previous_questions": [],
+      "required": {
+        "commands": "!сотрудники",
+        "change": "!другой|!юрдеп"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-topic-reset-mortgage-to-rent",
+      "domain": "legal",
+      "question": "А теперь другой вопрос: хозяин съёмной квартиры удержал депозит. Какие документы собрать для проверки?",
+      "previous_questions": [
+        "Квартира в ипотеке. Может ли уведомление банка само означать переход собственности?"
+      ],
+      "required": {
+        "rent": "аренд|найм|хозяин",
+        "packet": "договор|акт|расч[её]т"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-percentage-replace-followup",
+      "domain": "finance",
+      "question": "А после вычета уже 12% сколько останется от исходной суммы?",
+      "previous_questions": [
+        "Сколько составят 17,5% от 2,4 миллиона тенге?"
+      ],
+      "required": {
+        "result": "2[ \\u00a0\\u202f]?112[ \\u00a0\\u202f]?000"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-percentage-add-followup",
+      "domain": "finance",
+      "question": "Прибавь к исходной сумме 5%, сколько получится?",
+      "previous_questions": [
+        "Сколько будет 13% от 2,4 миллиона тенге?"
+      ],
+      "required": {
+        "result": "2[ \\u00a0\\u202f]?520[ \\u00a0\\u202f]?000"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-apr-insurance-followup",
+      "domain": "finance",
+      "question": "То есть страховка включается всегда, независимо от условий займа?",
+      "previous_questions": [
+        "ГЭСВ и номинальная ставка по банковскому займу — чем отличаются?"
+      ],
+      "required": {
+        "insurance": "страхов",
+        "condition": "услови|влияет|связ"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "bank-fees-2026",
+          "section": ""
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-restructure-obligation",
+      "domain": "finance",
+      "question": "Я направил заявление о реструктуризации. Сам факт подачи означает, что банк обязан согласиться на мой новый платёж?",
+      "previous_questions": [],
+      "required": {
+        "condition": "решени|услови|соглас|автоматич|одобрен",
+        "action": "ответ|основан|заявлен"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "banks",
+          "section": ""
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-casco-versus-own-ogpo",
+      "domain": "finance",
+      "question": "Моя машина повреждена, КАСКО отказало из-за условия договора. Моя же страховка ОГПО вместо КАСКО автоматически покроет ремонт?",
+      "previous_questions": [],
+      "required": {
+        "liability": "ответственност|треть|потерпевш",
+        "distinction": "КАСКО|сво|собственн|автоматич"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "auto-insurance",
+          "section": "Статья 3."
+        },
+        {
+          "document": "civil-special",
+          "section": "Статья 839."
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-insurance-write-reasons",
+      "domain": "finance",
+      "question": "Составь короткий запрос страховщику о причинах отказа и точном пункте договора, без обещания выплаты.",
+      "previous_questions": [
+        "КАСКО отказало, но в сообщении нет конкретного пункта договора."
+      ],
+      "required": {
+        "draft": "Прошу",
+        "basis": "пункт|услови|основан|причин"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-phishing-link",
+      "domain": "finance",
+      "question": "Пришла SMS якобы от банка: для отмены чужого кредита просят перейти по ссылке и назвать код. Что делать прямо сейчас?",
+      "previous_questions": [],
+      "required": {
+        "protect": "не переход|не сообщ|не ввод|официальн",
+        "action": "банк|провер|сохран"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "nb-phishing-loan",
+          "section": ""
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov08-income-tax-versus-revenue",
+      "domain": "finance",
+      "question": "На карту пришло 900000 тенге: часть за работу, часть вернул друг как долг. Можно считать всё одной зарплатой и удержать одинаковый налог?",
+      "previous_questions": [],
+      "required": {
+        "distinction": "доход|основан|источник|назначен|вид",
+        "condition": "долг|зарплат|оплат|договор"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [
+        {
+          "document": "tax",
+          "section": ""
+        }
+      ],
+      "candidate_reference": "Решить текущую задачу, сохранить сообщённые факты и существенные условия. Указать конкретный пробел при недостатке данных. Не обещать исход спора или неизвестные условия продукта.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-original-base-eight-percent",
+      "domain": "finance",
+      "question": "Вычти из исходной суммы 8%, сколько останется?",
+      "previous_questions": [
+        "Сколько будет 19% от 3,25 миллиона тенге?"
+      ],
+      "required": {
+        "result": "2[ \\u00a0\\u202f]?990[ \\u00a0\\u202f]?000"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-original-base-add-two",
+      "domain": "legal",
+      "question": "Прибавь к исходной сумме 2%, сколько получится?",
+      "previous_questions": [
+        "Сколько будет 10% от 750000 тенге?"
+      ],
+      "required": {
+        "result": "765[ \\u00a0\\u202f]?000"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-reset-loan-to-rental",
+      "domain": "finance",
+      "question": "Теперь другой вопрос: хозяин съёмной квартиры удержал депозит. Какие документы собрать?",
+      "previous_questions": [
+        "Мне пришло ипотечное уведомление, банк уже собственник квартиры?"
+      ],
+      "required": {
+        "rental": "аренд|найм",
+        "packet": "акт|расч[её]т|договор"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-finance-staff-choice",
+      "domain": "finance",
+      "question": "Если мне не понравился сотрудник финдепа, как выбрать другого и какие команды доступны?",
+      "previous_questions": [],
+      "required": {
+        "help": "!сотрудники",
+        "switch": "!другой"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-photo-author-and-person",
+      "domain": "legal",
+      "question": "Автор фотоснимка дал разрешение на публикацию. На снимке узнаваем незнакомый человек. Разрешение автора снимает вопрос согласия изображённого лица?",
+      "previous_questions": [],
+      "required": {
+        "author": "автор",
+        "person": "изображен|соглас|человек"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-explicit-civil-contract",
+      "domain": "legal",
+      "question": "Заказчик не оплатил работу по договору подряда. Трудового договора у нас нет. Нужно ли требовать именно зарплату или учитывать вид договора?",
+      "previous_questions": [],
+      "required": {
+        "civil": "гражданск|подряд|заказчик|ГПХ",
+        "difference": "зарплат|трудов"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-receipts-income-or-debt",
+      "domain": "finance",
+      "question": "Мне перечислили оплату услуги, а отдельным переводом вернули личный долг. Какие факты нужны, чтобы не смешать виды поступлений при проверке налога?",
+      "previous_questions": [],
+      "required": {
+        "kind": "основан|назначен|договор|источник|характер",
+        "receipts": "доход|долг|поступлен"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    },
+    {
+      "id": "nov09-family-video-identification",
+      "domain": "legal",
+      "question": "Снимаю прогулку в парке на обычный телефон для семейного альбома. Чем такая запись отличается от обработки лица для установления личности?",
+      "previous_questions": [],
+      "required": {
+        "difference": "идентификац|личност|распознаван|биометр",
+        "scope": "личн|семейн|обработк"
+      },
+      "forbidden": {},
+      "sources": [],
+      "retrieval_anchors": [],
+      "candidate_reference": "Дать прямой ответ на текущую задачу. Различать правовые основания, пользовательские факты и организационные советы. Сохранять условия и исключения, неизвестные факты уточнять.",
+      "reference_status": "awaiting_specialist"
+    }
+  ]
+}

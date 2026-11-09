@@ -86,6 +86,8 @@ def request_clarification(domain: str, question: str, previous_question: str = "
 
 
 def retrieval_question(question: str, previous_question: str = "") -> str:
+    if re.match(r"^(?:а\s+)?(?:теперь\s+)?(?:другой|новый)\s+вопрос\b", question, re.I):
+        return question
     # Short follow-ups need the user's topic, not an earlier generated answer
     # (which could contain a mistake). The current request remains first.
     # A new named bank or product must not inherit the preceding bank's tariff.
@@ -109,7 +111,7 @@ def retrieval_question(question: str, previous_question: str = "") -> str:
                                 and not re.search(r'ДТП|страхов.{0,8}случа|отказ.{0,20}выплат|выплат.{0,20}страхов',question,re.I))
     # Explicit bounded continuation, including one without the leading «А».
     # The calculator itself still requires an unambiguous user-supplied base.
-    arithmetic_followup=bool(re.match(r'^(?:после (?:вычета|удержания|прибавления|добавления)|сколько (?:останется|получится))\b',question,re.I)
+    arithmetic_followup=bool(re.match(r'^(?:после (?:вычета|удержания|прибавления|добавления)|сколько (?:останется|получится)|прибавь|добавь|вычти|отними)\b',question,re.I)
                              and re.search(r'%|процент',previous_question,re.I))
     fact_followup=bool(re.match(r'^(?:у меня |я работаю |работаю |)(?:договор (?:ГПХ|подряда|оказания услуг)|трудового договора нет|нет трудового договора|есть гарантия|гарантии нет)',question,re.I))
     followup = re.match(r"^(а\b|и\b|тогда\b|если\b|это\b|почему\b|какой\b|какие\b|сколько\b|кому\b|что (?:дальше|подготовить|приложить|запросить)|мне (?:нужен|нужна|нужно)|поясни|объясни|уточни)", question, re.I)
@@ -187,6 +189,11 @@ def work_payment_question(question: str) -> bool:
     q = question.casefold().replace('ё', 'е')
     current = q.split('\nпредыдущий вопрос:')[0]
     if re.search(r'гпх|гражданск|подряд|оказани.{0,12}услуг', current):
+        return False
+    # A question about the tax classification of receipts is not a report
+    # of unpaid wages merely because it mentions both salary and a debt.
+    if (re.search(r'налог|доход', current)
+            and not re.search(r'невыплат|не\s+(?:плат|выда|отда|выплат)|задерж|задолж', current)):
         return False
     wages = re.search(r'жалақ|зарплат|заработн.{0,16}плат|начальник|ден[ье]г.{0,20}за работу', q)
     trouble = re.search(r'төлемей|төленбей|невыплат|не\s+(?:плат|выда|отда)|задерж|задолж|просроч|долг', q)

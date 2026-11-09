@@ -215,11 +215,23 @@ def arithmetic_reply(question,previous_question=''):
                 # Strip only a demonstrative immediately before an explicit
                 # percentage. Do not remove a sign or arbitrary user words.
                 if not prefix.rstrip().endswith(('-', '+')):
-                    prefix=re.sub(r'(?:этих|указанных|тех же)\s*$', '', prefix)
+                    prefix=re.sub(r'(?:этих|указанных|тех же|уже)\s*$', '', prefix)
                     operation_text=' '.join((prefix+q[token.end():]).split())
                     explicit_rate=token.group()
+            operation_text = re.sub(
+                r'\s+от\s+(?:исходной|первоначальной)\s+суммы(?=[?!. ]*$)',
+                '', operation_text,
+            )
+            imperative = re.fullmatch(
+                r'(?:а )?(прибавь|добавь|вычти|отними) (?:к исходной сумме|из исходной суммы)'
+                r'(?:\s*,?\s*сколько (?:получится|останется))?[?!. ]*',
+                operation_text,
+            )
+            if imperative and explicit_rate:
+                adding = imperative[1] in {'прибавь', 'добавь'}
+                operation_text = 'после прибавления' if adding else 'после вычета'
             operation = re.fullmatch(r'(?:а )?(?:(?:сколько )?(?:останется|получится)|(?:после (?:вычета|удержания|прибавления|добавления))(?: сколько (?:останется|получится))?)(?: после (?:вычета|удержания|прибавления|добавления))?[?!. ]*', operation_text)
-            if operation and re.search(r'вычет|удержан|прибавлен|добавлен', q):
+            if operation and re.search(r'вычет|удержан|прибавлен|добавлен|прибавь|добавь|вычти|отними', q):
                 latest_rate = explicit_rate
                 for previous in reversed(previous_question.splitlines()[-4:]):
                     previous = previous.casefold().replace('ё', 'е').strip()
@@ -233,10 +245,10 @@ def arithmetic_reply(question,previous_question=''):
                         continue
                     if (len(rates) == 1 and len(amounts) == 1 and _percent(previous)
                             and not re.search(r'остан|остат|прибав|добав|выч|удерж|увелич|уменьш|скидк|вся сумма|от какой|(?:^|\s)это\s+\d|составляет', previous)):
-                        sign = 'прибавь' if re.search(r'прибавлен|добавлен', q) else 'вычти'
+                        sign = 'прибавь' if re.search(r'прибавлен|добавлен|прибавь|добавь', q) else 'вычти'
                         inherited = _percent(sign+' '+(latest_rate or rates[0].group())+' от '+amounts[0].group())
                         if inherited:
-                            return inherited+'\n\nСумма и процент взяты из ваших предыдущих расчётных вопросов.'
+                            return inherited+'\n\nИсходная сумма взята из ваших предыдущих расчётных вопросов. Использован явно указанный вами процент.'
                     break
                 return 'Уточните исходную сумму и процент, который нужно вычесть или прибавить.'
             if '%' in q or re.search(r'процент(?:а|ов)?\b',q):

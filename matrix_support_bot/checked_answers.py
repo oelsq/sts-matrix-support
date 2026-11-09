@@ -295,6 +295,9 @@ def checked_work_payment_answer(domain, question, evidence):
     current = question.split("\nПредыдущий вопрос:")[0]
     if domain not in {'legal', 'finance'} or not work_payment_question(question):
         return None
+    from retrieval_intents import missing_written_employment_contract
+    if missing_written_employment_contract(question):
+        return None
     # A service contract or dismissal requires different analysis. Don't turn
     # an inherited wage topic into an answer to a different current question.
     if re.search(r'гпх|гражданск|подряд|оказани.{0,12}услуг|увол|прекращ|расторж', question, re.I):
