@@ -3,8 +3,8 @@ import pytest
 
 from agents import messages, review_messages
 from answer_style import style_guidance
-from agentflow_graphs import MARKER
-from agentflow_claims import make_quality_packet, validate_audit
+from review_packet import MARKER
+from claim_validation import make_quality_packet, validate_audit
 
 
 @pytest.mark.parametrize('domain',['legal','finance'])

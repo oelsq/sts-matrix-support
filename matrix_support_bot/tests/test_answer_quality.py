@@ -246,7 +246,7 @@ def test_actual_bot_callback_preserves_finance_conversation_and_draft(knowledge,
     import asyncio, time
     from types import SimpleNamespace
     import bot
-    from flowise_client import FlowiseClient
+
     outgoing, prompts = [], []
     room_id = '!finance-pilot:demo.local'
     class Flow:
@@ -280,7 +280,6 @@ def test_actual_bot_callback_preserves_finance_conversation_and_draft(knowledge,
     monkeypatch.setattr(bot, 'KnowledgeStore', lambda _: knowledge)
     monkeypatch.setattr(bot, 'department_roster', lambda _: {})
     monkeypatch.setattr(bot, 'read_llm_key', lambda: 'synthetic-key')
-    monkeypatch.setattr(FlowiseClient, 'from_env', lambda _: Flow())
     for name, value in {'MATRIX_HOMESERVER':'http://homeserver:8008','MATRIX_USER':'@bot:demo.local',
                         'MATRIX_PASSWORD':'synthetic-password','LLM_ENDPOINT':'http://litellm:4000/v1',
                         'LLM_MODEL':'synthetic-model','KNOWLEDGE_DIR':'synthetic',

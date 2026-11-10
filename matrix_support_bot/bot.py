@@ -97,21 +97,13 @@ async def main():
         )
     latest_context = {}
     previous_routes = {}
-    from flowise_client import FlowiseClient, FlowiseReviewRejected
-    flowise = FlowiseClient.from_env(os.environ)
-    if flowise:
-        for room_id, entry in flowise.routes.items():
-            if room_id in fixed_routes and fixed_routes[room_id] != entry["domain"]:
-                raise RuntimeError("Flowise domain conflicts with room route")
-            fixed_routes[room_id] = entry["domain"]
-        log.info("Flowise pilot rooms configured: %d", len(flowise.routes))
     free_mode = FreeReplyMode.from_env(os.environ, fixed_routes)
     log.info("Free model rooms configured: %d", len(free_mode.routes) if free_mode else 0)
     private_rooms=None
     if os.getenv('MATRIX_PRIVATE_AI_MODE') in {'1','optional'}:
         if crypto is None:raise RuntimeError('Private AI mode requires native E2EE')
         from private_rooms import PrivateRooms
-        private_rooms=PrivateRooms(inbox,client,fixed_routes,flowise,os.environ['ELEMENT_PUBLIC_URL'],cipher)
+        private_rooms=PrivateRooms(inbox,client,fixed_routes,os.environ['ELEMENT_PUBLIC_URL'],cipher,free_mode=free_mode)
     verification=None
     if crypto:
         from matrix_verification import DeviceVerification
@@ -135,9 +127,6 @@ async def main():
 
         async def ask_agent(domain, question, room_id, sender, event_id):
             local_evidence = None
-            route = flowise.routes.get(room_id,{}) if flowise else {}
-            quality = (route.get('domain')==domain and route.get('engine')=='agentflow_v2'
-                       and route.get('quality_contract')=='sts.claims.v1')
             search_question, previous_question = conversations.resolve(room_id, sender, domain, question, request_id=event_id)
             if free_mode and free_mode.selected(room_id, domain):
                 return await free_mode.reply(http, domain, question, knowledge,
@@ -146,14 +135,13 @@ async def main():
             retrieval_started = time.monotonic()
             prepared = await asyncio.to_thread(prepare_local_reply,domain, question, knowledge,
                                            search_question=search_question, previous_question=previous_question,
-                                           allow_model_without_sources=quality)
+                                           allow_model_without_sources=False)
             local_evidence = prepared.evidence
             log.info("Reply preparation: domain=%s mechanism=%s passages=%d elapsed_ms=%d continuation=%s",
                      domain, prepared.mechanism, len(local_evidence or []),
                      int((time.monotonic()-retrieval_started)*1000), bool(previous_question))
             if prepared.answer is not None:
                 return prepared.answer
-            workflow = bool(flowise and getattr(flowise,'is_workflow',lambda *_:False)(room_id,domain))
             payload = {
                 "model": model_for_domain(domain),
                 "messages": messages(domain, question, local_evidence,
@@ -162,18 +150,6 @@ async def main():
                 "temperature": 0.1,
             }
             async def complete(request, stage="draft"):
-                if workflow:
-                    from agentflow_graphs import MARKER
-                    context = {'question':question,'previous_question':previous_question or '', 'evidence':local_evidence}
-                    kwargs = {'context':context} if quality else {}
-                    result = await flowise.run_workflow(http,domain,room_id,sender,event_id,request['messages'],
-                                review_messages(domain,search_question,MARKER,local_evidence),**kwargs)
-                    log.info('Agentflows V2 workflow completed; domain=%s',domain)
-                    return {'choices':[{'message':{'content':result},'finish_reason':None}]}
-                if flowise and flowise.selected(room_id, domain):
-                    result = await flowise.predict(http, domain, room_id, sender, event_id, request["messages"], stage=stage)
-                    log.info("Flowise response received; domain=%s stage=%s", domain, stage)
-                    return {"choices": [{"message": {"content": result}, "finish_reason": None}]}
                 async with http.post(
                     os.environ["LLM_ENDPOINT"].rstrip("/") + "/chat/completions",
                     json=request,
@@ -182,25 +158,12 @@ async def main():
                     response.raise_for_status()
                     return await response.json()
 
-            if quality:
-                from quality_reply import quality_reply
-                try:
-                    result=await quality_reply(flowise,http,domain,room_id,sender,event_id,question,previous_question,
-                                               local_evidence,knowledge,search_question=search_question)
-                    log.info('Agentflows V2 workflow completed; domain=%s research=%d',domain,result.research_attempts)
-                    return result.answer
-                except FlowiseReviewRejected:
-                    return practical_fallback(domain,search_question,validation_failed=True)
             for attempt in range(2):
-                try:
-                    data = await complete(payload)
-                except FlowiseReviewRejected as exc:
-                    log.info("Agent claim review rejected; domain=%s", domain)
-                    return practical_fallback(domain, search_question, validation_failed=True)
+                data = await complete(payload)
                 answer = data["choices"][0]["message"]["content"]
                 if not isinstance(answer, str) or not answer.strip():
                     raise ValueError("Empty LLM response")
-                if local_evidence and not workflow:
+                if local_evidence:
                     review = {"model": model_for_domain(domain),
                               "messages": review_messages(domain, search_question, answer, local_evidence),
                               "max_tokens": 2300, "temperature": 0.1}
@@ -213,7 +176,7 @@ async def main():
                 truncated = data["choices"][0].get("finish_reason") == "length"
                 quality_issues = [] if citation_failure or domain == "general" else usefulness_issues(question, rendered)
                 citation_failure = citation_failure or truncated or bool(quality_issues)
-                if citation_failure and (attempt or quality):
+                if citation_failure and attempt:
                     log.info("Agent fallback: domain=%s reason=answer_validation", domain)
                     return practical_fallback(domain, search_question, validation_failed=True)
                 if not citation_failure:

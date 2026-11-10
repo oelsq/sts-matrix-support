@@ -18,6 +18,10 @@ def main():
     try:stage=validate_stage(a.stage)
     except ValueError as exc:p.error(str(exc))
     stage.mkdir(parents=True,exist_ok=True);project=Path('/home/admin_sts/sts-matrix-support/project').resolve();state=stage/'loadstate';state.mkdir(mode=0o700,exist_ok=True)
+    production=json.loads(subprocess.check_output(['docker','inspect','sts-team-demo-bot-1']))[0]
+    production_env=dict(v.split('=',1) for v in production['Config']['Env'])
+    key_destination=production_env['LLM_API_KEY_FILE']
+    key_mount=next(m for m in production['Mounts'] if m['Destination']==key_destination)
     suffix=secrets.token_hex(3);botname='sts-isolated-load-bot-'+suffix;runner='sts-isolated-load-client-'+suffix;auditor='sts-isolated-load-audit-'+suffix
     register=r'''
 import json,secrets,hashlib,hmac,urllib.request,yaml
@@ -43,14 +47,12 @@ print(json.dumps(result))
         finally:
             if os.path.exists(name):os.unlink(name)
     private(stage/'load-credentials.json',json.dumps(credentials))
-    routes=subprocess.check_output(['docker','exec','sts-team-demo-bot-1','cat','/app/handoff_state/flowise_rooms.json'],text=True);private(stage/'flow-routes-template.json',routes)
     env={'MATRIX_HOMESERVER':'http://homeserver:8008','MATRIX_USER':credentials['bot']['user_id'],'MATRIX_PASSWORD':credentials['bot']['password'],
-         'LLM_ENDPOINT':'http://litellm:4000/v1','LLM_MODEL':'legal-chat-qwen38-int4','LEGAL_LLM_MODEL':'legal-chat-qwen38-int4','FINANCE_LLM_MODEL':'legal-chat-qwen38-int4',
-         'LLM_API_KEY_FILE':'/run/secrets/litellm_key','KNOWLEDGE_DIR':'/app/offline_knowledge','OFFLINE_MODE':'1','MATRIX_ALLOWED_HOSTS':'homeserver','LLM_ALLOWED_HOSTS':'litellm',
-         'FLOWISE_URL':'http://flowise:3000','FLOWISE_ALLOWED_HOSTS':'flowise','FLOWISE_ROOM_ROUTES_FILE':'/app/state/flowise_rooms.json','FLOWISE_API_KEY_FILE':'/run/secrets/flowise_key',
-         'MATRIX_ROOM_ROUTES_FILE':'/app/state/absent.json','MATRIX_INBOX_DB':'/app/state/matrix_inbox.sqlite3','HANDOFF_DB':'/app/state/handoff.sqlite3',
+         'LLM_ENDPOINT':production_env['LLM_ENDPOINT'],'LLM_MODEL':production_env['LLM_MODEL'],'LEGAL_LLM_MODEL':production_env['LEGAL_LLM_MODEL'],'FINANCE_LLM_MODEL':production_env['FINANCE_LLM_MODEL'],
+         'LLM_API_KEY_FILE':key_destination,'KNOWLEDGE_DIR':'/app/offline_knowledge','OFFLINE_MODE':'1','MATRIX_ALLOWED_HOSTS':'homeserver','LLM_ALLOWED_HOSTS':'litellm',
+         'MATRIX_ROOM_ROUTES_FILE':'/app/state/room_routes.json','MATRIX_FREE_REPLY_ROOMS_FILE':'/app/state/room_routes.json','MATRIX_INBOX_DB':'/app/state/matrix_inbox.sqlite3','HANDOFF_DB':'/app/state/handoff.sqlite3',
          'LEGAL_DEPARTMENT_USERS':'','FINANCE_DEPARTMENT_USERS':'','PYTHONPATH':'/app:/app/tools'}
-    key_mounts=['-v','/home/admin_sts/.sts-litellm/key:/run/secrets/litellm_key:ro','-v',str(project/'.human-handoff-state/flowise_api_key')+':/run/secrets/flowise_key:ro','-v',str((a.knowledge or project/'offline_knowledge').resolve())+':/app/offline_knowledge:ro']
+    key_mounts=['-v',key_mount['Source']+':'+key_destination+':ro','-v',str((a.knowledge or project/'offline_knowledge').resolve())+':/app/offline_knowledge:ro']
     if a.semantic_root:
         semantic=a.semantic_root.resolve()
         if not all((semantic/n).is_dir() for n in ['model','index']):raise ValueError('Semantic assets missing')
@@ -74,15 +76,13 @@ print(json.dumps(result))
         if logs.returncode==0:
             text=logs.stdout+logs.stderr
             observations.append({'phase':current_phase,'preparation_mechanisms':dict(Counter(re.findall(r'mechanism=([a-z_]+)',text))),
-                'agentflow_completed':text.count('Agentflows V2 workflow completed;'),
                 'delivery_summary':[json.loads(v) for v in re.findall(r'Matrix delivery summary: (\{[^\n]+\})',text)],'rate_limit_log_lines':sum('429' in line or 'M_LIMIT_EXCEEDED' in line or 'rate limit' in line.casefold() for line in text.splitlines())})
             private(stage/'load-observations.json',json.dumps(observations))
         subprocess.run(['docker','rm','-f',botname],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     proc=None;audit_proc=None;handled=set()
     try:
-        # Same candidate and production Agentflows; this evaluation sends no Matrix messages.
-        private(envfile,'\n'.join(k+'='+v for k,v in dict(env,FLOWISE_ROOM_ROUTES_FILE='/stage/flow-routes-template.json').items())+'\n')
-        golden=subprocess.run(['docker','run','--rm','--network','llm-net','--env-file',str(envfile),*key_mounts,'-v',str(stage)+':/stage',a.candidate,'python','/app/tools/evaluate_golden.py','run','--live','flowise','--output','/stage/golden-live.json'])
+        # Same candidate and production model route; this evaluation sends no Matrix messages.
+        golden=subprocess.run(['docker','run','--rm','--network','llm-net','--env-file',str(envfile),*key_mounts,'-v',str(stage)+':/stage',a.candidate,'python','/app/tools/evaluate_golden.py','run','--live','direct','--output','/stage/golden-live.json'])
         print('Golden evaluation exit:',golden.returncode,flush=True)
         if golden.returncode:raise RuntimeError('Golden evaluation failed; inspect private report before load')
         private(envfile,'\n'.join(k+'='+v for k,v in env.items())+'\n')

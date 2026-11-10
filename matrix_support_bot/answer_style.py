@@ -17,7 +17,7 @@ def style_catalog():
 def style_guidance(domain, question):
     if domain not in {'legal', 'finance'}:
         return ''
-    from agentflow_claims import question_type
+    from claim_validation import question_type
     current = question.split('\nПредыдущий вопрос:')[0]
     kind = question_type(current)
     if kind == 'situation' and re.search(r'сравн|выгодн|выбрать между', current, re.I):

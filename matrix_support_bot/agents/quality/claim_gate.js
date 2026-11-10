@@ -1,4 +1,4 @@
-// Flowise custom-function body; no network, filesystem or tool access.
+// Local reference validator; no network, filesystem or tool access.
 const norm = v => v.split(/\s+/).join(' ').trim();
 const headings = new Set(['коротко','что сделать сейчас','что можно сделать','важно','черновик','уточните','расчёт','расчет','необходимые данные','вывод','как использовать','юридический агент','финансовый агент']);
 const unitize = answer => answer.split('\n').flatMap(line=>line.split(/(?<=[.!?])(?<!\d[.])\s+(?=[А-ЯЁA-Z])/)).map(t=>t.trim()).filter(t=>t && !headings.has(t.replace(/^#{1,6}\s*|[*:]/g,'').trim().toLowerCase())).map((text,i)=>({id:'C'+(i+1),text}));

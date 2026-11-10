@@ -1,5 +1,4 @@
-# Доступ к Element и Flowise на VM
-
+# Доступ к Element на VM
 Teleport переехал на `ztna.nitec.kz`. Для этой VM используется узел `sts-vm-06` и SSH-пользователь `admin_sts`. Старый адрес `ztna.data.gov.kz` не используйте для этого подключения.
 
 В терминале Mac войдите под своим Teleport-логином, заменив `YOUR_TELEPORT_LOGIN`:
@@ -10,19 +9,17 @@ tsh login --proxy=ztna.nitec.kz --user=YOUR_TELEPORT_LOGIN
 
 Пароль и MFA вводятся в терминале. Успешный `tsh status --proxy=ztna.nitec.kz` показывает неистёкшую сессию нового домена.
 
-Откройте оба туннеля одной командой:
+Откройте туннель к Element:
 
 ```bash
 tsh ssh --proxy=ztna.nitec.kz -N \
   -L 127.0.0.1:18081:127.0.0.1:8081 \
-  -L 127.0.0.1:13001:127.0.0.1:13001 \
   admin_sts@sts-vm-06
 ```
 
 Сервисы работают на VM; команда открывает доступ к ним с Mac:
 
 - Element: http://localhost:18081
-- Flowise: http://localhost:13001
 
 После успешного запуска терминал обычно остаётся без вывода — режим `-N` поддерживает туннели. Оставьте его открытым. `Ctrl+C` закрывает туннели; контейнеры на VM продолжают работать. При уже открытых туннелях второй экземпляр команды может сообщить, что порт занят.
 
@@ -30,7 +27,6 @@ tsh ssh --proxy=ztna.nitec.kz -N \
 
 ```bash
 curl -I http://localhost:18081/
-curl -I http://localhost:13001/
 curl http://localhost:18081/_matrix/client/versions
 ```
 

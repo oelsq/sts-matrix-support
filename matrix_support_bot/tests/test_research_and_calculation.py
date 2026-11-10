@@ -6,9 +6,7 @@ from cashflow_calculator import calculate,calculator_reply,CalculationInputError
 from evidence_research import research_evidence
 from case_facts import case_facts
 from source_applicability import applicable,tariff_review_due
-from flowise_client import FlowiseReviewRejected
 from review_result import ReviewedAnswer,ReviewDetails
-from quality_reply import quality_reply
 
 DATA={'amount_received':'95000','received_on':'2026-10-01','currency':'KZT','payments':[{'date':'2026-11-01','amount':'55000'},{'date':'2026-12-01','amount':'55000'}],'extra_costs':'0','schedule_complete':True}
 
@@ -86,42 +84,8 @@ def test_specific_fact_followup_preserves_user_topic():
     assert memory.resolve('r','other','legal','У меня договор ГПХ')[1]==''
 
 
-@pytest.mark.parametrize('partial_first,second_fails',[(False,False),(False,True),(True,False),(True,True)])
-def test_shared_quality_path_researches_once_and_preserves_verified_partial(monkeypatch,partial_first,second_fails):
-    import quality_reply as module
-    old=p('old');new=p('new');calls=[]
-    class Store:
-        def search(self,*args,**kwargs):return [old,new]
-    class Flow:
-        async def run_workflow(self,*args,**kwargs):
-            sources=kwargs['context']['evidence'];calls.append(sources)
-            if len(calls)==1:
-                if partial_first:return ReviewedAnswer('Подтверждённая часть.',ReviewDetails((),True,'situation',('нужное условие',)))
-                raise FlowiseReviewRejected('Needs evidence',retrieval_hints=('нужное условие',))
-            if second_fails:raise FlowiseReviewRejected('Still unsupported')
-            assert new in sources
-            return ReviewedAnswer('Ответ после поиска.',ReviewDetails((),False,'situation'))
-    monkeypatch.setattr(module,'render',lambda _domain,answer,*args,**kwargs:answer)
-    monkeypatch.setattr(module,'usefulness_issues',lambda *args:[])
-    async def run():return await quality_reply(Flow(),None,'legal','room','user','event','Поясни условие','',[old],Store())
-    if second_fails and not partial_first:
-        with pytest.raises(FlowiseReviewRejected):asyncio.run(run())
-    else:
-        result=asyncio.run(run())
-        assert result.answer==('Подтверждённая часть.' if second_fails else 'Ответ после поиска.')
-        assert result.evidence==([old] if second_fails else [old,new])
-    assert len(calls)==2
 
 
-def test_review_hints_cannot_disable_scope_or_create_an_unbounded_loop(monkeypatch):
-    import quality_reply as module
-    old=p('old');calls=[]
-    class Store:
-        def search(self,*args,**kwargs):return [old]
-    class Flow:
-        async def run_workflow(self,*args,**kwargs):calls.append(1);raise FlowiseReviewRejected('No evidence')
-    with pytest.raises(FlowiseReviewRejected):asyncio.run(quality_reply(Flow(),None,'legal','r','u','e','Вопрос','',[old],Store()))
-    assert len(calls)==1
 
 
 def test_explicit_same_act_reference_keeps_exclusions_and_access_scope():
@@ -189,9 +153,9 @@ def test_finance_intents_do_not_confuse_deposit_with_rental_or_auto_repair():
 
 
 def test_quality_packet_preserves_breach_exception_and_civil_context():
-    from agentflow_claims import make_quality_packet
+    from claim_validation import make_quality_packet
     from agents import messages,review_messages
-    from agentflow_graphs import MARKER
+    from review_packet import MARKER
     def packet(q,sources):
         return make_quality_packet('finance',messages('finance',q,sources),review_messages('finance',q,MARKER,sources),{'question':q,'evidence':sources})['quality']
     quality=packet('ГЭСВ и номинальная ставка — какая разница?',[p('rule','Не включаются платежи из-за нарушения условий, включая неустойку и иные виды штрафных санкций.')])

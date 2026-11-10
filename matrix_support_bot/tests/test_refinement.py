@@ -4,10 +4,6 @@ import pytest
 from retrieval_intents import query_hints
 from local_reply import prepare_model_evidence
 from answer_focus import drafting_focus
-from test_quality_refresh import fixtures
-from agentflow_quality_refresh import refresh_plan
-from agentflow_quality_graph import DRAFT
-from agentflow_upgrade import apply_plan,rollback_plan
 
 @pytest.mark.parametrize('question,forbidden',[
     ('Как оформить бумагу для коллеги?', 'state-services'),
@@ -27,21 +23,6 @@ def test_ambiguous_or_different_concepts_do_not_get_specific_statute_hint(questi
     assert forbidden not in query_hints(question)[1]
 
 
-def test_refresh_updates_first_draft_instructions_but_preserves_private_model_config_and_rollback():
-    routes,flows,api=fixtures()
-    for value in flows.values():
-        graph=json.loads(value['flowData'])
-        node=next(n for n in graph['nodes'] if n['id']=='agentAgentflow_0')
-        node['data']['inputs']['agentMessages']=[{'role':'system','content':'previous instructions'}]
-        value['flowData']=json.dumps(graph)
-    before=copy.deepcopy(flows);plan=refresh_plan(routes,api);apply_plan(plan,routes,api,lambda _:None)
-    for domain,value in flows.items():
-        node=next(n for n in json.loads(value['flowData'])['nodes'] if n['id']=='agentAgentflow_0')
-        old=next(n for n in json.loads(before[domain]['flowData'])['nodes'] if n['id']=='agentAgentflow_0')
-        assert node['data']['inputs']['agentMessages'][0]['content'].startswith(DRAFT)
-        assert node['data']['inputs']['agentModelConfig']==old['data']['inputs']['agentModelConfig']
-        assert value['apikeyid']==before[domain]['apikeyid']
-    rollback_plan(plan,routes,api,lambda _:None);assert flows==before
 
 
 def passage(ident,domain='legal'):
@@ -90,10 +71,10 @@ def test_criteria_comparison_exports_no_answer_or_expert_approval_and_keeps_forb
 
 
 @pytest.mark.parametrize('phrase',['имущественное положение','**имущественное положение**','имущественное\u00a0положение','_имущественное положение_'])
-def test_python_and_actual_flowise_gate_keep_conditions_through_presentation_markup(phrase):
+def test_python_and_local_reference_gate_keep_conditions_through_presentation_markup(phrase):
     import shutil,subprocess
     from pathlib import Path
-    from agentflow_claims import make_quality_packet,accept_quality_response
+    from claim_validation import make_quality_packet,accept_quality_response
     if not shutil.which('node'):pytest.skip('Node unavailable')
     source={'id':'example','text':'Договор определяет имущественное положение детей.','document_id':'example'}
     pair=([{'role':'system','content':'Source data'},{'role':'user','content':'Question'}],[{'role':'system','content':'Review'},{'role':'user','content':'__STS_DRAFT_TO_REVIEW__'}])
@@ -111,7 +92,7 @@ def test_python_and_actual_flowise_gate_keep_conditions_through_presentation_mar
 
 
 def test_condition_normalization_keeps_negation_and_only_removes_presentation():
-    from agentflow_claims import constraint_text
+    from claim_validation import constraint_text
     assert constraint_text('Не **означает**\n\u00a0единоличное решение')=='Не означает единоличное решение'
     assert 'Не' in constraint_text('Не _означает_ единоличное решение')
 
@@ -134,7 +115,7 @@ def test_bounded_parallel_evaluation_keeps_case_order_and_counts_only_real_attem
         await asyncio.sleep(.03 if case_id=='case-0' else .005)
         active-=1;completion.append(case_id);return 'Useful synthetic answer.'
     monkeypatch.setattr(evaluate_helpfulness,'live_answer',model)
-    args=NS(force_model=False,concurrency=2,live='flowise',cases=path,knowledge=tmp_path,reviews=None,progress=True,output=tmp_path/'result.json')
+    args=NS(force_model=False,concurrency=2,live='direct',cases=path,knowledge=tmp_path,reviews=None,progress=True,output=tmp_path/'result.json')
     assert asyncio.run(evaluate_golden.run(args))==0
     result=json.loads(args.output.read_text())
     assert maximum==2 and completion[0]!='case-0'

@@ -5,7 +5,7 @@ import shutil
 import subprocess
 
 import pytest
-from agentflow_claims import make_quality_packet, accept_quality_response, validate_audit
+from claim_validation import make_quality_packet, accept_quality_response, validate_audit
 from agents import render
 from message_format import matrix_content
 from numeric_grounding import numeric_facts
@@ -94,7 +94,7 @@ def test_explicit_version_quote_is_preserved_and_review_date_is_not_invented():
     'Проверьте, что договор регулирует имущественные права детей.',
 ])
 def test_legal_assertion_inside_an_action_is_not_uncited_advice_in_python_or_node(text):
-    from agentflow_claims import safe_advice
+    from claim_validation import safe_advice
     assert not safe_advice(text)
     prefix=GATE.read_text().split('const answer = $flow.state.draft;')[0]
     result=json.loads(subprocess.check_output(['node','-e',prefix+'console.log(JSON.stringify(safeAdvice('+json.dumps(text)+')));'],text=True))
@@ -102,7 +102,7 @@ def test_legal_assertion_inside_an_action_is_not_uncited_advice_in_python_or_nod
 
 
 def test_short_regulatory_definition_does_not_request_a_situation_action_plan():
-    from agentflow_claims import question_type
+    from claim_validation import question_type
     assert question_type('Что регулирует брачный договор?')=='definition'
 
 

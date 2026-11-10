@@ -1,6 +1,5 @@
 """Per-user encrypted specialist rooms; an AI room never mixes its owners."""
 import asyncio
-import copy
 import hashlib
 import hmac
 import json
@@ -13,18 +12,13 @@ ALGORITHM='m.megolm.v1.aes-sha2'
 
 
 class PrivateRooms:
-    def __init__(self, inbox, client, fixed_routes, flowise, public_url, cipher):
+    def __init__(self, inbox, client, fixed_routes, public_url, cipher, *, free_mode=None):
         if cipher is None:raise CryptoPolicyError('Private AI rooms need protected state')
-        self.inbox,self.client,self.fixed,self.flow,self.cipher=inbox,client,fixed_routes,flowise,cipher
+        self.inbox,self.client,self.fixed,self.cipher=inbox,client,fixed_routes,cipher
         self.public_url=public_url.rstrip('/')
+        self.free_mode=free_mode
+        self.free_domains={domain for room,domain in (free_mode.routes.items() if free_mode else []) if fixed_routes.get(room)==domain}
         self.locks={}
-        self.templates={}
-        if flowise:
-            for domain in ['legal','finance']:
-                candidates=[v for room,v in flowise.routes.items() if fixed_routes.get(room)==domain and v.get('domain')==domain and v.get('engine')=='agentflow_v2' and v.get('quality_contract')=='sts.claims.v1']
-                ids={v['flow_id'] for v in candidates}
-                if len(ids)!=1:raise CryptoPolicyError('Select one active quality flow per specialist')
-                self.templates[domain]=copy.deepcopy(candidates[0])
         self.inbox.db.execute('CREATE TABLE IF NOT EXISTS private_ai_rooms (owner TEXT,domain TEXT,room TEXT UNIQUE,alias TEXT NOT NULL,PRIMARY KEY(owner,domain))')
         self.inbox.db.commit()
         self.records={}
@@ -34,7 +28,7 @@ class PrivateRooms:
     def _attach(self, owner, domain, room):
         self.records[room]={'owner':owner,'domain':domain}
         self.fixed[room]=domain
-        if self.flow:self.flow.routes[room]=copy.deepcopy(self.templates[domain])
+        if self.free_mode and domain in self.free_domains:self.free_mode.routes[room]=domain
 
     def known_peer(self, user):
         return any(value['owner']==user for value in self.records.values())

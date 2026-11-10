@@ -42,7 +42,7 @@ def archive_review():
     data = json.loads((ROOT / source).read_text())
     for phase in ('baseline', 'candidate', 'refinement', 'real_matrix'):
         for index, row in enumerate(data.get(phase, [])):
-            if row.get('generation') == 'agentflow_v2' and row.get('answer'):
+            if row.get('generation') == 'direct_model' and row.get('answer'):
                 records.append((source, f'/{phase}/{index}', row))
     source = 'reports/model-comparison-20261012.json'
     for index, row in enumerate(json.loads((ROOT/source).read_text()).get('cases', [])):
@@ -67,49 +67,14 @@ def archive_review():
 async def live_answer(domain, question, evidence, previous, mode, case_id, *, knowledge=None):
     import os
     import aiohttp
-    from agents import messages, review_messages, render
-    from flowise_client import FlowiseClient
+    from free_reply import FreeReplyMode
     from llm_settings import api_key, model_for_domain
-    flow = FlowiseClient.from_env(os.environ) if mode == 'flowise' else None
-    if mode == 'flowise' and not flow:
-        raise RuntimeError('Flowise configuration is unavailable')
+    if mode != 'direct':
+        raise ValueError('Only direct model evaluation is supported')
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=100)) as http:
-        request = messages(domain, question, evidence, previous)
-        review_question = question + ("\nПредыдущий вопрос: " + previous if previous else "")
-        if flow:
-            room=next(room for room,entry in flow.routes.items() if entry['domain']==domain)
-            if flow.routes[room].get('quality_contract')=='sts.claims.v1':
-                from quality_reply import quality_reply,EvaluatedAnswer
-                return EvaluatedAnswer(await quality_reply(flow,http,domain,room,'synthetic-helpfulness-review',case_id,
-                                      question,previous,evidence,knowledge))
-        for attempt in range(2):
-            if flow:
-                from agentflow_graphs import MARKER
-                room = next(room for room, entry in flow.routes.items() if entry['domain'] == domain)
-                if not flow.is_workflow(room, domain):
-                    raise RuntimeError('Expected Agentflows V2 route')
-                kwargs = {'context':{'question':question,'previous_question':previous or '', 'evidence':evidence}} if flow.routes[room].get('quality_contract') else {}
-                text = await flow.run_workflow(http, domain, room, 'synthetic-helpfulness-review', case_id,
-                                               request, review_messages(domain, review_question, MARKER, evidence),**kwargs)
-            else:
-                async def complete(msgs):
-                    async with http.post(os.environ['LLM_ENDPOINT'].rstrip('/')+'/chat/completions',
-                        headers={'Authorization':'Bearer '+api_key()},
-                        json={'model':model_for_domain(domain),'messages':msgs,'temperature':0.1,'max_tokens':2300},
-                        allow_redirects=False) as response:
-                        response.raise_for_status();data=await response.json()
-                    if data['choices'][0].get('finish_reason')=='length':
-                        raise RuntimeError('Truncated model response')
-                    return data['choices'][0]['message']['content']
-                draft = await complete(request)
-                text = await complete(review_messages(domain, review_question, draft, evidence))
-            answer = render(domain, text, question, evidence)
-            issues = usefulness_issues(question, answer)
-            if 'Не удалось подготовить ответ с проверяемой' not in answer and not issues:
-                return answer
-            request += [{'role':'assistant','content':text}, {'role':'user','content':
-                'Исправь проверку подтверждений и ответь по существу. Не отправляй к сотруднику вместо ответа. Если просили письмо, дай сам текст. '+', '.join(issues)}]
-        return answer
+        return await FreeReplyMode({}).reply(http, domain, question, knowledge,
+            previous_question=previous or '', search_question=question,
+            endpoint=os.environ['LLM_ENDPOINT'], model=model_for_domain(domain), api_key=api_key())
 
 
 async def evaluate(cases, knowledge, live):
@@ -125,7 +90,7 @@ async def evaluate(cases, knowledge, live):
         urgent = urgent_finance_answer(case['question'], knowledge)
         prepared = prepare_local_reply(case['domain'], case['question'], knowledge,
                                        search_question=search, previous_question=previous,
-                                       allow_model_without_sources=live=='flowise')
+                                       allow_model_without_sources=False)
         answer = urgent or prepared.answer
         mechanism = 'source_bound_urgent' if urgent else prepared.mechanism
         row['mechanism'] = mechanism
@@ -139,7 +104,7 @@ async def evaluate(cases, knowledge, live):
                     row['real_model_attempted'] = True
                     answer = await live_answer(case['domain'],case['question'],prepared.evidence,previous,live,case['id'],knowledge=knowledge)
                     row['real_model_executed'] = True
-                    row['mechanism'] = 'agentflow_v2' if live=='flowise' else 'real_model_draft_review'
+                    row['mechanism'] = 'direct_model'
                 except Exception as exc:
                     row.update(status='inference_error',error_type=type(exc).__name__,answer=None,automated_checks_passed=False)
         if answer is not None:
@@ -158,7 +123,7 @@ def main():
     parser.add_argument('--extra-cases',type=Path,action='append',default=[],help='Additional case banks; duplicate questions/contexts are removed')
     parser.add_argument('--include-retrieval-cases',action='store_true')
     parser.add_argument('--output',type=Path,required=True)
-    parser.add_argument('--live',choices=['direct','flowise'])
+    parser.add_argument('--live',choices=['direct'])
     parser.add_argument('--archive',action='store_true')
     args=parser.parse_args()
     cases=json.loads(args.cases.read_text())['cases']

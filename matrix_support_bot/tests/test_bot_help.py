@@ -91,10 +91,9 @@ def test_help_is_not_inferred_from_nontext():
     assert not is_help_request(None)
 
 
-@pytest.mark.parametrize("flowise_enabled", [True, False])
-def test_production_matrix_help_bypasses_model_and_preserves_context(monkeypatch, tmp_path, flowise_enabled):
+def test_production_matrix_help_bypasses_model_and_preserves_context(monkeypatch, tmp_path):
     import bot
-    from flowise_client import FlowiseClient
+
 
     output, requests = [], []
     room_domains = {"!legal:demo.local": "legal", "!finance:demo.local": "finance"}
@@ -108,12 +107,6 @@ def test_production_matrix_help_bypasses_model_and_preserves_context(monkeypatch
         passages = []
         search = forbidden
 
-    class Flow:
-        routes = {room: {"domain": domain, "engine": "agentflow_v2", "quality_contract": "sts.claims.v1"}
-                  for room, domain in room_domains.items()}
-        run_workflow = forbidden
-        predict = forbidden
-        is_workflow = forbidden
 
     class Login:
         pass
@@ -152,7 +145,6 @@ def test_production_matrix_help_bypasses_model_and_preserves_context(monkeypatch
     monkeypatch.setattr(bot, "department_roster", lambda _: {})
     monkeypatch.setattr(bot, "KnowledgeStore", lambda _: Knowledge())
     monkeypatch.setattr(bot.ConversationMemory, "resolve", forbidden)
-    monkeypatch.setattr(FlowiseClient, "from_env", lambda _: Flow() if flowise_enabled else None)
     asyncio.run(bot.main())
     assert len(output) == len(requests) == 8
     for room, question, domain in requests:

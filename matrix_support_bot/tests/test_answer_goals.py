@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from response_goal import response_goal,coverage_errors
 from explanation_guides import explanation_guides
-from agentflow_claims import make_quality_packet,accept_quality_response,units
+from claim_validation import make_quality_packet,accept_quality_response,units
 from review_result import ReviewDetails,completeness_note
 
 GATE=Path(__file__).parents[1]/'agents/quality/claim_gate.js'
@@ -60,7 +60,7 @@ def test_invalid_or_missing_main_answer_is_not_trusted(ids):
 
 def test_client_independently_checks_coverage():
  pair=([{'role':'system','content':'role'},{'role':'user','content':'question'}],[])
- from agentflow_graphs import MARKER
+ from review_packet import MARKER
  pair=(pair[0],[{'role':'system','content':'review'},{'role':'user','content':MARKER}])
  p=make_quality_packet('legal',*pair,{'question':'Можно ли использовать изображение?','evidence':[SOURCE]})
  out=gate(ANSWER,copy.deepcopy(AUDIT),p['quality']['response_goal'])
@@ -74,7 +74,7 @@ def test_specific_caveat_contains_no_rejected_claim_or_number():
  assert '999' not in note
 
 def test_wrapped_pdf_rule_and_exception_have_one_exact_selectable_quote():
-    from agentflow_claims import source_excerpts,normalized
+    from claim_validation import source_excerpts,normalized
     text=('Запрещается продавцу, за исключением случаев, предусмотренных\n'
           'законодательством Республики Казахстан, ограничивать права потребителей в отношении применения фото-,\n'
           'видеосъемки.')
@@ -85,7 +85,7 @@ def test_wrapped_pdf_rule_and_exception_have_one_exact_selectable_quote():
     assert len({q['id'] for q in excerpts})==len(excerpts)
 
 def test_new_span_excerpts_keep_old_ids_and_have_a_bounded_budget():
-    from agentflow_claims import source_excerpts
+    from claim_validation import source_excerpts
     text='\n'.join('Начало нормы '+str(i)+'\nи существенное условие.' for i in range(30))
     out=source_excerpts(text)
     assert out[0]['id']=='Q1' and out[0]['quote']=='и существенное условие.'

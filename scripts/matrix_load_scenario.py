@@ -10,7 +10,7 @@ from evaluation_core import private_json
 async def scenario(stage):
     credentials=json.loads((stage/'load-credentials.json').read_text());gen=credentials['generator'];bot=credentials['bot'];rooms=[];since=None;answers={};max_pending=0
     base='http://homeserver:8008';counter=0
-    report={'mode':'isolated_real_matrix_synapse_agentflow','synthetic_users':10,'private_rooms':2,'cohorts':[],'cleanup':{}}
+    report={'mode':'isolated_real_matrix_synapse_direct','synthetic_users':10,'private_rooms':2,'cohorts':[],'cleanup':{}}
     users=[credentials['user'+str(i)] for i in range(10)]
     async with aiohttp.ClientSession() as http:
         async def api(method,path,body=None,token=None):
@@ -61,9 +61,7 @@ async def scenario(stage):
                 await api('POST','/_matrix/client/v3/rooms/'+quote(room,safe='')+'/invite',{'user_id':account['user_id']})
                 await api('POST','/_matrix/client/v3/join/'+quote(room,safe=''),{},token=account['access_token'])
             print('Isolated users and two private rooms ready',flush=True)
-            routes=json.loads((stage/'flow-routes-template.json').read_text())
-            flows={v['domain']:v for v in routes.values()}
-            private_json(Path('/loadstate/flowise_rooms.json'),{r:dict(flows['legal' if i%2==0 else 'finance']) for i,r in enumerate(rooms)})
+            private_json(Path('/loadstate/room_routes.json'),{r:('legal' if i%2==0 else 'finance') for i,r in enumerate(rooms)})
             await control('start',1,phase='mixed_baseline')
             # Confirm bot membership; request publication starts only after all rooms are joined.
             deadline=time.monotonic()+180
@@ -88,7 +86,7 @@ async def scenario(stage):
                 db=sqlite3.connect('file:/loadstate/matrix_inbox.sqlite3?mode=ro',uri=True)
                 metrics=[db.execute('SELECT started-received,finished-started,attempts,response_ready-started,finished-response_ready,delivery_attempts,delivery_deferrals,delivery_rate_limits FROM inbox_requests WHERE event_id=?',(i,)).fetchone() for i in ids];db.close()
                 latencies=[next(iter(answers[i].values()))['observed']-submitted[j][1] for j,i in enumerate(ids)]
-                row={'label':label,'requests':count,'workers':workers,'inference':'mixed_actual_agentflow_and_source_bound' if label!='source_bound_burst' else 'source_bound_no_new_model_calls',
+                row={'label':label,'requests':count,'workers':workers,'inference':'mixed_actual_model_and_source_bound' if label!='source_bound_burst' else 'source_bound_no_new_model_calls',
                      'ingress_seconds':round(ingress,3),'drain_seconds':round(time.monotonic()-started,3),'max_pending_observed':max_pending,
                      'latency_p50_seconds':pct(latencies,.5),'latency_p95_seconds':pct(latencies,.95),
                      'queue_wait_p95_seconds':pct([r[0] for r in metrics if r and r[0] is not None],.95),

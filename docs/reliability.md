@@ -1,6 +1,5 @@
 # Проверенные цитаты и восстановление запросов
 
-## Числовые утверждения Agentflow
 
 `numeric_grounding.py` и тот же алгоритм в `agents/quality/claim_gate.js` проверяют распознаваемые связки **показатель → число → единица → ограничение**. Например, фрагмент «Комиссия 0 тенге. Лимит перевода 100 тенге» не подтверждает ответ «Комиссия 100 тенге». Различаются валюта, рабочие/календарные дни, точное значение и «не более»/«не менее». Русские числительные и десятичные записи нормализуются.
 
@@ -11,13 +10,9 @@
 Обновление уже действующих графов не требует создания новых карточек. На текущей VM скрипт уже включён в образ бота:
 
 ```sh
-python /app/upgrade_agentflow_quality.py --refresh --state-dir /app/handoff_state --plan-file /app/handoff_state/claims-refresh.json
-python /app/upgrade_agentflow_quality.py --refresh --state-dir /app/handoff_state --plan-file /app/handoff_state/claims-refresh.json --activate
 # При необходимости:
-python /app/upgrade_agentflow_quality.py --refresh --state-dir /app/handoff_state --plan-file /app/handoff_state/claims-refresh.json --rollback
 ```
 
-План хранится с правами 600 вне Git. Обновление проверяет известную схему из 13 узлов и независимые изменения; сохраняет ID графов, расположение блоков, модели каждого этапа, credentials и защиту API. Используйте новый путь плана для каждого выпуска. Для переносимой Compose-сборки каталог состояния `/app/state`. Если скрипт ещё не скопирован в контейнер, выполните из корня репозитория `docker compose cp scripts/upgrade_agentflow_quality.py bot:/tmp/upgrade_agentflow_quality.py`, затем запускайте его через `docker compose exec bot python /tmp/upgrade_agentflow_quality.py` с `--state-dir /app/state` и путём плана в этом каталоге.
 
 ## Входящие сообщения и перезапуск
 

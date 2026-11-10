@@ -38,7 +38,6 @@ def summarize(report,cases,observations):
                 errata.append({'id':r['id'],'code':'grouped_decimal_not_accepted_by_regex','original_score_preserved':True})
         if c.get('origin_case_id')=='unseen-20261025-23' and re.search(r'16\s*лет',core):
             errata.append({'id':r['id'],'code':'numeric_age_not_accepted_by_lexical_subject_regex','original_score_preserved':True})
-    measures=observations.get('workflows',[])
     per_scope={scope:{'scenarios':sum(r['criteria_scope']==scope for r in rows),
         'automatic_passed':sum(r['criteria_scope']==scope and r['automatic_passed'] for r in rows)} for scope in sorted({r['criteria_scope'] or '' for r in rows})}
     return {'schema_version':1,'status':report['status'],'summary':report['summary'],
@@ -47,10 +46,7 @@ def summarize(report,cases,observations):
         'tested_image':observations.get('tested_image',observations.get('production_image')),'criteria_scopes':per_scope,
         'criteria_errata':errata,'rows':rows,
         'preparation_mechanisms':observations.get('preparation_mechanisms',{}),
-        'agentflow_replies_completed':observations.get('agentflow_completed',0),'workflow_runs':len(measures),
-        'model_node_executions':sum(w.get('model_nodes_executed') or 0 for w in measures),
-        'workflows_with_repair':sum(bool(w.get('repair_used')) for w in measures),
-        'workflow_p95_ms':percentile([w.get('elapsed_ms') for w in measures],.95),
+        'model_completions':observations.get('model_completions',0),
         'human_specialist_approvals':0,'expert_accuracy':None,
         'limitations':['Synthetic cases, including reused regressions; not independent expert evaluation.',
             'Delivery-only cases do not establish factual accuracy.',
@@ -63,7 +59,7 @@ def main():
     p.add_argument('--observations',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
     a=p.parse_args();value=summarize(json.loads(a.report.read_text()),json.loads(a.cases.read_text()),json.loads(a.observations.read_text()))
     a.output.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n');a.output.chmod(0o600)
-    print(json.dumps({'summary':value['summary'],'workflow_runs':value['workflow_runs'],'model_node_executions':value['model_node_executions'],'criteria_errata':value['criteria_errata']}))
+    print(json.dumps({'summary':value['summary'],'model_completions':value['model_completions'],'criteria_errata':value['criteria_errata']}))
 
 
 if __name__=='__main__':main()

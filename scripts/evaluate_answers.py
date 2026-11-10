@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Repeatable corpus checks and optional real model/Flowise checks. Sends no Matrix messages."""
+"""Repeatable corpus checks and optional real model checks. Sends no Matrix messages."""
 import argparse
 import asyncio
 from datetime import datetime, timezone
@@ -38,69 +38,23 @@ def evaluate_case(store, case):
 
 
 async def live_checks(store, cases, route):
-    import aiohttp
-    from agents import messages, review_messages, render
-    from checked_answers import checked_practical_guidance, checked_work_payment_answer, checked_legal_answer
-    from flowise_client import FlowiseClient
-    from llm_settings import api_key, model_for_domain
-    flow = FlowiseClient.from_env(os.environ) if route in {"flowise", "both"} else None
-    if route in {"flowise", "both"} and not flow:
-        raise RuntimeError("Flowise is not configured; checks were not run")
-    # Only synthetic public questions; no user conversation, account or secrets in output.
-    results = []
-    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=90)) as http:
-        for transport in (["direct", "flowise"] if route == "both" else [route]):
-            for case in cases:
-                if case.get("expect_empty"):
-                    continue
-                domain, question = case["domain"], case["question"]
-                search_question, previous_question = case_context(case)
-                evidence = scope_evidence(domain, search_question, store.search(domain, search_question, 8))
-                start = time.monotonic()
-                async def complete(msgs, stage="draft"):
-                    if transport == "flowise":
-                        room = next(r for r, entry in flow.routes.items() if entry["domain"] == domain)
-                        return await flow.predict(http, domain, room, "synthetic-evaluation", case["id"], msgs, stage=stage)
-                    async with http.post(os.environ["LLM_ENDPOINT"].rstrip("/") + "/chat/completions",
-                                         headers={"Authorization": "Bearer " + api_key()},
-                                         json={"model": model_for_domain(domain), "messages": msgs, "max_tokens": 2300, "temperature": 0.1},
-                                         allow_redirects=False) as response:
-                        response.raise_for_status()
-                        data = await response.json()
-                    if data["choices"][0].get("finish_reason") == "length":
-                        raise RuntimeError("Model response truncated")
-                    return data["choices"][0]["message"]["content"]
-                try:
-                    if not evidence:
-                        raise ValueError("No scoped evidence")
-                    answer = (checked_practical_guidance(domain, search_question, evidence)
-                              or checked_work_payment_answer(domain, search_question, evidence)
-                              or checked_legal_answer(search_question, evidence, domain=domain))
-                    generation = "checked_source_template" if answer else "model"
-                    if answer is None:
-                        room = next((r for r,entry in flow.routes.items() if entry['domain']==domain),None) if flow else None
-                        if transport == 'flowise' and flow.is_workflow(room,domain):
-                            from agentflow_graphs import MARKER
-                            reviewed = await flow.run_workflow(http,domain,room,'synthetic-evaluation',case['id'],
-                                  messages(domain,question,evidence,previous_question),review_messages(domain,search_question,MARKER,evidence),
-                                  **({'context':{'question':question,'previous_question':previous_question,'evidence':evidence}} if flow.routes[room].get('quality_contract') else {}))
-                            generation = 'agentflow_v2'
-                        else:
-                            draft = await complete(messages(domain, question, evidence, previous_question))
-                            reviewed = await complete(review_messages(domain, search_question, draft, evidence), stage="review")
-                        answer = render(domain, reviewed, question, evidence)
-                    passed = "Не удалось подготовить ответ с проверяемой" not in answer
-                    required = case.get("answer_contains", [])
-                    passed = passed and all(term.casefold() in answer.casefold() for term in required)
-                    passed = passed and not any(term.casefold() in answer.casefold() for term in case.get("answer_forbids", []))
-                    result = {"id": case["id"], "route": transport, "passed": passed, "answer": answer,
-                              "sources": [{"document": p["document_id"], "section": p.get("section", "")} for p in evidence],
-                              "continued": bool(previous_question), "generation": generation}
-                except Exception as exc:
-                    result = {"id": case["id"], "route": transport, "passed": False, "error_type": type(exc).__name__}
-                result["elapsed_ms"] = round((time.monotonic()-start)*1000, 1)
-                results.append(result)
-                print(json.dumps({k:v for k,v in result.items() if k != "answer"}, ensure_ascii=False), flush=True)
+    from evaluate_helpfulness import live_answer
+    from answer_usefulness import usefulness_issues
+    if route != 'direct':raise ValueError('Only direct model evaluation is supported')
+    results=[]
+    for case in cases:
+        if case.get('expect_empty'):continue
+        started=time.monotonic()
+        search,previous=case_context(case)
+        evidence=scope_evidence(case['domain'],search,store.search(case['domain'],search,8))
+        try:
+            answer=await live_answer(case['domain'],case['question'],evidence,previous,'direct',case['id'],knowledge=store)
+            issues=usefulness_issues(case['question'],answer)
+            passed=not issues and 'Не удалось получить ответ модели' not in answer
+            results.append({'id':case['id'],'route':'direct','passed':passed,'generation':'direct_model',
+                'answer':answer,'elapsed_ms':round((time.monotonic()-started)*1000,1),'issues':issues})
+        except Exception as exc:
+            results.append({'id':case['id'],'route':'direct','passed':False,'error':type(exc).__name__})
     return results
 
 
@@ -109,7 +63,7 @@ def main():
     parser.add_argument("--knowledge", default=str(ROOT / "offline_knowledge"))
     parser.add_argument("--cases", default=str(ROOT / "config/answer-evaluation.json"))
     parser.add_argument("--output", required=True)
-    parser.add_argument("--live", choices=["direct", "flowise", "both"])
+    parser.add_argument("--live", choices=["direct"])
     parser.add_argument("--only", help="Comma-separated case IDs for bounded live checks")
     args = parser.parse_args()
     cases = json.loads(Path(args.cases).read_text())["cases"]

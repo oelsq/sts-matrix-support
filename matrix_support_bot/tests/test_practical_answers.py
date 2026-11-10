@@ -8,8 +8,8 @@ from local_reply import prepare_local_reply
 from response_guidance import is_document_request, request_clarification, retrieval_question
 from task_preparation import preparation_reply, draft_task_text
 from answer_focus import practical_response_focus
-from agentflow_claims import safe_advice
-from agentflow_quality_graph import unit_code
+from claim_validation import safe_advice
+from local_claim_code import unit_code
 
 
 class NoLookup:

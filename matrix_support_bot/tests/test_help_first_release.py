@@ -10,9 +10,8 @@ import subprocess
 
 import pytest
 
-from agentflow_claims import accept_quality_response, make_quality_packet, units
-from agentflow_graphs import MARKER
-from agentflow_quality_graph import build_quality_agentflow
+from claim_validation import accept_quality_response, make_quality_packet, units
+from review_packet import MARKER
 from agents import render
 from local_reply import prepare_local_reply
 from review_result import ReviewDetails, ReviewedAnswer
@@ -186,72 +185,3 @@ def test_gap_metadata_cannot_echo_rejected_text_or_smuggle_instructions(topic):
            'audit':{'verdict':'approve','checks':[advice('C1')]},'partial':True,'omitted_topics':topic}
     with pytest.raises(ValueError,match='omitted topics'):
         accept_quality_response(json.dumps(value),{'quality':{'question':'q','previous_question':'','question_type':'situation','sources':[]}})
-
-
-def test_partial_letter_help_is_not_discarded_by_the_full_letter_heuristic(monkeypatch):
-    import quality_reply as module
-    partial=ReviewedAnswer('Сохраните договор и подтверждения оплаты.',ReviewDetails((),True,'document',(),('rule',)))
-    class Flow:
-        async def run_workflow(self,*args,**kwargs):return partial
-    monkeypatch.setattr(module,'research_evidence',lambda *args:[])
-    result=asyncio.run(module.quality_reply(Flow(),None,'legal','room','user','event','Напиши иск в суд','',[],None))
-    assert 'Сохраните договор' in result.answer and 'Правовое основание' in result.answer
-
-
-def test_generated_graph_accepts_empty_sources_and_keeps_auditing():
-    names=['startAgentflow','customFunctionAgentflow','agentAgentflow','llmAgentflow','directReplyAgentflow','conditionAgentflow']
-    graph=build_quality_agentflow({n:{'name':n,'category':'Agent Flows','inputs':[]} for n in names},'legal',{'modelName':'synthetic','basepath':'http://litellm:4000/v1','FLOWISE_CREDENTIAL_ID':'reference'})
-    prepare=graph['nodes'][1]['data']['inputs']['customFunctionJavascriptFunction']
-    packet=make_quality_packet('legal',*PAIR,{'question':'Помоги разобраться','evidence':[]})
-    script='const $flow={input:JSON.stringify(JSON.parse(require("fs").readFileSync(0,"utf8")))};process.stdout.write(JSON.stringify((function(){'+prepare+'})()));'
-    result=subprocess.run(['node','-e',script],input=json.dumps(packet),text=True,check=True,capture_output=True)
-    assert json.loads(json.loads(result.stdout)['quality_json'])['sources']==[]
-    assert len(graph['nodes'])==13
-
-
-@pytest.mark.parametrize('domain',['legal','finance'])
-def test_matrix_event_reaches_protected_workflow_despite_empty_search(domain,monkeypatch,tmp_path):
-    """Exercise actual bot routing; transport/model are isolated test doubles."""
-    import time
-    from types import SimpleNamespace as NS
-    import bot
-    from flowise_client import FlowiseClient
-    output=[]
-    calls=[]
-    room='!synthetic:test'
-    class Login:pass
-    class Matrix:
-        user='@bot:test'
-        def __init__(self,*args,**kwargs):self.callback=None
-        def add_event_callback(self,callback,kind):
-            if kind==bot.RoomMessageText:self.callback=callback
-        async def login(self,*args,**kwargs):return Login()
-        async def room_send(self,**kwargs):output.append(kwargs['content'])
-        async def close(self):pass
-        async def sync_forever(self,**kwargs):
-            await self.callback(NS(room_id=room),NS(sender='@alice:test',body='Мне предлагают изменить условия сотрудничества. Помоги разобраться.',event_id='$synthetic',server_timestamp=int(time.time()*1000)+1000))
-    class EmptyStore:
-        passages=[]
-        def search(self,*args,**kwargs):return []
-    class Flow:
-        routes={room:{'domain':domain,'quality_contract':'sts.claims.v1','engine':'agentflow_v2'}}
-        def is_workflow(self,*args):return True
-        async def run_workflow(self,*args,**kwargs):
-            calls.append(kwargs['context'])
-            assert kwargs['context']['evidence']==[]
-            return ReviewedAnswer('Запросите письменное описание предлагаемых изменений.\nУточните, с чем вы не согласны.',ReviewDetails((),False,'situation'))
-    settings={'MATRIX_HOMESERVER':'http://homeserver:8008','MATRIX_USER':'@bot:test','MATRIX_PASSWORD':'synthetic',
-              'LLM_ENDPOINT':'http://litellm:4000/v1','LLM_MODEL':'synthetic','KNOWLEDGE_DIR':'synthetic',
-              'OFFLINE_MODE':'0','MATRIX_ROOM_ROUTES_FILE':str(tmp_path/'absent'),
-              'MATRIX_INBOX_DB':str(tmp_path/'queue.sqlite3'),'HANDOFF_DB':str(tmp_path/'handoff.sqlite3')}
-    for k,v in settings.items():monkeypatch.setenv(k,v)
-    monkeypatch.setattr(bot,'AsyncClient',Matrix)
-    monkeypatch.setattr(bot,'LoginResponse',Login)
-    monkeypatch.setattr(bot,'department_roster',lambda _: {})
-    monkeypatch.setattr(bot,'read_llm_key',lambda:'synthetic')
-    monkeypatch.setattr(bot,'KnowledgeStore',lambda _:EmptyStore())
-    monkeypatch.setattr(FlowiseClient,'from_env',lambda _:Flow())
-    asyncio.run(bot.main())
-    replies=[o for o in output if 'Запросите письменное' in o.get('body','')]
-    assert len(calls)==1 and len(replies)==1
-    assert replies[0].get('formatted_body') and 'Не удалось' not in replies[0]['body']

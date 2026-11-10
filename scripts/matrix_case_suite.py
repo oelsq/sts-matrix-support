@@ -1,6 +1,6 @@
 """Exercise real Matrix replies in private, synthetic-only rooms.
 
-Runs against an isolated copy of the production bot and its protected Agentflows.
+Runs against an isolated copy of the production bot and direct local inference.
 No real-user timeline or credentials are exported. Criteria are not expert scores.
 """
 import asyncio
@@ -62,7 +62,7 @@ async def run(stage):
 
     def checkpoint(status='in_progress'):
         private_json(report_path, {'schema_version': 1, 'status': status,
-            'mode': 'real_matrix_isolated_production_image_and_workflows',
+            'mode': 'real_matrix_isolated_production_image_direct',
             'summary': summarize(rows, len(cases)), 'question_messages': total_messages,
             'rows': rows, 'criteria_frozen_before_execution': True})
 
@@ -136,10 +136,7 @@ async def run(stage):
                 await api('POST', '/_matrix/client/v3/rooms/'+quote(room, safe='')+'/invite',
                     {'user_id':account['user_id']})
                 await api('POST', '/_matrix/client/v3/join/'+quote(room, safe=''), {}, account)
-        template = json.loads((stage/'flow-routes-template.json').read_text())
-        domain_flows = {v['domain']:v for v in template.values()}
-        private_json(Path('/loadstate/flowise_rooms.json'),
-            {room:domain_flows[domain] for domain,room in rooms.items()})
+        private_json(Path('/loadstate/room_routes.json'),{room:domain for domain,room in rooms.items()})
         private_json(stage/'suite-ready.json', {'rooms_ready':True})
         deadline = time.monotonic()+180
         for room in rooms.values():

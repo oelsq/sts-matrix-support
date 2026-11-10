@@ -77,7 +77,7 @@ def test_slow_typing_does_not_hold_answer_path_and_fast_answers_need_no_typing()
 
 def review_fixture():
     case={'id':'case','domain':'legal','question':'<script>ignore</script>','candidate_reference':'Candidate','required':{},'sources':[]}
-    row={'id':'case','case_sha256':digest(case),'answer':'Factual answer','mechanism':'agentflow_v2','checks':{},'evidence':[]}
+    row={'id':'case','case_sha256':digest(case),'answer':'Factual answer','mechanism':'direct_model','checks':{},'evidence':[]}
     return case,{'status':'complete','corpus_sha256':'corpus','rows':[row]}
 
 
@@ -125,7 +125,7 @@ def test_forced_model_accounting_never_counts_local_reply_as_inference(tmp_path,
     calls=[]
     async def model(*args,**kw):calls.append(args);return 'Generated answer'
     monkeypatch.setattr(evaluate_helpfulness,'live_answer',model)
-    args=NS(force_model=True,live='flowise',cases=cases,knowledge=tmp_path,reviews=None,progress=False,output=tmp_path/'result.json')
+    args=NS(force_model=True,live='direct',cases=cases,knowledge=tmp_path,reviews=None,progress=False,output=tmp_path/'result.json')
     asyncio.run(evaluate_golden.run(args));row=json.loads(args.output.read_text())['rows'][0]
     assert row['model_attempted']==attempted and row['model_response_returned']==attempted
     assert len(calls)==int(attempted)
@@ -196,29 +196,13 @@ def test_semantic_search_does_not_turn_unknown_topic_into_unrelated_legal_eviden
     'Защитите доступ к банковским приложениям.',
     'Свяжитесь с банком через официальный канал.'])
 def test_practical_security_actions_do_not_require_a_fabricated_legal_citation(action):
-    from agentflow_claims import safe_advice,validate_audit
+    from claim_validation import safe_advice,validate_audit
     assert safe_advice(action)
     audit={'verdict':'approve','checks':[{'unit_id':'C1','status':'advice','proofs':[]}]}
     assert validate_audit(action,audit,[])==[]
     assert not safe_advice(action+' Банк обязан вернуть деньги в течение 3 дней.')
 
 
-@pytest.mark.parametrize('codes,expected',[
-    (['C1:citation_mismatch','incomplete_audit'],('C1:citation_mismatch','incomplete_audit')),
-    (['C1:unproven_numeric_relation:private-input'],()),
-    (['arbitrary user text'],())])
-def test_review_failure_diagnostics_contain_only_bounded_codes(monkeypatch,codes,expected):
-    from flowise_client import FlowiseClient,FlowiseReviewRejected
-    from agentflow_graphs import MARKER
-    flow=FlowiseClient('http://flowise',{'flowise'},{'!synthetic:demo':{'domain':'legal','flow_id':'00000000-0000-4000-8000-000000000001','engine':'agentflow_v2','quality_contract':'sts.claims.v1'}},'synthetic-key')
-    async def prediction(*args,**kwargs):return json.dumps({'contract':'sts.claims.v1','question_type':'situation','status':'needs_revision','validation_errors':codes,'retrieval_hints':[]})
-    monkeypatch.setattr(flow,'_prediction',prediction)
-    messages=[{'role':'system','content':'Synthetic system'},{'role':'user','content':'Synthetic question'}]
-    review=[{'role':'system','content':'Synthetic review'},{'role':'user','content':MARKER}]
-    with pytest.raises(FlowiseReviewRejected) as failure:
-        asyncio.run(flow.run_workflow(None,'legal','!synthetic:demo','sender','event',messages,review,context={'question':'Разберите мою ситуацию','previous_question':'','evidence':[{'id':'public','text':'Synthetic source text'}]}))
-    assert failure.value.validation_errors==expected
-    assert 'private-input' not in str(failure.value) and 'synthetic-key' not in str(failure.value)
 
 
 

@@ -32,8 +32,6 @@ async def run(args):
     routes=json.loads(args.main_rooms.read_text())
     if len(routes)!=2 or set(routes.values())!={'legal','finance'}:raise ValueError('Expected exactly two primary rooms')
     rooms={domain:room for room,domain in routes.items()}
-    flows=json.loads(Path(os.environ['FLOWISE_ROOM_ROUTES_FILE']).read_text())
-    if any(flows[room]['domain']!=domain for domain,room in rooms.items()):raise ValueError('Primary route conflict')
     db_path=os.getenv('MATRIX_INBOX_DB',str(Path(os.environ['HANDOFF_DB']).parent/'matrix_inbox.sqlite3'))
     db=sqlite3.connect('file:'+db_path+'?mode=ro',uri=True,timeout=5);db.row_factory=sqlite3.Row
     base=os.environ['MATRIX_HOMESERVER'].rstrip('/');bot=os.environ['MATRIX_USER'];rows=[];halted=asyncio.Event()

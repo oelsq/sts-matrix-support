@@ -13,7 +13,7 @@ from human_handoff import HandoffStore,HumanHandoff
 def test_each_user_has_two_isolated_rooms_and_persistent_routes(tmp_path):
     cipher=StateCipher(b'K'*32);store=InboxStore(tmp_path/'inbox','test',cipher=cipher)
     client=NS(user='@bot:test',rooms={},room_create=AsyncMock(side_effect=[RoomCreateResponse('!a:test'),RoomCreateResponse('!b:test'),RoomCreateResponse('!c:test')]))
-    fixed={};rooms=PrivateRooms(store,client,fixed,None,'http://localhost',cipher)
+    fixed={};rooms=PrivateRooms(store,client,fixed,'http://localhost',cipher)
     async def run():
         assert await rooms.ensure('@alice:test','legal')=='!a:test'
         assert await rooms.ensure('@alice:test','finance')=='!b:test'
@@ -34,7 +34,7 @@ def test_each_user_has_two_isolated_rooms_and_persistent_routes(tmp_path):
     client.rooms['!a:test'].users['@mallory:test']=None
     assert not rooms.permitted('!a:test','@alice:test')
     store.close();reopened=InboxStore(tmp_path/'inbox','test',cipher=cipher)
-    restored=PrivateRooms(reopened,client,{},None,'http://localhost',cipher)
+    restored=PrivateRooms(reopened,client,{},'http://localhost',cipher)
     assert restored.required_encryption('!a:test') and restored.known_peer('@alice:test')
     reopened.close()
 
@@ -73,3 +73,33 @@ def test_archival_does_not_extend_sensitive_context_retention(tmp_path):
     assert store.room_record('!old:test')['context_json'] is None
     assert store.room_record('!new:test')['context_json'] is not None
     store.db.close()
+
+
+def test_private_encrypted_rooms_preserve_original_free_model_route(tmp_path):
+    from free_reply import FreeReplyMode
+    cipher=StateCipher(b'K'*32);store=InboxStore(tmp_path/'inbox','test',cipher=cipher)
+    client=NS(user='@bot:test',rooms={},room_create=AsyncMock(side_effect=[RoomCreateResponse('!legal:test'),RoomCreateResponse('!finance:test')]))
+    fixed={'!entrylegal:test':'legal','!entryfinance:test':'finance'}
+    free=FreeReplyMode(dict(fixed))
+    rooms=PrivateRooms(store,client,fixed,'http://localhost',cipher,free_mode=free)
+    asyncio.run(rooms.ensure('@alice:test','legal'));asyncio.run(rooms.ensure('@alice:test','finance'))
+    assert free.selected('!legal:test','legal') and free.selected('!finance:test','finance')
+    assert free.routes['!entrylegal:test']=='legal'
+    store.close()
+    reopened=InboxStore(tmp_path/'inbox','test',cipher=cipher)
+    restored_free=FreeReplyMode({'!entrylegal:test':'legal','!entryfinance:test':'finance'})
+    PrivateRooms(reopened,client,{'!entrylegal:test':'legal','!entryfinance:test':'finance'},'http://localhost',cipher,free_mode=restored_free)
+    assert restored_free.selected('!legal:test','legal')
+    reopened.close()
+
+
+def test_private_room_does_not_enable_free_mode_for_unselected_specialist(tmp_path):
+    from free_reply import FreeReplyMode
+    cipher=StateCipher(b'K'*32);store=InboxStore(tmp_path/'inbox','test',cipher=cipher)
+    client=NS(user='@bot:test',rooms={},room_create=AsyncMock(return_value=RoomCreateResponse('!finance:test')))
+    fixed={'!entrylegal:test':'legal','!entryfinance:test':'finance'}
+    free=FreeReplyMode({'!entrylegal:test':'legal'})
+    rooms=PrivateRooms(store,client,fixed,'http://localhost',cipher,free_mode=free)
+    asyncio.run(rooms.ensure('@alice:test','finance'))
+    assert not free.selected('!finance:test','finance')
+    store.close()

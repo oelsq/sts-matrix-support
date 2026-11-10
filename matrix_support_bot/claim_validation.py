@@ -1,4 +1,4 @@
-"""Source-bound claim contracts for the opt-in Agentflows V2 quality pipeline.
+"""Source-bound claim contracts for local validation and evaluations.
 
 A literal source match verifies provenance, not logical entailment. The model
 still reviews meaning; deterministic checks refuse missing/forged audit rows.
@@ -6,7 +6,7 @@ still reviews meaning; deterministic checks refuse missing/forged audit rows.
 import json
 import re
 from pathlib import Path
-from agentflow_graphs import workflow_packet
+from review_packet import workflow_packet
 from numeric_grounding import numeric_relation_errors, normalize_age_words
 from review_result import ReviewDetails, ReviewedAnswer, source_text, OMITTED_TOPICS
 from response_guidance import is_document_request, is_reference_question

@@ -28,8 +28,8 @@ def main():
     setting_names={
         'MATRIX_HOMESERVER','MATRIX_USER','MATRIX_PASSWORD','OFFLINE_MODE','MATRIX_ALLOWED_HOSTS',
         'LLM_ENDPOINT','LLM_MODEL','LEGAL_LLM_MODEL','FINANCE_LLM_MODEL','GENERAL_LLM_MODEL',
-        'LLM_API_KEY_FILE','LLM_ALLOWED_HOSTS','KNOWLEDGE_DIR','FLOWISE_URL','FLOWISE_ALLOWED_HOSTS',
-        'FLOWISE_API_KEY_FILE','FLOWISE_ROOM_ROUTES_FILE','SEMANTIC_MODEL_DIR','SEMANTIC_INDEX_DIR',
+        'LLM_API_KEY_FILE','LLM_ALLOWED_HOSTS','KNOWLEDGE_DIR',
+        'SEMANTIC_MODEL_DIR','SEMANTIC_INDEX_DIR',
         'SEMANTIC_THREADS','HF_HUB_OFFLINE','PYTHONPATH','ELEMENT_PUBLIC_URL',
     }
     env={k:v for k,v in original_env.items() if k in setting_names}
@@ -59,24 +59,21 @@ for kind in ['generator','bot']+['user'+str(i) for i in range(4)]:
             row=json.loads(line);creds[row['kind']]=row['record']
             private(stage/'load-credentials.json',json.dumps(creds))
         if registration.wait():raise RuntimeError('Synthetic registration failed')
-        routes=subprocess.check_output(['docker','exec','sts-team-demo-bot-1','cat',
-            env['FLOWISE_ROOM_ROUTES_FILE']],text=True)
-        private(stage/'flow-routes-template.json',routes)
         # Credentials stay on the same VM and retain the same scope/endpoints.
         env.update(MATRIX_USER=creds['bot']['user_id'],MATRIX_PASSWORD=creds['bot']['password'],
             MATRIX_HOMESERVER='http://homeserver:8008',MATRIX_REQUEST_WORKERS='2',
-            FLOWISE_ROOM_ROUTES_FILE='/app/handoff_state/flowise_rooms.json',
-            MATRIX_ROOM_ROUTES_FILE='/app/handoff_state/absent.json',
+            MATRIX_ROOM_ROUTES_FILE='/app/handoff_state/room_routes.json',
+            MATRIX_FREE_REPLY_ROOMS_FILE='/app/handoff_state/room_routes.json',
             MATRIX_INBOX_DB='/app/handoff_state/matrix_inbox.sqlite3',
             HANDOFF_DB='/app/handoff_state/handoff.sqlite3',
             LEGAL_DEPARTMENT_USERS='',FINANCE_DEPARTMENT_USERS='',
             LEGAL_DEPARTMENT_USER='',FINANCE_DEPARTMENT_USER='')
         envfile=stage/'suite.env';private(envfile,'\n'.join(k+'='+v for k,v in env.items())+'\n')
-        # Mount exactly the corpus, optional semantic assets and two scoped
-        # model/Flowise key files. The working state and unrelated mounts stay out.
+        # Mount exactly the corpus, optional semantic assets and the scoped
+        # model key file. The working state and unrelated mounts stay out.
         mounts=[]
         for setting in ['KNOWLEDGE_DIR','SEMANTIC_MODEL_DIR','SEMANTIC_INDEX_DIR',
-                        'LLM_API_KEY_FILE','FLOWISE_API_KEY_FILE']:
+                        'LLM_API_KEY_FILE']:
             destination=env.get(setting)
             if not destination:continue
             matches=[m for m in original['Mounts'] if destination==m['Destination']
@@ -117,8 +114,6 @@ for kind in ['generator','bot']+['user'+str(i) for i in range(4)]:
             text=log.stdout+log.stderr
             private(stage/'isolated-bot.log',text)
             observations={'preparation_mechanisms':dict(Counter(re.findall(r'mechanism=([a-z_]+)',text))),
-                'agentflow_completed':text.count('Agentflows V2 workflow completed;'),
-                'workflows':[json.loads(s) for s in re.findall(r'Flowise workflow summary: (\{[^\n]+\})',text)],
                 'working_bot_stopped':False,'tested_image':image,'production_image':production_image}
             private(stage/'suite-observations.json',json.dumps(observations))
         for name in [botname,clientname]:subprocess.run(['docker','rm','-f',name],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)

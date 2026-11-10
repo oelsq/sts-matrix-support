@@ -342,7 +342,7 @@ def render(domain: str, answer: str, question: str = "", local_evidence: list[di
         if review is not None and not cited and not review.quotes:
             # A checked request for missing inputs or a purely organizational letter
             # contains no legal assertion to cite. Fact-like lines remain blocked.
-            from agentflow_claims import units, safe_advice
+            from claim_validation import units, safe_advice
             if not all(safe_advice(unit['text'],document=review.question_type=='document') or
                        unit['text'] in review.user_context for unit in units(answer)):
                 raise ValueError("Uncited reviewed "+review.question_type+" contains a factual assertion")

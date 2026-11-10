@@ -113,9 +113,10 @@ def test_generation_failure_offers_real_support_without_claiming_transfer(kind):
     assert 'не прошёл проверку' not in answer
 
 
-def test_actual_bot_routes_natural_question_directly_but_keeps_explicit_help(monkeypatch,tmp_path):
+@pytest.mark.parametrize('domain',['legal','finance'])
+def test_actual_bot_routes_natural_question_directly_but_keeps_explicit_help(monkeypatch,tmp_path,domain):
     import bot
-    from flowise_client import FlowiseClient
+
     sent=[];http=HTTP('Да, объясню понятным языком.')
     class Session:
         async def __aenter__(self):return http
@@ -133,14 +134,13 @@ def test_actual_bot_routes_natural_question_directly_but_keeps_explicit_help(mon
         async def sync_forever(self,**kwargs):
             for i,q in enumerate(['На какие вопросы ты можешь отвечать?','!помощь']):
                 await self.callback(SimpleNamespace(room_id='!main:demo.local'),SimpleNamespace(sender='@synthetic:demo.local',body=q,event_id='$free'+str(i),server_timestamp=int(time.time()*1000)+1000))
-    routes=tmp_path/'routes.json';routes.write_text(json.dumps({'!main:demo.local':'legal'}))
+    routes=tmp_path/'routes.json';routes.write_text(json.dumps({'!main:demo.local':domain}))
     free=tmp_path/'free.json';free.write_text(routes.read_text())
     for k,v in {'MATRIX_HOMESERVER':'http://homeserver:8008','MATRIX_USER':'@bot:demo.local','MATRIX_PASSWORD':'dummy','LLM_ENDPOINT':'http://gateway/v1','LLM_MODEL':'dummy','OFFLINE_MODE':'0','MATRIX_ROOM_ROUTES_FILE':str(routes),'MATRIX_FREE_REPLY_ROOMS_FILE':str(free)}.items():monkeypatch.setenv(k,v)
     monkeypatch.delenv('KNOWLEDGE_DIR',raising=False)
     monkeypatch.setattr(bot,'AsyncClient',Matrix);monkeypatch.setattr(bot,'LoginResponse',Login)
     monkeypatch.setattr(bot,'read_llm_key',lambda:'dummy');monkeypatch.setattr(bot,'department_roster',lambda _: {})
     monkeypatch.setattr(bot.aiohttp,'ClientSession',lambda **_:Session())
-    monkeypatch.setattr(FlowiseClient,'from_env',lambda _:None)
     def no_legacy(*args,**kwargs):raise AssertionError('Legacy response pipeline must not run')
     monkeypatch.setattr(bot,'prepare_local_reply',no_legacy)
     asyncio.run(bot.main())

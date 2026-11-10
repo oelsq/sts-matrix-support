@@ -10,7 +10,7 @@ from nio import RoomCreateResponse, RoomSendResponse
 def test_bot_employee_selection_commands_and_archived_rooms_are_isolated(monkeypatch, tmp_path):
     import bot
     from human_handoff import HandoffStore
-    from flowise_client import FlowiseClient
+
     output, created = [], []
     routes = tmp_path / 'routes.json'
     routes.write_text(json.dumps({'!finance:demo.local':'finance','!legal:demo.local':'legal'}))
@@ -47,7 +47,6 @@ def test_bot_employee_selection_commands_and_archived_rooms_are_isolated(monkeyp
     monkeypatch.setattr(bot,'AsyncClient',Matrix)
     monkeypatch.setattr(bot,'LoginResponse',Login)
     monkeypatch.setattr(bot,'read_llm_key',lambda:'synthetic-only')
-    monkeypatch.setattr(FlowiseClient,'from_env',lambda _:None)
     for name in ['KNOWLEDGE_DIR','LLM_API_KEY_FILE']:
         monkeypatch.delenv(name,raising=False)
     env={'MATRIX_HOMESERVER':'http://homeserver:8008','MATRIX_USER':'@bot:demo.local',

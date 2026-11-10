@@ -138,10 +138,9 @@ def test_percentage_followup_uses_only_explicit_previous_user_calculation():
     assert arithmetic_reply('А 10%?',previous_question='У меня кредит 15 млн под 27%') is None
 
 
-@pytest.mark.parametrize("flowise_enabled", [True, False])
-def test_production_matrix_arithmetic_bypasses_retrieval_and_model(monkeypatch, tmp_path, flowise_enabled):
+def test_production_matrix_arithmetic_bypasses_retrieval_and_model(monkeypatch, tmp_path):
     import bot
-    from flowise_client import FlowiseClient
+
 
     output, requests = [], []
     room_domains = {"!legal:demo.local": "legal", "!finance:demo.local": "finance"}
@@ -155,12 +154,6 @@ def test_production_matrix_arithmetic_bypasses_retrieval_and_model(monkeypatch, 
         passages = []
         search = forbidden
 
-    class Flow:
-        routes = {room: {"domain": domain, "engine": "agentflow_v2", "quality_contract": "sts.claims.v1"}
-                  for room, domain in room_domains.items()}
-        run_workflow = forbidden
-        predict = forbidden
-        is_workflow = forbidden
 
     class Login:
         pass
@@ -198,7 +191,6 @@ def test_production_matrix_arithmetic_bypasses_retrieval_and_model(monkeypatch, 
     monkeypatch.setattr(bot, "read_llm_key", lambda: "synthetic")
     monkeypatch.setattr(bot, "department_roster", lambda _: {})
     monkeypatch.setattr(bot, "KnowledgeStore", lambda _: Knowledge())
-    monkeypatch.setattr(FlowiseClient, "from_env", lambda _: Flow() if flowise_enabled else None)
     asyncio.run(bot.main())
     assert len(output) == len(requests) == 8
     for room, question, domain in requests:

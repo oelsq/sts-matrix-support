@@ -1,9 +1,9 @@
 import copy,json,subprocess,shutil
 from pathlib import Path
 import pytest
-from agentflow_claims import question_type,units,validate_audit,make_quality_packet,accept_quality_response
-from agentflow_graphs import MARKER
-from agentflow_quality_graph import build_quality_agentflow,unit_code
+from claim_validation import question_type,units,validate_audit,make_quality_packet,accept_quality_response
+from review_packet import MARKER
+from local_claim_code import unit_code
 
 SOURCE={'id':'S1','text':'Страховым случаем признается ответственность за вред, причиненный жизни, здоровью или имуществу потерпевших.'}
 ANSWER='Страхуется ответственность за вред потерпевшим. [S1]\n\n**Что сделать сейчас**\nСохраните полис.'
@@ -59,25 +59,11 @@ def test_transport_checks_the_actual_answer_against_the_audit_again():
  with pytest.raises(ValueError):accept_quality_response(json.dumps(response),p)
 
 
-def test_graph_has_one_visible_repair_path_and_no_external_tools_or_memory():
- names=['startAgentflow','customFunctionAgentflow','agentAgentflow','llmAgentflow','directReplyAgentflow','conditionAgentflow']
- defs={n:{'name':n,'category':'Agent Flows','inputs':[]} for n in names}
- model={'modelName':'existing','basepath':'http://litellm:4000/v1','FLOWISE_CREDENTIAL_ID':'existing-ref'}
- graph=build_quality_agentflow(defs,'legal',model)
- assert len(graph['nodes'])==13
- branches=[e for e in graph['edges'] if e['source']=='conditionAgentflow_0']
- assert {e['sourceHandle'] for e in branches}=={'conditionAgentflow_0-output-0','conditionAgentflow_0-output-1'}
- assert any(e['target']=='llmAgentflow_1' for e in branches)
- assert not any(e['target']=='agentAgentflow_0' and e['source']!='customFunctionAgentflow_0' for e in graph['edges'])
- for n in graph['nodes']:
-  x=n['data']['inputs']
-  assert not x.get('agentEnableMemory') and not x.get('llmEnableMemory') and not x.get('agentTools')
- assert model['FLOWISE_CREDENTIAL_ID']=='existing-ref'
 
 
 @pytest.mark.skipif(not shutil.which('node'),reason='JavaScript runtime unavailable')
 @pytest.mark.parametrize('tamper',[False,True])
-def test_actual_flowise_gate_and_python_agree_on_forged_quotes(tamper):
+def test_local_reference_gate_and_python_agree_on_forged_quotes(tamper):
  a=copy.deepcopy(AUDIT)
  if tamper:a['checks'][0]['proofs'][0]['quote']='Придуманная цитата о страховании'
  q={'sources':[SOURCE],'question':'Что такое страхование?','previous_question':'','question_type':'definition'}
@@ -96,7 +82,7 @@ def test_real_quote_cannot_be_used_to_support_another_deadline():
 
 @pytest.mark.parametrize('word,digits',[('восемнадцати до двадцати семи','18 до 27'),('пятнадцати','15'),('15.09.2026','15 сентября 2026')])
 def test_equivalent_written_numbers_and_dates_are_not_rejected(word,digits):
- from agentflow_claims import quantities
+ from claim_validation import quantities
  assert quantities(word)==quantities(digits)
 
 
@@ -152,30 +138,12 @@ def test_after_one_repair_only_independent_verified_units_survive():
  assert result['audit_ok']=='no'
 
 
-@pytest.mark.skipif(not shutil.which('node'),reason='JavaScript runtime unavailable')
-def test_graph_normalizes_only_citations_on_nonfactual_actions():
- names=['startAgentflow','customFunctionAgentflow','agentAgentflow','llmAgentflow','directReplyAgentflow','conditionAgentflow']
- graph=build_quality_agentflow({n:{'name':n,'category':'Agent Flows','inputs':[]} for n in names},'legal',{'modelName':'model','basepath':'http://litellm:4000/v1','FLOWISE_CREDENTIAL_ID':'reference'})
- body=next(n['data']['inputs']['customFunctionJavascriptFunction'] for n in graph['nodes'] if n['id']=='customFunctionAgentflow_1')
- answer='Сохраните договор. [S1]\nБанк обязан ответить в течение 10 дней. [S1]'
- script='const $draft='+json.dumps(answer)+';console.log(JSON.stringify((function(){'+body+'})()));'
- out=json.loads(subprocess.check_output(['node','-e',script],text=True))
- assert out['draft'].splitlines()[0]=='Сохраните договор.'
- assert out['draft'].splitlines()[1].endswith('[S1]')
- assert len(json.loads(out['units_json']))==2
 
 
-def test_native_nested_schema_matches_installed_flowise_field_map():
- names=['startAgentflow','customFunctionAgentflow','agentAgentflow','llmAgentflow','directReplyAgentflow','conditionAgentflow']
- graph=build_quality_agentflow({n:{'name':n,'category':'Agent Flows','inputs':[]} for n in names},'finance',{'modelName':'model','basepath':'http://litellm:4000/v1','FLOWISE_CREDENTIAL_ID':'reference'})
- audits=[n for n in graph['nodes'] if n['id'] in {'llmAgentflow_0','llmAgentflow_2'}]
- for n in audits:
-  schema=json.loads(next(field for field in n['data']['inputs']['llmStructuredOutput'] if field['key']=='checks')['jsonSchema'])
-  assert set(schema['proofs']['items'])=={'source_id','quote_id'}
 
 
 def test_document_placeholders_are_not_invented_user_facts():
- from agentflow_claims import safe_advice
+ from claim_validation import safe_advice
  assert safe_advice('Я, [ФИО], работаю в [организация].',document=True)
  assert not safe_advice('Я, [ФИО], работаю в [организация].')
  assert not safe_advice('Я, [ФИО], вправе получить 99 тенге.',document=True)
@@ -184,7 +152,7 @@ def test_document_placeholders_are_not_invented_user_facts():
 
 
 def test_advice_cannot_smuggle_a_factual_causal_clause():
- from agentflow_claims import safe_advice
+ from claim_validation import safe_advice
  assert not safe_advice('Сохраните договор, так как страховка никогда не входит в ГЭСВ.')
  assert not safe_advice('Запросите ответ в течение пяти дней.')
  assert safe_advice('Пришлите даты и суммы платежей из графика.')
@@ -208,7 +176,7 @@ def test_gate_derives_overall_result_from_complete_individual_checks():
 @pytest.mark.skipif(not shutil.which('node'),reason='JavaScript runtime unavailable')
 @pytest.mark.parametrize('bad_id',[False,True])
 def test_model_selected_excerpt_id_resolves_to_original_quote_only(bad_id):
- from agentflow_claims import source_excerpts
+ from claim_validation import source_excerpts
  source=dict(SOURCE,excerpts=source_excerpts(SOURCE['text']))
  answer='Страхуется ответственность за вред потерпевшим. [S1]'
  audit={'checks':[{'unit_id':'C1','status':'supported','proofs':[{'source_id':'S1','quote_id':'Q999' if bad_id else 'Q1'}]}]}

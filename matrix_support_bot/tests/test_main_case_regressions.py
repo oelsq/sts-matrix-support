@@ -255,10 +255,10 @@ def test_rental_input_help_does_not_replace_mortgage_or_legal_procedure(q):
 
 
 
-def test_model_workflow_ownership_constraint_requires_the_actual_mortgage_clause(final_knowledge):
-    from agentflow_claims import make_quality_packet
+def test_local_review_ownership_constraint_requires_the_actual_mortgage_clause(final_knowledge):
+    from claim_validation import make_quality_packet
     from agents import messages,review_messages
-    from agentflow_graphs import MARKER
+    from review_packet import MARKER
     q='Есть просрочка по ипотеке, банк прислал уведомление. Квартира уже стала собственностью банка?'
     e=prepare_local_reply('finance',q,final_knowledge).evidence
     def packet(evidence):

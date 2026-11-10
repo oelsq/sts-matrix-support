@@ -83,34 +83,45 @@ def test_optional_employee_help_remains_available_in_relevant_cases(question):
     assert "!человек" in department_note(question,"Ответ по существу")
 
 
-def test_both_direct_and_flowise_prompts_require_help_before_escalation():
+def test_both_direct_prompts_require_help_before_escalation():
     for domain in ("legal","finance"):
         for result in (messages(domain,"Не платят зарплату",[]),review_messages(domain,"Напиши требование","draft",[])):
             assert "Сначала решай задачу пользователя" in result[0]["content"]
-    config=json.loads((ROOT/"matrix_support_bot/agents/flowise_profiles.json").read_text())
-    assert all("одной рекомендацией обратиться в департамент" in stage["instructions"] for item in config["domains"].values() for stage in item.values())
 
 @pytest.mark.parametrize("domain",["legal","finance"])
 @pytest.mark.parametrize("mode",["deflect_once","deflect_twice","draft_missing_once","transport_failure"])
 def test_actual_matrix_callback_retries_deflection_and_keeps_help_without_routine_footer(monkeypatch,tmp_path,domain,mode):
     import bot
-    from flowise_client import FlowiseClient
+
     calls=[];output=[]
     room_id="!room:demo.local"
     question=("Напиши заявление в банк об изменении условий платежа" if mode=="draft_missing_once" else "Не платят зарплату, помоги разобраться")
     good=("Кому: [организация]\nОт: [имя]\n\nПрошу проверить мои расчёты и рассмотреть изменение условий платежа по договору [номер]. "
           "По моим данным, возникли трудности из-за [причина]. Прошу письменно сообщить результат рассмотрения обращения. Дата: [дата]. [S1]"
           if mode=="draft_missing_once" else "Сохраните договор и расчётные листки. Запишите период невыплаты и ожидаемую сумму, затем попросите работодателя предоставить расчёт начислений и удержаний. [S1]")
-    class Flow:
-        routes={room_id:{"domain":domain,"flow_id":"synthetic","engine":"agentflow_v2"}}
-        def selected(self,*args):return True
-        def is_workflow(self,*args):return True
-        async def run_workflow(self,http,domain,room,sender,event,draft,review):
-            calls.append(draft)
-            if mode=="transport_failure":raise RuntimeError("synthetic transport error")
-            if mode=="deflect_twice" or len(calls)==1 and mode=="deflect_once":return "Обратитесь в юридический департамент. [S1]"
-            if len(calls)==1 and mode=="draft_missing_once":return "1. Составьте заявление. 2. Сохраните копию и передайте адресату. [S1]"
-            return good
+    class Response:
+        async def __aenter__(self):
+            if mode=='transport_failure':raise RuntimeError('synthetic transport error')
+            return self
+        async def __aexit__(self,*args):pass
+        def raise_for_status(self):pass
+        async def json(self):
+            if mode=='deflect_twice' or len(calls)==1 and mode=='deflect_once':
+                text='Обратитесь в юридический департамент. [S1]'
+            elif len(calls)==1 and mode=='draft_missing_once':
+                text='1. Составьте заявление. 2. Сохраните копию и передайте адресату. [S1]'
+            else:text=good
+            return {'choices':[{'message':{'content':text},'finish_reason':'stop'}]}
+    class HTTP:
+        requests=0
+        async def __aenter__(self):return self
+        async def __aexit__(self,*args):pass
+        def post(self,url,*,json,headers):
+            assert url=='http://litellm:4000/v1/chat/completions'
+            if self.requests%2==0:calls.append(json['messages'])
+            self.requests+=1
+            return Response()
+    monkeypatch.setattr(bot.aiohttp,'ClientSession',lambda **kwargs:HTTP())
     class Knowledge:
         passages=[1]
         def search(self,*args,**kwargs):return [{"id":"test:1","document_id":"test","domain":"legal","domains":["legal","finance"],"title":"Источник","text":"Работодатель предоставляет расчёт. Кредитор рассматривает обращение.","source":"https://example.org","reviewed_on":"2026-10-21","section":""}]
@@ -131,7 +142,6 @@ def test_actual_matrix_callback_retries_deflection_and_keeps_help_without_routin
     monkeypatch.setattr(bot,"AsyncClient",Matrix);monkeypatch.setattr(bot,"LoginResponse",Login)
     monkeypatch.setattr(bot,"KnowledgeStore",lambda _:Knowledge());monkeypatch.setattr(bot,"read_llm_key",lambda:"dummy")
     monkeypatch.setattr(bot,"department_roster",lambda _:{domain:["@employee:demo.local"]})
-    monkeypatch.setattr(FlowiseClient,"from_env",lambda _:Flow())
     asyncio.run(bot.main())
     assert len(calls)==(1 if mode=="transport_failure" else 2)
     result=output[-1]

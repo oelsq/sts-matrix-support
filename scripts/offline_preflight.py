@@ -74,7 +74,7 @@ def main():
     errors = validate(yaml.safe_load(args.config.read_text()), load_env(args.env_file))
     print(json.dumps({"static_configuration_ok": not errors, "errors": errors,
                       "runtime_verified": False,
-                      "next_check": "Verify the model is reachable on the internal Docker network and run Matrix/Flowise questions without external connectivity."}, ensure_ascii=False, indent=2))
+                      "next_check": "Run Matrix questions with the internal model and external connectivity disabled."}, ensure_ascii=False, indent=2))
     raise SystemExit(bool(errors))
 
 

@@ -175,8 +175,7 @@ def test_real_sync_callback_path_restores_session_and_uses_persisted_cursor(monk
     for key,value in settings.items():monkeypatch.setenv(key,value)
     monkeypatch.setattr(bot,'AsyncClient',Matrix);monkeypatch.setattr(bot,'LoginResponse',Login)
     monkeypatch.setattr(bot,'read_llm_key',lambda:'synthetic');monkeypatch.setattr(bot,'department_roster',lambda _: {})
-    from flowise_client import FlowiseClient
-    monkeypatch.setattr(FlowiseClient,'from_env',lambda _:None)
+
     asyncio.run(bot.main());asyncio.run(bot.main())
     assert len(login_count)==1 and len(restore_count)==1 and len(sent)==1
     assert sent[0]['content']['org.sts.request_id']=='$help'

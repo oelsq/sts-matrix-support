@@ -9,8 +9,8 @@ from local_reply import prepare_local_reply, prepare_model_evidence
 from offline_knowledge import KnowledgeStore
 from case_facts import case_facts
 from agents import messages, review_messages
-from agentflow_claims import make_quality_packet, validate_audit, question_type
-from agentflow_graphs import MARKER
+from claim_validation import make_quality_packet, validate_audit, question_type
+from review_packet import MARKER
 from answer_usefulness import answer_body
 
 ROOT=Path(__file__).resolve().parents[2]

@@ -22,7 +22,7 @@ async def run(args):
         async with semaphore:
             started=time.monotonic();search,previous=case_context(case)
             prepared=prepare_local_reply(case['domain'],case['question'],store,search_question=search,previous_question=previous,
-                                         allow_model_without_sources=args.live=='flowise')
+                                         allow_model_without_sources=False)
             answer=prepared.answer;mechanism=prepared.mechanism;error=None;error_detail=None
             forced=bool(getattr(args,'force_model',False))
             attempted=False;validation_errors=[];workflow_metrics=[]
@@ -35,7 +35,7 @@ async def run(args):
 
             if answer is None and args.live and mechanism!='forced_model_skipped_no_scoped_evidence':
                 attempted=True
-                try:answer=await live_answer(case['domain'],case['question'],prepared.evidence,previous,args.live,case['id'],knowledge=store);mechanism='agentflow_v2' if args.live=='flowise' else 'direct_model'
+                try:answer=await live_answer(case['domain'],case['question'],prepared.evidence,previous,args.live,case['id'],knowledge=store);mechanism='direct_model'
                 except Exception as exc:
                     error=type(exc).__name__;error_detail=str(exc)[:300];validation_errors=list(getattr(exc,'validation_errors',()));workflow_metrics=list(getattr(exc,'workflow_metrics',[]))
             actual_evidence=getattr(answer,'evidence',prepared.evidence)
@@ -57,7 +57,7 @@ async def run(args):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--cases',type=Path,default=ROOT/'config/golden-cases.json');p.add_argument('--knowledge',type=Path,default=ROOT/'offline_knowledge')
     sub=p.add_subparsers(dest='command',required=True)
-    e=sub.add_parser('run');e.add_argument('--reviews',type=Path);e.add_argument('--output',required=True,type=Path);e.add_argument('--live',choices=['direct','flowise']);e.add_argument('--progress',action='store_true');e.add_argument('--concurrency',type=int,choices=[1,2],default=1,help='Bound independent synthetic scenarios; production worker settings are unchanged');e.add_argument('--force-model',action='store_true',help='Bypass prepared explanatory text; keep clarification, arithmetic and evidence scope safeguards')
+    e=sub.add_parser('run');e.add_argument('--reviews',type=Path);e.add_argument('--output',required=True,type=Path);e.add_argument('--live',choices=['direct']);e.add_argument('--progress',action='store_true');e.add_argument('--concurrency',type=int,choices=[1,2],default=1,help='Bound independent synthetic scenarios; production worker settings are unchanged');e.add_argument('--force-model',action='store_true',help='Bypass prepared explanatory text; keep clarification, arithmetic and evidence scope safeguards')
     r=sub.add_parser('review');r.add_argument('--case',required=True);r.add_argument('--kind',choices=['reference','answer'],required=True);r.add_argument('--reviewer',required=True);r.add_argument('--role',required=True,choices=['legal_specialist','finance_specialist']);r.add_argument('--decision',required=True,choices=['approved','rejected']);r.add_argument('--run',type=Path);r.add_argument('--scores',help='accuracy,usefulness,exceptions: integers 0..4');r.add_argument('--notes',default='');r.add_argument('--output',required=True,type=Path)
     args=p.parse_args()
     if args.command=='run':raise SystemExit(asyncio.run(run(args)))

@@ -9,8 +9,8 @@ import threading
 from types import SimpleNamespace as NS
 import pytest
 from search_cache import SearchCache
-from agentflow_claims import safe_advice
-from agentflow_quality_graph import unit_code
+from claim_validation import safe_advice
+from local_claim_code import unit_code
 
 
 def test_concurrent_retrieval_is_computed_once_and_results_do_not_share_mutations():
@@ -203,7 +203,7 @@ def test_feedback_never_rates_pending_reply_or_help_command_and_survives_restart
 
 def test_matrix_feedback_command_is_local_and_never_calls_model(monkeypatch,tmp_path):
     import bot,time
-    from flowise_client import FlowiseClient
+
     from matrix_inbox import InboxStore
     from local_reply import PreparedReply
     output=[];model_preparations=[]
@@ -223,7 +223,6 @@ def test_matrix_feedback_command_is_local_and_never_calls_model(monkeypatch,tmp_
     for key,value in {'MATRIX_HOMESERVER':'http://homeserver:8008','MATRIX_USER':'@bot:test','MATRIX_PASSWORD':'synthetic','LLM_ENDPOINT':'http://litellm:4000/v1','LLM_MODEL':'synthetic','KNOWLEDGE_DIR':'','OFFLINE_MODE':'0','MATRIX_ROOM_ROUTES_FILE':str(tmp_path/'absent'),'MATRIX_INBOX_DB':str(tmp_path/'queue.sqlite3'),'HANDOFF_DB':str(tmp_path/'handoff.sqlite3')}.items():monkeypatch.setenv(key,value)
     monkeypatch.setattr(bot,'AsyncClient',Matrix);monkeypatch.setattr(bot,'LoginResponse',Login);monkeypatch.setattr(bot,'department_roster',lambda _: {})
     monkeypatch.setattr(bot,'read_llm_key',lambda:'synthetic');monkeypatch.setattr(bot,'prepare_local_reply',prepare)
-    monkeypatch.setattr(FlowiseClient,'from_env',lambda _:None)
     asyncio.run(bot.main())
     assert len(model_preparations)==1 and len(output)==5
     assert 'Пока нет' in output[1] and 'сохранена' in output[2] and 'заменена' in output[3] and 'один раз' in output[4]
@@ -251,7 +250,7 @@ def test_focused_source_quotes_are_exact_scoped_and_never_invented():
 ])
 def test_marriage_constraint_keeps_both_concepts_despite_punctuation_or_grammar(answer,expected):
     import re
-    from agentflow_claims import make_quality_packet
+    from claim_validation import make_quality_packet
     pair=([{'role':'system','content':'Sources'},{'role':'user','content':'Question'}],[{'role':'system','content':'Review'},{'role':'user','content':'__STS_DRAFT_TO_REVIEW__'}])
     evidence=[{'id':'family:41','document_id':'family','text':'имущественное положение детей; права и обязанности супругов в отношении детей'}]
     packet=make_quality_packet('legal',*pair,{'question':'Что регулирует брачный договор?','evidence':evidence})
@@ -354,7 +353,7 @@ def test_marriage_contact_restriction_requires_actual_source_and_is_not_property
 
 
 def test_marriage_property_qualification_is_for_definition_not_any_parental_situation():
-    from agentflow_claims import make_quality_packet
+    from claim_validation import make_quality_packet
     pair=([{'role':'system','content':'Sources'},{'role':'user','content':'Question'}],[{'role':'system','content':'Review'},{'role':'user','content':'__STS_DRAFT_TO_REVIEW__'}])
     evidence=[{'id':'family:41','document_id':'family','text':'имущественное положение детей; права и обязанности супругов в отношении детей'}]
     packet=make_quality_packet('legal',*pair,{'question':'Хочу через брачный договор запретить супругу видеться с ребёнком. Так можно?','evidence':evidence})

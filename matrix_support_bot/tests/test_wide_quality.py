@@ -1,4 +1,4 @@
-"""Regressions from real Agentflows answers; validate evidence and interpretation."""
+"""Regressions from historical model answers; validate evidence and interpretation."""
 from pathlib import Path
 import pytest
 from offline_knowledge import KnowledgeStore
