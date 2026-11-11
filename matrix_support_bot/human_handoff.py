@@ -258,6 +258,23 @@ class HumanHandoff:
                       'При смене создаётся отдельная комната; предыдущая сохраняется.'])
         return '\n'.join(lines)
 
+    async def _create_room_with_rate_limit_retry(self, **kwargs):
+        """Retry only an explicit rejection, never an ambiguous network failure."""
+        deadline = time.monotonic() + 120
+        for attempt in range(5):
+            response = await self.client.room_create(**kwargs)
+            if isinstance(response, RoomCreateResponse):
+                return response
+            if getattr(response, 'status_code', None) != 'M_LIMIT_EXCEEDED' or attempt == 4:
+                return response
+            milliseconds = getattr(response, 'retry_after_ms', None)
+            if not isinstance(milliseconds, (int, float)) or isinstance(milliseconds, bool) or milliseconds < 0:
+                return response
+            delay = max(0.25, milliseconds / 1000 + 0.1)
+            if delay > deadline - time.monotonic():
+                return response
+            await asyncio.sleep(delay)
+
     async def open(self, user, domain, context=None, note='', *, employee_number=None, change=False, request_id=None):
         if domain not in self.departments:
             raise ValueError('Department is not configured')
@@ -290,7 +307,7 @@ class HumanHandoff:
                     inherited = json.loads(saved['context_json'] or 'null') if saved else None
                     transferred = (inherited or context) if saved else context
                     transferred_note = note or (saved['note'] or '' if saved else '')
-                    response = await self.client.room_create(
+                    response = await self._create_room_with_rate_limit_retry(
                         name=f'{LABELS[domain]} — сотрудник {roster.index(target)+1} — {user}',
                         topic=('Личная зашифрованная переписка с сотрудником. Для передачи контекста оба участника принимают приглашение и подтверждают устройство бота.' if self.secure else 'Переписка с живым сотрудником. ИИ здесь не отвечает. Тестовая комната без E2EE.'),
                         preset=RoomPreset.private_chat, federate=False, invite=[user, target],

@@ -6,7 +6,24 @@ CODE_REQUEST = re.compile(r"(?:просит|просят|запрашива)\w*.
 FRAUD = re.compile(r"мошенни|безопасн\w* сч[её]т|передал\w*.*(?:код|cvv|cvc|парол)|сообщил\w*.*(?:код|cvv|cvc|парол)|(?:списал|украл|снял)\w*.*(?:деньг|карт)|(?:деньг|карт).*без моего", re.I)
 
 
+PHONE_LOSS = re.compile(r"(?:укра\w*|потеря\w*|похит\w*)(?:\s+\w+){0,2}\s+телефон\w*", re.I)
+DIRECT_MONEY_LOSS = re.compile(
+    r"(?:списал|снял)\w*.*(?:деньг|карт|сч[её]т)|"
+    r"украл\w*(?:\s+\w+){0,3}\s+(?:деньг\w*|(?:банковск\w*\s+)?карт\w*)", re.I)
+
+
+def phone_loss_without_reported_bank_fraud(question):
+    # A stolen phone and its SIM card are not a report that bank money was
+    # stolen. Keep explicit withdrawals, disclosed codes and fraud warnings.
+    if not PHONE_LOSS.search(question):return False
+    financial=re.sub(r"\b(?:sim|сим)[\s\-\u2010-\u2015]*карт\w*", " ", question, flags=re.I)
+    explicit=(DIRECT_MONEY_LOSS.search(financial) or CODE_REQUEST.search(question)
+              or re.search(r"мошенни|безопасн\w* сч[её]т|(?:передал|сообщил)\w*.*(?:код|парол|cvv|cvc)",question,re.I))
+    return not explicit
+
+
 def urgent_finance_answer(question, knowledge):
+    if phone_loss_without_reported_bank_fraud(question):return None
     if not (FRAUD.search(question) or CODE_REQUEST.search(question)) or knowledge is None:
         return None
     if re.search(r"безопасн\w* сч[её]т", question, re.I) or CODE_REQUEST.search(question):

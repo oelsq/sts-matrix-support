@@ -197,9 +197,63 @@ def _expression(question):
     return f'**Результат: {value}.**\n\nРасчёт: {display} = {value}.'+('\n\nРезультат округлён.' if rounded else '')
 
 
+
+def _budget(question):
+    """Only four explicit, non-overlapping user-supplied budget amounts."""
+    if not re.search(r'\bбюджет\w*',question):return None
+    guard=re.sub(r'^(?:пожалуйста\s+)?(?:составь(?:те)?|напиши(?:те)?)\s+','',question)
+    if _NORMATIVE.search(guard) or re.search(r'налог|до удержан|брутто|грязными|оклад',guard):return None
+    patterns={
+        'income':r'\bдоход(?:ы)?\b',
+        'expenses':r'\b(?:обязательн\w*\s+|базов\w*\s+)?расход(?:ы|ов)\b',
+        'loan':r'\b(?:платеж\s+по\s+кредиту|кредитный\s+платеж|кредит)\b',
+        'reserve':r'\b(?:резерв|сбережения|накопления)\b',
+    }
+    values={};spans=set()
+    for name,pattern in patterns.items():
+        candidates=[]
+        for label in re.finditer(pattern,question):
+            offset=label.end()
+            while offset<len(question) and question[offset] in ' :=—–':offset+=1
+            token=_TOKEN.match(question,offset)
+            if token is not None and not token['percent']:candidates.append(token)
+        if len(candidates)!=1:return None
+        token=candidates[0];values[name]=_quantity(token);spans.add(token.span())
+    tokens=list(_TOKEN.finditer(question))
+    if len(tokens)!=4 or {m.span() for m in tokens}!=spans:return None
+    if re.search(r'включ\w*|в том числе|из них|уже (?:учтен|есть|вход)',question):
+        return ('**Уточнение бюджета**\n\nПлатеж по кредиту и резерв уже включены в обязательные расходы '
+                'или указаны отдельно? Это нужно уточнить, чтобы не вычесть одну сумму дважды.')
+    units={v.unit for v in values.values() if v.unit}
+    for currency in re.finditer(r'(?<!\w)(?:'+_CURRENCY+r')(?!\w)',question):
+        match=_TOKEN.fullmatch('0 '+currency.group())
+        if match:units.add(_quantity(match).unit)
+    units.discard('')
+    if len(units)>1:return 'Для бюджета укажите все суммы в одной валюте или задайте курс пересчета.'
+    unit=next(iter(units),'')
+    amount=values['income'].value-sum(values[k].value for k in ['expenses','loan','reserve'])
+    shown=_fmt(amount,unit)[0]
+    parts=[_fmt(values[k].value,unit)[0] for k in ['income','expenses','loan','reserve']]
+    answer=(f'**Свободные деньги: {shown}.**\n\n'
+            f'Расчет: {parts[0]} − {parts[1]} − {parts[2]} − {parts[3]} = {shown}.\n\n'
+            'Расходы, кредитный платеж и резерв учтены как отдельные суммы. '
+            'Если кредит или резерв уже входят в расходы, их не нужно вычитать повторно.')
+    if amount<0:answer+='\n\nУказанные расходы и резерв превышают доход: бюджет получился с дефицитом.'
+    return answer
+
+
 def arithmetic_reply(question,previous_question=''):
     if not isinstance(question,str) or len(question)>1000:return None
     q=' '.join(question.casefold().replace('ё','е').replace('−','-').replace('×','*').replace('÷','/').split())
+    try:
+        with localcontext() as context:
+            context.prec=50
+            budget=_budget(q)
+        if budget is not None:return budget
+    except ArithmeticInputError as exc:
+        return '**Уточнение расчета**\n\n'+str(exc)
+    except DecimalException:
+        return None
     if _NORMATIVE.search(q) or q.startswith(('!','расчет переплаты')):return None
     if re.fullmatch(r'\d{4}-\d{2}-\d{2}',q):return None
     try:

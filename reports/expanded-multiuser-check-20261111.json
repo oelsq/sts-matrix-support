@@ -1,0 +1,177 @@
+{
+  "initial_scenario_summary": {
+    "accounts_completed": 15,
+    "scenarios_answered": 150,
+    "automatic_content_passed": 134,
+    "directory_passed": 30,
+    "encrypted_exchanges": 208,
+    "closed_test_sessions": 15,
+    "expert_accuracy": null
+  },
+  "original_issue_counts": {
+    "EXPECTED_NUMBER_MISSING": 16
+  },
+  "numeric_adjudication": {
+    "checked": 16,
+    "format_only_false_flags": 3,
+    "genuine_wrong_budget_answers": 13
+  },
+  "latency_seconds": {
+    "median": 9.55,
+    "p95": 19.21,
+    "maximum": 24.35
+  },
+  "budget_retest": {
+    "accounts": 15,
+    "passed": 15,
+    "sessions_closed": 15
+  },
+  "isolation_retest": {
+    "checks": 30,
+    "passed": 30,
+    "unique_bases": 15
+  },
+  "departments": {
+    "attempts": 41,
+    "full_successful_transfers": 38,
+    "covered_customer_domain_pairs": 30,
+    "covered_customers": 15,
+    "covered_department_staff": 10,
+    "failed_attempt_codes": {
+      "WRONG_ASSIGNEE_LINK": 2,
+      "OlmUnverifiedDeviceError": 1
+    },
+    "all_recorded_staff_test_sessions_logged_out": true,
+    "human_expertise_or_online_availability_tested": false
+  },
+  "automated_content_review": {
+    "sampled": 40,
+    "without_flags": 39,
+    "flags": [
+      {
+        "user": "@employee07:demo.local",
+        "case_id": "L5",
+        "codes": [
+          "UNSUPPORTED_ABSOLUTE",
+          "MISSING_CRITICAL_CONDITION"
+        ],
+        "error_code": null
+      }
+    ],
+    "is_independent_expert_confirmation": false
+  },
+  "all_manifest_sessions_logged_out": true,
+  "per_account": [
+    {
+      "account": "employee01",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee02",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee03",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee04",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee05",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee06",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee07",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee08",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 5,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee09",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee10",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee11",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 5,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee12",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee13",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee14",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    },
+    {
+      "account": "employee15",
+      "initial_legal_criteria_passed": 5,
+      "initial_finance_criteria_passed": 4,
+      "budget_retest_passed": true,
+      "both_departments_passed": true
+    }
+  ],
+  "cleanup": {
+    "temporary_devices_remaining": 0,
+    "confirmed_employee15_browser_preserved": true,
+    "temporary_password_copy_removed": true,
+    "temporary_crypto_stores_removed": true
+  }
+}
