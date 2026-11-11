@@ -4,7 +4,7 @@ import hashlib
 import hmac
 import json
 from urllib.parse import quote
-from nio import RoomCreateResponse, RoomPreset
+from nio import RoomCreateResponse, RoomPreset, ProfileGetResponse, ProfileGetError
 
 from matrix_crypto import CryptoPolicyError
 
@@ -113,6 +113,28 @@ class PrivateRooms:
         if not path.exists():return
         actions=json.loads(read_private_secret(path))
         if not isinstance(actions,list) or len(actions)>10:raise CryptoPolicyError('Invalid room actions')
+        # Operator input is not a Matrix event: a display name is not proof
+        # of a registered account. Validate the whole batch before creating rooms.
+        validated=set()
+        for action in actions:
+            if not isinstance(action,dict) or set(action)!={'user_id','domain'}:
+                raise CryptoPolicyError('Invalid room action')
+            if action['domain'] not in {'legal','finance'}:
+                raise CryptoPolicyError('Invalid specialist')
+            user=action['user_id']
+            local_server=self.client.user.split(':',1)[1]
+            if (not isinstance(user,str) or not user.startswith('@') or ':' not in user
+                    or user.split(':',1)[1]!=local_server or not user.split(':',1)[0][1:]):
+                private_json(Path(directory)/'room-status.json',{'rooms':[],'error':'invalid_local_account'})
+                path.unlink();return
+            if user in validated:continue
+            profile=await self.client.get_profile(user)
+            if isinstance(profile,ProfileGetError) and profile.status_code=='M_NOT_FOUND':
+                private_json(Path(directory)/'room-status.json',{'rooms':[],'error':'unknown_local_account'})
+                path.unlink();return
+            if not isinstance(profile,ProfileGetResponse):
+                raise CryptoPolicyError('Account validation is unavailable; invitation deferred')
+            validated.add(user)
         result=[]
         for action in actions:
             if not isinstance(action,dict) or set(action)!={'user_id','domain'}:raise CryptoPolicyError('Invalid room action')

@@ -44,6 +44,8 @@ def test_secure_handoff_never_sends_until_both_people_join_and_devices_are_verif
     from nio.exceptions import OlmUnverifiedDeviceError
     cipher=StateCipher(b'K'*32);store=HandoffStore(tmp_path/'handoff',cipher=cipher)
     client=NS(user='@bot:test',rooms={},room_create=AsyncMock(return_value=RoomCreateResponse('!h:test')),room_send=AsyncMock(),room_leave=AsyncMock(return_value=RoomLeaveResponse()))
+    client.olm=NS(is_device_verified=lambda d:True,is_device_blacklisted=lambda d:False)
+    client.device_store=NS(active_user_devices=lambda user:[NS(user_id=user)])
     handoff=HumanHandoff(client,store,{'legal':['@staff:test']},'http://localhost',secure=True)
     async def run():
         await handoff.open('@alice:test','legal',('private question','private answer'),request_id='$handoff')
@@ -103,3 +105,48 @@ def test_private_room_does_not_enable_free_mode_for_unselected_specialist(tmp_pa
     asyncio.run(rooms.ensure('@alice:test','finance'))
     assert not free.selected('!finance:test','finance')
     store.close()
+
+
+@pytest.mark.parametrize('owner', ['@unknown:test','@owner:other.invalid','@missing-server'])
+def test_operator_rejects_unknown_or_foreign_account_before_creating_room(tmp_path, owner):
+    from nio import ProfileGetError
+    cipher=StateCipher(b'K'*32);store=InboxStore(tmp_path/'inbox','test',cipher=cipher)
+    client=NS(user='@bot:test',rooms={},room_create=AsyncMock(),get_profile=AsyncMock(return_value=ProfileGetError('Unknown','M_NOT_FOUND')))
+    rooms=PrivateRooms(store,client,{},'http://localhost',cipher)
+    directory=tmp_path/'operator';directory.mkdir(mode=0o700)
+    action=directory/'room-actions.json';action.write_text(__import__('json').dumps([{'user_id':owner,'domain':'legal'}]));action.chmod(0o600)
+    asyncio.run(rooms.operator_step(directory))
+    client.room_create.assert_not_awaited()
+    assert store.db.execute('SELECT count(*) FROM private_ai_rooms').fetchone()[0]==0
+    status=__import__('json').loads((directory/'room-status.json').read_text())
+    assert status['error'] in {'unknown_local_account','invalid_local_account'} and not action.exists()
+    store.close()
+
+
+def test_operator_checks_entire_batch_and_retains_action_on_temporary_failure(tmp_path):
+    from nio import ProfileGetResponse,ProfileGetError
+    import json
+    cipher=StateCipher(b'K'*32);store=InboxStore(tmp_path/'inbox','test',cipher=cipher)
+    client=NS(user='@bot:test',rooms={},room_create=AsyncMock(),get_profile=AsyncMock(side_effect=[ProfileGetResponse('Alice'),ProfileGetError('Temporary','M_UNKNOWN')]))
+    rooms=PrivateRooms(store,client,{},'http://localhost',cipher)
+    directory=tmp_path/'operator';directory.mkdir(mode=0o700)
+    action=directory/'room-actions.json';action.write_text(json.dumps([{'user_id':'@alice:test','domain':'legal'},{'user_id':'@bob:test','domain':'finance'}]));action.chmod(0o600)
+    with pytest.raises(ValueError,match='validation is unavailable'):asyncio.run(rooms.operator_step(directory))
+    client.room_create.assert_not_awaited();assert action.exists()
+    store.close()
+
+
+def test_operator_registered_user_inherits_same_free_specialist_routes(tmp_path):
+    from nio import ProfileGetResponse
+    from free_reply import FreeReplyMode
+    import json
+    cipher=StateCipher(b'K'*32);store=InboxStore(tmp_path/'inbox','test',cipher=cipher)
+    client=NS(user='@bot:test',rooms={},get_profile=AsyncMock(return_value=ProfileGetResponse('Alice')),room_create=AsyncMock(side_effect=[RoomCreateResponse('!legal:test'),RoomCreateResponse('!finance:test')]))
+    fixed={'!entrylegal:test':'legal','!entryfinance:test':'finance'};free=FreeReplyMode(dict(fixed))
+    rooms=PrivateRooms(store,client,fixed,'http://localhost',cipher,free_mode=free)
+    directory=tmp_path/'operator';directory.mkdir(mode=0o700)
+    action=directory/'room-actions.json';action.write_text(json.dumps([{'user_id':'@alice:test','domain':'legal'},{'user_id':'@alice:test','domain':'finance'}]));action.chmod(0o600)
+    asyncio.run(rooms.operator_step(directory))
+    assert client.get_profile.await_count==1 and client.room_create.await_count==2
+    assert free.selected('!legal:test','legal') and free.selected('!finance:test','finance')
+    assert not action.exists();store.close()

@@ -16,6 +16,9 @@ def main():
     for name in ['match','reject']:
         sub=commands.add_parser(name);sub.add_argument('transaction_id')
     sub=commands.add_parser('invite');sub.add_argument('user_id');sub.add_argument('--domain',choices=['legal','finance','both'],default='both')
+    sub=commands.add_parser('fingerprint');sub.add_argument('user_id');sub.add_argument('device_id');sub.add_argument('public_key')
+    sub.add_argument('--compared-on-device',action='store_true',required=True,
+                     help='Use only after the person compared this public key with their actual Element session')
     args=parser.parse_args();root=Path(args.state)
     if args.action=='status':
         for name in ['identity.json','verification-status.json','room-status.json']:
@@ -28,7 +31,14 @@ def main():
                     print(name+':\n'+os.read(fd,262144).decode())
                 finally:os.close(fd)
         return
-    if args.action=='request':
+    if args.action=='fingerprint':
+        from matrix_verification import public_fingerprint
+        if not args.user_id.startswith('@') or ':' not in args.user_id:parser.error('Complete Matrix user ID required')
+        try:key=public_fingerprint(args.public_key)
+        except ValueError:parser.error('Use the public Ed25519 fingerprint, not a recovery key')
+        actions=[{'user_id':args.user_id,'device_id':args.device_id,'public_fingerprint':key}]
+        path=root/'verification-fingerprints.json'
+    elif args.action=='request':
         if not args.user_id.startswith('@') or not 1<=len(args.device_id)<=256:parser.error('Complete user and device IDs required')
         actions=[{'user_id':args.user_id,'device_id':args.device_id}];path=root/'verification-requests.json'
     elif args.action=='invite':

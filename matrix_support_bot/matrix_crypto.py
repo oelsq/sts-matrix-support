@@ -19,6 +19,31 @@ class CryptoPolicyError(ValueError):
     pass
 
 
+
+def verified_recipients_only(client, room):
+    """Share no keys with unverified sessions; require a verified recipient.
+
+    Blocking is local to this bot. A later successful SAS verification replaces
+    that trust state and invalidates the outbound session through the SDK.
+    """
+    olm=getattr(client,'olm',None)
+    store=getattr(client,'device_store',None)
+    if olm is None or store is None:
+        raise CryptoPolicyError('Verified recipient state is unavailable')
+    peers=[user for user in room.users if user!=client.user]
+    if not peers:
+        raise CryptoPolicyError('Encrypted room has no recipient')
+    blocked=[]
+    for user in peers:
+        devices=list(store.active_user_devices(user))
+        if not any(olm.is_device_verified(d) and not olm.is_device_blacklisted(d) for d in devices):
+            raise CryptoPolicyError('Recipient has no verified device; encrypted delivery deferred')
+        blocked.extend(d for d in devices if not olm.is_device_verified(d) and not olm.is_device_blacklisted(d))
+    for device in blocked:
+        client.blacklist_device(device)
+    return len(blocked)
+
+
 def private_json(path, value):
     path = Path(path)
     private_directory(path.parent)

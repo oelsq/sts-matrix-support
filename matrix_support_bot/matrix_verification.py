@@ -1,10 +1,25 @@
 """SAS verification requires an explicit local operator decision; never trust-all."""
 import json
+import base64
+import hmac
 import time
 from pathlib import Path
 from nio import (KeyVerificationStart,KeyVerificationKey,KeyVerificationMac,
                  KeyVerificationCancel,ToDeviceMessage)
 from matrix_crypto import private_json
+
+
+def public_fingerprint(value):
+    """Canonical public Ed25519 fingerprint, never a recovery/private key."""
+    if not isinstance(value,str) or len(value)>256:
+        raise ValueError('Invalid public device fingerprint')
+    text=''.join(value.split())
+    try:
+        raw=base64.b64decode(text+'='*(-len(text)%4),altchars=b'-_',validate=True)
+    except (ValueError,UnicodeError):
+        raise ValueError('Invalid public device fingerprint') from None
+    if len(raw)!=32:raise ValueError('Expected a public Ed25519 fingerprint')
+    return base64.b64encode(raw).decode().rstrip('=')
 
 
 class DeviceVerification:
@@ -105,7 +120,38 @@ class DeviceVerification:
         self.pending[ident]={'transaction_id':ident,'user_id':user,'device_id':device_id,'created':self.clock(),'status':'requested_by_bot'}
         self._publish()
 
+    async def verify_fingerprint(self,user,device_id,expected):
+        """Manual out-of-band comparison of one device; no trust-all fallback."""
+        if not isinstance(user,str) or not self.allowed_peer(user) or not isinstance(device_id,str) or not 1<=len(device_id)<=256:
+            raise ValueError('Unapproved fingerprint peer')
+        expected=public_fingerprint(expected)
+        self.client.olm.users_for_key_query.add(user)
+        result=await self.client.keys_query()
+        if getattr(result,'status_code',None):
+            raise RuntimeError('Device keys are unavailable; verification deferred')
+        try:peer=self.client.device_store[user][device_id]
+        except KeyError:raise ValueError('Unknown fingerprint device') from None
+        if peer.deleted or not hmac.compare_digest(public_fingerprint(peer.ed25519),expected):
+            raise ValueError('Public device fingerprint does not match')
+        self.client.verify_device(peer)
+        self._publish()
+
     async def step(self):
+        fingerprints=self.path/'verification-fingerprints.json'
+        if fingerprints.exists():
+            from state_cipher import read_private_secret
+            try:
+                values=json.loads(read_private_secret(fingerprints))
+                if (not isinstance(values,list) or len(values)!=1 or not isinstance(values[0],dict)
+                        or set(values[0])!={'user_id','device_id','public_fingerprint'}):
+                    raise ValueError('Invalid explicit fingerprint decision')
+                value=values[0]
+                await self.verify_fingerprint(value['user_id'],value['device_id'],value['public_fingerprint'])
+            except ValueError:
+                private_json(self.path/'verification-error.json',{'code':'fingerprint_not_verified'})
+                fingerprints.unlink();return
+            (self.path/'verification-error.json').unlink(missing_ok=True)
+            fingerprints.unlink()
         requests=self.path/'verification-requests.json'
         if requests.exists():
             from state_cipher import read_private_secret

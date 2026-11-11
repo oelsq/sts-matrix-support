@@ -28,6 +28,9 @@ class MatrixSender:
             if encrypted or self.secure_room(room_id):
                 if not encrypted or getattr(self.client,'olm',None) is None:
                     raise RuntimeError('Encrypted delivery state is unavailable; no plaintext fallback')
+                from matrix_crypto import verified_recipients_only
+                excluded=verified_recipients_only(self.client,room)
+                if excluded:self.metrics['unverified_devices_excluded']=self.metrics.get('unverified_devices_excluded',0)+excluded
                 result=await self.client.room_send(room_id=room_id,message_type=message_type,content=content,
                                                   tx_id=tx_id,ignore_unverified_devices=False)
                 if isinstance(result,RoomSendResponse):

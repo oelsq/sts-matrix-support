@@ -354,12 +354,14 @@ class HumanHandoff:
         if {u for u,member in room.users.items() if not getattr(member,'invited',False)}!=expected:return False
         if not saved['prepared']:
             from nio.exceptions import OlmUnverifiedDeviceError
+            from matrix_crypto import verified_recipients_only,CryptoPolicyError
             import hashlib
             try:
+                verified_recipients_only(self.client,room)
                 response=await self.client.room_send(room_id=saved['room'],message_type='m.room.message',
                     content={'msgtype':'m.text','body':context_message(saved['user'],json.loads(saved['context_json'] or 'null'),saved['note'] or '')},
                     tx_id=hashlib.sha256(('sts-handoff-context\0'+saved['room']).encode()).hexdigest(),ignore_unverified_devices=False)
-            except OlmUnverifiedDeviceError:return False
+            except (OlmUnverifiedDeviceError,CryptoPolicyError):return False
             if not isinstance(response,RoomSendResponse):return False
             self.store.mark_room(saved['room'],'prepared')
         response=await self.client.room_leave(saved['room'])
